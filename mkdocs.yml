@@ -91,6 +91,10 @@ extra:
       link: https://github.com/BlockstreamResearch/simplicity
     - icon: fontawesome/brands/rust
       link: https://crates.io/crates/simplicity
+    - icon: material/chat 
+      link: https://matrix.to/#/#libera_##simplicity:bitcoin.ninja
+    - icon: material/chat
+      link: irc://irc.libera.chat/simplicity
   analytics:
     provider: google
     property: G-CPMC9XLPYJ
