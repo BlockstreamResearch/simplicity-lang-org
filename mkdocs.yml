@@ -3,7 +3,7 @@ site_url: https://docs.simplicity-lang.org/
 site_description: A typed, combinator-based, functional smart contract language without loops or recursion, designed for Bitcoin-like blockchains.
 plugins:
   - search:
-  # - git-revision-date-localized:
+  - git-revision-date-localized:
   # add this back in when we have more authors
   # - git-committers:
   #     repository: BlockstreamResearch/simplicity-lang-org
@@ -130,6 +130,7 @@ nav:
   - Documentation:
       - How Simplicity Works: documentation/how-simplicity-works.md
       - Whitepaper: https://blockstream.com/simplicity.pdf
+      - Tecnical Report: https://raw.githubusercontent.com/ElementsProject/simplicity/pdf/Simplicity-TR.pdf
       - Jets Explained: documentation/jets-explained.md
       - Jets Overview: documentation/jets-overview-proposal.md
       - Simplicity for EVM developers: documentation/simplicity-for-evm-developers.md
