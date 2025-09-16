@@ -131,6 +131,7 @@ nav:
       - How Simplicity Works: documentation/how-simplicity-works.md
       - Whitepaper: https://blockstream.com/simplicity.pdf
       - Jets Explained: documentation/jets-explained.md
+      - Jets Overview: documentation/jets-overview-proposal.md
       - Simplicity for EVM developers: documentation/simplicity-for-evm-developers.md
       - Simplicity Compared: documentation/simplicity-compared.md
       - Examples: https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples
