@@ -4,7 +4,7 @@ The primary objective for the current development cycle is to prepare Simplicity
 
 ### Bitcoin Testnet Integration
 
-Work will continue towards producing a signet-mergeable integration branch of bitcoin-core containing Simplicity. Key tasks include:
+Work will continue towards producing a testnet-mergeable integration branch of bitcoin-core. Tasks include:
 
 * Porting `libsimplicity` into the integration branch.
 * Ensuring all jets are fully implemented and functioning.
