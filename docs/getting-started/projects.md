@@ -1,22 +1,39 @@
-## Quick Start Recommendations
+!!! tip
+    For beginners and quick experimentation, start with the [WebIDE](https://ide.simplicity-lang.org). It runs in your browser—no installation.  
+    For contract development, move to [SimplicityHL](https://github.com/BlockstreamResearch/SimplicityHL), the high‑level Rust-like language that compiles to core Simplicity.
 
-For **beginners and experimentation**, we recommend starting with the [**WebIDE**](https://ide.simplicity-lang.org) - it runs directly in your browser and requires no setup.
+<div class="grid cards" markdown>
 
-For **script development**, start with [SimplicityHL](https://github.com/BlockstreamResearch/SimplicityHL) - the Rust-like high-level language that compiles down to core Simplicity.
+- ### :material-web: [WebIDE](https://ide.simplicity-lang.org)  
+  Browser editor and analyzer. Fast iteration.
 
-## Available Tools & Implementations
+- ### :simple-rust: [SimplicityHL](https://github.com/BlockstreamResearch/SimplicityHL)  
+  High-level Rust-like language compiling to core Simplicity.
 
-| Language/Tool | Purpose |
-|---------------|---------|
-| :material-lambda: [**Haskell Simplicity**](https://github.com/BlockstreamResearch/simplicity/tree/master/Haskell) | The **reference implementation** and also used to generate code for Rust and C implementations |
-| :material-microscope: [**Coq/Rocq Simplicity Proofs**](https://github.com/BlockstreamResearch/simplicity/tree/master/Coq) | The **formal implementation** |
-| :material-flash: [**C**](https://github.com/BlockstreamResearch/simplicity/tree/master/C) | The **consensus implementation** |
-| :simple-rust: [**Rust Simplicity**](https://github.com/BlockstreamResearch/rust-simplicity) | The **practical implementation** in the form of a Rust library. |
-| :simple-rust: [**SimplicityHL**](https://github.com/BlockstreamResearch/SimplicityHL) | Rust-like high-level language that compiles down to Simplicity. Recommended starting point |
-| :material-web: [**WebIDE**](https://github.com/BlockstreamResearch/simplicity-webide) | A good way to test out Simplicity scripts directly in your browser. |
-| :material-tools: [**Command line tool**](https://github.com/BlockstreamResearch/hal-simplicity) | Hal-Simplicity is a command line tool (written in Rust) based on [`hal`](https://github.com/stevenroose/hal) by Stephen Roose |
-| :material-tools: [**VSCode Extension**](https://marketplace.visualstudio.com/items?itemName=Simplicity.simplicityhl) | Provides syntax highlighting for the SimplicityHL programming language. |
-| :material-lock: [**ZKP**](https://github.com/starkware-bitcoin/stark-symphony) | A zero knowledge prover written in SimplicityHL |
-| :material-lock: [**Simply**](https://github.com/starkware-bitcoin/simply)  | Command line tooling for SimplicityHL  |
+- ### :material-lambda: [Haskell Simplicity](https://github.com/BlockstreamResearch/simplicity)  
+  Reference implementation; source for derived Rust and C code.
 
-**Next Steps**: Try out the [WebIDE](https://github.com/BlockstreamResearch/simplicity-webide) to get a feel for Simplicity, then dive into [SimplicityHL](https://github.com/BlockstreamResearch/SimplicityHL) for your first real projects.
+- ### :simple-rust: [Rust Simplicity](https://github.com/BlockstreamResearch/rust-simplicity)  
+  Production-oriented library for integrating validated programs.
+
+- ### :material-flash: [C Implementation](https://github.com/BlockstreamResearch/simplicity/tree/master/C)  
+  Consensus-focused low-level code.
+
+- ### :material-microscope: [Coq / Rocq Proofs](https://github.com/BlockstreamResearch/simplicity/tree/master/Coq)  
+  Formal semantics and machine-checked proofs.
+
+- ### :material-tools: [Hal-Simplicity CLI](https://github.com/BlockstreamResearch/hal-simplicity)  
+  Build, inspect, analyze programs.
+
+- ### :material-tools: [VS Code Extension](https://marketplace.visualstudio.com/items?itemName=Simplicity.simplicityhl)  
+  Syntax highlighting and editor support.
+
+- ### :material-lock: [stark-symphony (ZKP)](https://github.com/starkware-bitcoin/stark-symphony)  
+  Zero-knowledge prover components in SimplicityHL.
+
+- ### :material-lock: [Simply](https://github.com/starkware-bitcoin/simply)  
+  Supplemental CLI tooling supporting SimplicityHL workflows.
+
+  </div>
+
+  **Next steps:** Open the [WebIDE](https://ide.simplicity-lang.org), compile a minimal contract, then clone [SimplicityHL](https://github.com/BlockstreamResearch/SimplicityHL) to start building real contracts.

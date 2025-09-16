@@ -80,6 +80,7 @@ markdown_extensions:
   - pymdownx.details:
   - pymdownx.tabbed:
       alternate_style: true
+  - tables:
 extra_css:
   - stylesheets/extra.css
 extra:
@@ -126,7 +127,7 @@ edit_uri: edit/main/docs/
 nav:
   - Getting started:
       - index.md
-      - Projects: getting-started/projects.md
+      - Tools & Projects: getting-started/projects.md
       - SimplicityHL: getting-started/simplicityhl.md
       - Rust: getting-started/rust.md
       - Haskell: getting-started/haskell.md
