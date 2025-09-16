@@ -57,6 +57,8 @@ theme:
         name: Switch to system preference
 markdown_extensions:
   - attr_list:
+  - md_in_html:
+  - attr_list:
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
@@ -123,7 +125,8 @@ edit_uri: edit/main/docs/
 
 nav:
   - Getting started:
-      - getting-started/index.md
+      - index.md
+      - Projects: getting-started/projects.md
       - SimplicityHL: getting-started/simplicityhl.md
       - Rust: getting-started/rust.md
       - Haskell: getting-started/haskell.md
