@@ -148,15 +148,16 @@ nav:
       - Context: simplicityhl-reference/context.md
       - Environment: simplicityhl-reference/environment.md
       - Translation: simplicityhl-reference/translation.md
-  - Use Cases:
-      - use-cases/index.md
-      - Simplicty Unchained: use-cases/unchained.md
-      - Financial Contracts: use-cases/financial-contracts.md
-      - Discreet Log Contracts: use-cases/discreet-log-contracts.md
-      - Cross-Chain Atomic Swaps: use-cases/cross-chain-atomic-swaps.md
-      - Crowdfunding Contracts: use-cases/crowdfunding.md
-      - Vaults: use-cases/vaults.md
-      - Insurance Contracts: use-cases/insurance-contracts.md
+#  Remove until we have content
+#  - Use Cases:
+#      - use-cases/index.md
+#      - Simplicty Unchained: use-cases/unchained.md
+#      - Financial Contracts: use-cases/financial-contracts.md
+#      - Discreet Log Contracts: use-cases/discreet-log-contracts.md
+#      - Cross-Chain Atomic Swaps: use-cases/cross-chain-atomic-swaps.md
+#      - Crowdfunding Contracts: use-cases/crowdfunding.md
+#      - Vaults: use-cases/vaults.md
+#      - Insurance Contracts: use-cases/insurance-contracts.md
   - Resources:
       - Roadmap: resources/roadmap.md
       - FAQ: resources/faq.md
