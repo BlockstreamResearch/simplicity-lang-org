@@ -89,7 +89,7 @@ extra:
     - icon: simple/youtube
       link: https://www.youtube.com/@Blockstream/search?query=simplicity
     - icon: simple/telegram
-      link: https://t.me/simplicity_lang
+      link: https://t.me/simplicity_community
     - icon: fontawesome/brands/github
       link: https://github.com/BlockstreamResearch/simplicity
     - icon: fontawesome/brands/rust
