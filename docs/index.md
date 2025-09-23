@@ -1,5 +1,5 @@
 ---
-title: A typed, combinator-based, functional smart contract language without loops or recursion, designed for Bitcoin-like blockchains.
+title: Simplicity is a minimal, deterministic, functional language built for Bitcoin’s trust model. It offers elegance over complexity, enabling powerful smart contracts without relying on a growing list of ad hoc opcodes.
 hide:
   - toc
 ---
