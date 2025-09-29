@@ -69,6 +69,8 @@ python -m mkdocs build
 Do:
 
 - Be precise
+- Be clear
+- Be instructional
 - Be direct and confident
 - Highlight sovereignty
 - Use active voice
