@@ -42,7 +42,7 @@ Examples of jets include:
 
 - **Cryptographic functions**: These are crucial for secure smart contracts. Specific examples include the SHA-256 compression function and Schnorr signature verification (BIP-340). Other elliptic curve functions for `secp256k1` are also included, such as point verification, scalar arithmetic, and field element operations.
 
-- **Arithmetic operations**: Simplicity includes jets for various arithmetic functions, such as 32-bit addition, subtraction, and multiplication. General multi-bit logic operations like complement, `and`, `or`, and `xor` are also implemented as jets.
+- **Arithmetic operations**: Simplicity includes jets for various arithmetic functions, such as 32-bit addition, subtraction, and multiplication. General multi-bit logic operations like `complement`, `and`, `or`, and `xor` are also implemented as jets.
 
 - **Introspection operations**: These allow smart contracts to examine transaction data. Examples include `script-cmr` (script commitment Merkle root), `internal-key`, `version`, `lock-time`, `output-value`, `input-value`, `tapleaf-version`, and `tappath`.
 
