@@ -34,6 +34,10 @@
 - ### :material-lock: [Simply](https://github.com/starkware-bitcoin/simply)  
   Supplemental CLI tooling supporting SimplicityHL workflows.
 
+- ### :material-lock: [S
+- Pythia Price Oracle](https://github.com/dlc-markets/pythia)  
+  An oracle that can do price attestations.
+
   </div>
 
   **Next steps:** Open the [WebIDE](https://ide.simplicity-lang.org), compile a minimal contract, then clone [SimplicityHL](https://github.com/BlockstreamResearch/SimplicityHL) to start building real contracts.
