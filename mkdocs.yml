@@ -129,6 +129,8 @@ nav:
       - index.md
       - Tools & Projects: getting-started/projects.md
       - SimplicityHL: getting-started/simplicityhl.md
+      - Web IDE: getting-started/web-ide.md
+      - CLI Guide: getting-started/cli.md
       - Rust: getting-started/rust.md
       - Haskell: getting-started/haskell.md
   - Documentation:
