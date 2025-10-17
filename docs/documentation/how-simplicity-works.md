@@ -5,7 +5,7 @@ Simplicity is a typed, combinator-based, functional smart contract language with
 Frequently used operations are implemented as jets. Jets are predefined, highly efficient building blocks, allowing contracts to execute complex conditional payments, options, and multi-party transactions with predictable resource usage and no reliance on a central authority.
 
 Let's delve deeper into how Simplicity works within the Bitcoin ecosystem:
- 
+
 ## SimplicityHL Compilation and Simplicity Bytecode
 
 SimplicityHL is a developer-friendly front-end language, engineered to simplify the process of writing smart contracts by offering a syntax akin to the Rust programming language. It effectively abstracts away the intricate, low-level functional programming details inherent in raw Simplicity. The SimplicityHL Compiler is the dedicated toolchain responsible for translating SimplicityHL code into its foundational Simplicity representation. This approach is crucial because, while Simplicity offers profound mathematical expressiveness, its low-level nature means that practically, developers will write in higher-level languages that then compile down to Simplicity, complete with formal proofs of their correct operation.
@@ -41,13 +41,9 @@ Jets are optimised native code implementations that act as "shortcuts" for large
 Examples of jets include:
 
 - **Cryptographic functions**: These are crucial for secure smart contracts. Specific examples include the SHA-256 compression function and Schnorr signature verification (BIP-340). Other elliptic curve functions for `secp256k1` are also included, such as point verification, scalar arithmetic, and field element operations.
-
 - **Arithmetic operations**: Simplicity includes jets for various arithmetic functions, such as 32-bit addition, subtraction, and multiplication. General multi-bit logic operations like `complement`, `and`, `or`, and `xor` are also implemented as jets.
-
 - **Introspection operations**: These allow smart contracts to examine transaction data. Examples include `script-cmr` (script commitment Merkle root), `internal-key`, `version`, `lock-time`, `output-value`, `input-value`, `tapleaf-version`, and `tappath`.
-
 - **Time locks**: Jets exist for various time-based conditions like `check-lock-height`, `check-lock-time`, `tx-height-lock`, `tx-time-lock`, `tx-distance-lock`, and `tx-duration-lock`, which assert conditions based on block height or time.
-
 - **Elements-specific jets**: For the Liquid Network, Simplicity includes additional jets related to Elements features such as issuances, assets, amounts, range proofs, and surjection proofs.
 
 The weight of a Simplicity program, including its jets, is calculated using static analysis before execution from the number of iterations needed to execute the program on the Bit Machine. If this weight is larger than the on-chain footprint of the program, the program must be padded to meet the weight. This means that blockchain validators and transactors continue to have one metric for a transaction's cost: the weight of the transaction, even though the computational cost to validators is not a direct function of this weight. This crucial feature enables users to determine the maximum computational resources (CPU time and memory) a program will require, even for worst-case scenarios. This pre-computation capability is a fundamental defence against denial-of-service attacks, as transactions with excessively costly scripts can be rejected early.
@@ -55,7 +51,6 @@ The weight of a Simplicity program, including its jets, is calculated using stat
 Simplicity employs a fine-grained cost function that allows for precisely calibrated fees based on the actual resources consumed, balancing affordability for legitimate use with disincentives for network abuse. There are two categories of jets:
 
 1. **Ordinary jets**: Handled locally by implementations.
-
 2. **Discounted jets**: These receive special treatment under consensus rules, with explicitly defined cost overrides that are determined through benchmarking, rather than being calculated solely by the Bit Machine's default rules.
 
 This mechanism ensures that highly efficient native code implementations (jets) are correctly accounted for, making complex smart contracts economically viable and predictable for Bitcoin's robust, long-term infrastructure. Simplicity thus empowers builders with unprecedented security and flexibility, solidifying Bitcoin's role as a foundation for a resilient, censorship-resistant financial future.

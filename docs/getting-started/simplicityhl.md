@@ -17,6 +17,7 @@ fn main() {
 ```
 
 **What this means:**
+
 - Every contract has a `main()` function
 - `main()` must return a boolean (implicitly true here)
 - No side effects - pure functional programming
@@ -45,7 +46,7 @@ SimplicityHL compiles to Simplicity bytecode through several stages:
 Transaction → Simplicity VM → Your Program + Witness → true/false
 ```
 
-**If true:** Transaction is valid  
+**If true:** Transaction is valid
 **If false:** Transaction is rejected
 
 **No state:** Contracts are stateless - they validate, not execute arbitrary code.
@@ -194,7 +195,7 @@ jet::eq_256(hash1, hash2) -> bool
 // Less than
 jet::lt_64(a, b) -> bool
 
-// Greater than  
+// Greater than
 // Implement as: !jet::lt_64(a, b) && !jet::eq_64(a, b)
 ```
 
@@ -288,6 +289,7 @@ When your contract executes, it has access to the transaction via jets.
 **Code reference:** [`rust-simplicity/src/jet/elements/environment.rs`](https://github.com/BlockstreamResearch/rust-simplicity/blob/master/src/jet/elements/environment.rs)
 
 **Available data:**
+
 - Input amounts and assets
 - Output amounts and assets
 - Output script hashes (where money goes)
@@ -300,6 +302,7 @@ When your contract executes, it has access to the transaction via jets.
 **Contracts can inspect transaction data:**
 
 **From examples like CTV (CheckTemplateVerify) and vault contracts:**
+
 - Check output script hashes
 - Verify output amounts
 - Validate asset types
@@ -316,6 +319,7 @@ When your contract executes, it has access to the transaction via jets.
 CMR (Commitment Merkle Root) is a 32-byte hash that uniquely identifies your Simplicity program.
 
 **Properties:**
+
 - Same code = same CMR (deterministic)
 - Different code = different CMR
 - CMR commits to entire program structure
@@ -329,6 +333,7 @@ CMR (Commitment Merkle Root) is a 32-byte hash that uniquely identifies your Sim
 3. CMR is the root hash
 
 **Why it matters:**
+
 - Contracts are identified by CMR
 - Same CMR = same contract = same address
 - Verified during execution
@@ -372,8 +377,9 @@ When spending a Simplicity contract, signatures commit to a **sighash**.
 **Code reference:** [`rust-simplicity/src/policy/sighash.rs`](https://github.com/BlockstreamResearch/rust-simplicity/blob/master/src/policy/sighash.rs#L83-L94)
 
 **Sighash includes:**
+
 - All transaction inputs
-- All transaction outputs  
+- All transaction outputs
 - Locktime
 - Sequence numbers
 - **Genesis hash** (network identifier)
@@ -428,7 +434,7 @@ This prevents replay attacks.
 ```
 witness = [
   [0] witness_bytes    ← Your witness data (sigs, values, etc.)
-  [1] program_bytes    ← Simplicity program bytecode  
+  [1] program_bytes    ← Simplicity program bytecode
   [2] cmr_bytes        ← 32-byte CMR
   [3] control_block    ← Taproot proof + internal key info
 ]
@@ -462,6 +468,7 @@ tx.input[0].witness = TxInWitness {
 **Code reference:** [`rust-simplicity/src/analysis.rs`](https://github.com/BlockstreamResearch/rust-simplicity/blob/master/src/analysis.rs)
 
 **Limits:**
+
 - Maximum cost: `2^20` (1,048,576)
 - Exceeding this makes transaction invalid
 
@@ -498,7 +505,7 @@ if let Some(padding) = bounds.cost.get_padding(&script_witness) {
 fn main() {
     let threshold: u64 = param::THRESHOLD;
     let amount: u64 = witness::amount;
-    
+
     assert!(amount >= threshold);
 }
 ```
@@ -519,8 +526,9 @@ fn main() {
 **Development tools allow testing contracts locally before deployment.**
 
 **Features:**
+
 - Execution trace
-- Jet calls with inputs/outputs  
+- Jet calls with inputs/outputs
 - Debug output from `dbg!()` statements
 
 **See:** [CLI Guide](cli.md) for testing workflows
@@ -546,6 +554,7 @@ Program cost exceeded maximum
 ```
 
 **Solution:**
+
 - Simplify logic
 - Reduce jet calls
 - Optimize program structure
@@ -583,6 +592,7 @@ Shows cost, memory usage, and compilation success.
 simply run --entrypoint contract.simf --logging debug
 ```
 Executes contract with BitMachine, shows:
+
 - Execution trace
 - Jet calls with inputs/outputs
 - Debug output

@@ -5,6 +5,7 @@
 This guide shows the complete command-line workflow for developing and deploying Simplicity contracts using `simply` and `elements-cli`.
 
 **Tools used:**
+
 - `simply` - SimplicityHL development toolkit
 - `elements-cli` - Liquid node client
 - `curl` - API requests to Liquid testnet
@@ -115,10 +116,12 @@ simply withdraw --entrypoint always_true.simf --txid c2f44551601034af3cc0d004b5b
 ```
 
 Replace:
+
 - `<txid>` - From step 4
 - `<destination>` - Where to send funds
 
 **What this does:**
+
 - Fetches UTXO from blockchain
 - Builds complete transaction
 - Encodes Simplicity program and witness
@@ -214,6 +217,7 @@ let sighash = tx_env.c_tx_env().sighash_all();
 ```
 
 **Sighash includes:**
+
 - All transaction inputs and outputs
 - Genesis hash (network identifier)
 - Spent UTXO data
@@ -247,8 +251,9 @@ You would need to:
 3. Your private key
 
 **Signing options:**
+
 - Liquid wallet with signing capabilities
-- Hardware wallet with Schnorr support  
+- Hardware wallet with Schnorr support
 - Software cryptographic libraries
 - External signing services
 
@@ -412,6 +417,7 @@ simply run --entrypoint contract.simf --logging debug
 ```
 
 **Shows execution trace:**
+
 - Each step
 - Jet calls
 - Debug output
@@ -431,6 +437,7 @@ simply build --entrypoint contract.simf --stats
 ```
 
 **Shows:**
+
 - Cost bounds
 - Memory usage
 - Program size
@@ -457,6 +464,7 @@ https://blockstream.info/liquidtestnet/api
 ```
 
 **Endpoints:**
+
 - `/address/<address>/utxo` - Get UTXOs
 - `/tx/<txid>` - Get transaction
 - `/tx/<txid>/status` - Check confirmation
