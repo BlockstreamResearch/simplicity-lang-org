@@ -39,8 +39,7 @@ elements-cli --version
 
 ### 1. Create Contract
 
-**File: `always_true.simf`**
-```rust
+```rust title="always_true.simf"
 fn main() {
     // Contract that always succeeds
 }
@@ -97,8 +96,8 @@ curl "https://blockstream.info/liquidtestnet/api/address/tex1p5m8j7r2qf9h8xvua5j
 
 **For contracts needing witness data:**
 
-**File: `witness.wit`**
-```json
+
+```json title="witness.wit"
 {
   "signature": {
     "value": "0x<64_byte_hex>",
@@ -155,8 +154,7 @@ curl "https://blockstream.info/liquidtestnet/api/tx/xyz789abc.../status"
 
 ### Create P2PK Contract
 
-**File: `p2pk.simf`**
-```rust
+```rust title="p2pk.simf"
 fn main() {
     let pk: Pubkey = 0x0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798;
     let msg: u256 = jet::sig_all_hash();
@@ -258,8 +256,7 @@ You would need to:
 
 ### Create Witness File
 
-**File: `witness.wit`**
-```json
+```json title="witness.wit"
 {
   "signature": {
     "value": "0x<your_64_byte_signature_here>",
