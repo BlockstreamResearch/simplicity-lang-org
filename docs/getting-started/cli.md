@@ -40,7 +40,7 @@ elements-cli --version
 
 ### 1. Create Contract
 
-```rust title="always_true.simf"
+```rust title="hellosimply.simf"
 fn main() {
     // Contract that always succeeds
 }
@@ -49,7 +49,7 @@ fn main() {
 ### 2. Compile Contract
 
 ```bash
-simply build --entrypoint always_true.simf
+simply build --entrypoint hellosimply.simf
 ```
 
 **Output:**
