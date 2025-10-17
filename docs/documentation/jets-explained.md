@@ -7,7 +7,6 @@ This process accelerates computation without changing the underlying meaning, wh
 Think of a Jet as a shortcut:
 
 - Without Jets: Simplicity executes everything step by step using combinators (correct but slow).
-
 - With Jets: the same logic runs much faster, but the result is **provably identical**.
 
 ---
@@ -15,11 +14,8 @@ Think of a Jet as a shortcut:
 ## Why are Jets Important?
 
 - **Performance**: Blockchain validation must be fast. Jets dramatically reduce computation time.
-
 - **Security**: Each Jet is rigorously specified and formally proven to behave exactly like its Simplicity equivalent.
-
 - **Consensus Safety**: Jets have fixed, predictable costs to prevent denial-of-service attacks.
-
 - **Scalability**: More complex smart contracts become feasible without compromising verification speed.
 
 ## Jet Creation Process
