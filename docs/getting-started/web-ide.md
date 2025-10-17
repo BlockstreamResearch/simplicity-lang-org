@@ -1,11 +1,9 @@
-# Simplicity Web IDE Guide
-
-## What is the Web IDE?
+# How to make a transaction using the web IDE
 
 The Simplicity Web IDE is a browser-based development environment for writing, compiling, and deploying Simplicity contracts to Liquid testnet.
 
-**Repository:** https://github.com/BlockstreamResearch/simplicity-webide  
-**Live Demo:** (Deploy locally or access hosted instance)
+Repository: https://github.com/BlockstreamResearch/simplicity-webide
+Live Demo: (Deploy locally or https://ide.simplicity-lang.org)
 
 **Features:**
 - Write SimplicityHL contracts in browser
@@ -13,240 +11,142 @@ The Simplicity Web IDE is a browser-based development environment for writing, c
 - Generate P2TR addresses
 - Build transactions
 - Deploy to Liquid testnet
-- No installation required
 
----
+The SimplicityHL web IDE can only make a restricted form of transaction: There is 1 transaction input, 1 transaction output and 1 fee output _(Liquid has explicit fee outputs)_. Confidential transactions or assets other than Bitcoin are not supported.
 
-## Interface Overview
+![Screenshot of mempool.space](https://docs.simplicity-lang.org/assets/mempool1.png)
 
-![Web IDE Interface](../assets/webide0.png)
+## Write the main function
 
-**Components:**
+Open [the SimplicityHL web IDE](https://ide.simplicity-lang.org/) and write the main function of your program.
 
-1. **Code Editor** (Left panel)
-   - Syntax highlighting for SimplicityHL
-   - Line numbers
-   - Error highlighting
+_You can leave the default main function as it is. Customize it if you want._
 
-2. **Compiler Output** (Right panel)
-   - Compilation status
-   - CMR display
-   - P2TR address
-   - Error messages
+![Screenshot of the web IDE](https://docs.simplicity-lang.org/assets/webide0.png)
 
-3. **Transaction Builder** (Bottom panel)
-   - Input UTXO details
-   - Output configuration
-   - Witness data entry
-   - Build & broadcast buttons
+## Generate an address
 
-4. **Network Selector** (Top bar)
-   - Liquid Testnet (default)
-   - Settings and options
+Click the "Address" button to copy the address of your program to the clipboard.
 
----
+Leave the web IDE tab open. You will need it later.
 
-## Getting Started
+![Screenshot of the web IDE](https://docs.simplicity-lang.org/assets/webide1.png)
 
-### Step 1: Open the Web IDE
+## Fund the address
 
-Navigate to the Web IDE deployment in your browser.
+Paste the address into [the Liquid testnet faucet](https://liquidtestnet.com/faucet) and press the "Send assets" button.
 
-![Web IDE Main Screen](../assets/webide1.png)
+![Screenshot of the Liquid testnet faucet](https://docs.simplicity-lang.org/assets/faucet1.png)
 
-### Step 2: Write Your Contract
+Copy the ID of the funding transaction to your clipboard.
 
-**Example - Simple Contract:**
+![Screenshot of the Liquid testnet faucet](https://docs.simplicity-lang.org/assets/faucet2.png)
 
-```rust
-fn main() {
-    // This contract always succeeds
-}
-```
+## Look up the funding transaction
 
-Click **Compile** button.
+Paste the ID of the funding transaction into the [Blockstream Explorer for Liquid testnet](https://blockstream.info/liquidtestnet/).
 
-![Compilation Output](../assets/webide2.png)
+![Screenshot of the Blockstream Explorer](https://docs.simplicity-lang.org/assets/esplora1.png)
 
-**Output shows:**
-- CMR (Commitment Merkle Root)
-- P2TR address
-- Compilation success/errors
+Scroll down and find the SimplicityHL UTXO. The Liquid testnet faucet always sends 100000 tL-BTC. In our example, the SimplicityHL UTXO is vout = 1.
 
-### Step 3: Generate Address
+![Screenshot of the Blockstream Explorer](https://docs.simplicity-lang.org/assets/esplora2.png)
 
-After compilation, the IDE displays the P2TR address and CMR.
+## Enter UTXO data into the web IDE
 
-![Address Generation](../assets/webide3.png)
+Enter the ID of the funding transaction and the vout into the web IDE.
 
-**What this means:**
-- P2TR address: Where to send funds
-- CMR: Unique identifier for this contract
+_You can leave the remaining fields as they are. Feel free to customize._
 
-Copy the P2TR address.
+![Screenshot of the SimplicityHL web IDE](https://raw.githubusercontent.com/BlockstreamResearch/simplicity-webide/master/doc/webide2.png)
 
-### Step 4: Fund the Address
+## Sign the spending transaction
 
-**Option A: Use Faucet Website**
+Click the "Sig 0" button to generate a signature for a transaction that spends the SimplicityHL UTXO.
 
-Navigate to: https://liquidtestnet.com/faucet
+![Screenshot of the SimplicityHL web IDE](https://docs.simplicity-lang.org/assets/webide3.png)
 
-![Liquid Testnet Faucet](../assets/faucet1.png)
+Paste the signature into the `mod witness {...}` section.
 
-Paste your P2TR address and request L-BTC.
+![Screenshot of the SimplicityHL web IDE](https://docs.simplicity-lang.org/assets/webide4.png)
 
-![Faucet Request](../assets/faucet2.png)
+## Generate the spending transaction
 
-**Option B: Via API**
-```bash
-curl "https://liquidtestnet.com/faucet?address=tex1p...&action=lbtc"
-```
+Click the "Transaction" button to copy the spending transaction to your clipboard.
 
-Wait 60 seconds for confirmation.
+![Screenshot of the SimplicityHL web IDE](https://docs.simplicity-lang.org/assets/webide5.png)
 
-### Step 5: Check Balance
+## Broadcast the spending transaction
 
-Use the Blockstream explorer to verify: https://blockstream.info/liquidtestnet
+Paste the spending transaction into the [Blockstream Liquid testnet explorer](https://blockstream.info/liquidtestnet/tx/push) and click the "Broadcast transaction" button.
 
-![Check UTXO on Explorer](../assets/esplora1.png)
+![Screenshot of the SimplicityHL web IDE](https://docs.simplicity-lang.org/assets/esplora3.png)
 
-**Or via API:**
-```bash
-curl "https://blockstream.info/liquidtestnet/api/address/tex1p.../utxo"
-```
+If everything worked, the explorer will open the broadcast transaction. In this case, congratulations, you made a SimplicityHL transaction on Liquid testnet!!! You can also look up your transaction on [mempool.space](https://liquid.network/testnet).
 
-**Response shows:**
-```json
-[{
-  "txid": "abc123...",
-  "vout": 0,
-  "value": 100000
-}]
-```
+If you see an error message, take a look at the following "Troubleshooting" section.
 
-Note the `txid` and `vout` - you'll need these for the transaction builder.
+## Cryptic error message
 
-### Step 6: Enter Transaction Details
+Cause.
 
-Scroll to the **Transaction** section in the Web IDE.
+Action to take.
 
-![Transaction Form](../assets/webide2.png)
+## "Transaction not found" (Blockstream Explorer)
 
-**Enter UTXO data from Step 5:**
-1. **Txid:** Paste the funding transaction ID
-2. **Vout:** Enter output index (usually `0` or `1`)
-3. **Value:** Enter amount in sats (e.g., `100000`)
+Fake error. The transaction actually worked :)
 
-Leave destination and other fields as defaults for now.
+Wait for 1 minute and reload the page.
 
-### Step 7: Generate Signature (For P2PK Contracts)
+## `bad-txns-inputs-missingorspent`
 
-**For contracts requiring signatures:**
+The UTXO doesn't exist.
 
-Click the **"Sig 0"** button in the Web IDE.
+Double check the txid. You might have to wait for one minute for the UTXO to be included in the blockchain.
 
-![Generate Signature](../assets/webide3.png)
+## `bad-txns-in-ne-out, value in != value out`
 
-**The signature is automatically copied to your clipboard!**
+The input value does not equal the output value.
 
-**Update your contract code:**
+Double-check the UTXO info (vout and value). Check that the fee is lower than the input value.
 
-Paste the signature into your witness section:
-```rust
-mod witness {
-    const SIGNATURE: Signature = 0xf74b3ca574647f8595624b129324afa2...;
-}
-```
+## `bad-txns-fee-outofrange`
 
-**What this does:** The Web IDE computes the sighash and signs it with an internal key.
+The fee does not cover the transaction weight.
 
-### Step 8: Build Transaction
+Increase the fee.
 
-Click the **"Transaction"** button.
+## `non-final`
 
-![Build Transaction](../assets/webide4.png)
+The lock time is higher than the current block height.
 
-**The complete transaction hex is copied to your clipboard.**
+Decrease the locktime or wait until the block height is high enough.
 
-### Step 9: Broadcast Transaction
+## `non-BIP68-final`
 
-![Transaction Built](../assets/webide5.png)
+The sequence is higher than the current block height plus the UTXO height.
 
-**Copy the transaction hex**, then broadcast via explorer:
+Decrease the sequence or wait until the block height is high enough.
 
-**Option A: Blockstream Explorer Broadcast Page**
+## `dust`
 
-Navigate to: https://blockstream.info/liquidtestnet/tx/push
+You are creating a dust transaction output.
 
-Paste your transaction hex and click broadcast.
+The fee consumes the entire input value. Decrease the fee.
 
-**Option B: Via curl:**
-```bash
-curl -X POST "https://blockstream.info/liquidtestnet/api/tx" -d "020000..."
-```
+## `non-mandatory-script-verify-flag (Assertion failed inside jet)`
 
-Replace `020000...` with your actual transaction hex from the IDE.
+A Simplicity jet fails.
 
-### Step 10: Verify on Explorer
+Double-check the conditions that your SimplicityHL program enforces. Update the witness data or transaction parameters.
 
-View your transaction: https://blockstream.info/liquidtestnet/tx/YOUR_TXID
+Every time you change the transaction parameters, the signature hash of the transaction changes. In this case, you need to **regenerate signatures** using the "Key Store" tab.
 
-![Transaction Confirmed](../assets/esplora2.png)
+## `non-mandatory-script-verify-flag (Witness program hash mismatch)`
 
-**Check status via API:**
-```bash
-curl "https://blockstream.info/liquidtestnet/api/tx/<txid>/status"
-```
+The CMR of the Simplicity program inside the UTXO is different from the CMR of the program inside the transaction input.
 
-![Mempool View](../assets/mempool1.png)
-
-Wait for confirmation (usually 1-2 minutes on Liquid testnet).
-
-**Explorer views:**
-- Transaction details: https://blockstream.info/liquidtestnet/tx/TXID
-- Address UTXOs: https://blockstream.info/liquidtestnet/address/ADDRESS
-- Mempool: https://blockstream.info/liquidtestnet
-
----
-
-## Common Workflows
-
-### P2PK Contract
-
-**Code:**
-```rust
-fn main() {
-    let pk: Pubkey = 0x02...;
-    let msg: u256 = jet::sig_all_hash();
-    let sig: Signature = witness::signature;
-    jet::bip_0340_verify(pk, msg, sig)
-}
-```
-
-**Steps:**
-1. Compile contract
-2. Fund P2TR address
-3. Compute sighash (IDE shows this)
-4. Sign sighash externally
-5. Enter signature in witness field
-6. Build and broadcast
-
-### Time-Locked Contract
-
-**Code:**
-```rust
-fn main() {
-    jet::check_lock_time(1735689600);
-}
-```
-
-**Steps:**
-1. Compile and fund
-2. Wait until timestamp
-3. Build transaction (no special witness)
-4. Broadcast after timestamp
-
----
+Use a backup to restore the original program that you used to create the UTXO. Alternatively, try to fix your current program to match the UTXO program.
 
 ## Web IDE Internals
 
@@ -274,52 +174,8 @@ fn main() {
 5. Build complete witness stack
 6. Serialize transaction to hex
 
-
----
-
-## Troubleshooting
-
-### Compilation Errors
-
-**Error:** `Parameter X is missing an argument`
-
-**Solution:** Provide argument in witness or parameters section
-
-### Transaction Rejected
-
-**Error:** `bad-txns-inputs-missingorspent`
-
-**Solution:** UTXO already spent or doesn't exist. Check:
-```bash
-curl "https://blockstream.info/liquidtestnet/api/address/tex1p.../utxo"
-```
-
-### Signature Invalid
-
-**Error:** Program returns false
-
-**Solution:**
-- Verify sighash is correct
-- Check signature is BIP-340 Schnorr (64 bytes)
-- Ensure public key matches
-
----
-
-## Limitations
-
-**Web IDE limitations:**
-- Testnet only (no mainnet)
-- Basic transaction building (single input/output)
-- No complex covenant testing
-- Browser-based (no local storage)
-
-**For production:** Use CLI tools (simply, elements-cli)
-
----
-
 ## Next Steps
 
 - **Learn SimplicityHL:** [Language Reference](../simplicityhl-reference/)
 - **CLI Development:** [Simply CLI Guide](simply-cli-guide.md)
 - **Use Cases:** [Example Contracts](../use-cases/)
-
