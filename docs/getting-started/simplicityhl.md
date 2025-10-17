@@ -54,7 +54,7 @@ Transaction → Simplicity VM → Your Program + Witness → abort/pass
 **No state:** Contracts are stateless - they validate only
 
 **Total:** Every program runs in finite time for all inputs (and it is efficiently possible
-to compute bounds on this time; see "Cost and Resource Bounds" below
+to compute bounds on this time; see "Cost and Resource Bounds" below)
 
 ### Witness Data
 
