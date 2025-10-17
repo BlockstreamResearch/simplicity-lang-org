@@ -41,20 +41,16 @@ See "What is the CMR?" below for more information.
 
 ## Understanding the Contract Model
 
-### How Contracts Execute
+### How Contracts Execute On-Chain
 
-**On-chain:**
+```mermaid
+graph TD
+    A[Transaction] --> B["Simplicity VM <br>(Total: Guaranteed to terminate)"];
+    B --> C["Your Program + Witness <br>(Stateless: Validates only)"];
+    C --> D{Result};
+    D -- pass --> E[Transaction is Valid];
+    D -- abort --> F[Transaction is Rejected];
 ```
-Transaction → Simplicity VM → Your Program + Witness → abort/pass
-```
-
-* **If aborts:** Transaction is rejected
-* **Otherwise:** Transaction is valid
-
-**No state:** Contracts are stateless - they validate only
-
-**Total:** Every program runs in finite time for all inputs (and it is efficiently possible
-to compute bounds on this time; see "Cost and Resource Bounds" below)
 
 ### Witness Data
 
@@ -344,16 +340,12 @@ A CMR (Commitment Merkle Root) is a 32-byte hash that uniquely identifies your S
 
 **Code reference:** [`rust-simplicity/src/policy/sighash.rs`](https://github.com/BlockstreamResearch/rust-simplicity/blob/master/src/policy/sighash.rs)
 
-```
-Your Contract (.simf)
-        ↓ Compile
-    Simplicity Bytecode (identified by its CMR)
-        ↓ Create Taproot Tree
-    Merkle Root
-        ↓ Combine with Internal Key
-    Taproot Output Key
-        ↓ Encode
-    P2TR Address (tex1p...)
+```mermaid
+graph TD
+    A["Your Contract (.simf)"] -->|Compile| B["Simplicity Bytecode (identified by its CMR)"];
+    B -->|Create Taproot Tree| C["Merkle Root"];
+    C -->|Combine with Internal Key| D["Taproot Output Key"];
+    D -->|Encode| E["P2TR Address (tex1p...)"];
 ```
 
 **Internal Key:** A provably unspendable public key (NUMS point)
