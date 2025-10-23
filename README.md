@@ -1,11 +1,10 @@
 ## Simplicity Docs
 
-Simplicity is a minimal, deterministic, functional language built for Bitcoin’s trust model. It offers elegance over complexity, enabling powerful smart contracts without relying on a growing list of ad hoc opcodes.
+This is the static site generator for https://docs.simplicty-lang.org. We aim to make usable, up-to-date documenation and welcome suggestions and updates via a pull request.
 
-The site is built on [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/)
+The site is built on [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) which includes some [nice formatting options](https://squidfunk.github.io/mkdocs-material/reference/).
 
-Building
-
+Realtime preview of documentation changes:
 ```bash
 # Install dependencies
 pip install -r requirements.txt
