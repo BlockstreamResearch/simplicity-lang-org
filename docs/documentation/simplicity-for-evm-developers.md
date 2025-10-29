@@ -137,7 +137,7 @@ Simplicity's type system is fundamental and rigorously defined:
 
 Here's an example that shows the differences between both languages. An oracle signs a message with the current block height and the current price. The block height is compared with a minimum height to prevent the use of old data. The transaction is timelocked to the oracle height, which means that the transaction becomes valid after the oracle height.
 
-### Simplcity Example ([source](https://github.com/BlockstreamResearch/SimplicityHL/blob/master/examples/hodl_vault.simf))
+### Simplicity Example ([source](https://github.com/BlockstreamResearch/SimplicityHL/blob/master/examples/hodl_vault.simf))
 
 ```rust
 fn checksig(pk: Pubkey, sig: Signature) {
