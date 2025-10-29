@@ -551,7 +551,5 @@ curl "https://blockstream.info/liquidtestnet/api/tx/<txid>/outspend/<vout>"
 
 ## Next Steps
 
-- [SimplicityHL Complete Guide](simplicityhl-complete.md) - Deep dive into language
 - [Web IDE Guide](web-ide.md) - Browser-based development
-- [Use Cases](../use-cases/) - Real-world contract examples
 
