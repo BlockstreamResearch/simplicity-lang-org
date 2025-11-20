@@ -3,7 +3,7 @@ We'll use only two tools initially: `simc` (the SimplicityHL compiler) and `hal-
 
 Both of these can be installed with `cargo`; make sure you <a href="https://doc.rust-lang.org/stable/cargo/getting-started/installation.html">have `cargo` installed</a> first.  The demo script also requires `jq` and `curl` (for parsing JSON data and connecting to Liquid Testnet API endpoints).
 
-You will also need to download the <a href="/assets/p2ms-demo.sh">p2ms-demo.sh</a> bash script from this site. Then mark it executable with `chmod +x p2ms-demo`.
+You will also need to download the <a href="/assets/p2ms-demo.sh">p2ms-demo.sh</a> bash script from this site. Then mark it executable with `chmod +x p2ms-demo`. (Firefox may refuse to save it because of its MIME type; if so, use `wget` or `curl` instead.)
 
 The steps below should then be sufficient to perform your first Simplicity transaction with an on-chain contract written in SimplicityHL!
 
