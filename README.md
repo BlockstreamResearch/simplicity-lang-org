@@ -1,6 +1,6 @@
 ## Simplicity Docs
 
-This is the static site generator for https://docs.simplicty-lang.org. We aim to make usable, up-to-date documenation and welcome suggestions and updates via a pull request.
+This is the static site generator for https://docs.simplicity-lang.org. We aim to make usable, up-to-date documenation and welcome suggestions and updates via a pull request.
 
 The site is built on [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) which includes some [nice formatting options](https://squidfunk.github.io/mkdocs-material/reference/).
 
