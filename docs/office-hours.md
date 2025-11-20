@@ -1,0 +1,19 @@
+# Office Hours
+
+As an experiment, starting in November 2025, you can now join a weekly
+Office Hours call to talk about what you're working on with Simplicity
+or to ask questions.
+
+This call will be held on Tuesdays at 8:00 <a
+href="https://www.timeanddate.com/time/zone/usa/san-francisco">PST
+(UTC-8)</a> and will typically last one hour. We may occasionally skip
+it due to U.S. holidays or other events.
+
+The current invitation link to join the Office Hours call is
+
+<a href="https://blockstream.zoom.us/meetings/88644041325/invitations?signature=dJy8_It_Jw4vvrneVaGN-NBXh-kRJJs8XxCMQilw8O0">https://blockstream.zoom.us/meetings/88644041325/invitations?signature=dJy8_It_Jw4vvrneVaGN-NBXh-kRJJs8XxCMQilw8O0</a>
+
+You can also see all public Simplicity-related events in the
+public calendar below.
+
+<iframe src="https://calendar.google.com/calendar/embed?src=c_a8d5df2e5a7d4a7cc8c8f46fb54f95fb4861458c6c17f3794079ab8a559c01b0%40group.calendar.google.com&ctz=America%2FLos_Angeles" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
