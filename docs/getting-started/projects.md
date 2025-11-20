@@ -31,6 +31,9 @@
 - ### :material-lock: [stark-symphony (ZKP)](https://github.com/starkware-bitcoin/stark-symphony)  
   Zero-knowledge prover components in SimplicityHL.
 
+- ### :material-lock: [simplicity-bn254 (ZKP)](https://github.com/distributed-lab/simplicity-bn254)
+  A BN254 pairing-friendly elliptic curve with Optimal Ate pairing in SimplicityHL.
+
 - ### :material-lock: [Simply](https://github.com/starkware-bitcoin/simply)  
   Supplemental CLI tooling supporting SimplicityHL workflows.
 
