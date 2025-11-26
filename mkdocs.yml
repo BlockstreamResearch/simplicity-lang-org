@@ -135,8 +135,8 @@ nav:
       - SimplicityHL: getting-started/simplicityhl.md
       - Web IDE: getting-started/web-ide.md
       - CLI Guide: getting-started/cli.md
-      - Rust: getting-started/rust.md
-      - Haskell: getting-started/haskell.md
+#      - Rust: getting-started/rust.md
+#      - Haskell: getting-started/haskell.md
   - Documentation:
       - How Simplicity Works: documentation/how-simplicity-works.md
       - Whitepaper: https://blockstream.com/simplicity.pdf
