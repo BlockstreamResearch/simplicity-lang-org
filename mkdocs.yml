@@ -4,6 +4,9 @@ site_description: A typed, combinator-based, functional smart contract language 
 plugins:
   - search:
   - git-revision-date-localized:
+  - ezglossary:
+     tooltip: full
+     ignore_case: true
   # add this back in when we have more authors
   # - git-committers:
   #     repository: BlockstreamResearch/simplicity-lang-org
@@ -81,6 +84,7 @@ markdown_extensions:
   - pymdownx.tabbed:
       alternate_style: true
   - tables:
+  - def_list:
 extra_css:
   - stylesheets/extra.css
 extra:
