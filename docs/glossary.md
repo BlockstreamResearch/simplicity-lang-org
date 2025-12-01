@@ -25,7 +25,7 @@ glossary:Contract
 :    The broader concept of a <glossary:smart contract> might in turn refer either narrowly to a specific Simplicity program or broadly to a whole set of interactions and relationships realized through code, of which that Simplicity program could be only one component. In this view a smart contract as a whole potentially includes several Simplicity programs, possibly as well as other related technical arrangements.
 
 glossary:Cost
-:    In Simplicity blockchain integrations, a metric for the computational resources used in verifying a <glossary:transaction> that invokes a Simplicity <glossary:contract>, which must indirectly be paid for via transaction <glossary:fees>. See "<glossary:weight>" for more information.
+:    In Simplicity blockchain integrations, a metric for the computational resources used in verifying a <glossary:transaction> that invokes a Simplicity <glossary:contract>, which must indirectly be paid for via transaction <glossary:fee>s. See "<glossary:weight>" for more information.
 
 glossary:Covenant
 :    A covenant is a condition or behavior in a <glossary:contract> related to restrictions on the <glossary:output> destination to which an <glossary:asset> may be transferred.  Covenants allow a contract to enforce various rules that form useful building blocks for higher-level mechanisms and guarantees about contract behavior. Simplicity supports highly general covenant mechanisms by means of its <glossary:introspection> features. For example, covenants in Simplicity can enforce...
@@ -79,7 +79,7 @@ glossary:Multisig
 :    This can be used as a precaution to mitigate the impact of mistakes, compromise, or misbehavior by individual signers or groups of signers, much as an offline action or transaction could require prior approval by multiple distinct parties.
 
 glossary:Node
-:    An entity that participates in the verification of <glossary:transactions> on a blockchain. In most blockchains, anyone can operate a node just by running a copy of the blockchain's verification software. The node will typically download a complete copy of the blockchain data.
+:    An entity that participates in the verification of <glossary:transaction>s on a blockchain. In most blockchains, anyone can operate a node just by running a copy of the blockchain's verification software. The node will typically download a complete copy of the blockchain data.
 :    When a blockchain includes a Simplicity integration, one part of the verification process for blocks includes running the (pruned) Simplicity contracts that appear in Simplicity-related <glossary:transaction>s in order to confirm that each contract in fact approves each transaction. The definition of validity of a block includes a requirement that each transaction included in the block be valid. The definition of validity of a Simplicity transaction includes a requirement that the cited contract, when run in the context of that transaction, approves the transaction. (There are other requirements, such as that the pruned contract published on the blockchain corresponds to the address of the output of any UTXO from which it is spending an asset. This confirms that the code of the contract in question has the right to spend that asset.)
 :    You can run your own local <glossary:Liquid> (mainnet or testnet) node with the <glossary:elementsd> software.
 
@@ -99,7 +99,7 @@ glossary:Private key
 :    In public-key cryptography, a secret numeric value corresponding to a specific <glossary:public key>.  The possessor of the private key can use it to create digital signatures indicating agreement with specific assertions, such as proposed Bitcoin or <glossary:Elements> transactions, or <glossary:oracle> assertions.  Anyone can verify those digital signatures using the corresponding public key.
 
 glossary:Program
-:    Sometimes used interchangeably with "contract".  A specific instance of <glossary:Simplicity> code that can receive <glossary:assets> on a blockchain and make decisions about how to dispose of those assets in accordance with its internal logic.
+:    Sometimes used interchangeably with "contract".  A specific instance of <glossary:Simplicity> code that can receive <glossary:asset>s on a blockchain and make decisions about how to dispose of those assets in accordance with its internal logic.
 :    A program’s creator could choose to publish its code (outside of a blockchain) in order to allow other people to learn of its existence and interact with it. A reference to the program’s address appears on a blockchain when a <glossary:transaction> includes an <glossary:output> controlled by the program. A copy of the program’s code (in pruned form) appears on the blockchain only when a later transaction spends such an output.
 
 glossary:Pruning
@@ -142,7 +142,7 @@ glossary:Token
 
 glossary:Transaction
 :    A payment or proposed payment on a blockchain that confirms the transfer of certain specified <glossary:asset>s, setting new conditions for the future transfer of those assets.
-:    <glossary:Simplicity> transactions involve claiming assets from <glossary:smart contracts>, by including contract and <glossary:witness> data that confirms that a specific contract that controlled those assets agrees to the transfer of those assets on a certain occasion in a specified context.
+:    <glossary:Simplicity> transactions involve claiming assets from <glossary:smart contract>s, by including contract and <glossary:witness> data that confirms that a specific contract that controlled those assets agrees to the transfer of those assets on a certain occasion in a specified context.
 :    Simplicity transactions are validated by full <glossary:node>s according to consensus rules that are extended to include details of Simplicity and its integration into a particular blockchain. The full nodes must run a pruned Simplicity program when it is proposed for inclusion in a block in order to confirm both that the referenced program has proper authority to approve the transaction, and that it actually does approve it.
 
 glossary:Turing complete
@@ -163,7 +163,7 @@ glossary:UTXO (Unspent Transaction Output)
 
 glossary:Weight
 :    A measure of the quantity of resources consumed by a proposed <glossary:transaction> as a means of determining the <glossary:fee> that must be paid to miners.
-:    Traditional Bitcoin transaction weight was <a href="https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki">introduced in BIP 0141</a> as part of the SegWit mechanism. Simplicity transactions’ weight is formally calculated in the same way based on storage requirements. However, Simplicity integrations also apply an additional rule requiring a minimum weight for a Simplicity transaction because of the computational (not just storage) demands that they place on miners who are verifying these transactions. This formula, called “cost”, is empirically derived by benchmarking implementations of Simplicity <glossary:jets> in order to determine an upper bound on how much computation will be needed to verify the result of running a given Simplicity program.
+:    Traditional Bitcoin transaction weight was <a href="https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki">introduced in BIP 0141</a> as part of the SegWit mechanism. Simplicity transactions’ weight is formally calculated in the same way based on storage requirements. However, Simplicity integrations also apply an additional rule requiring a minimum weight for a Simplicity transaction because of the computational (not just storage) demands that they place on miners who are verifying these transactions. This formula, called “cost”, is empirically derived by benchmarking implementations of Simplicity <glossary:jet>s in order to determine an upper bound on how much computation will be needed to verify the result of running a given Simplicity program.
 :    As a result, transactions involving more computationally-intensive Simplicity programs may be expected to pad the transactions to a larger size (and hence a larger weight) in order to ensure that they pay correspondingly higher fees to miners.
 
 glossary:Witness
