@@ -152,7 +152,8 @@ glossary:Turing complete
 :    This means that Simplicity does not include loops or recursion, and SimplicityHL cannot perform an unbounded loop (such as a while loop, as in other programming languages). SimplicityHL provides bounded looping mechanisms: if a program contains a loop, the maximum number of loop iterations must be known in advance, and the built-in `for_while` function can only repeat a given loop up to 65535 times.
 :    These limitations aid the analysis of the correctness of Simplicity and SimplicityHL programs’ behavior, while still permitting the implementation of complex and useful smart contract functionality.
 
-glossary:UTXO (Unspent Transaction Output)
+glossary:UTXO
+:    Unspent Transaction Output.
 :    A statement, registered on a blockchain, that the owner of some <glossary:asset> has authorized its transfer under certain conditions (a transaction), when that asset has not yet been claimed (spent) by a subsequent <glossary:transaction>.
 :    Specifically, UTXOs are those outputs of prior transactions that have not yet been claimed as inputs of any subsequent transaction.
 :    UTXOs represent assets that are available to a particular recipient or recipients (whether an individual, program, organization, or an entity described by some set of conditions).  Most UTXOs specify that they can be claimed by the owner of a specific private key (which is the simplest sense of what it means for a private key to "own" or "control" assets on a blockchain).  However, significantly more detailed conditions can be applied (whether by means of <glossary:Bitcoin Script> programs, or, in blockchains with Simplicity integration, Simplicity programs).
