@@ -145,6 +145,7 @@ nav:
       - Jets Overview: documentation/jets-overview.md
       - Simplicity for EVM developers: documentation/simplicity-for-evm-developers.md
       - Simplicity Compared: documentation/simplicity-compared.md
+      - Timelocks: documentation/timelocks.md
       - Examples: https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples
   - SimplicityHL Reference:
       - simplicityhl-reference/index.md
