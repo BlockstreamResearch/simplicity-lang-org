@@ -2,9 +2,9 @@
 
 ## Relative timelock with check_lock_distance()
 
-One straightforward way to express a timelock condition in a SimplicityHL <glossary:contract> is via the `check_lock_distance()` <glossary:jet>, which lets you specify a minimum required "distance" from the <glossary:input> transaction(s) that must elapse before an asset can be claimed from the contract.
+One straightforward way to express a timelock condition in a SimplicityHL <glossary:contract> is via the `check_lock_distance()` <glossary:jet>, which lets you specify a required minimum number of blocks from the <glossary:input> transaction(s) that must elapse before an asset can be claimed from the contract.
 
-This is a *relative* timelock condition. That means it's defined in terms of the age of its input(s). In contracts running on the <glossary:Liquid> Network, its "distance" is expressed as a count of <glossary:Elements> blocks. Since Elements blocks are published one minute apart, the `check_lock_distance()` time constraint in such contracts is expressed in *minutes*.
+This is a *relative* timelock condition. That means it's defined in terms of the age of its input(s). In contracts running on the <glossary:Liquid> Network, its "distance" is expressed as a count of <glossary:Elements> blocks. (If you like, you can use the built-in SimplicityHL data type `Distance` to represent such a count.) Since Elements blocks are published one minute apart, the `check_lock_distance()` time constraint in such contracts is expressed in *minutes*.
 
 For example, if a certain code path in a contract calls `jet::check_lock_distance(1440)`, that code path enforces the condition that assets cannot be claimed by a transaction until (at least) 1440 minutes have elapsed following the newest input to such a transaction. (This delay corresponds to 24 hours, or one day.)
 
