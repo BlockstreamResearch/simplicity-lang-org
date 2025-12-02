@@ -141,7 +141,8 @@ nav:
   - Documentation:
       - How Simplicity Works: documentation/how-simplicity-works.md
       - Whitepaper: https://blockstream.com/simplicity.pdf
-      - Tecnical Report: https://raw.githubusercontent.com/ElementsProject/simplicity/pdf/Simplicity-TR.pdf
+      - Technical Report: https://raw.githubusercontent.com/ElementsProject/simplicity/pdf/Simplicity-TR.pdf
+      - Glossary: glossary.md
       - Jets Explained: documentation/jets-explained.md
       - Jets Overview: documentation/jets-overview.md
       - Simplicity for EVM developers: documentation/simplicity-for-evm-developers.md
