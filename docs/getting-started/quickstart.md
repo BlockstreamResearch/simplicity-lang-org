@@ -1,6 +1,6 @@
 # SimplicityHL Quickstart
 
-This is a quickstart document to help you perform your first transaction on Liquid Testnet using a Simplicity contract.
+This is a quickstart document to help you perform your first <glossary:transaction> on <glossary:Liquid> Testnet using a <glossary:Simplicity> <glossary:contract>.
 
 We'll use only two tools initially: `simc` (the SimplicityHL compiler) and `hal-simplicity` (an all-purpose Simplicity utility that can do various tasks related to programs and transactions).
 
@@ -38,7 +38,7 @@ popd
 ./p2ms-demo.sh
 ```
 
-This demo script exercises a Pay to Multisig contract written in SimplicityHL by performing a real transaction to and from this contract on the Liquid Testnet. Most commands are printed as they are run. You can look at the contents of `p2ms-demo.sh` to understand more about the steps it performs, or use it as a basis for performing Liquid Testnet transactions with other Simplicity contracts. At the end of the process, you'll see a link to the <a href="https://blockstream.info/">Explorer</a> to look at the details of the resulting transaction.
+This demo script exercises a Pay to <glossary:Multisig> contract written in SimplicityHL by performing a real transaction to and from this contract on the Liquid Testnet. Most commands are printed as they are run. You can look at the contents of `p2ms-demo.sh` to understand more about the steps it performs, or use it as a basis for performing Liquid Testnet transactions with other Simplicity contracts. At the end of the process, you'll see a link to the <a href="https://blockstream.info/">Explorer</a> to look at the details of the resulting transaction.
 
 ## Demo walkthrough
 
@@ -76,13 +76,13 @@ FAUCET_ADDRESS="tex1qkkxzy9glfws4nc392an5w2kgjym7sxpshuwkjy"
 
 These set up some parameters that will be referenced later on in this process.
 
-The first two variables, `$PROGRAM_SOURCE` and `$WITNESS_FILE`, refer to the locations of the contract source code and witness file (input) template. If you checked out the SimplicityHL repository somewhere other than `~/src`, please make sure these variables reflect the actual location of the example code.
+The first two variables, `$PROGRAM_SOURCE` and `$WITNESS_FILE`, refer to the locations of the <glossary:contract> source code and <glossary:witness> file (input) template. If you checked out the SimplicityHL repository somewhere other than `~/src`, please make sure these variables reflect the actual location of the example code.
 
-The `$INTERNAL_KEY` is a parameter used to construct the address of the Simplicity contract. The value given here is a hard-coded default value based on BIP 0341.
+The `$INTERNAL_KEY` is a parameter used to construct the <glossary:address> of the Simplicity contract. The value given here is a hard-coded default value based on BIP 0341.
 
-The `$PRIVKEY_1`, `$PRIVKEY_2`, and `$PRIVKEY_3` represent private keys held by three different people or organizations. In this particular contract, any two of these three people may approve a proposed transaction by digitally signing it with their private keys. These values are intentionally chosen to be the numbers `1`, `2`, and `3`, but in a real contract application they would be long random numbers existing on separate computers, and the corresponding digital signatures would be generated independently by separate people.
+The `$PRIVKEY_1`, `$PRIVKEY_2`, and `$PRIVKEY_3` represent <glossary:private key>s held by three different people or organizations. In this particular contract, any two of these three people may approve a proposed transaction by digitally signing it with their private keys. These values are intentionally chosen to be the numbers `1`, `2`, and `3`, but in a real contract application they would be long random numbers existing on separate computers, and the corresponding digital signatures would be generated independently by separate people.
 
-The `$FAUCET_ADDRESS` is a hardcoded value for refunding tLBTC to the Liquid Testnet Faucet service. This is the address that we will make our contract send a payment to. If you prefer, you can generate a Liquid Testnet wallet of your own and send the tLBTC from the contract to your own wallet instead.
+The `$FAUCET_ADDRESS` is a hardcoded value for refunding tLBTC to the Liquid Testnet Faucet service. This is the address that we will make our contract send a payment to. If you prefer, you can generate a Liquid Testnet wallet of your own and send the tLBTC from the contract to your own wallet instead. Doing would typically involve installing `elementsd` and `elements-cli`, and is not described further in this walkthrough.
 
 ### Step 3: Compile the contract
 
@@ -139,15 +139,15 @@ FAUCET_TRANSACTION=[insert your transaction ID from the Faucet API reply here]
 
 ### Step 5: Create a minimal PSET
 
-We'll now begin to build a <glossary:transaction> requesting this contract to spend these assets by sending them to `$FAUCET_ADDRESS`. Eventually, when it's complete, this transaction will satisfy the contract and be approved as valid, causing the assets to be transferred.
+We'll now begin to build a <glossary:transaction> requesting this contract to spend these <glossary:asset>s by sending them to `$FAUCET_ADDRESS`. Eventually, when it's complete, this transaction will satisfy the contract and be approved as valid, causing the assets to be transferred.
 
 ```
 PSET=$(hal-simplicity simplicity pset create '[ { "txid": "'"$FAUCET_TRANSACTION"'", "vout": 0 } ]' '[ { "'"$FAUCET_ADDRESS"'": 0.00099900 }, { "fee": 0.00000100 } ]' | jq -r .pset)
 ```
 
-Here we run `hal-simplicity-simplicity pset create` to create a new minimal <glossary:PSET> representing a transaction whose input comes from the prior contract-funding transaction and whose output, less a fee, goes to `$FAUCET_ADDRESS`.
+Here we run `hal-simplicity-simplicity pset create` to create a new minimal <glossary:PSET> representing a transaction whose <glossary:input> comes from the prior contract-funding transaction and whose <glossary:output>, less a fee, goes to `$FAUCET_ADDRESS`.
 
-Yes, this is a kind of closed loop as assets are coming *from* the Faucet in one initial transaction, and being sent back *to* the Faucet as a destination in a subsequent transaction.
+(Yes, this is a kind of closed loop, as assets are coming *from* the Faucet in one initial transaction, and being sent back *to* the Faucet as a destination in a subsequent transaction. Addresses belonging to the Faucet service occupy both roles here because of the nature of this demonstration. As we noted above in step 2, you can also choose to instead create your own wallet and use it as the destination for these test assets.)
 
 We save the PSET into a shell variable `$PSET` which we will gradually modify as we attach additional <glossary:parameter>s and details to it.
 
@@ -185,9 +185,9 @@ The modified PSET data is stored back into the shell variable `$PSET`.
 
 ### Step 7: Digitally sign the transaction
 
-The contract we're using for this demonstration enforces, via its program logic, a "2 of 3 multisig" policy. This means that the contract approves transactions when 2 out of 3 prespecified entities (identified by public keys inside the contract's source code) provide digital signatures for those transactions. In practice, this might be members of a family, or employees of a company, or just separate devices that an individual uses for extra security. We'll call these people or entities Alice, Bob, and Charlie. In this demo version, we have all three of these keys already (in fact, they're just the numbers `1`, `2`, and `3`) so we can make these signatures ourselves.
+The contract we're using for this demonstration enforces, via its program logic, a "2 of 3 multisig" policy. This means that the contract approves transactions when 2 out of 3 prespecified entities (identified by <glossary:public key>s inside the contract's source code) provide digital signatures for those transactions. In practice, this might be members of a family, or employees of a company, or just separate devices that an individual uses for extra security. We'll call these people or entities Alice, Bob, and Charlie. In this demo version, we have all three of these keys already (in fact, they're just the numbers `1`, `2`, and `3`) so we can make these signatures ourselves.
 
-In a real application, these keys would most likely not be present on the same device at the same time. In that case, the `$PSET` and `$CMR` values (which do not contain highly private or sensitive information; all of this information will eventually be published on the blockchain) from step 6 above would be shared with the people or devices being asked to generate the signatures (here, Alice and Charlie), and they would generate the signatures themselves with the `hal-simplicity simplicity sighash` command, using their private keys on their own devices. The resulting signature values would then be sent back and inserted into the witness file on the device that is assembling the transaction.
+In a real application, these keys would most likely not be present on the same device at the same time. In that case, the `$PSET` and `$CMR` values (which do not contain highly private or sensitive information; all of this information will eventually be published on the blockchain) from step 6 above would be shared with the people or devices being asked to generate the signatures (here, Alice and Charlie), and they would generate the signatures themselves with the `hal-simplicity simplicity sighash` command, using their private keys on their own devices. The resulting signature values would then be sent back and inserted into the <glossary:witness> file on the device that is assembling the transaction.
 
 First, let's make a copy of the witness file.
 
@@ -213,7 +213,7 @@ Copy the hexadecimal value that appears as `signature` in the output. Edit the `
 
 ### Step 8: Create the serialized witness file
 
-We're going to run `simc` again to obtain a version of our updated witness file suitable for publication on the blockchain. (This represents the *input* to our contract as it's being run in the context of this transaction. The presence of both Alice's and Charlie's valid signatures on this transaction will convince our contract logic to approve the transaction.)
+We're going to run `simc` again to obtain a version of our updated <glossary:witness> file suitable for publication on the blockchain. (This represents the *input* to our contract as the contract is being run in the context of this transaction. The presence of both Alice's and Charlie's valid signatures on this transaction will convince our contract logic to approve the transaction.)
 
 ```
 simc $PROGRAM_SOURCE /tmp/p2ms.wit
@@ -227,7 +227,7 @@ WITNESS=$(simc $PROGRAM_SOURCE /tmp/p2ms.wit | tail -1)
 
 ### Step 9: Finalize and extract the raw transaction
 
-Two more `hal-simplicity` commands will transform our PSET and witness data into a transaction suitable for submission to the Liquid Testnet blockchain.
+Two more `hal-simplicity` commands will transform our <glossary:PSET> and <glossary:witness> data into a <glossary:transaction> suitable for submission to the Liquid Testnet blockchain.
 
 ```
 PSET=$(hal-simplicity simplicity pset finalize "$PSET" 0 "$PROGRAM" "$WITNESS" | jq -r .pset)
