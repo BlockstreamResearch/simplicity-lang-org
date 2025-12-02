@@ -131,10 +131,11 @@ edit_uri: edit/main/docs/
 nav:
   - Getting started:
       - index.md
+      - Quickstart: getting-started/quickstart.md
       - Tools & Projects: getting-started/projects.md
-      - SimplicityHL: getting-started/simplicityhl.md
+#      - SimplicityHL: getting-started/simplicityhl.md
       - Web IDE: getting-started/web-ide.md
-      - CLI Guide: getting-started/cli.md
+#      - CLI Guide: getting-started/cli.md
 #      - Rust: getting-started/rust.md
 #      - Haskell: getting-started/haskell.md
   - Documentation:
