@@ -21,3 +21,4 @@ public calendar below.
 ## Prior Office Hours session recordings
 
 * <a href="https://youtu.be/Yiiv2UICOPM">November 25, 2025</a>
+* <a href="https://youtu.be/c6Uis6VwANU">December 2, 2025</a>
