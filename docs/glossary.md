@@ -2,7 +2,7 @@
 
 These are terms likely to appear within Simplicity documentation and other educational materials.
 
-glossary:Address
+## glossary:Address
 :    An identifier to which <glossary:asset>s may be sent on a blockchain. Each address is associated with one or more scripts, such as Simplicity <glossary:contract>s, which control access to funds sent to that address. Given a Simplicity contract and an “unspendable <glossary:internal key>”, it is possible to derive a unique address for that contract, which refers to an instance of the program’s code.
 
 glossary:Asset
