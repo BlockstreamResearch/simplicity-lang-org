@@ -47,11 +47,10 @@ PRIVKEY_3="0000000000000000000000000000000000000000000000000000000000000003"
 # to send them back.
 # Confidential address
 FAUCET_ADDRESS=tlq1qq2g07nju42l0nlx0erqa3wsel2l8prnq96rlnhml262mcj7pe8w6ndvvyg237japt83z24m8gu4v3yfhaqvrqxydadc9scsmw
+
+# Get unconfidential address from confidential address
 # FAUCET_ADDRESS=$("$ELEMENTS_CLI" validateaddress "$FAUCET_ADDRESS" | jq -r .unconfidential)
-# Unconfidential address
-FAUCET_ADDRESS=tex1qkkxzy9glfws4nc392an5w2kgjym7sxpshuwkjy
-# The ability to derive the unconfidential address without depending on elements-cli
-# will soon be added to "hal-simplicity address inspect".
+FAUCET_ADDRESS=$(hal-simplicity address inspect "$FAUCET_ADDRESS" | jq -r .unconfidential)
 
 for variable in PROGRAM_SOURCE WITNESS_FILE INTERNAL_KEY PRIVKEY_1 PRIVKEY_2 PRIVKEY_3 FAUCET_ADDRESS
 do
