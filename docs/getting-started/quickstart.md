@@ -167,12 +167,12 @@ Make sure that its output reflects details about the transaction. If you do this
 curl https://liquid.network/liquidtestnet/api/tx/$FAUCET_TRANSACTION > /tmp/input-tx.json
 ```
 
-We need to extract three specific details related to this UTXO in order to allow other tools to reference it properly as an input to be spent in our new transaction. These details are called the scriptpubkey, asset, value. We'll save them into shell variables called `$HEX`, `$ASSET`, and `$VALUE`. (Note that `$VALUE` gets 0.00 prefixed to it because this API is measuring the value in a different numeric scale than the tools we use later expect.)
+We need to extract three specific details related to this UTXO in order to allow other tools to reference it properly as an input to be spent in our new transaction. These details are called the scriptpubkey, asset, value. We'll save them into shell variables called `$HEX`, `$ASSET`, and `$VALUE`. (Note that `$VALUE` gets `0.00` prefixed to it because this API is measuring the value in a different numeric scale than the tools we use later expect.)
 
 ```bash
 HEX=$(jq -r .scriptpubkey < /tmp/input-tx.json)
 ASSET=$(jq -r .asset < /tmp/input-tx.json)
-VALUE=0.00$(jq -r .value < /tmp/input-tx.json)
+VALUE="0.00"$(jq -r .value < /tmp/input-tx.json)
 ```
 
 Now we need to attach many details related to our new transaction to our PSET. We use `hal-simplicity simplicity pset update-input` to do this.
