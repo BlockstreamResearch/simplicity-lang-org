@@ -6,7 +6,7 @@ We've emphasized that SimplicityHL syntax is directly based on Rust and should b
 
 * **No infix and unary operators**: Currently, SimplicityHL does not support common infix and unary operators such as `!=`, `==`, `<=`, `>=`, `+`, `-`, `*`, `/`, `&`, `|`, `^`, `!`, and others that are found in Rust and in other languages whose syntax descends from C's. Instead, each of these operations requires an explicit call to an appropriate <a href="/documentation/jets">jet</a> to perform the comparison. (It may be possible for a future version of the SimplicityHL compiler to support these notations as syntactic sugar for the corresponding jet calls.) For example, code that might look like
 
-```
+```rust
   if (counter3 != threshold) {
       assert!(0);
   }
@@ -14,20 +14,20 @@ We've emphasized that SimplicityHL syntax is directly based on Rust and should b
 
 in other languages is written in current versions of SimplicityHL as
 
-```
+```rust
   assert!(jet::eq_8(counter3, threshold));
 ```
 
 Code that might look like
 
-```
+```rust
    let x: u8 = 17;
    let y: u8 = x + 1;
 ```
 
 in Rust is written in current SimplicityHL as
 
-```
+```rust
    let x: u8 = 17;
    let (carry, y): (bool, u8) = jet::add_8(x, 1);
 ```
