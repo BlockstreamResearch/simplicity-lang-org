@@ -115,7 +115,8 @@ glossary:Pruning
 
 glossary:PSET
 :    Partially-Signed Elements Transaction.
-:    The <glossary:Elements> equivalent of a PSBT (Partially-Signed Bitcoin Transaction), an object representing an incomplete <glossary:transaction> that is still in the process of being created by having additional parameters and data attached to it. When the PSET is complete, it will be finalized, yielding a complete transaction that can be submitted to the blockchain for inclusion in a block. A PSET is useful for incremental creation by software and can also be circulated to one or more external prospective signers for signature with their <glossary:private key>s.
+:    The <glossary:Elements> equivalent of a PSBT (Partially-Signed Bitcoin Transaction), an object representing an incomplete <glossary:transaction> that is still in the process of being created by having additional parameters and data attached to it. The bulk of the changes to PSBT versus PSBT have to do with Confidential Transactions. When the PSET is complete, it will be finalized, yielding a complete transaction that can be submitted to the blockchain for inclusion in a block. A PSET is useful for incremental creation by software and can also be circulated to one or more external prospective signers for signature with their <glossary:private key>s.
+: PSET is based on <a href="https://github.com/bitcoin/bips/blob/master/bip-0370.mediawiki">PSBT v2</a>, whose multi-party transaction facilities are needed to make Confidential Transactions work in the PSBT model. PSBT v2 is not widely-deployed in the Bitcoin space, which may increase the perceived difference between PSET and PSBT.
 
 glossary:Public key
 :    In public-key cryptography, a public value to which a specific <glossary:private key> corresponds.  Anyone can use the public key to verify the authenticity of statements that have purportedly been signed by the possessor of the private key.
@@ -132,7 +133,7 @@ glossary:Simplicity
 :    Developers ordinarily don't write programs in Simplicity directly, instead writing in SimplicityHL.
 
 glossary:SimplicityHL
-:    A high-level programming language with a Rust-like syntax that was created in conjunction with <glossary:Simplicity> to facilitate writing Simplicity programs.  SimplicityHL compiles to Simplicity, which is actually run by miners or other blockchain <glossary:node> operators.
+:    A high-level programming language with a Rust-like syntax that was created in conjunction with <glossary:Simplicity> to facilitate writing Simplicity programs.  SimplicityHL compiles to Simplicity, which is actually run by <glossary:node> operators.
 
 glossary:simply
 :    An alternative <glossary:SimplicityHL> compiler maintained by Starkware.
@@ -147,7 +148,8 @@ glossary:Token
 
 glossary:Transaction
 :    A payment or proposed payment on a blockchain that confirms the transfer of certain specified <glossary:asset>s, setting new conditions for the future transfer of those assets.
-:    <glossary:Simplicity> transactions involve claiming assets from <glossary:smart contract>s, by including contract and <glossary:witness> data that confirms that a specific contract that controlled those assets agrees to the transfer of those assets on a certain occasion in a specified context.
+:    On Bitcoin and Liquid, transactions consist of a set of inputs, each with independent spending conditions, along with a set of outputs. The assets from the set of inputs are reassigned to the set of outputs according to the transaction specification.
+:    If any input is controlled by a <glossary:Simplicity> program which enforces the logic of a <glossary:smart contract> and includes <glossary:witness> data, we may refer to this as a "Simplicity transaction".
 :    Simplicity transactions are validated by full <glossary:node>s according to consensus rules that are extended to include details of Simplicity and its integration into a particular blockchain. The full nodes must run a pruned Simplicity program when it is proposed for inclusion in a block in order to confirm both that the referenced program has proper authority to approve the transaction, and that it actually does approve it.
 
 glossary:Turing complete
