@@ -11,7 +11,7 @@ glossary:Asset
 :    See also "<glossary:token>".
 
 glossary:Bitcoin Script
-:    A programming language included in Bitcoin since its inception, allowing some policies to be applied to an <glossary:output> of a <glossary:transaction>. Like Simplicity, intentionally not <glossary:Turing complete>; more limited than Simplicity, particularly with regard to <glossary:introspection> and <glossary:covenant>s. (Also just "Script".)
+:    A programming language included in Bitcoin since its inception, allowing some policies to be applied to an <glossary:output> of a <glossary:transaction>. Like Simplicity, intentionally not <glossary:Turing complete>; more limited than Simplicity, particularly with regard to <glossary:introspection> and <glossary:covenant>s. See also <glossary:Elements Script> (Also just "Script".)
 
 glossary:CMR
 :    Commitment Merkle Root.
@@ -36,6 +36,9 @@ glossary:Covenant
 
 glossary:Elements
 :    A blockchain software system derived from Bitcoin and developed primarily by Blockstream. Elements allows the creation of Bitcoin-like blockchains with enhanced functionality. It is the software architecture underlying the <glossary:Liquid> Network.
+
+glossary:Elements Script
+:    An extension of <glossary:Bitcoin Script> which includes several new opcodes for 64-bit arithmetic and transaction introspection (covenants). See <a href="https://github.com/ElementsProject/elements/blob/master/doc/tapscript_opcodes.md">tapscript_opcodes.md</a> in the Elements source tree. Still not Turing Complete or as expressive as Simplicity. (Also just "Script", when it is clear or irrelevant whether Bitcoin or Elements Script is meant.)
 
 glossary:elements-cli
 :    The standard command line user interface for creating and querying blocks, transactions, and other objects within a network based on <glossary:Elements>, including the <glossary:Liquid> Network.
