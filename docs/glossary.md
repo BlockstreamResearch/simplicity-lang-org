@@ -11,7 +11,7 @@ glossary:Asset
 :    See also "<glossary:token>".
 
 glossary:Bitcoin Script
-:    A programming language included in Bitcoin since its inception, allowing some policies to be applied to an <glossary:output> of a <glossary:transaction>. Like Simplicity, intentionally not <glossary:Turing complete>; more limited than Simplicity, particularly with regard to <glossary:introspection> and <glossary:covenant>s. (Also just "Script".)
+:    A programming language included in Bitcoin since its inception, allowing some policies to be applied to an <glossary:output> of a <glossary:transaction>. Like Simplicity, intentionally not <glossary:Turing complete>; more limited than Simplicity, particularly with regard to <glossary:introspection> and <glossary:covenant>s. See also <glossary:Elements Script> (Also just "Script".)
 
 glossary:CMR
 :    Commitment Merkle Root.
@@ -25,7 +25,7 @@ glossary:Contract
 :    The broader concept of a <glossary:smart contract> might in turn refer either narrowly to a specific Simplicity program or broadly to a whole set of interactions and relationships realized through code, of which that Simplicity program could be only one component. In this view a smart contract as a whole potentially includes several Simplicity programs, possibly as well as other related technical arrangements.
 
 glossary:Cost
-:    In Simplicity blockchain integrations, a metric for the computational resources used in verifying a <glossary:transaction> that invokes a Simplicity <glossary:contract>, which must indirectly be paid for via transaction <glossary:fee>s. See "<glossary:weight>" for more information.
+:    In Simplicity blockchain integrations, a metric for the computational resources used in verifying a <glossary:transaction> that invokes a Simplicity <glossary:contract>. Cost is a measurement of CPU usage (to avoid multidimensional optimization problems, the other major resource, memory, is simply capped at a fixed value). Cost is converted to a minimimum weight that a transaction input must carry, which is then paid for via transaction <glossary:fee>s. See "<glossary:weight>" for more information.
 
 glossary:Covenant
 :    A covenant is a condition or behavior in a <glossary:contract> related to restrictions on the <glossary:output> destination to which an <glossary:asset> may be transferred.  Covenants allow a contract to enforce various rules that form useful building blocks for higher-level mechanisms and guarantees about contract behavior. Simplicity supports highly general covenant mechanisms by means of its <glossary:introspection> features. For example, covenants in Simplicity can enforce...
@@ -37,6 +37,9 @@ glossary:Covenant
 glossary:Elements
 :    A blockchain software system derived from Bitcoin and developed primarily by Blockstream. Elements allows the creation of Bitcoin-like blockchains with enhanced functionality. It is the software architecture underlying the <glossary:Liquid> Network.
 
+glossary:Elements Script
+:    An extension of <glossary:Bitcoin Script> which includes several new opcodes for 64-bit arithmetic and transaction introspection (covenants). See <a href="https://github.com/ElementsProject/elements/blob/master/doc/tapscript_opcodes.md">tapscript_opcodes.md</a> in the Elements source tree. Still not Turing Complete or as expressive as Simplicity. (Also just "Script", when it is clear or irrelevant whether Bitcoin or Elements Script is meant.)
+
 glossary:elements-cli
 :    The standard command line user interface for creating and querying blocks, transactions, and other objects within a network based on <glossary:Elements>, including the <glossary:Liquid> Network.
 
@@ -44,7 +47,7 @@ glossary:elementsd
 :    The software used to create an <glossary:Elements> network node, including a <glossary:Liquid> Network node, which maintains and verifies an up-to-date copy of the blockchain of the network in question.
 
 glossary:Fee
-:    Resources intentionally paid to miners as part of a <glossary:transaction> in order to compensate them for the resources involved in verifying and publicizing the transaction.
+:    Resources intentionally paid to miners as part of a <glossary:transaction> in order to compensate them for producing blocks. In Elements, block production is practically free so the fee market serves as an anti-denial-of-service measure and as a way to prioritize transactions for inclusion in blocks.
 
 glossary:hal-simplicity
 :    A software tool that provides various pieces of Simplicity-related functionality, including those needed to build Simplicity-related <glossary:transaction>s.
@@ -56,31 +59,32 @@ glossary:Input
 :    In Bitcoin or Elements, a funding source that contributes <glossary:asset>s to a particular <glossary:transaction>.
 
 glossary:Internal key
-:    In Simplicity, every program is compiled with an internal key, which is a <glossary:public key> that must be deliberately unspendable (no one must know the corresponding <glossary:private key>). It is normally recommended to use the default value 50929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac0 taken from <a href="https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki">BIP 0341</a> (or, if not, a value demonstrably modified using the method specified in BIP 0341).
-:    The internal key is used both at compile time (while compiling a <glossary:SimplicityHL> contract) and when redeeming <glossary:asset>s from a contract (while constructing a <glossary:transaction> that claims such assets), and the two internal key values must match.
-:    Changing the internal key changes the <glossary:address> of the program without changing its code. There are also other methods available for accomplishing near equivalents to this, such as with an unused variable declared equal to a <a href="https://en.wikipedia.org/wiki/Cryptographic_nonce">random nonce value</a> at the beginning of the program.
+:    In Taproot, every output can be spent in two ways: by signing a transaction with a public key, or by revealing a Script or Simplicity program embedded in the key as a Taproot commitment, along with a satisfying witness. The "internal key" is the component of a Taproot commitment which defines which party or parties is able to sign. Commonly, an unspendable key is used, such as 50929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac0 (taken from <a href="https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki">BIP 0341</a>, which also specifes a method to blind this key for privacy reasons). This disables the key-spending path.
+:    With Simplicity contracts, the typical construction is to use a Taproot tree with an unspendable internal key and a single leaf denoting the program, or two leaves denoting the program and its state commitment.
+:    Changing the internal key or state commitment changes the <glossary:address> of the program without changing its code.
 
 glossary:Introspection
 :    In Simplicity, the ability for a <glossary:contract> to examine the details of the context of a proposed <glossary:transaction> (via introspection <glossary:jet>s) in order to make decisions about whether to approve the transaction, particularly the control of <glossary:output>s in order to enforce "<glossary:covenant>" conditions.
 
 glossary:Jet
-:    A library function that performs some useful task for Simplicity programs, such as arithmetic, logic, bit manipulations, or cryptographic operations. Miners and other full node operators have access to optimized native-code implementations of jets, so running jets is fast at verification time.
+:    An optimized native-code implementation of a Simplicity expression, such as arithmetic, logic, bit manipulations, or cryptographic operations. Jets are faster and therefore have a lower <glossary:cost> than their equivalent Simplicity code. Validating nodes are assumed to be executing the optimized code rather than their Simplicity specification, justifying this cost reduction.
 :    The list of jets and their specific behaviors is fixed at the time of integration of Simplicity into a particular blockchain.  In the <glossary:Elements> integration, there are 471 jets.
 
 glossary:Liquid
 :    A specific <glossary:Elements>-based network, the <a href="https://liquid.net/">Liquid Network</a>, that is the first blockchain to have native support for Simplicity. Most Simplicity examples as of 2025 assume that a program is running on the Liquid mainnet or Liquid testnet, although other integrations are planned.
 
 glossary:Merkle tree
-:    A cryptographic mechanism for representing a potentially large amount of data concisely in a way that ensures that none of the data can be changed (a “commitment”). The Merkle tree also allows that data to be revealed selectively, so that some portions can be disclosed and verified, while continuing to hide other portions.
-:    A Merkle tree is used in creating an <glossary:address> for a Simplicity program, as well as in enabling <glossary:pruning> of that program when it is run. See also <glossary:CMR> (a numeric representation of the Merkle tree corresponding to a specific Simplicity program).
+:    A cryptographic mechanism for representing a potentially large amount of data concisely in a way that ensures that none of the data can be changed (a “commitment”). The Merkle tree also allows that data to be revealed selectively, so that some portions can be disclosed and verified, while continuing to hide other portions. A Merkle tree is represented by its root, which is a single cryptographic hash that commits to every object in the tree.
+:    A Merkle tree is used in creating an <glossary:address> for a Simplicity program, as well as in enabling <glossary:pruning> of that program when it is run. See also <glossary:CMR> (the root of a Merkle tree describing a specific Simplicity program).
 
 glossary:Multisig
 :    A transaction architecture (or other application of digital signatures) in which a specified number or combination of signatures from several distinct signing keys is required in order to approve a <glossary:transaction> or other event or statement.  Often specified as k-of-n multisig, e.g. a 7-of-10 multisig design would require that any 7 of 10 specified entities provide their approval in order for a transaction as a whole to go ahead.
 :    This can be used as a precaution to mitigate the impact of mistakes, compromise, or misbehavior by individual signers or groups of signers, much as an offline action or transaction could require prior approval by multiple distinct parties.
+:    Outside of the blockchain space, the term "threshold signature" is more commonly used, while "multisignature" is reserved for the case when all signers are required to generate a signature.
 
 glossary:Node
 :    An entity that participates in the verification of <glossary:transaction>s on a blockchain. In most blockchains, anyone can operate a node just by running a copy of the blockchain's verification software. The node will typically download a complete copy of the blockchain data.
-:    When a blockchain includes a Simplicity integration, one part of the verification process for blocks includes running the (pruned) Simplicity contracts that appear in Simplicity-related <glossary:transaction>s in order to confirm that each contract in fact approves each transaction. The definition of validity of a block includes a requirement that each transaction included in the block be valid. The definition of validity of a Simplicity transaction includes a requirement that the cited contract, when run in the context of that transaction, approves the transaction. (There are other requirements, such as that the pruned contract published on the blockchain corresponds to the address of the output of any UTXO from which it is spending an asset. This confirms that the code of the contract in question has the right to spend that asset.)
+:    Nodes typically validate all transactions in all blocks, including any Scripts or Simplicity programs that appear in them. Sometimes the term "full node" to emphasize that all parts of all transactions are validated. An "archival node" refers to a full node which retains all data after it has been verified.
 :    You can run your own local <glossary:Liquid> (mainnet or testnet) node with the <glossary:elementsd> software.
 
 glossary:Oracle
@@ -90,13 +94,14 @@ glossary:Oracle
 
 glossary:Output
 :    In Bitcoin or <glossary:Elements>, a funding destination that receives a quantity of an <glossary:asset> from a particular <glossary:transaction> and that specifies an associated future condition for subsequent transfer (or “redemption”) of that asset. The conditions associated with an output are ultimately enforced by the logic of <glossary:Bitcoin Script> or <glossary:Simplicity> programs.
+: An unspent output is a <glossary:UTXO>.
 
 glossary:Parameter
 :    (1) A value (e.g. a trusted public key) attached to an instance of a <glossary:SimplicityHL> <glossary:contract> at compile-time.
 :    (2) A value attached to a Bitcoin or <glossary:Elements> <glossary:transaction>.
 
 glossary:Private key
-:    In public-key cryptography, a secret numeric value corresponding to a specific <glossary:public key>.  The possessor of the private key can use it to create digital signatures indicating agreement with specific assertions, such as proposed Bitcoin or <glossary:Elements> transactions, or <glossary:oracle> assertions.  Anyone can verify those digital signatures using the corresponding public key.
+:    In public-key cryptography, a secret value corresponding to a specific <glossary:public key>.  The possessor of the private key can use it to create digital signatures indicating agreement with specific assertions, such as proposed Bitcoin or <glossary:Elements> transactions, or <glossary:oracle> assertions.  Anyone can verify those digital signatures using the corresponding public key.
 
 glossary:Program
 :    Sometimes used interchangeably with "contract".  A specific instance of <glossary:Simplicity> code that can receive <glossary:asset>s on a blockchain and make decisions about how to dispose of those assets in accordance with its internal logic.
@@ -110,10 +115,11 @@ glossary:Pruning
 
 glossary:PSET
 :    Partially-Signed Elements Transaction.
-:    The <glossary:Elements> equivalent of a PSBT (Partially-Signed Bitcoin Transaction), an object representing an incomplete <glossary:transaction> that is still in the process of being created by having additional parameters and data attached to it. When the PSET is complete, it will be finalized, yielding a complete transaction that can be submitted to the blockchain for inclusion in a block. A PSET is useful for incremental creation by software and can also be circulated to one or more external prospective signers for signature with their <glossary:private key>s.
+:    The <glossary:Elements> equivalent of a PSBT (Partially-Signed Bitcoin Transaction), an object representing an incomplete <glossary:transaction> that is still in the process of being created by having additional parameters and data attached to it. The bulk of the changes to PSBT versus PSBT have to do with Confidential Transactions. When the PSET is complete, it will be finalized, yielding a complete transaction that can be submitted to the blockchain for inclusion in a block. A PSET is useful for incremental creation by software and can also be circulated to one or more external prospective signers for signature with their <glossary:private key>s.
+: PSET is based on <a href="https://github.com/bitcoin/bips/blob/master/bip-0370.mediawiki">PSBT v2</a>, whose multi-party transaction facilities are needed to make Confidential Transactions work in the PSBT model. PSBT v2 is not widely-deployed in the Bitcoin space, which may increase the perceived difference between PSET and PSBT.
 
 glossary:Public key
-:    In public-key cryptography, a public numeric value to which a specific <glossary:private key> corresponds.  Anyone can use the public key to verify the authenticity of statements that have purportedly been signed by the possessor of the private key.
+:    In public-key cryptography, a public value to which a specific <glossary:private key> corresponds.  Anyone can use the public key to verify the authenticity of statements that have purportedly been signed by the possessor of the private key.
 
 glossary:Recursive covenant
 :    A <glossary:covenant> that, in at least some circumstances, requires an <glossary:asset> to be sent back to the same contract, or to a <glossary:contract> that continues to enforce a particular rule on downstream <glossary:transaction>s.
@@ -127,7 +133,7 @@ glossary:Simplicity
 :    Developers ordinarily don't write programs in Simplicity directly, instead writing in SimplicityHL.
 
 glossary:SimplicityHL
-:    A high-level programming language with a Rust-like syntax that was created in conjunction with <glossary:Simplicity> to facilitate writing Simplicity programs.  SimplicityHL compiles to Simplicity, which is actually run by miners or other blockchain <glossary:node> operators.
+:    A high-level programming language with a Rust-like syntax that was created in conjunction with <glossary:Simplicity> to facilitate writing Simplicity programs.  SimplicityHL compiles to Simplicity, which is actually run by <glossary:node> operators.
 
 glossary:simply
 :    An alternative <glossary:SimplicityHL> compiler maintained by Starkware.
@@ -142,7 +148,8 @@ glossary:Token
 
 glossary:Transaction
 :    A payment or proposed payment on a blockchain that confirms the transfer of certain specified <glossary:asset>s, setting new conditions for the future transfer of those assets.
-:    <glossary:Simplicity> transactions involve claiming assets from <glossary:smart contract>s, by including contract and <glossary:witness> data that confirms that a specific contract that controlled those assets agrees to the transfer of those assets on a certain occasion in a specified context.
+:    On Bitcoin and Liquid, transactions consist of a set of inputs, each with independent spending conditions, along with a set of outputs. The assets from the set of inputs are reassigned to the set of outputs according to the transaction specification.
+:    If any input is controlled by a <glossary:Simplicity> program which enforces the logic of a <glossary:smart contract> and includes <glossary:witness> data, we may refer to this as a "Simplicity transaction".
 :    Simplicity transactions are validated by full <glossary:node>s according to consensus rules that are extended to include details of Simplicity and its integration into a particular blockchain. The full nodes must run a pruned Simplicity program when it is proposed for inclusion in a block in order to confirm both that the referenced program has proper authority to approve the transaction, and that it actually does approve it.
 
 glossary:Turing complete
@@ -163,9 +170,9 @@ glossary:UTXO
 :    Once a particular UTXO has successfully been spent (used as the input of a new transaction recorded on the blockchain), it is no longer considered a UTXO, because it is no longer available to be spent by other transactions.
 
 glossary:Weight
-:    A measure of the quantity of resources consumed by a proposed <glossary:transaction> as a means of determining the <glossary:fee> that must be paid to miners.
-:    Traditional Bitcoin transaction weight was <a href="https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki">introduced in BIP 0141</a> as part of the SegWit mechanism. Simplicity transactions’ weight is formally calculated in the same way based on storage requirements. However, Simplicity integrations also apply an additional rule requiring a minimum weight for a Simplicity transaction because of the computational (not just storage) demands that they place on miners who are verifying these transactions. This formula, called “cost”, is empirically derived by benchmarking implementations of Simplicity <glossary:jet>s in order to determine an upper bound on how much computation will be needed to verify the result of running a given Simplicity program.
-:    As a result, transactions involving more computationally-intensive Simplicity programs may be expected to pad the transactions to a larger size (and hence a larger weight) in order to ensure that they pay correspondingly higher fees to miners.
+:    A measure of the quantity of resources consumed by a proposed <glossary:transaction> as a means of determining the <glossary:fee> that must be paid to miners. Roughly equivalent to the transaction's size when encoded on the wire.
+:    Traditional Bitcoin transaction weight was <a href="https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki">introduced in BIP 0141</a> as part of the SegWit mechanism, to replace "size" with a more flexible metric. In <a href="https://github.com/bitcoin/bips/blob/master/bip-0342.mediawiki">BIP 0341</a> the concept of a "budget" was introduced, in which each transaction has a minimum weight associated with it, depending on its number of signature checks, to ensure that the weight metric accounts for the CPU resources demanded of nodes. (It is important to collapse all resource requirements into a single metric so miners do not need to do multidimensional optimization, which is NP-complete.) Simplicity extends this concept: each program has a <glossary:cost> to execute which contributes to the total budget of any transaction it appears in.
+:    In BIP 0342, the budget for a signature check is typically covered by the weight of the signature itself. However, in Simplicity, many jets have a much smaller encoding than the weight implied by their cost. As a result, transactions involving more computationally-intensive Simplicity programs may be expected to pad the transactions to a larger size (and hence a larger weight) in order to meet the budget requirements.
 
 glossary:Witness
 :    An input provided to a specific program on a specific occasion to help it confirm that it should authorize a <glossary:transaction>, including the evidence that justifies why the transaction is a legitimate one according to the rules of the smart contract. This may include digital signatures from parties that are participating in the contract in some way, or from <glossary:oracle>s that are making assertions about information or events outside of the blockchain. The format and contents of a witness, as well as the interpretation of those contents, are specified by the program that consumes it.
