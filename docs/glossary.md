@@ -101,7 +101,7 @@ glossary:Parameter
 :    (2) A value attached to a Bitcoin or <glossary:Elements> <glossary:transaction>.
 
 glossary:Private key
-:    In public-key cryptography, a secret numeric value corresponding to a specific <glossary:public key>.  The possessor of the private key can use it to create digital signatures indicating agreement with specific assertions, such as proposed Bitcoin or <glossary:Elements> transactions, or <glossary:oracle> assertions.  Anyone can verify those digital signatures using the corresponding public key.
+:    In public-key cryptography, a secret value corresponding to a specific <glossary:public key>.  The possessor of the private key can use it to create digital signatures indicating agreement with specific assertions, such as proposed Bitcoin or <glossary:Elements> transactions, or <glossary:oracle> assertions.  Anyone can verify those digital signatures using the corresponding public key.
 
 glossary:Program
 :    Sometimes used interchangeably with "contract".  A specific instance of <glossary:Simplicity> code that can receive <glossary:asset>s on a blockchain and make decisions about how to dispose of those assets in accordance with its internal logic.
@@ -118,7 +118,7 @@ glossary:PSET
 :    The <glossary:Elements> equivalent of a PSBT (Partially-Signed Bitcoin Transaction), an object representing an incomplete <glossary:transaction> that is still in the process of being created by having additional parameters and data attached to it. When the PSET is complete, it will be finalized, yielding a complete transaction that can be submitted to the blockchain for inclusion in a block. A PSET is useful for incremental creation by software and can also be circulated to one or more external prospective signers for signature with their <glossary:private key>s.
 
 glossary:Public key
-:    In public-key cryptography, a public numeric value to which a specific <glossary:private key> corresponds.  Anyone can use the public key to verify the authenticity of statements that have purportedly been signed by the possessor of the private key.
+:    In public-key cryptography, a public value to which a specific <glossary:private key> corresponds.  Anyone can use the public key to verify the authenticity of statements that have purportedly been signed by the possessor of the private key.
 
 glossary:Recursive covenant
 :    A <glossary:covenant> that, in at least some circumstances, requires an <glossary:asset> to be sent back to the same contract, or to a <glossary:contract> that continues to enforce a particular rule on downstream <glossary:transaction>s.
