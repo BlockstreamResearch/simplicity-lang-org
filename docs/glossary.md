@@ -47,7 +47,7 @@ glossary:elementsd
 :    The software used to create an <glossary:Elements> network node, including a <glossary:Liquid> Network node, which maintains and verifies an up-to-date copy of the blockchain of the network in question.
 
 glossary:Fee
-:    Resources intentionally paid to miners as part of a <glossary:transaction> in order to compensate them for the resources involved in verifying and publicizing the transaction.
+:    Resources intentionally paid to miners as part of a <glossary:transaction> in order to compensate them for producing blocks. In Elements, block production is practically free so the fee market serves as an anti-denial-of-service measure and as a way to prioritize transactions for inclusion in blocks.
 
 glossary:hal-simplicity
 :    A software tool that provides various pieces of Simplicity-related functionality, including those needed to build Simplicity-related <glossary:transaction>s.
@@ -59,31 +59,32 @@ glossary:Input
 :    In Bitcoin or Elements, a funding source that contributes <glossary:asset>s to a particular <glossary:transaction>.
 
 glossary:Internal key
-:    In Simplicity, every program is compiled with an internal key, which is a <glossary:public key> that must be deliberately unspendable (no one must know the corresponding <glossary:private key>). It is normally recommended to use the default value 50929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac0 taken from <a href="https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki">BIP 0341</a> (or, if not, a value demonstrably modified using the method specified in BIP 0341).
-:    The internal key is used both at compile time (while compiling a <glossary:SimplicityHL> contract) and when redeeming <glossary:asset>s from a contract (while constructing a <glossary:transaction> that claims such assets), and the two internal key values must match.
-:    Changing the internal key changes the <glossary:address> of the program without changing its code. There are also other methods available for accomplishing near equivalents to this, such as with an unused variable declared equal to a <a href="https://en.wikipedia.org/wiki/Cryptographic_nonce">random nonce value</a> at the beginning of the program.
+:    In Taproot, every output can be spent in two ways: by signing a transaction with a public key, or by revealing a Script or Simplicity program embedded in the key as a Taproot commitment, along with a satisfying witness. The "internal key" is the component of a Taproot commitment which defines which party or parties is able to sign. Commonly, an unspendable key is used, such as 50929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac0 (taken from <a href="https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki">BIP 0341</a>, which also specifes a method to blind this key for privacy reasons). This disables the key-spending path.
+:    With Simplicity contracts, the typical construction is to use a Taproot tree with an unspendable internal key and a single leaf denoting the program, or two leaves denoting the program and its state commitment.
+:    Changing the internal key or state commitment changes the <glossary:address> of the program without changing its code.
 
 glossary:Introspection
 :    In Simplicity, the ability for a <glossary:contract> to examine the details of the context of a proposed <glossary:transaction> (via introspection <glossary:jet>s) in order to make decisions about whether to approve the transaction, particularly the control of <glossary:output>s in order to enforce "<glossary:covenant>" conditions.
 
 glossary:Jet
-:    A library function that performs some useful task for Simplicity programs, such as arithmetic, logic, bit manipulations, or cryptographic operations. Miners and other full node operators have access to optimized native-code implementations of jets, so running jets is fast at verification time.
+:    An optimized native-code implementation of a Simplicity expression, such as arithmetic, logic, bit manipulations, or cryptographic operations. Jets are faster and therefore have a lower <glossary:cost> than their equivalent Simplicity code. Validating nodes are assumed to be executing the optimized code rather than their Simplicity specification, justifying this cost reduction.
 :    The list of jets and their specific behaviors is fixed at the time of integration of Simplicity into a particular blockchain.  In the <glossary:Elements> integration, there are 471 jets.
 
 glossary:Liquid
 :    A specific <glossary:Elements>-based network, the <a href="https://liquid.net/">Liquid Network</a>, that is the first blockchain to have native support for Simplicity. Most Simplicity examples as of 2025 assume that a program is running on the Liquid mainnet or Liquid testnet, although other integrations are planned.
 
 glossary:Merkle tree
-:    A cryptographic mechanism for representing a potentially large amount of data concisely in a way that ensures that none of the data can be changed (a “commitment”). The Merkle tree also allows that data to be revealed selectively, so that some portions can be disclosed and verified, while continuing to hide other portions.
-:    A Merkle tree is used in creating an <glossary:address> for a Simplicity program, as well as in enabling <glossary:pruning> of that program when it is run. See also <glossary:CMR> (a numeric representation of the Merkle tree corresponding to a specific Simplicity program).
+:    A cryptographic mechanism for representing a potentially large amount of data concisely in a way that ensures that none of the data can be changed (a “commitment”). The Merkle tree also allows that data to be revealed selectively, so that some portions can be disclosed and verified, while continuing to hide other portions. A Merkle tree is represented by its root, which is a single cryptographic hash that commits to every object in the tree.
+:    A Merkle tree is used in creating an <glossary:address> for a Simplicity program, as well as in enabling <glossary:pruning> of that program when it is run. See also <glossary:CMR> (the root of a Merkle tree describing a specific Simplicity program).
 
 glossary:Multisig
 :    A transaction architecture (or other application of digital signatures) in which a specified number or combination of signatures from several distinct signing keys is required in order to approve a <glossary:transaction> or other event or statement.  Often specified as k-of-n multisig, e.g. a 7-of-10 multisig design would require that any 7 of 10 specified entities provide their approval in order for a transaction as a whole to go ahead.
 :    This can be used as a precaution to mitigate the impact of mistakes, compromise, or misbehavior by individual signers or groups of signers, much as an offline action or transaction could require prior approval by multiple distinct parties.
+:    Outside of the blockchain space, the term "threshold signature" is more commonly used, while "multisignature" is reserved for the case when all signers are required to generate a signature.
 
 glossary:Node
 :    An entity that participates in the verification of <glossary:transaction>s on a blockchain. In most blockchains, anyone can operate a node just by running a copy of the blockchain's verification software. The node will typically download a complete copy of the blockchain data.
-:    When a blockchain includes a Simplicity integration, one part of the verification process for blocks includes running the (pruned) Simplicity contracts that appear in Simplicity-related <glossary:transaction>s in order to confirm that each contract in fact approves each transaction. The definition of validity of a block includes a requirement that each transaction included in the block be valid. The definition of validity of a Simplicity transaction includes a requirement that the cited contract, when run in the context of that transaction, approves the transaction. (There are other requirements, such as that the pruned contract published on the blockchain corresponds to the address of the output of any UTXO from which it is spending an asset. This confirms that the code of the contract in question has the right to spend that asset.)
+:    Nodes typically validate all transactions in all blocks, including any Scripts or Simplicity programs that appear in them. Sometimes the term "full node" to emphasize that all parts of all transactions are validated. An "archival node" refers to a full node which retains all data after it has been verified.
 :    You can run your own local <glossary:Liquid> (mainnet or testnet) node with the <glossary:elementsd> software.
 
 glossary:Oracle
@@ -93,6 +94,7 @@ glossary:Oracle
 
 glossary:Output
 :    In Bitcoin or <glossary:Elements>, a funding destination that receives a quantity of an <glossary:asset> from a particular <glossary:transaction> and that specifies an associated future condition for subsequent transfer (or “redemption”) of that asset. The conditions associated with an output are ultimately enforced by the logic of <glossary:Bitcoin Script> or <glossary:Simplicity> programs.
+: An unspent output is a <glossary:UTXO>.
 
 glossary:Parameter
 :    (1) A value (e.g. a trusted public key) attached to an instance of a <glossary:SimplicityHL> <glossary:contract> at compile-time.
