@@ -71,7 +71,7 @@ INTERNAL_KEY="50929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac0"
 PRIVKEY_1="0000000000000000000000000000000000000000000000000000000000000001"
 PRIVKEY_2="0000000000000000000000000000000000000000000000000000000000000002"
 PRIVKEY_3="0000000000000000000000000000000000000000000000000000000000000003"
-FAUCET_ADDRESS="tex1qkkxzy9glfws4nc392an5w2kgjym7sxpshuwkjy"
+DESTINATION_ADDRESS="tex1qkkxzy9glfws4nc392an5w2kgjym7sxpshuwkjy"
 ```
 
 These set up some parameters that will be referenced later on in this process.
@@ -82,7 +82,7 @@ The `$INTERNAL_KEY` is a parameter used to construct the <glossary:address> of t
 
 The `$PRIVKEY_1`, `$PRIVKEY_2`, and `$PRIVKEY_3` represent <glossary:private key>s held by three different people or organizations. In this particular contract, any two of these three people may approve a proposed transaction by digitally signing it with their private keys. These values are intentionally chosen to be the numbers `1`, `2`, and `3`, but in a real contract application they would be long random numbers existing on separate computers, and the corresponding digital signatures would be generated independently by separate people.
 
-The `$FAUCET_ADDRESS` is a hardcoded value for refunding tLBTC to the Liquid Testnet Faucet service. This is the address that we will make our contract send a payment to. If you prefer, you can generate a Liquid Testnet wallet of your own and send the tLBTC from the contract to your own wallet instead. Doing would typically involve installing `elementsd` and `elements-cli`, and is not described further in this walkthrough.
+The `$DESTINATION_ADDRESS` above, ending `...uwkjy`, is a specifically hardcoded value for refunding tLBTC to the Liquid Testnet Faucet service. In the absence of anywhere else to send a payment, we'll make our contract send a payment to this address. (If you prefer, you can generate a Liquid Testnet wallet of your own and send the tLBTC from the contract to your own wallet instead. You can do this by installing `elementsd` and `elements-cli` and then generating a local wallet with `elements-cli`. Alternatively, you can install a wallet application with Liquid Network support like the <a href="https://blockstream.com/app/">Blockstream App</a>. In the latter case, you'll need to create a Liquid Testnet wallet and account. You must provide an <glossary:unconfidential> <glossary:address> as the value of `DESTINATION_ADDRESS` here, not a <glossary:confidential> address. The command `hal-simplicity address inspect` can derive the unconfidential equivalent of a confidential address if required.)
 
 ### Step 3: Compile the contract
 
@@ -139,15 +139,15 @@ FAUCET_TRANSACTION=[insert your transaction ID from the Faucet API reply here]
 
 ### Step 5: Create a minimal PSET
 
-We'll now begin to build a <glossary:transaction> requesting this contract to spend these <glossary:asset>s by sending them to `$FAUCET_ADDRESS`. Eventually, when it's complete, this transaction will satisfy the contract and be approved as valid, causing the assets to be transferred.
+We'll now begin to build a <glossary:transaction> requesting this contract to spend these <glossary:asset>s by sending them to `$DESTINATION_ADDRESS`. Eventually, when it's complete, this transaction will satisfy the contract and be approved as valid, causing the assets to be transferred.
 
 ```bash
-PSET1=$(hal-simplicity simplicity pset create '[ { "txid": "'"$FAUCET_TRANSACTION"'", "vout": 0 } ]' '[ { "'"$FAUCET_ADDRESS"'": 0.00099900 }, { "fee": 0.00000100 } ]' | jq -r .pset)
+PSET1=$(hal-simplicity simplicity pset create '[ { "txid": "'"$FAUCET_TRANSACTION"'", "vout": 0 } ]' '[ { "'"$DESTINATION_ADDRESS"'": 0.00099900 }, { "fee": 0.00000100 } ]' | jq -r .pset)
 ```
 
-Here we run `hal-simplicity-simplicity pset create` to create a new minimal <glossary:PSET> representing a transaction whose <glossary:input> comes from the prior contract-funding transaction and whose <glossary:output>, less a fee, goes to `$FAUCET_ADDRESS`.
+Here we run `hal-simplicity-simplicity pset create` to create a new minimal <glossary:PSET> representing a transaction whose <glossary:input> comes from the prior contract-funding transaction and whose <glossary:output>, less a fee, goes to `$DESTINATION_ADDRESS`.
 
-(Yes, this is a kind of closed loop, as assets are coming *from* the Faucet in one initial transaction, and being sent back *to* the Faucet as a destination in a subsequent transaction. Addresses belonging to the Faucet service occupy both roles here because of the nature of this demonstration. As we noted above in step 2, you can also choose to instead create your own wallet and use it as the destination for these test assets.)
+(If you kept the `DESTINATION_ADDRESS` value we provided above, the transactions involved here form a kind of closed loop, as assets are coming *from* the Faucet in one initial transaction, and being sent back *to* the Faucet as a destination in a subsequent transaction. Addresses belonging to the Faucet service occupy both roles here because of the nature of this demonstration. As we noted above in step 2, you can also choose to instead create your own wallet and use it as the destination for these test assets.)
 
 We save the PSET into a shell variable `$PSET1`. We'll gradually modify our PSET into different environment variables as we attach additional <glossary:parameter>s and details to it.
 
