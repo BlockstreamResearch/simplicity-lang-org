@@ -109,7 +109,7 @@ COMPILED_PROGRAM=$(simc $PROGRAM_SOURCE | tail -1)
 You can view some data about the compiled program by running `hal-simplicity simplicity info` on it.
 
 ```bash
-hal-simplicity simplicity info $COMPILED_PROGRAM | jq`
+hal-simplicity simplicity info $COMPILED_PROGRAM | jq
 ```
 
 We will extract two of these JSON parameters which are identifiers for this contract and which will be needed in several later steps.
@@ -142,14 +142,14 @@ FAUCET_TRANSACTION=[insert your transaction ID from the Faucet API reply here]
 We'll now begin to build a <glossary:transaction> requesting this contract to spend these <glossary:asset>s by sending them to `$FAUCET_ADDRESS`. Eventually, when it's complete, this transaction will satisfy the contract and be approved as valid, causing the assets to be transferred.
 
 ```bash
-PSET=$(hal-simplicity simplicity pset create '[ { "txid": "'"$FAUCET_TRANSACTION"'", "vout": 0 } ]' '[ { "'"$FAUCET_ADDRESS"'": 0.00099900 }, { "fee": 0.00000100 } ]' | jq -r .pset)
+PSET1=$(hal-simplicity simplicity pset create '[ { "txid": "'"$FAUCET_TRANSACTION"'", "vout": 0 } ]' '[ { "'"$FAUCET_ADDRESS"'": 0.00099900 }, { "fee": 0.00000100 } ]' | jq -r .pset)
 ```
 
 Here we run `hal-simplicity-simplicity pset create` to create a new minimal <glossary:PSET> representing a transaction whose <glossary:input> comes from the prior contract-funding transaction and whose <glossary:output>, less a fee, goes to `$FAUCET_ADDRESS`.
 
 (Yes, this is a kind of closed loop, as assets are coming *from* the Faucet in one initial transaction, and being sent back *to* the Faucet as a destination in a subsequent transaction. Addresses belonging to the Faucet service occupy both roles here because of the nature of this demonstration. As we noted above in step 2, you can also choose to instead create your own wallet and use it as the destination for these test assets.)
 
-We save the PSET into a shell variable `$PSET` which we will gradually modify as we attach additional <glossary:parameter>s and details to it.
+We save the PSET into a shell variable `$PSET1`. We'll gradually modify our PSET into different environment variables as we attach additional <glossary:parameter>s and details to it.
 
 ### Step 6: Get more input transaction details
 
@@ -170,18 +170,18 @@ curl https://liquid.network/liquidtestnet/api/tx/$FAUCET_TRANSACTION > /tmp/inpu
 We need to extract three specific details related to this UTXO in order to allow other tools to reference it properly as an input to be spent in our new transaction. These details are called the scriptpubkey, asset, value. We'll save them into shell variables called `$HEX`, `$ASSET`, and `$VALUE`. (Note that `$VALUE` gets `0.00` prefixed to it because this API is measuring the value in a different numeric scale than the tools we use later expect.)
 
 ```bash
-HEX=$(jq -r .scriptpubkey < /tmp/input-tx.json)
-ASSET=$(jq -r .asset < /tmp/input-tx.json)
-VALUE="0.00"$(jq -r .value < /tmp/input-tx.json)
+HEX=$(jq -r '.vout[0].scriptpubkey' < /tmp/input-tx.json)
+ASSET=$(jq -r '.vout[0].asset' < /tmp/input-tx.json)
+VALUE="0.00"$(jq -r '.vout[0].value' < /tmp/input-tx.json)
 ```
 
 Now we need to attach many details related to our new transaction to our PSET. We use `hal-simplicity simplicity pset update-input` to do this.
 
 ```bash
-PSET=$(hal-simplicity simplicity pset update-input "$PSET" 0 -i "$HEX:$ASSET:$VALUE" -c "$CMR" -p "$INTERNAL_KEY" | jq -r .pset)
+PSET2=$(hal-simplicity simplicity pset update-input "$PSET1" 0 -i "$HEX:$ASSET:$VALUE" -c "$CMR" -p "$INTERNAL_KEY" | jq -r .pset)
 ```
 
-The modified PSET data is stored back into the shell variable `$PSET`.
+The modified PSET data is stored in the shell variable `$PSET2`.
 
 ### Step 7: Digitally sign the transaction
 
@@ -198,7 +198,7 @@ cp $WITNESS_FILE /tmp/p2ms.wit
 After we generate Alice's and Charlie's signatures, we're going to edit the copy of the witness file to insert them into appropriate places in the file. First, let's generate Alice's signature on this transaction:
 
 ```bash
-hal-simplicity simplicity sighash "$PSET" 0 "$CMR" -x "$PRIVKEY_1"
+hal-simplicity simplicity sighash "$PSET2" 0 "$CMR" -x "$PRIVKEY_1"
 ```
 
 Copy the hexadecimal value that appears as `signature` in the output. Edit the `/tmp/p2ms.wit` file with a text editor, and place it in the *first* signature position. This is after the `0x` in the first `Some()` (the value you're replacing in the witness template begins `f74b3c`...). Make sure that the `0x` prefix remains before Alice's signature value.
@@ -206,7 +206,7 @@ Copy the hexadecimal value that appears as `signature` in the output. Edit the `
 Now, let's generate Charlie's signature on the transaction:
 
 ```bash
-hal-simplicity simplicity sighash "$PSET" 0 "$CMR" -x "$PRIVKEY_3"
+hal-simplicity simplicity sighash "$PSET2" 0 "$CMR" -x "$PRIVKEY_3"
 ```
 
 Copy the hexadecimal value that appears as `signature` in the output. Edit the `/tmp/p2ms.wit` file with a text editor, and place it in the *third* signature position. This is after the `0x` in the last `Some()` (the value you're replacing in the witness template begins `29dbea`...). Make sure that the `0x` prefix remains before Charlie's signature value.
@@ -230,8 +230,8 @@ WITNESS=$(simc $PROGRAM_SOURCE /tmp/p2ms.wit | tail -1)
 Two more `hal-simplicity` commands will transform our <glossary:PSET> and <glossary:witness> data into a <glossary:transaction> suitable for submission to the Liquid Testnet blockchain.
 
 ```bash
-PSET=$(hal-simplicity simplicity pset finalize "$PSET" 0 "$PROGRAM" "$WITNESS" | jq -r .pset)
-RAW_TX=$(hal-simplicity simplicity pset extract "$PSET" | jq -r)
+PSET3=$(hal-simplicity simplicity pset finalize "$PSET2" 0 "$PROGRAM" "$WITNESS" | jq -r .pset)
+RAW_TX=$(hal-simplicity simplicity pset extract "$PSET3" | jq -r)
 ```
 
 The first command attached the compiled program and the serialized witness file to our ever-growing PSET.
