@@ -4,7 +4,7 @@ As an experiment, starting in November 2025, you can now join a weekly
 Office Hours call to talk about what you're working on with Simplicity
 or to ask questions.
 
-This call is hosted by Blockstream staff involved in developing and documenting Simplicity and SimplicityHL. You can use this call to ask all of your questions at any technical level. You're also welcome to use it to pass along feature requests and feedback about how Simplicity and SimplicityHL are working for your applications and use cases.
+This call is hosted by Blockstream staff involved in developing and documenting Simplicity and SimplicityHL. **You can use this call to ask all of your questions at any technical level. You're also welcome to use it to pass along feature requests and feedback about how Simplicity and SimplicityHL are working for your applications and use cases.**
 
 This call will be held on Tuesdays at 8:00 <a
 href="https://www.timeanddate.com/time/zone/usa/san-francisco">PST
