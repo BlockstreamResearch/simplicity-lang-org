@@ -18,7 +18,7 @@ glossary:CMR
 :    A cryptographic representation of the identity of a specific Simplicity <glossary:contract> as a <glossary:Merkle tree>.  This provides a way to refer to that contract, and eventually to confirm that a partially revealed (pruned) contract posted on a blockchain was properly derived from a specified original contract.
 
 glossary:Combinator
-:    A low-level operation in Simplicity, the approximate equivalent of an opcode in <glossary:Bitcoin Script> and other low-level programming languages. Simplicity is designed using <a href="https://en.wikipedia.org/wiki/Combinatory_logic">combinatory logic</a>; a low-level Simplicity program is made up of a series of combinator invocations as well as invocations of <glossary:jet>s.
+:    A low-level operation in Simplicity, the approximate equivalent of an opcode in <glossary:Bitcoin Script> and other low-level programming languages. Simplicity is designed using <a href="https://en.wikipedia.org/wiki/Combinatory_logic">combinatory logic</a>; a low-level Simplicity program is made up of a series of combinator invocations as well as invocations of <glossary:jet>s. In combinatory logic, a combinator is a function that takes functions as input and returns a function as output, so that functions are the underlying objects that the logical system deals with. Architecturally, Simplicity combinators follow this pattern.
 
 glossary:Contract
 :    Sometimes used interchangeably with "program". Often, a specific instance of Simplicity code that can receive <glossary:asset>s on a blockchain and make decisions about how to dispose of those assets in accordance with its internal logic.
