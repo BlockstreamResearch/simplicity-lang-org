@@ -13,8 +13,12 @@
 # a working local copy of elementsd can be useful for other development
 # tasks, but represents a larger time and disk space commitment.
 
-PROGRAM_SOURCE=~/src/SimplicityHL/examples/p2ms.simf
-WITNESS_FILE=~/src/SimplicityHL/examples/p2ms.wit
+# We assume the SimplicityHL repository was cloned under the current
+# working directory. If you cloned it elsewhere, please update these
+# paths to reflect the appropriate location.
+
+PROGRAM_SOURCE=./SimplicityHL/examples/p2ms.simf
+WITNESS_FILE=./SimplicityHL/examples/p2ms.wit
 
 # This is an unspendable public key address derived from BIP 0341. It is
 # semi-hardcoded in some Simplicity tools. You can change it in order
