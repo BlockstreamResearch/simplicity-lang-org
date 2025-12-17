@@ -27,3 +27,4 @@ public calendar below.
 * <a href="https://youtu.be/Yiiv2UICOPM">November 25, 2025</a>
 * <a href="https://youtu.be/c6Uis6VwANU">December 2, 2025</a>
 * <a href="https://youtu.be/oEJ1syVf7lg">December 9, 2025</a>
+* <a href="https://youtu.be/HpvkMzm8GDc">December 16, 2025</a>
