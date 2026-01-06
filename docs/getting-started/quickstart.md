@@ -10,7 +10,7 @@ You can then install these tools with the commands
 
 ```bash
 cargo install simplicityhl
-cargo install --git https://github.com/BlockstreamResearch/hal-simplicity
+cargo install hal-simplicity
 ```
 
 We also need to check out a copy of the `SimplicityHL` repository in
@@ -88,10 +88,10 @@ simc $PROGRAM_SOURCE
 
 The compiled version of the program is the last line of the `simc` output. It is a single long line of base64-encoded Simplicity program data, probably beginning `5lk2l5`...
 
-We will save the compiled program into a shell variable by extracting the last line of the compiler output.
+We will save the compiled program into a shell variable by extracting the second line of the compiler output.
 
 ```bash
-COMPILED_PROGRAM=$(simc $PROGRAM_SOURCE | tail -1)
+COMPILED_PROGRAM=$(simc $PROGRAM_SOURCE | sed '1d; 3,$d')
 ```
 
 You can view some data about the compiled program by running `hal-simplicity simplicity info` on it.

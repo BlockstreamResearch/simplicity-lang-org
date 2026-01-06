@@ -121,7 +121,7 @@ simc "$PROGRAM_SOURCE"
 pause
 
 # Extract the compiled program from the output of that command
-COMPILED_PROGRAM=$(simc "$PROGRAM_SOURCE" | tail -1)
+COMPILED_PROGRAM=$(simc "$PROGRAM_SOURCE" | sed '1d; 3,$d')
 
 echo hal-simplicity simplicity info "$COMPILED_PROGRAM"
 hal-simplicity simplicity info "$COMPILED_PROGRAM" | jq
