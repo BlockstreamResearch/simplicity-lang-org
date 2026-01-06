@@ -77,7 +77,7 @@ Higher-level languages and tools are available:
 
 * **SimplicityHL**: This is a developer-friendly "front-end" language that compiles down to Simplicity assembly. It has a syntax similar to Rust, abstracting away some of Simplicity's functional programming details to make it more accessible.
 
-* **SimplicityHL web-IDE:** You can start experimenting with Simfony using the web IDE, which includes example programs.
+* **SimplicityHL web-IDE:** You can start experimenting with SimplicityHL using the web IDE, which includes example programs.
 
 * **Haskell Implementation**: This provides a way to construct Simplicity programs in a tagless-final style, which transparently handles sharing of subexpressions. The [`Haskell-Examples`](https://github.com/BlockstreamResearch/simplicity/tree/master/Haskell-Examples) folder in the Simplicity repository contains various Simplicity expressions written in Haskell.  
 
