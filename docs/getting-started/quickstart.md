@@ -6,11 +6,10 @@ We'll use only two tools initially: `simc` (the SimplicityHL compiler) and `hal-
 
 Both of these can be installed with `cargo`; make sure you <a href="https://doc.rust-lang.org/stable/cargo/getting-started/installation.html">have `cargo` installed</a> first.
 
-You can then install these tools with the commands
+You can then install these tools with the command
 
 ```bash
-cargo install simplicityhl
-cargo install hal-simplicity
+cargo install simplicityhl hal-simplicity
 ```
 
 We also need to check out a copy of the `SimplicityHL` repository in
