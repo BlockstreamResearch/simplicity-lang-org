@@ -86,7 +86,7 @@ Now compile it with `simc`.
 simc $PROGRAM_SOURCE
 ```
 
-The compiled version of the program is the last line of the `simc` output. It is a single long line of base64-encoded Simplicity program data, probably beginning `5lk2l5`...
+The compiled version of the program is the second line of the `simc` output. It is a single long line of base64-encoded Simplicity program data, probably beginning `5lk2l5`...
 
 We will save the compiled program into a shell variable by extracting the second line of the compiler output.
 
