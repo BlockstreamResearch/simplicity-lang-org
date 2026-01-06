@@ -1,29 +1,32 @@
 # Simplicity Roadmap
 
-The primary objective for the current development cycle is to prepare Simplicity for execution on a Bitcoin test network. Achieving this objective requires finalising the set of jets, establishing a complete cost model, and implementing state storage for advanced contract functionality.
+## Upcoming SimplicityHL features
 
-### Bitcoin Testnet Integration
+We're continuing to enhance the SimplicityHL language with additional notation and convenience features. The `simc` compiler will be updated to support additional syntax for these features. Our priorities for SimplicityHL language enhancements include
 
-Work will continue towards producing a testnet-mergeable integration branch of bitcoin-core. Tasks include:
+* Infix operators: familiar notations like `==`, `<`, `>`, `+`, `-`, `*`, `/`, `&`, `|` for comparisons, arithmetic, and logic operations
+* More integer types: specific-width integers; signed integers (supporting negative numbers)
+* `if` and `return` statements
+* A more conventional loop syntax (for bounded loops)
+* Modules/namespaces
+* Library functions
 
-* Porting `libsimplicity` into the integration branch.
-* Ensuring all jets are fully implemented and functioning.
-* Assigning execution costs to each jet.
+## State management
 
-### State Storage in Simplicity
+We have developed a way to represent persistent state of a contract via cryptographic commitments, with associated tooling. This provides proper support for general covenants that need to keep track of arbitrary history as users interact with them over time. (You can see a brief demonstration of this approach in <a href="https://youtu.be/ry2wQelP8Kc">our December 23, 2025 Office Hours session</a>.) We will document this and provide sample contracts demonstrating it.
 
-Implementation of UTXO-committed state storage is planned to support advanced contract use cases, including covenants and vaults. This requires:
+## Type-based SimplicityHL
 
-* Defining the state storage API and on-chain commitment structure.
-* Producing reference examples demonstrating stateful contracts.
-* Documenting usage patterns for developers.
-* Implementation in SimplicityHL
+A future version of SimplicityHL using type theory foundations is in preparation. In the short term, we'll adopt a new type inference engine in `simc` based on this work, which will relax existing requirements for mandatory type annotations. Over time, we'll also expose extensions for dependent type mechanisms in SimplicityHL.
 
-### Path to Testnet Deployment
+## Mutinynet integration
 
-The following sequence outlines the progression towards a Bitcoin testnet release:
+We're working on an integration of Simplicity in <a href="https://github.com/MutinyWallet/mutiny-net">Mutinynet</a>, a signet (test network) that remains architecturally closer to Bitcoin Core. This will demonstrate the potential for development with Simplicity on a Bitcoin-like chain without Elements extensions.
 
-1. Completion of jet implementation and cost assignments.
-2. Availability of the signet-mergeable integration branch.
-3. Implementation of state storage, enabling contracts such as covenants and vaults.
-4. Deployment of Simplicity on Bitcoin testnet.
+## AMP and LWK integrations
+
+We're working on integrations of Simplicity with <a href="https://blockstream.com/amp/">AMP</a> and <a href="https://github.com/Blockstream/lwk">LWK</a>, to give financial application developers more power when building on Liquid Network.
+
+## Documentation updates
+
+In addition to documentation on features mentioned above, we're preparing lots of new and updated documentation, including documentation on the Simplicity execution model, witnesses, a jets reference, a toolchain reference, introductions on timelocks and oracles, and material on avoiding pitfalls in smart contract design.
