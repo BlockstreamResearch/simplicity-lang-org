@@ -32,4 +32,4 @@ Currently, this allows a program (if structured as a <glossary:covenant>) to pas
 
 We will write library functions reflecting the `load` and `store` patterns to make it easier for developers to use these mechanisms without writing boilerplate referring to the lower-level details of the cryptographic state commitment.
 
-We will also write library functions implementing Merkle tree creation and verification to make it easier for developers to load and store multiple values in a standardized and elegant way.
+We will also write library functions implementing Merkle tree creation and verification to make it easier for developers to load and store multiple values in a standardized and elegant way. 
