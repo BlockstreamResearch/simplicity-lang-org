@@ -1,0 +1,35 @@
+# SimplicityHL state management
+
+The <a href="execution-model">execution environment of a Simplicity program</a> is highly constrained; specifically for our purposes here, a Simplicity program can't perform any kind of input or output or network access, and can't even directly access earlier the contents of earlier transactions on the blockchain.
+
+Still, contracts will want to enforce multiple related transactions and "remember" facts and details over time. How can they do so in Simplicity's transaction-based architecture, without being able to save or load anything corresponding to files or database entries?
+
+This document presents our recommended mechanism, using **cryptographic commitments**. These incorporate the state reference into the on-chain address of a copy of the Simplicity program itself, which the program can confirm by <glossary:introspection> when it is run.
+
+Effectively, this method generates an address for a program in a way that inherently incorporates a cryptographic reference to specific state; when that program is run, it can confirm that the state it was given via a <glossary:witness> matches the state that it expects to have according to its own address. It can immediately reject any proposed transactions that attempt to delete or tamper with the state.
+
+This approach provides a way for a contract to maintain state (the values of specific variables) between one transaction and another transaction, enforcing a guarantee that the later transaction has access to the correct values of those variables and that no one has modified them. The contract does so by enforcing that outputs, including address references to versions of the same contract, contain cryptographic references to that state ("save"). A version of the same or a related contract can then enforce in a later transaction that suggested state provided to that new transaction matches up correctly with those cryptographic references ("load").
+
+## Wallets maintain and assert state to contracts; cryptographic commitments confirm it
+
+This means that the actual state data is not directly stored "inside of" the contract; the contract possesses a reliable way to *verify* state that is provided to it, but that state information is typically physically stored inside of a user's wallet software, and passed back to the contract whenever a new transaction involving the contract is constructed. Web developers may recognize this pattern as akin to digitally signed tokens (such as <a href="https://www.jwt.io/introduction#what-is-json-web-token">JWT</a>) provided by clients to web applications. In the web application setting, the physical storage of the state information can be offloaded to the client, and a digital signature proves that the client didn't modify its contents. We similarly give the "client" (the wallet or other software that is constructing future transactions) responsibility to store and provide the state information back to the contract, under a form of cryptographic authentication preventing modification, although the exact cryptographic details here are somewhat different.
+
+In the Simplicity context, the cryptographic commitment to the state is actually used as part of the contract's on-chain address, so performing a state update will actually mean deriving an updated address for the same contract (or a specifically chosen successor contract), and committing a transaction that forwards assets from the contract's prior address to the updated address. Those forwarded assets' spending conditions are then controlled by the updated version of the contract, which is cryptographically bound to the updated version of the state information.
+
+To reiterate this point: whenever a <glossary:covenant> performs a state update, it sends assets to a new copy of itself with a *different on-chain address* encoding a reference to the updated state data. A transaction can update state without moving any assets in or out of the contract, merely sending them to the new copy with the new address. Of course, client software meant to interact with the contract must be programmed to observe that this has happened so that new transactions are always performed with the most current updated copy.
+
+Although wallet software should generally store contract state in order to provide it back to the contract when performing subsequent transactions, this information could be recalculated if necessary by examining blockchain history, because all Simplicity program execution is deterministic and based on public information. Thus, state information isn't generally confidential; locally replaying the evolution of a contract will ordinarily reveal what the expected state for the next transaction should be. (An initial state commitment when a copy of a program receives assets for the first time could require witness values that have not yet been publicly revealed anywhere, much as the code of the program may not have been publicly revealed.)
+
+## What we've implemented so far
+
+We have sample code to assert that input state is consistent with the program's address ("load"), and to assert that an output address is consistent with a commitment to a specific numeric value ("store"). The `hal-simplicity simplicity pset update-input` command has also been updated with a `-s` flag that provides an input state value to the program. The input state is visible in SimplicityHL as `witness::INPUT_STATE`.
+
+Performing the `load` and `store` involves making some boilerplate assertions about the results of introspection of inputs and outputs, respectively.
+
+Currently, this allows a program (if structured as a <glossary:covenant>) to pass itself state updates across subsequent transactions, but the state information is always represented as a single uninterpreted `u256` integer value. This is conveniently the size of the output of a SHA256 hash, so a program can choose to interpret this value as a SHA256 hash of specified data items that are provided in a <glossary:witness>, in a specific order. The program can then commit to specific values of these chosen data items between one transaction and the next. A more elegant approach would be interpreting this `u256` value as a reference to the root of a <glossary:Merkle tree>.
+
+## What we expect to do next
+
+We will write library functions reflecting the `load` and `store` patterns to make it easier for developers to use these mechanisms without writing boilerplate referring to the lower-level details of the cryptographic state commitment.
+
+We will also write library functions implementing Merkle tree creation and verification to make it easier for developers to load and store multiple values in a standardized and elegant way.
