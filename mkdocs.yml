@@ -140,6 +140,7 @@ nav:
 #      - Haskell: getting-started/haskell.md
   - Documentation:
       - How Simplicity Works: documentation/how-simplicity-works.md
+      - Execution Model: documentation/execution-model.md
       - Whitepaper: https://blockstream.com/simplicity.pdf
       - Technical Report: https://raw.githubusercontent.com/ElementsProject/simplicity/pdf/Simplicity-TR.pdf
       - Glossary: glossary.md
@@ -159,6 +160,7 @@ nav:
       - Functions: simplicityhl-reference/function.md
       - Programs: simplicityhl-reference/program.md
       - Context: simplicityhl-reference/context.md
+      - State Management: documentation/state.md
       - Environment: simplicityhl-reference/environment.md
       - Translation: simplicityhl-reference/translation.md
 #  Remove until we have content
