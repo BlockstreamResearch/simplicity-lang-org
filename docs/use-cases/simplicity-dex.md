@@ -4,7 +4,7 @@ The underlying code for this project is found in <a href="https://github.com/Blo
 
 Even though we call it a DEX, at its core there is no exchange of Token A for Token B in the traditional sense. The Simplicity DEX is a **structured product marketplace** that enables users to create and trade options contracts on-chain on the Liquid Network. We can also use similar techniques to create a means for advertising and performing direct, immediate exchange of pairs of assets in a decentralized way without an intermediary, but that functionality is planned for future development.
 
-The protocol that we have built facilitates *only* the exchange of "Grantor Tokens" for LBTC tokens. Support for other variations will be added in the future.
+The protocol that we have built facilitates *only* the exchange of "Grantor Tokens" plus a premium in USD for LBTC tokens. Support for other variations will be added in the future.
 
 The existing code uses Nostr to publicize the existence of contracts and allow a party to locate a counterparty. This document focuses mainly on the financial logic of the contract rather than the technical mechanisms for representating the contract on Nostr and Liquid.
 
@@ -16,11 +16,11 @@ The existing code uses Nostr to publicize the existence of contracts and allow a
 
 > **Note**: The underlying smart contract supports both Call and Put options, but the current CLI implementation only supports Call options.
 
-**Grantor Token**: A tradable token received by the maker upon funding an options contract. The Grantor Token represents the right to claim assets at settlement - either the LBTC deposited during exercise (if the option is exercised) or the USDt collateral (if the option expires unexercised). The maker in the current version of the protocol sells this token to a taker in exchange for LBTC.
+**Grantor Token**: A tradable token received by the maker upon funding an options contract. The Grantor Token represents the right to claim assets at settlement - either the LBTC deposited during exercise (if the option is exercised) or the USDt collateral (if the option expires unexercised). In the current version of the protocol, the maker sells this token along with a premium in USD to a taker in exchange for LBTC.
 
 ## Implementation
 
-The protocol that we have implemented is a variation of the Call Option. The key difference is that **the premium is effectively paid depending on the exercise outcome**: if the option is exercised, the premium is paid in the claim asset (LBTC); if the option expires unexercised, the premium is paid in the collateral currency (USDt).
+The protocol that we have implemented is a variation of a Call Option. The premium to the taker is paid during the exchange of LBTC and collateral tokens (i.e., Grantor Token).
 
 ### Participants
 
@@ -29,16 +29,16 @@ The protocol that we have implemented is a variation of the Call Option. The key
 * Deposits USDt collateral into the Collateral Covenant
 * Receives both an **Option Token** and a **Grantor Token**
 * Keeps the Option Token (gives the right to exercise)
-* Sells the Grantor Token to the taker for LBTC
+* Pays a premium in USD to incentivize the taker to buy the Grantor Token for LBTC.
 
-**Taker ("Option seller")**: The party that purchases the Grantor Token and receives the premium in the future. The taker:
+**Taker ("Option seller")**: The party that purchases the Grantor Token and receives the premium in USD. The taker:
 
 * Pays LBTC to acquire the Grantor Token from the maker
 * Holds the Grantor Token, which entitles them to claim assets at settlement
 
 ### Resources
 
-The core contract of the Simplicity DEX is the Options contract: <https://github.com/BlockstreamResearch/simplicity-contracts/blob/main/crates/contracts/src/options/source_simf/options.simf>
+The core contract of the Simplicity DEX is the Options contract: <https://github.com/BlockstreamResearch/simplicity-contracts/blob/main/crates/contracts/src/finance/options/source_simf/options.simf>
 
 The concept for this contract was proposed in the following whitepaper: <https://blockstream.com/assets/downloads/pdf/options-whitepaper.pdf>
 
@@ -46,28 +46,28 @@ Link to the Simplicity DEX repository: <a href="https://github.com/Blockstream/s
 
 ## Financial Incentive
 
-**Maker Profit Condition**: The maker profits when the value of LBTC received (from selling the Grantor Token) exceeds the value of USDt collateral plus the premium they deposited. This occurs when the LBTC price rises significantly above the strike price.
+**Maker Profit Condition**: The maker profits when the value of the LBTC received (from selling the Grantor Token) exceeds the value of the USDt collateral deposited and the premium paid. This occurs when the LBTC price rises significantly above the strike price.
 
-**Taker Profit Condition**: The taker benefits from the guaranteed claim on either LBTC (if the option is exercised) or USDt collateral (if the option expires unexercised). The protocol design ensures the taker always receives the lesser-valued asset, but any maker mistakes only improve the taker's outcome.
+**Taker Profit Condition**: The taker profits when the premium they receive covers any potential losses, while still retaining a guaranteed claim on either LBTC (if the option is exercised) or the USDt collateral (if the option expires unexercised).
 
  ![This graph is a combination of the Long Call by the Maker ("Graph 1") and the Short Call by the Taker ("Graph 3"). Consult Appendix B for more details](/assets/11ad966b-8507-40c2-b29d-0d1e26a6a26a.png " =1457x888")
 
-
-**Current Limitation**: The taker cannot receive the premium immediately upon purchasing the Grantor Token. A future improvement would be to enable swapping the Grantor Token plus the premium in USD directly for LBTC, allowing the taker to realize their premium gain at the time of the trade rather than waiting for settlement.
+!!! info "Option Offer Contract"
+    The [Option Offer contract](https://github.com/BlockstreamResearch/simplicity-contracts/blob/main/crates/contracts/src/finance/option_offer/source_simf/option_offer.simf) enables depositing two assets (collateral + premium) into a single covenant. A counterparty can then swap their settlement asset for both deposited assets in a single atomic transaction, with amounts enforced by configurable ratios (`collateral_per_contract` and `premium_per_collateral`).
 
 ## Detailed Step-by-Step Protocol Flow (Current implementation)
 
-The maker selects locked-asset as USDt, and claim-asset as LBTC. The contract size is the collateral, e.g., 115,958 USDt. The strike price is $115,000 (LBTC/USDt). The term length is 30 days. The maker creates the "Options Creation" transaction which produces an Option Token Generator and a Grantor Token Generator held in a Generator Covenant.
+The maker selects locked-asset as USDt, and claim-asset as LBTC. The contract size is the collateral, e.g., 115,000 USDt. The strike price is $115,000 (LBTC/USDt). The term length is 30 days. The maker creates the "Options Creation" transaction which produces an Option Token Generator and a Grantor Token Generator held in a Generator Covenant.
 
-The maker funds a single option using the "Option Funding" transaction, which requires depositing 115,958 USDt into the Collateral Covenant. The maker receives an Option Token and a Grantor Token from the Generator Covenant.
+The maker funds a single option using the "Option Funding" transaction, which requires depositing 115,000 USDt into the Collateral Covenant. The maker receives an Option Token and a Grantor Token from the Generator Covenant.
 
 Note: at any time, the options contract can be canceled and the collateral retrieved by using both the Option Token and the Grantor Token together to unlock the collateral.
 
-The maker sells their newly minted Grantor Token to the taker for LBTC (an amount less than required to exercise the option) using a standard Liquid atomic swap transaction, and keeps their Option Token.
+The maker deposits their newly minted Grantor Token along with premium (e.g., USDt) into the Option Offer contract. The taker pays LBTC (settlement asset) to the Option Offer contract and receives both the Grantor Token and the premium in a single atomic transaction. The maker keeps their Option Token.
 
-**Case A: LBTC ends below $115,000.** Just prior to expiration, the maker uses their Option Token to exercise the Collateral Covenant. This requires depositing LBTC into a Settlement Covenant, which in turn unlocks the Collateral Covenant, whose 115,958 USDt funds the maker gets to keep. Afterwards, the taker can use their Grantor Token to retrieve the LBTC from the Settlement Covenant.
+**Case A: LBTC ends below $115,000.** Just prior to expiration, the maker uses their Option Token to exercise the Collateral Covenant. This requires depositing LBTC into a Settlement Covenant, which in turn unlocks the Collateral Covenant, whose 115,000 USDt funds the maker gets to keep. Afterwards, the taker can use their Grantor Token to retrieve the LBTC from the Settlement Covenant.
 
-**Case B: LBTC ends above $115,000 or the maker lacks adequate LBTC funds.** The maker does nothing and their Option Token is useless. After the expiration date, the taker uses their Grantor Token to retrieve the 115,958 USDt from the Collateral Covenant.
+**Case B: LBTC ends above $115,000 or the maker lacks adequate LBTC funds.** The maker does nothing and their Option Token is useless. After the expiration date, the taker uses their Grantor Token to retrieve the 115,000 USDt from the Collateral Covenant.
 
 ### Key Design Properties
 
@@ -85,32 +85,34 @@ The design also allows for more than one pair of Grantor/Option Tokens to be gen
 ```mermaid
 sequenceDiagram
     participant Maker
-    participant Contract as Smart Contract
+    participant Options as Options Contract
+    participant OptionOffer as Option Offer Contract
     participant Taker
 
     Note over Maker,Taker: Phase 1 & 2: Creation and Funding
-    Maker->>Contract: Create Options Contract
-    Contract-->>Maker: Generator Covenant created
-    Maker->>Contract: Deposit USDt collateral
-    Contract-->>Maker: Option Token + Grantor Token
+    Maker->>Options: Create Options Contract
+    Options-->>Maker: Generator Covenant created
+    Maker->>Options: Deposit USDt collateral
+    Options-->>Maker: Option Token + Grantor Token
 
-    Note over Maker,Taker: Phase 3: Token Sale
-    Maker->>Taker: Sell Grantor Token
-    Taker->>Maker: Pay LBTC
+    Note over Maker,Taker: Phase 3: Token Sale via Option Offer
+    Maker->>OptionOffer: Deposit Grantor Token + Premium (USDt)
+    Taker->>OptionOffer: Pay LBTC (settlement)
+    OptionOffer-->>Taker: Grantor Token + Premium
 
     Note over Maker,Taker: Phase 4a: Settlement (spot < strike)
     alt LBTC price below strike
-        Maker->>Contract: Exercise with Option Token + LBTC
-        Contract-->>Maker: Release USDt collateral
-        Taker->>Contract: Claim with Grantor Token
-        Contract-->>Taker: Release LBTC from Settlement
+        Maker->>Options: Exercise with Option Token + LBTC
+        Options-->>Maker: Release USDt collateral
+        Taker->>Options: Claim with Grantor Token
+        Options-->>Taker: Release LBTC from Settlement
     end
 
     Note over Maker,Taker: Phase 4b: Settlement (spot >= strike)
     alt LBTC price above strike (or maker default)
         Note over Maker: Option expires worthless
-        Taker->>Contract: Claim with Grantor Token
-        Contract-->>Taker: Release USDt collateral
+        Taker->>Options: Claim with Grantor Token
+        Options-->>Taker: Release USDt collateral
     end
 ```
 
