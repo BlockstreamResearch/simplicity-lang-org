@@ -1,8 +1,7 @@
 # Office Hours
 
-As an experiment, starting in November 2025, you can now join a weekly
-Office Hours call to talk about what you're working on with Simplicity
-or to ask questions.
+Starting in November 2025, you can now join a weekly Office Hours call
+to talk about what you're working on with Simplicity or to ask questions.
 
 This call is hosted by Blockstream staff involved in developing and documenting Simplicity and SimplicityHL. **You can use this call to ask all of your questions at any technical level. You're also welcome to use it to pass along feature requests and feedback about how Simplicity and SimplicityHL are working for your applications and use cases.**
 
@@ -31,4 +30,4 @@ public calendar below.
 * <a href="https://youtu.be/ry2wQelP8Kc">December 23, 2025</a>
 * <a href="https://youtu.be/hCgBdQNPc9c">January 6, 2026</a>
 * <a href="https://youtu.be/wknEBcV3HeE">January 13, 2026</a>
-
+* <a href="https://youtu.be/OSa0zMaqGnM">January 20, 2026</a>
