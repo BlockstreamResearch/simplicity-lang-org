@@ -1,4 +1,4 @@
-# Simplicity execution model
+# On-chain Simplicity execution model
 
 Simplicity is a special-purpose language. It works in the context of the Bitcoin transaction model on Bitcoin-like blockchains. This is sometimes also called the "<glossary:UTXO> model." If you're already familiar with Bitcoin Script and the role it plays in the logic of Bitcoin transactions, you can think of Simplicity as a more expressive alternative to Bitcoin Script, useful for writing more complex conditions (such as recursive <glossary:covenant>s that can propagate conditions across multiple subsequent transactions).
 
