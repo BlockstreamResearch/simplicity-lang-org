@@ -49,6 +49,6 @@ We're creating tools and examples for integrating other data sources into Simpli
 
 We're developing prototypes of several real financial applications on Simplicity, including collateralized lending mechanisms and options contracts. You can see work in progress on some of these at <https://github.com/BlockstreamResearch/simplicity-contracts>.
 
-## Integrated build system and package manager
+## Simplicity development framework
 
-We're prototyping a tool, somewhat akin to `cargo` or `go`, providing package management, development workflow, and test orchestration features. This tool will provide a test framework support unit and integration tests, including running integration tests against a regtest environment to simulate the effects of multiple related transactions.
+We're prototyping a tool, somewhat akin to `cargo` or `go`, providing package management, development workflow, and test orchestration features. This integrated build system tool will provide a test framework support unit and integration tests, including running integration tests against a regtest environment to simulate the effects of multiple related transactions.
