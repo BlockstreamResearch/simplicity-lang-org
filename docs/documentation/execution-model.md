@@ -77,11 +77,11 @@ Below, we discuss the functionality of three kinds of contracts in order to illu
 
 These examples do not use introspection features, so they don't demonstrate Simplicity's ability to constrain outputs' destinations. Introspection would also provide an alternative way to implement the refund path in the `htlc` contract (constraining the refund payment to be sent to the address of the original sender of an asset, by asserting that an input address and output address match); this version instead hardcodes a key that can be used to authorize refunds, sent to any chosen address.
 
-### Example: p2ms
+### p2ms
 
 This program, `p2ms.simf`, is taken from the SimplicityHL examples collection. Our <a href="/getting-started/quickstart">quickstart</a> guide provides a recipe for making a Liquid Testnet transaction using this program.
 
-```
+```rust
 /*
  * PAY TO MULTISIG
  *
@@ -160,11 +160,11 @@ flowchart TD
     M -->|No| O((Reject transaction))
 ```
 
-### Example: htlc
+### htlc
 
 This program, `htlc.simf`, is also taken from the SimplicityHL examples collection. It implements a hash-timelock contract, a mechanism often used in cryptocurrency swaps.
 
-```
+```rust
 /*
  * HTLC (Hash Time-Locked Contract)
  *
@@ -237,7 +237,7 @@ flowchart TD
     G -->|No| L((Reject transaction))
 ```
 
-### Example: prediction market
+### prediction market
 
 This example discusses a prediction market contract but does not provide an example of SimplicityHL code for this contract.
 
