@@ -237,7 +237,7 @@ flowchart TD
     G -->|No| L((Reject transaction))
 ```
 
-### prediction market
+### Prediction market
 
 This example discusses a prediction market contract but does not provide an example of SimplicityHL code for this contract.
 
