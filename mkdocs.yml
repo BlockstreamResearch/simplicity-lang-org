@@ -141,6 +141,7 @@ nav:
   - Documentation:
       - How Simplicity Works: documentation/how-simplicity-works.md
       - Execution Model: documentation/execution-model.md
+      - Witnesses in SimplicityHL Development: documentation/witness.md
       - Whitepaper: https://blockstream.com/simplicity.pdf
       - Technical Report: https://raw.githubusercontent.com/ElementsProject/simplicity/pdf/Simplicity-TR.pdf
       - Glossary: glossary.md
