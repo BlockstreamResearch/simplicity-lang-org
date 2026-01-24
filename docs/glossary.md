@@ -105,6 +105,7 @@ glossary:Private key
 
 glossary:Program
 :    Sometimes used interchangeably with "contract".  A specific instance of <glossary:Simplicity> code that can receive <glossary:asset>s on a blockchain and make decisions about how to dispose of those assets in accordance with its internal logic.
+:    A distinction between a "program" and a "contract" is that a "contract" can refer to a larger system for controlling disposition of <glossary:asset>s across multiple <glossary:transaction>s, each of which is individually controlled by a program. The contract can thus potentially consist of more than instance of a program, or even of several related programs that respectively handle different portions of the contracts functionality.
 :    A program’s creator could choose to publish its code (outside of a blockchain) in order to allow other people to learn of its existence and interact with it. A reference to the program’s address appears on a blockchain when a <glossary:transaction> includes an <glossary:output> controlled by the program. A copy of the program’s code (in pruned form) appears on the blockchain only when a later transaction spends such an output.
 
 glossary:Pruning
