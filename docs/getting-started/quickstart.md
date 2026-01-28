@@ -2,15 +2,7 @@
 
 This is a quickstart document to help you perform your first <glossary:transaction> on <glossary:Liquid> Testnet using a <glossary:Simplicity> <glossary:contract>.
 
-We'll use only two tools initially: `simc` (the SimplicityHL compiler) and `hal-simplicity` (an all-purpose Simplicity utility that can do various tasks related to programs and transactions).
-
-Both of these can be installed with `cargo`; make sure you <a href="https://doc.rust-lang.org/stable/cargo/getting-started/installation.html">have `cargo` installed</a> first.
-
-You can then install these tools with the command
-
-```bash
-cargo install simplicityhl hal-simplicity
-```
+Before beginning this tutorial, please <a href="/getting-started/toolchain">make sure you have installed the toolchain applications</a> (`simc` and `hal-simplicity`).
 
 We also need to check out a copy of the `SimplicityHL` repository in
 order to have copies of the example smart contracts from that repository.
