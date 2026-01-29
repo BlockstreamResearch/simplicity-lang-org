@@ -16,7 +16,7 @@ code is found under ./SimplicityHL/examples.
 git clone https://github.com/BlockstreamResearch/SimplicityHL
 ```
 
-Now that you have the tools ready to go, we have a *demo script* and a *demo walkthrough* below.  The demo script is a shell script you can run to perform a transaction with a Simplicity contract on the Liquid Testnet.  The demo walkthrough takes you through the same transaction, explaining the individual steps one by one and inviting you to run them yourself on the command line.
+Now that you have the tools ready to go, we have a *demo walkthrough* and a *demo script* below. The demo walkthrough is a series of steps you can run for yourself on the command line to perform a transaction with a Simplicity contract on the Liquid Testnet. The demo script is a shell script you can run to perform the same transaction.
 
 Both of these will require `jq` and `curl` (for parsing JSON data and connecting to Liquid Testnet API endpoints).
 
