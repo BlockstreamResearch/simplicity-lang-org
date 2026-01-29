@@ -1,6 +1,6 @@
 # Witnesses in SimplicityHL development
 
-The [execution model](./execution-model) for Simplicity <glossary:contract>s allows the user who is proposing a <glossary:transaction> to provide input values to the contract. The meaning of these inputs is specific to an individual contract, but in general they help the contract to confirm that the proposed transaction is authorized according to the contract's rules. This is necessary because anyone can propose transactions to spend assets at any time, so a contract needs a clear way to distinguish which transactions are appropriate and which aren't.
+The [execution model](/documentation/execution-model) for Simplicity <glossary:contract>s allows the user who is proposing a <glossary:transaction> to provide input values to the contract. The meaning of these inputs is specific to an individual contract, but in general they help the contract to confirm that the proposed transaction is authorized according to the contract's rules. This is necessary because anyone can propose transactions to spend assets at any time, so a contract needs a clear way to distinguish which transactions are appropriate and which aren't.
 
 The combination of inputs provided as part of a transaction is known as the *witness*. This term is adopted from its existing use in other kinds of Bitcoin transactions, and originally from a related meaning in computer science.
 
@@ -77,7 +77,7 @@ Witness:
 
 ```
 
-The base64 value beginning `+6WeUroy...` is the complete serialized witness, incorporating all of the input values from `p2ms.wit`. By including both the program source code `p2ms.simf` and the witness file `p2ms.wit`, you allow the compiler to double-check that the required values were included. The [Quickstart tutorial](../getting-started/quickstart/) on this site also demonstrates this process, eventually attaching the witness to the transaction via `hal-simplicity` immediately before finalizing and submitting the transaction.
+The base64 value beginning `+6WeUroy...` is the complete serialized witness, incorporating all of the input values from `p2ms.wit`. By including both the program source code `p2ms.simf` and the witness file `p2ms.wit`, you allow the compiler to double-check that the required values were included. The [Quickstart tutorial](/getting-started/quickstart/) on this site also demonstrates this process, eventually attaching the witness to the transaction via `hal-simplicity` immediately before finalizing and submitting the transaction.
 
 ## Other tools for building witness data
 
