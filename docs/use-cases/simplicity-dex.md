@@ -99,6 +99,8 @@ sequenceDiagram
     Maker->>OptionOffer: Deposit Grantor Token + Premium (USDt)
     Taker->>OptionOffer: Pay LBTC (settlement)
     OptionOffer-->>Taker: Grantor Token + Premium
+    Maker->>OptionOffer: Withdraw settlement (LBTC)
+    OptionOffer-->>Maker: Repay full amount of settlement (LBTC)
 
     Note over Maker,Taker: Phase 4a: Settlement (spot < strike)
     alt LBTC price below strike
