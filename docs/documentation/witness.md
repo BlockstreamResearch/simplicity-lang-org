@@ -18,7 +18,7 @@ The rest of this document provides details about the means of creating witnesses
 
 ## Command-line development with `.wit` files
 
-The `<glossary:simc>` compiler is able to compile (in this context, "serialize") a witness using a contract-specific text file called a `.wit` file. The output is a base64 string which can then be provided to other tools like `hal-simplicity pset finalize` to be incorporated into a complete transaction.
+The <glossary:simc> compiler is able to compile (in this context, "serialize") a witness using a contract-specific text file called a `.wit` file. The output is a base64 string which can then be provided to other tools like `hal-simplicity pset finalize` to be incorporated into a complete transaction.
 
 The `.wit` file is formatted as a JSON file. Each top-level entry in the file has a *name* which has two elements: `value` and `type`. The entry name is used in the SimplicityHL program as a variable name to refer to this specific entry. The `value` and `type` are both strings containing Rust-like code for the data value and data type annotation for the entry. For example,
 
