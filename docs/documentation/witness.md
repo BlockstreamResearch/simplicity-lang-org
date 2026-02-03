@@ -215,9 +215,9 @@ Some more complex type system features that can be used in creating witnesses in
             "type": "Either<Signature, (Pubkey, u32)>"
         }
     }
+    ```
 
     Notice that the first of these witnesses provides only a `Signature`, while the second provides only a `(Pubkey, u32)` tuple.
-    ```
 
 ### More built-in types
 
