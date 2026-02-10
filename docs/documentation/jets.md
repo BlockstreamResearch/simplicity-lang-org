@@ -539,10 +539,10 @@ Four jets related to time locks have been deprecated.
 
 | <div style="width:22em">Jet</div> | Description |
 | ----------------------------------- | ----------- |
-| `check_lock_distance(Distance) -> unit` | **Deprecated; do not use.** Assert that the value returned by [`tx_lock_distance`] is greater than or equal to the given value.<br><br>## Panics<br>The assertion fails. |
-| `check_lock_duration(Duration) -> unit` | **Deprecated; do not use.** Assert that the value returned by [`tx_lock_duration`] is greater than or equal to the given value.<br><br>## Panics<br>The assertion fails |
-| `tx_lock_distance() -> Distance` | **Deprecated; do not use.** If [`version`] returns 2 or greater, then return the greatest valid [`Distance`] value of any transaction input. Return zeroes otherwise. |
-| `tx_lock_duration() -> Duration` | **Deprecated; do not use.** If [`version`] returns 2 or greater, then return the greatest valid [`Duration`] value of any transaction input. Return zeroes otherwise. |
+| `check_lock_distance(Distance) -> unit` | **Deprecated; do not use.** Assert that the value returned by `tx_lock_distance` is greater than or equal to the given value.<br><br>## Panics<br>The assertion fails. |
+| `check_lock_duration(Duration) -> unit` | **Deprecated; do not use.** Assert that the value returned by `tx_lock_duration` is greater than or equal to the given value.<br><br>## Panics<br>The assertion fails |
+| `tx_lock_distance() -> Distance` | **Deprecated; do not use.** If `version` returns 2 or greater, then return the greatest valid `Distance` value of any transaction input. Return zeroes otherwise. |
+| `tx_lock_duration() -> Duration` | **Deprecated; do not use.** If `version` returns 2 or greater, then return the greatest valid `Duration` value of any transaction input. Return zeroes otherwise. |
 
 These jets' names may have been changed in some tools and libraries to discourage their use.
 
