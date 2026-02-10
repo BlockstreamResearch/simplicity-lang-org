@@ -145,8 +145,8 @@ nav:
       - Whitepaper: https://blockstream.com/simplicity.pdf
       - Technical Report: https://raw.githubusercontent.com/ElementsProject/simplicity/pdf/Simplicity-TR.pdf
       - Glossary: glossary.md
+      - Jets Reference: documentation/jets.md
       - Jets Explained: documentation/jets-explained.md
-      - Jets Overview: documentation/jets-overview.md
       - Simplicity for EVM developers: documentation/simplicity-for-evm-developers.md
       - Simplicity Compared: documentation/simplicity-compared.md
       - Differences from Rust: documentation/rust-differences.md
