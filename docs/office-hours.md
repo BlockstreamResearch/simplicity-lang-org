@@ -26,3 +26,4 @@ You can also see all public Simplicity-related events in the public calendar
 * <a href="https://youtu.be/OSa0zMaqGnM">January 20, 2026</a>
 * <a href="https://youtu.be/4c8bvD6oomw">January 27, 2026</a> (<a href="https://github.com/Blockstream/simplicity-dex">Simplicity DEX / options contract demo</a>)
 * <a href="https://youtu.be/lSZeMYx0bnQ">February 3, 2026</a>
+* <a href="https://youtu.be/HqDn6-cGcO8">February 10, 2026</a>
