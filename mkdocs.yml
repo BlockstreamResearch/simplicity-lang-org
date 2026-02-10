@@ -142,15 +142,13 @@ nav:
       - How Simplicity Works: documentation/how-simplicity-works.md
       - Execution Model: documentation/execution-model.md
       - Witnesses in SimplicityHL Development: documentation/witness.md
-      - Whitepaper: https://blockstream.com/simplicity.pdf
-      - Technical Report: https://raw.githubusercontent.com/ElementsProject/simplicity/pdf/Simplicity-TR.pdf
-      - Glossary: glossary.md
       - Jets Reference: documentation/jets.md
       - Jets Explained: documentation/jets-explained.md
       - Simplicity for EVM developers: documentation/simplicity-for-evm-developers.md
       - Simplicity Compared: documentation/simplicity-compared.md
       - Differences from Rust: documentation/rust-differences.md
-      - Examples: https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples
+      - Example Contracts (Basic): https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples
+      - Example Contracts (Advanced): https://github.com/BlockstreamResearch/simplicity-contracts
   - SimplicityHL Reference:
       - simplicityhl-reference/index.md
       - Types and Values: simplicityhl-reference/type.md
@@ -176,8 +174,11 @@ nav:
 #      - Vaults: use-cases/vaults.md
 #      - Insurance Contracts: use-cases/insurance-contracts.md
   - Resources:
-      - Roadmap: resources/roadmap.md
       - FAQ: resources/faq.md
+      - Roadmap: resources/roadmap.md
+      - Glossary: glossary.md
       - Contribute: resources/contribute.md
+      - Whitepaper: https://blockstream.com/simplicity.pdf
+      - Technical Report: https://raw.githubusercontent.com/ElementsProject/simplicity/pdf/Simplicity-TR.pdf
   - Office Hours:
        - Join our Weekly Office Hours: office-hours.md
