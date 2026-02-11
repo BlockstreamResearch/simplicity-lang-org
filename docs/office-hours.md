@@ -3,8 +3,8 @@
 The weekly Office Hours call is a chance to talk about what you're working on with Simplicity or to ask questions. This call is hosted by Blockstream staff involved in developing and documenting Simplicity and SimplicityHL.
 
 Use this call to
-- ask all of your questions at any technical level
-- use it to pass along feature requests and feedback
+* ask all of your questions at any technical level
+* pass along feature requests and feedback
 
 This call will be held on Tuesdays at 8:00 <a href="https://www.timeanddate.com/time/zone/usa/san-francisco">PST (UTC-8)</a> and will typically last one hour. We may occasionally skip it due to U.S. holidays or other events. These Office Hours calls are routinely recorded and published (see below).
 
