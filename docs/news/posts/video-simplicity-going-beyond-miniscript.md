@@ -13,4 +13,4 @@ categories:
 
 An accessible introduction to Bitcoin scripting and cryptography, including how Simplicity enhances Bitcoin by offering a formally verifiable, resource-bounded alternative to Script.
 
-Andrew Poelstra
+\- Andrew Poelstra

@@ -13,4 +13,4 @@ categories:
 
 A discussion on how Simplicity, as an alternative to Bitcoin Script, could enable covenants and be ported to Bitcoin by first proving itself on Liquid.
 
-Christian Lewe
+\- Christian Lewe

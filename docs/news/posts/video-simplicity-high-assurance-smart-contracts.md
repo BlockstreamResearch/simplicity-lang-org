@@ -13,4 +13,4 @@ categories:
 
 A demonstration of the formal semantics of Simplicity by implementing it in Agda.
 
-Dr. Russell O'Connor
+\- Dr. Russell O'Connor

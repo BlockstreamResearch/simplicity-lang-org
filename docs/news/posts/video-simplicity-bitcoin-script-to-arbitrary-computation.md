@@ -13,4 +13,4 @@ categories:
 
 How Simplicity builds on Miniscript's structured, composable Bitcoin script, and how to integrate Simplicity into Bitcoin using Taproot.
 
-Christian Lewe
+\- Christian Lewe

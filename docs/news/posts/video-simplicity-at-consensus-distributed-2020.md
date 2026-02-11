@@ -13,4 +13,4 @@ categories:
 
 An analysis of how Simplicity could serve as the final protocol soft fork in Bitcoin-like systems.
 
-Christian Lewe
+\- Christian Lewe

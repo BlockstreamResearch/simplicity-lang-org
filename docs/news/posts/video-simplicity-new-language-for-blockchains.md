@@ -13,4 +13,4 @@ categories:
 
 An overview of Simplicity, what inspired its development, and an introduction to its formal semantics and jets.
 
-Dr. Adam Back
+\- Dr. Adam Back

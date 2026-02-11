@@ -13,4 +13,4 @@ categories:
 
 An early presentation of Simplicity's original design goals and architecture, highlighting its potential to securely enable advanced Bitcoin smart contracts.
 
-Dr. Russell O'Connor
+\- Dr. Russell O'Connor

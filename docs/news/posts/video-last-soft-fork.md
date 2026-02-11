@@ -13,4 +13,4 @@ categories:
 
 An introduction of the low-level language of Simplicity with a Q&A from the audience.
 
-Dr. Adam Back
+\- Dr. Adam Back
