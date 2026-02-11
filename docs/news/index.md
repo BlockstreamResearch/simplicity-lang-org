@@ -1,0 +1,2 @@
+# Simplicity and SimplicityHL News
+

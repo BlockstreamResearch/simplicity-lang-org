@@ -7,6 +7,8 @@ plugins:
   - ezglossary:
      tooltip: full
      ignore_case: true
+  - blog:
+     blog_dir: news
   # add this back in when we have more authors
   # - git-committers:
   #     repository: BlockstreamResearch/simplicity-lang-org
