@@ -184,3 +184,5 @@ nav:
       - Technical Report: https://raw.githubusercontent.com/ElementsProject/simplicity/pdf/Simplicity-TR.pdf
   - Office Hours:
        - Join our Weekly Office Hours: office-hours.md
+  - News:
+       - news/
