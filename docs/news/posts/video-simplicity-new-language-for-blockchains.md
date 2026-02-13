@@ -1,16 +1,16 @@
 ---
-date: 2020-07-19
+date: 2019-11-17
 categories:
    - videos
 ---
 
-# VIDEO: Simplicity at Consensus: Distributed 2020
+# VIDEO: Simplicity: A New Language for Blockchains
 
-<a href="https://www.youtube.com/watch?v=8WTXnEzMunc" target="_blank">
-  <img src="https://img.youtube.com/vi/8WTXnEzMunc/hqdefault.jpg" 
-       alt="Simplicity at Consensus: Distributed 2020" width="480" height="360">
+<a href="https://www.youtube.com/watch?v=GS47YxwxAMI" target="_blank">
+  <img src="https://img.youtube.com/vi/GS47YxwxAMI/hqdefault.jpg"
+       alt="Simplicity: A New Language for Blockchains" width="480" height="360">
 </a>
 
-An overview of Simplicity, what inspired its development, and an introduction to its formal semantics and jets.
+An introduction of the low-level language of Simplicity with a Q&A from the audience.
 
 \- Dr. Adam Back

@@ -1,16 +1,16 @@
 ---
-date: 2023-08-01
+date: 2020-07-19
 categories:
    - videos
 ---
 
-# VIDEO: Simplicity: Bitcoin's Last Soft Fork?
+# VIDEO: Simplicity at Consensus: Distributed 2020
 
-<a href="https://www.youtube.com/watch?v=HJ_Z2W-pDHg" target="_blank">
-  <img src="https://img.youtube.com/vi/HJ_Z2W-pDHg/hqdefault.jpg" 
-       alt="Simplicity: Bitcoin's Last Soft Fork?" width="480" height="360">
+<a href="https://www.youtube.com/watch?v=8WTXnEzMunc" target="_blank">
+  <img src="https://img.youtube.com/vi/8WTXnEzMunc/hqdefault.jpg"
+       alt="Simplicity at Consensus: Distributed 2020" width="480" height="360">
 </a>
 
-An analysis of how Simplicity could serve as the final protocol soft fork in Bitcoin-like systems.
+An overview of Simplicity, what inspired its development, and an introduction to its formal semantics and jets.
 
-\- Christian Lewe
+\- Dr. Adam Back

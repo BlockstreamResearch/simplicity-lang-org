@@ -1,16 +1,16 @@
 ---
-date: 2019-11-17
+date: 2023-08-01
 categories:
    - videos
 ---
 
-# VIDEO: Simplicity: A New Language for Blockchains
+# VIDEO: Simplicity: Bitcoin's Last Soft Fork?
 
-<a href="https://www.youtube.com/watch?v=GS47YxwxAMI" target="_blank">
-  <img src="https://img.youtube.com/vi/GS47YxwxAMI/hqdefault.jpg" 
-       alt="Simplicity: A New Language for Blockchains" width="480" height="360">
+<a href="https://www.youtube.com/watch?v=HJ_Z2W-pDHg" target="_blank">
+  <img src="https://img.youtube.com/vi/HJ_Z2W-pDHg/hqdefault.jpg"
+       alt="Simplicity: Bitcoin's Last Soft Fork?" width="480" height="360">
 </a>
 
-An introduction of the low-level language of Simplicity with a Q&A from the audience.
+An analysis of how Simplicity could serve as the final protocol soft fork in Bitcoin-like systems.
 
-\- Dr. Adam Back
+\- Christian Lewe

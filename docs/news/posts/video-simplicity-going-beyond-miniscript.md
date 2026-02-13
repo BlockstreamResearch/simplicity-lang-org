@@ -1,16 +1,16 @@
 ---
-date: 2023-08-28
+date: 2023-05-12
 categories:
    - videos
 ---
 
-# VIDEO: Bitcoin Cryptography and Scripting
+# VIDEO: Simplicity: Going Beyond Miniscript
 
-<a href="https://www.youtube.com/watch?v=PrUr2zwff_0" target="_blank">
-  <img src="https://img.youtube.com/vi/PrUr2zwff_0/hqdefault.jpg" 
-       alt="Bitcoin Cryptography and Scripting" width="480" height="360">
+<a href="https://www.youtube.com/watch?v=abUF4MQ7j1w" target="_blank">
+  <img src="https://img.youtube.com/vi/abUF4MQ7j1w/hqdefault.jpg"
+       alt="Simplicity: Going Beyond Miniscript" width="480" height="360">
 </a>
 
-An accessible introduction to Bitcoin scripting and cryptography, including how Simplicity enhances Bitcoin by offering a formally verifiable, resource-bounded alternative to Script.
+How Simplicity builds on Miniscript's structured, composable Bitcoin script, and how to integrate Simplicity into Bitcoin using Taproot.
 
-\- Andrew Poelstra
+\- Christian Lewe

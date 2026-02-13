@@ -1,16 +1,16 @@
 ---
-date: 2019-10-15
+date: 2018-11-25
 categories:
    - videos
 ---
 
-# VIDEO: Simplicity: High Assurance Smart Contracts
+# VIDEO: Simplicity: Programmable Money
 
-<a href="https://www.youtube.com/watch?v=Pn5rySgyTQ0" target="_blank">
-  <img src="https://img.youtube.com/vi/Pn5rySgyTQ0/hqdefault.jpg" 
-       alt="Simplicity: High Assurance Smart Contracts" width="480" height="360">
+<a href="https://www.youtube.com/watch?v=M4XnDrRIKx8" target="_blank">
+  <img src="https://img.youtube.com/vi/M4XnDrRIKx8/hqdefault.jpg"
+       alt="Simplicity: Programmable Money" width="480" height="360">
 </a>
 
-An early presentation of Simplicity's original design goals and architecture, highlighting its potential to securely enable advanced Bitcoin smart contracts.
+A demonstration of the formal semantics of Simplicity by implementing it in Agda.
 
 \- Dr. Russell O'Connor
