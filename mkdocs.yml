@@ -131,7 +131,7 @@ repo_name: "" # Hides the GitHub link/icon from title bar while keeping edit fun
 edit_uri: edit/main/docs/
 
 nav:
-  - Learn:
+  - Get Started:
       - Quickstart: getting-started/quickstart.md
       # Simplicity for...
       - How Simplicity Works: documentation/how-simplicity-works.md
@@ -159,7 +159,7 @@ nav:
       - FAQ: resources/faq.md
       - Roadmap: resources/roadmap.md
       - Glossary: glossary.md
-  - SimplicityHL Reference:
+#  - SimplicityHL Reference:
       - simplicityhl-reference/index.md
       - Jets Reference: documentation/jets.md
       - Types and Values: simplicityhl-reference/type.md
