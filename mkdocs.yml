@@ -154,8 +154,6 @@ nav:
       - Simplicity for EVM developers: documentation/simplicity-for-evm-developers.md
       - Simplicity Compared: documentation/simplicity-compared.md
       - Differences from Rust: documentation/rust-differences.md
-      - Example Contracts (Basic): https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples
-      - Example Contracts (Advanced): https://github.com/BlockstreamResearch/simplicity-contracts
       - FAQ: resources/faq.md
       - Roadmap: resources/roadmap.md
       - Glossary: glossary.md
