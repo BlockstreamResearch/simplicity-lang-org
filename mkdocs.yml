@@ -131,28 +131,37 @@ repo_name: "" # Hides the GitHub link/icon from title bar while keeping edit fun
 edit_uri: edit/main/docs/
 
 nav:
-  - Getting started:
-      - index.md
+  - Learn:
       - Quickstart: getting-started/quickstart.md
-      - Tools & Projects: getting-started/projects.md
+      # Simplicity for...
+      - How Simplicity Works: documentation/how-simplicity-works.md
+      - Join our Weekly Office Hours: office-hours.md
+  - Understand:
+      - Execution Model: documentation/execution-model.md
+      - Witnesses in SimplicityHL Development: documentation/witness.md
+# State management
+# Oracles + integrations
+      - Example contracts (basic): https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples
+      - Example contracts (advanced): https://github.com/BlockstreamResearch/simplicity-contracts
+      - Tools and Projects: getting-started/projects.md
 #      - SimplicityHL: getting-started/simplicityhl.md
       - Web IDE: getting-started/web-ide.md
 #      - CLI Guide: getting-started/cli.md
 #      - Rust: getting-started/rust.md
 #      - Haskell: getting-started/haskell.md
   - Documentation:
-      - How Simplicity Works: documentation/how-simplicity-works.md
-      - Execution Model: documentation/execution-model.md
-      - Witnesses in SimplicityHL Development: documentation/witness.md
-      - Jets Reference: documentation/jets.md
 #      - Jets Explained: documentation/jets-explained.md
       - Simplicity for EVM developers: documentation/simplicity-for-evm-developers.md
       - Simplicity Compared: documentation/simplicity-compared.md
       - Differences from Rust: documentation/rust-differences.md
       - Example Contracts (Basic): https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples
       - Example Contracts (Advanced): https://github.com/BlockstreamResearch/simplicity-contracts
+      - FAQ: resources/faq.md
+      - Roadmap: resources/roadmap.md
+      - Glossary: glossary.md
   - SimplicityHL Reference:
       - simplicityhl-reference/index.md
+      - Jets Reference: documentation/jets.md
       - Types and Values: simplicityhl-reference/type.md
       - Type Aliases: simplicityhl-reference/type_alias.md
       - Type Casting: simplicityhl-reference/type_casting.md
@@ -164,6 +173,9 @@ nav:
       - State Management: documentation/state.md
       - Environment: simplicityhl-reference/environment.md
       - Translation: simplicityhl-reference/translation.md
+      - Whitepaper: https://blockstream.com/simplicity.pdf
+      - Technical Report: https://raw.githubusercontent.com/ElementsProject/simplicity/pdf/Simplicity-TR.pdf
+      - Contribute: resources/contribute.md
 #  Remove until we have content
   - Use Cases:
       - use-cases/index.md
@@ -175,14 +187,5 @@ nav:
 #      - Crowdfunding Contracts: use-cases/crowdfunding.md
 #      - Vaults: use-cases/vaults.md
 #      - Insurance Contracts: use-cases/insurance-contracts.md
-  - Resources:
-      - FAQ: resources/faq.md
-      - Roadmap: resources/roadmap.md
-      - Glossary: glossary.md
-      - Contribute: resources/contribute.md
-      - Whitepaper: https://blockstream.com/simplicity.pdf
-      - Technical Report: https://raw.githubusercontent.com/ElementsProject/simplicity/pdf/Simplicity-TR.pdf
-  - Office Hours:
-       - Join our Weekly Office Hours: office-hours.md
   - News:
        - news/
