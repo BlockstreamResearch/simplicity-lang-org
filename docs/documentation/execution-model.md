@@ -141,26 +141,27 @@ Since the signatures are made over the transaction data including the specific i
 
 Once an asset has been sent to this contract (that is, a UTXO identifies it as a spending condition), anyone can propose a transaction that would spend that asset. The contract examines the proposed transaction and decides whether it does or does not contain sufficient evidence (based on the presence or absence of valid signatures provided in the witness). It then approves or rejects the transaction on that basis.
 
-```mermaid
-flowchart TD
-    A((Claiming transaction)) -->|Witness| B[p2ms contract]
-    B --> C[Valid signature count is 0]
-    C --> D{Sig 1 provided and valid?}
-    D -->|Yes| E[Valid signature count increases by 1]
-    D -->|No| F[Valid signature count unchanged]
-    E --> G{Sig 2 provided and valid?}
-    F --> G
-    G -->|Yes| H[Valid signature count increases by 1]
-    G -->|No| I[Valid signature count unchanged]
-    H --> J{Sig 3 provided and valid?}
-    I --> J
-    J -->|Yes| K[Valid signature count increases by 1]
-    J -->|No| L[Valid signature count unchanged]
-    K --> M{Valid signature count equal to 2?}
-    L --> M
-    M -->|Yes| N((Approve transaction))
-    M -->|No| O((Reject transaction))
-```
+??? "Expand for diagram"
+    ```mermaid
+    flowchart TD
+        A((Claiming transaction)) -->|Witness| B[p2ms contract]
+        B --> C[Valid signature count is 0]
+        C --> D{Sig 1 provided and valid?}
+        D -->|Yes| E[Valid signature count increases by 1]
+        D -->|No| F[Valid signature count unchanged]
+        E --> G{Sig 2 provided and valid?}
+        F --> G
+        G -->|Yes| H[Valid signature count increases by 1]
+        G -->|No| I[Valid signature count unchanged]
+        H --> J{Sig 3 provided and valid?}
+        I --> J
+        J -->|Yes| K[Valid signature count increases by 1]
+        J -->|No| L[Valid signature count unchanged]
+        K --> M{Valid signature count equal to 2?}
+        L --> M
+        M -->|Yes| N((Approve transaction))
+        M -->|No| O((Reject transaction))
+    ```
 
 ### htlc
 
@@ -223,21 +224,22 @@ In each of these cases, the appropriate party must actively make a claim (by sub
 
 It's also worth noting that the contract does not store any kind of state to record whether one or the other paths has already previously been taken. The reason that one path excludes the other is simply that the underlying asset will already have been spent. In this case, the blockchain's transaction validity logic forbids double-spending the same <glossary:UTXO>. Another way of thinking of this is that, after the asset has been claimed from the contract by someone, the contract no longer controls the disposition of that asset, and therefore it is no longer interesting or relevant whether the contract would "agree" to some other transfer. In a certain sense, Simplicity contracts do not "know" what assets they control, but that information is readily available on the blockchain for inspection by software like wallet apps.
 
-```mermaid
-flowchart TD
-    A((Claiming transaction)) -->|Witness| B[htlc contract]
-    B -->Q{Which action?}
-    Q -->|Transfer| C{Hash preimage correct?}
-    Q -->|Refund| D{Time 1000 blocks after input transaction?}
-    C -->|Yes| E{Recipient signature valid?}
-    C -->|No| F((Reject transaction))
-    D -->|Yes| G{Sender signature valid?}
-    D -->|No| F((Reject transaction))
-    E -->|Yes| H((Approve transaction))
-    E -->|No| J((Reject transaction))
-    G -->|Yes| K((Approve transaction))
-    G -->|No| L((Reject transaction))
-```
+??? "Expand for diagram"
+    ```mermaid
+    flowchart TD
+        A((Claiming transaction)) -->|Witness| B[htlc contract]
+        B -->Q{Which action?}
+        Q -->|Transfer| C{Hash preimage correct?}
+        Q -->|Refund| D{Time 1000 blocks after input transaction?}
+        C -->|Yes| E{Recipient signature valid?}
+        C -->|No| F((Reject transaction))
+        D -->|Yes| G{Sender signature valid?}
+        D -->|No| F((Reject transaction))
+        E -->|Yes| H((Approve transaction))
+        E -->|No| J((Reject transaction))
+        G -->|Yes| K((Approve transaction))
+        G -->|No| L((Reject transaction))
+    ```
 
 ### Prediction market
 
@@ -260,28 +262,28 @@ At least the final three actions will likely need to be provided by different co
 
 If the underlying question resolves as YES, the YES token will typically be worth one currency unit (such as $1), while the NO token will not be redeemable for any value. Conversely, if the underlying question resolves as NO, the NO token will be redeemable for $1 and the YES token will not be redeemable. When the question resolves (by the issuance of a signed <glossary:oracle> statement indicating which side has won), each "winner" holding a token for the successful position on the question must individually proactively claim a reward by explicitly submitting a transaction that claims $1 from the contract in exchange for consuming a token. Therefore, all of the winners need to have, and use, software capable of formulating this claim transaction in order to receive any benefit from their successful bets in the market. In the absence of a specific claim transaction, the contract does not have any inherent notion of who the winners are or the fact that they have won or are entitled to anything. Some implementations may not even "remember" which side has won, and have to reminded by resubmitting the oracle statement together with each successive claim.
 
+??? "Expand for diagrams"
+    ```mermaid
+    sequenceDiagram
+        participant wallet@{"alias": "User wallet"}
+        participant node@{"alias": "Node"}
+        participant impl@{"alias": "Node's Simplicity implementation"}
+        participant mempool@{"alias": "Mempool"}
+        wallet->>node: New tx spending assets from UTXO Y to address Z, witness W
+        node->>impl: Run program P with UTXO Y to address Z, witness W
+        impl->>node: Success
+        node->>mempool: This tx is valid, can relay it or include it in a block
+        node->>wallet: Your tx is valid
+    ```
 
-```mermaid
-sequenceDiagram
-    participant wallet@{"alias": "User wallet"}
-    participant node@{"alias": "Node"}
-    participant impl@{"alias": "Node's Simplicity implementation"}
-    participant mempool@{"alias": "Mempool"}
-    wallet->>node: New tx spending assets from UTXO Y to address Z, witness W
-    node->>impl: Run program P with UTXO Y to address Z, witness W
-    impl->>node: Success
-    node->>mempool: This tx is valid, can relay it or include it in a block
-    node->>wallet: Your tx is valid
-```
-
-```mermaid
-sequenceDiagram
-    participant wallet as User wallet
-    participant node as Node
-    participant impl as Node's Simplicity implementation
-    participant mempool as Mempool
-    wallet->>node: New tx spending assets from UTXO Y to address Z, witness W
-    node->>impl: Run program P with UTXO Y to address Z, witness W
-    impl->>node: Failure
-    node->>wallet: Your tx is invalid
-```
+    ```mermaid
+    sequenceDiagram
+        participant wallet as User wallet
+        participant node as Node
+        participant impl as Node's Simplicity implementation
+        participant mempool as Mempool
+        wallet->>node: New tx spending assets from UTXO Y to address Z, witness W
+        node->>impl: Run program P with UTXO Y to address Z, witness W
+        impl->>node: Failure
+        node->>wallet: Your tx is invalid
+    ```
