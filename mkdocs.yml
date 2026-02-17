@@ -168,7 +168,7 @@ nav:
       - Whitepaper: https://blockstream.com/simplicity.pdf
       - Technical Report: https://raw.githubusercontent.com/ElementsProject/simplicity/pdf/Simplicity-TR.pdf
       - Contribute: resources/contribute.md
-      - SimplicityHL Language:
+      - SimplicityHL Reference:
           - Types and Values: simplicityhl-reference/type.md
           - Type Aliases: simplicityhl-reference/type_alias.md
           - Type Casting: simplicityhl-reference/type_casting.md
