@@ -162,6 +162,12 @@ nav:
 #  - SimplicityHL Reference:
       - simplicityhl-reference/index.md
       - Jets Reference: documentation/jets.md
+      - State Management: documentation/state.md
+      - Environment: simplicityhl-reference/environment.md
+      - Translation: simplicityhl-reference/translation.md
+      - Whitepaper: https://blockstream.com/simplicity.pdf
+      - Technical Report: https://raw.githubusercontent.com/ElementsProject/simplicity/pdf/Simplicity-TR.pdf
+      - Contribute: resources/contribute.md
       - SimplicityHL Language:
           - Types and Values: simplicityhl-reference/type.md
           - Type Aliases: simplicityhl-reference/type_alias.md
@@ -171,12 +177,6 @@ nav:
           - Functions: simplicityhl-reference/function.md
           - Programs: simplicityhl-reference/program.md
           - Context: simplicityhl-reference/context.md
-      - State Management: documentation/state.md
-      - Environment: simplicityhl-reference/environment.md
-      - Translation: simplicityhl-reference/translation.md
-      - Whitepaper: https://blockstream.com/simplicity.pdf
-      - Technical Report: https://raw.githubusercontent.com/ElementsProject/simplicity/pdf/Simplicity-TR.pdf
-      - Contribute: resources/contribute.md
 #  Remove until we have content
   - Use Cases:
       - use-cases/index.md
