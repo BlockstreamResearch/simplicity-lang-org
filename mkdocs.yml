@@ -162,14 +162,15 @@ nav:
 #  - SimplicityHL Reference:
       - simplicityhl-reference/index.md
       - Jets Reference: documentation/jets.md
-      - Types and Values: simplicityhl-reference/type.md
-      - Type Aliases: simplicityhl-reference/type_alias.md
-      - Type Casting: simplicityhl-reference/type_casting.md
-      - Let Statements: simplicityhl-reference/let_statement.md
-      - Match Expression: simplicityhl-reference/match_expression.md
-      - Functions: simplicityhl-reference/function.md
-      - Programs: simplicityhl-reference/program.md
-      - Context: simplicityhl-reference/context.md
+      - SimplicityHL Language:
+          - Types and Values: simplicityhl-reference/type.md
+          - Type Aliases: simplicityhl-reference/type_alias.md
+          - Type Casting: simplicityhl-reference/type_casting.md
+          - Let Statements: simplicityhl-reference/let_statement.md
+          - Match Expression: simplicityhl-reference/match_expression.md
+          - Functions: simplicityhl-reference/function.md
+          - Programs: simplicityhl-reference/program.md
+          - Context: simplicityhl-reference/context.md
       - State Management: documentation/state.md
       - Environment: simplicityhl-reference/environment.md
       - Translation: simplicityhl-reference/translation.md
