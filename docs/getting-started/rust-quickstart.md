@@ -65,7 +65,7 @@ openssl rand -hex 32
     [System.BitConverter]::ToString($bytes).Replace("-", "").ToLower()
     ```
 
-Edit the `.env.demo` file at the top level of the `simplicity-demo` project. Add your random seed value after `SEED_HEX=` in that file.
+Create an `.env.demo` file at the top level of the `simplicity-demo` project. Add a single line with `SEED_HEX=` followed by your random seed value.
 
 ### Compile the P2PK contract using the public key
 
