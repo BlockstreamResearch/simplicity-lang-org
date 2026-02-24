@@ -71,7 +71,7 @@ glossary:Jet
 :    The list of jets and their specific behaviors is fixed at the time of integration of Simplicity into a particular blockchain.  In the <glossary:Elements> integration, there are 471 jets.
 
 glossary:Liquid
-:    A specific <glossary:Elements>-based network, the <a href="https://liquid.net/">Liquid Network</a>, that is the first blockchain to have native support for Simplicity. Most Simplicity examples as of 2025 assume that a program is running on the Liquid mainnet or Liquid testnet, although other integrations are planned.
+:    A specific <glossary:Elements>-based network, the <a href="https://liquid.net/">Liquid Network</a>, that is the first blockchain to have native support for Simplicity. Most Simplicity examples as of 2026 assume that a program is running on the Liquid mainnet or Liquid testnet, although other integrations are planned.
 
 glossary:Merkle tree
 :    A cryptographic mechanism for representing a potentially large amount of data concisely in a way that ensures that none of the data can be changed (a “commitment”). The Merkle tree also allows that data to be revealed selectively, so that some portions can be disclosed and verified, while continuing to hide other portions. A Merkle tree is represented by its root, which is a single cryptographic hash that commits to every object in the tree.
