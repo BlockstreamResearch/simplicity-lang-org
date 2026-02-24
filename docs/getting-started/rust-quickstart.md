@@ -112,6 +112,12 @@ Contract's Liquid Testnet address: tex1...
 
 The address derived at the bottom, beginning with `tex1...`, can be used to transfer coins to the contract.
 
+```mermaid
+flowchart LR
+    A[Liquid Testnet Faucet] -- Funding transaction --> B[P2PK Smart Contract];
+    B -- Spending transaction --> C[Wallet];
+```
+
 ### Fund the contract on Liquid Testnet
 
 We'll use the Liquid Testnet Faucet to send some tLBTC (representing Bitcoin on <glossary:Liquid> Testnet) to this contract. Open the <a target="_blank" href="https://liquidtestnet.com/faucet">Liquid Testnet Faucet</a> page in your web browser. In the first box ("destination"), paste the address from the line "Liquid testnet address" from the prior step's output, then click Submit.
