@@ -9,8 +9,8 @@ order to have copies of the example smart contracts from that repository.
 In this example, we check out a copy of this repository into the **current
 directory**. If you choose to check it out elsewhere on your system,
 change the path to the source files in the script or walkthrough below,
-as both of them defaults to assuming that the example SimplicityHL source
-code is found under ./SimplicityHL/examples.
+as both of them default to assuming that the example SimplicityHL source
+code is found under `./SimplicityHL/examples`.
 
 ```bash
 git clone https://github.com/BlockstreamResearch/SimplicityHL
