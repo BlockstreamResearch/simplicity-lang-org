@@ -1,6 +1,6 @@
 site_name: Simplicity
 site_url: https://docs.simplicity-lang.org/
-site_description: A typed, combinator-based, functional smart contract language without loops or recursion, designed for Bitcoin-like blockchains.
+site_description: A typed, combinator-based, smart contract language for Bitcoin-like blockchains.
 plugins:
   - search:
   - git-revision-date-localized:
