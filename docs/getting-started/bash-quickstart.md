@@ -1,6 +1,8 @@
-# SimplicityHL Quickstart
+# SimplicityHL Bash Quickstart
 
-This is a quickstart document to help you perform your first <glossary:transaction> on <glossary:Liquid> Testnet using a <glossary:Simplicity> <glossary:contract>.
+**This quickstart uses bash. A simpler quickstart more representative of current SimplicityHL development practices is the <a href="/getting-started/quickstart">Rust Quickstart</a>.**
+
+This is a bash-based quickstart document to help you perform your first <glossary:transaction> on <glossary:Liquid> Testnet using a <glossary:Simplicity> <glossary:contract>.
 
 Before beginning this tutorial, please <a href="/getting-started/toolchain">make sure you have installed the toolchain applications</a> (`simc` and `hal-simplicity`).
 
