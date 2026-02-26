@@ -1,4 +1,4 @@
-# SimplicityHL Rust Quickstart
+# SimplicityHL Quickstart
 
 This is a quickstart document to help you perform your first <glossary:transaction> on <glossary:Liquid> Testnet using a <glossary:Simplicity> <glossary:contract> with a Rust environment.
 
