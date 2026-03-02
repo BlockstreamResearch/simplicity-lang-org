@@ -8,7 +8,7 @@ This is a quickstart document to help you perform your first <glossary:transacti
 
 ## Demo walkthrough
 
-### Clone the walkthrough git repository
+### 1. Clone the walkthrough git repository
 
 Clone the repository:
 
@@ -40,7 +40,7 @@ This contract has a spot for a public key ("`param::PUBLIC_KEY`") of the person 
 ??? "Using your own wallet instead"
     If you prefer, you can generate a Liquid Testnet wallet of your own and send the tLBTC from the contract to your own wallet instead. You can do this by installing `elementsd` and `elements-cli` and then generating a local wallet with `elements-cli`. Alternatively, you can install a wallet application with Liquid Network support like the <a href="https://blockstream.com/app/">Blockstream App</a>. In the latter case, you'll need to create a Liquid Testnet wallet and account. You must provide an <glossary:unconfidential> <glossary:address> as the destination address here, not a <glossary:confidential> address. The command `hal-simplicity address inspect` can derive the unconfidential equivalent of a confidential address if required.
 
-### Create a random seed for a public and private keypair
+### 2. Create a random seed for a public and private keypair
 
 Generate a seed value for generating keys.
 
@@ -67,7 +67,7 @@ openssl rand -hex 32
 
 Create an `.env.demo` file at the top level of the `simplicity-demo` project. Add a single line with `SEED_HEX=` followed by your random seed value.
 
-### Compile the P2PK contract using the public key
+### 3. Compile the P2PK contract using the public key
 
 ```bash
 cargo run p2pk compile-to-testnet-address
@@ -91,13 +91,13 @@ SimplicityHL source code:
     fn main() {
         // Authorized public key (fixed at compile time)
         let pubkey: Pubkey = param::PUBLIC_KEY;
-    
+
         // Signature value (provided at spend time)
         let signature: Signature = witness::SIGNATURE;
-    
+
         // Sighash (summary of complete proposed transaction)
         let sighash: u256 = jet::sig_all_hash();
-    
+
         // Verify supplied signature over proposed transaction details
         jet::bip_0340_verify((pubkey, sighash), signature);
     }
@@ -118,12 +118,12 @@ flowchart LR
     B -- Spending transaction --> C[Wallet];
 ```
 
-### Fund the contract on Liquid Testnet
+### 4. Fund the contract on Liquid Testnet
 
-We'll use the Liquid Testnet Faucet to send some tLBTC (representing Bitcoin on <glossary:Liquid> Testnet) to this contract. Open the <a target="_blank" href="https://liquidtestnet.com/faucet">Liquid Testnet Faucet</a> page in your web browser. In the first box ("destination"), paste the address from the line "Liquid testnet address" from the prior step's output, then click Submit.
+Use the Liquid Testnet Faucet to send some tLBTC (representing Bitcoin on <glossary:Liquid> Testnet) to this contract. Open the <a target="_blank" href="https://liquidtestnet.com/faucet">Liquid Testnet Faucet</a> page in your web browser. Paste the `tex1...` address from step 3 into the first "address" field and click Submit.
 
 ??? "Alternative using `curl`"
-    You can do this via `curl` on your command line, substituting your contract address.
+    You can do this via `curl` on your command line, substituting your contract address. For example:
 
     ```bash
     CONTRACT_ADDRESS=tex1pm6g0d2yjp5u0hacruyn8cfjtchzsq0kwnw485rk8d6jkqzrltkrsa0w4ee
@@ -134,70 +134,73 @@ We'll use the Liquid Testnet Faucet to send some tLBTC (representing Bitcoin on 
 
 This funds the contract with 100000 sats of tLBTC. Now that the contract controls these coins, its logic decides if and when this value may be spent.
 
-### Find the Faucet transaction on the blockchain
+### 5. Find the Faucet transaction on the blockchain
 
 Open the <a target="_blank" href="https://blockstream.info/liquidtestnet/">Liquid Testnet Explorer</a> in your browser. Paste the contract's address (the `tex1...` address from earlier) to find the transaction from the Faucet. Copy its transaction ID to use as the <glossary:UTXO> value in the following step.
 
-### Create a transaction that spends the tLBTC
+### 6. Create a transaction that spends the tLBTC
 
 Now run this command to generate a transaction that spends the assets you sent to your contract (less a network fee of 100 sats).
+
+Replace `<TXID>` with the txid value from the Explorer. The address `tex1q9hgs7pj8etd92rw5qz3dymvujffxzylmj6a28h` is a sample wallet address that we created to receive tLBTC funds from this process.
 
 ```bash
 cargo run generate-p2pk-spending-transaction --utxo <TXID>:0 --to-address tex1q9hgs7pj8etd92rw5qz3dymvujffxzylmj6a28h --send-sats 99900 --fee-sats 100
 ```
 
-In this command, `<TXID>` should be replaced by the txid value from the Explorer. The address `tex1q9hgs7pj8etd92rw5qz3dymvujffxzylmj6a28h` is a sample wallet address that we created to receive tLBTC funds from this process.
+You'll see output describing steps in the creation of the spending transaction. This transaction proves to the contract that you're entitled to spend the funds it controls.
 
-This command creates a new Liquid Testnet transaction whose <glossary:input> comes from the prior contract-funding transaction and whose <glossary:output>, less a fee, goes to the specified destination address.
+??? "What's happening here?"
+    This command creates a new Liquid Testnet transaction whose <glossary:input> comes from the prior contract-funding transaction and whose <glossary:output>, less a fee, goes to the specified destination address.
 
-The Rust program handles various steps in this process.
+    The Rust program handles various steps in this process.
 
-* It derives the private key again (from the seed you created earlier).
-* It compiles the SimplicityHL program again to obtain all parameters associated with the compiled program.
-* It creates a <glossary:transaction> proposing to transfer assets from the contract.
-* It signs the transaction with the private key, creating a digital signature.
-* It creates a <glossary:witness> including this digital signature.
-* It combines all of these elements into a single finalized transaction ready for submission to the blockchain.
+    * It derives the private key again (from the seed you created earlier).
+    * It compiles the SimplicityHL program again to obtain all parameters associated with the compiled program.
+    * It creates a <glossary:transaction> proposing to transfer assets from the contract.
+    * It signs the transaction with the private key, creating a digital signature.
+    * It creates a <glossary:witness> including this digital signature.
+    * It combines all of these elements into a single finalized transaction ready for submission to the blockchain.
 
-You'll see each of these steps as it happens, with output something like this:
+    You'll see each of these steps as it happens, with output something like this:
 
-```
-# Deriving keypair from seed.
-# Creating proposed transaction from UTXO to specified destination.
-Asset: (tLBTC)
-# Signing transaction with private key.
-# Compiling SimplicityHL program source_simf/p2pk.simf.
+    ```
+    # Deriving keypair from seed.
+    # Creating proposed transaction from UTXO to specified destination.
+    Asset: (tLBTC)
+    # Signing transaction with private key.
+    # Compiling SimplicityHL program source_simf/p2pk.simf.
 
-SimplicityHL source code:
-    fn main() {
-        // Authorized public key (fixed at compile time)
-        let pubkey: Pubkey = param::PUBLIC_KEY;
-    
-        // Signature value (provided at spend time)
-        let signature: Signature = witness::SIGNATURE;
-    
-        // Sighash (summary of complete proposed transaction)
-        let sighash: u256 = jet::sig_all_hash();
-    
-        // Verify supplied signature over proposed transaction details
-        jet::bip_0340_verify((pubkey, sighash), signature);
-    }
+    SimplicityHL source code:
+        fn main() {
+            // Authorized public key (fixed at compile time)
+            let pubkey: Pubkey = param::PUBLIC_KEY;
 
-Parameter arguments (compile-time):
-    mod param {
-        const PUBLIC_KEY: u256 = 0x7c37e620ca2a8e8ba67c7e18f9d9cc6ad53221b1dfbcbc75ba3900c7cea7d75b;
-    }
+            // Signature value (provided at spend time)
+            let signature: Signature = witness::SIGNATURE;
 
-Witness values (spend-time):
-    mod witness {
-        const SIGNATURE: [u8; 64] = 0x6755724721a2ade83c21f1e89c67be1585cc397b0702719bcc58d2a8c5f7ca77ca32321cb22dd73637cff759b248b0c9f816a895478cbd4e77ba79ca86531929;
-    }
+            // Sighash (summary of complete proposed transaction)
+            let sighash: u256 = jet::sig_all_hash();
 
-Transaction:
-020000000....
-```
+            // Verify supplied signature over proposed transaction details
+            jet::bip_0340_verify((pubkey, sighash), signature);
+        }
 
-### Submit the transaction to the Liquid Testnet
+    Parameter arguments (compile-time):
+        mod param {
+            const PUBLIC_KEY: u256 = 0x7c37e620ca2a8e8ba67c7e18f9d9cc6ad53221b1dfbcbc75ba3900c7cea7d75b;
+        }
+
+    Witness values (spend-time):
+        mod witness {
+            const SIGNATURE: [u8; 64] = 0x6755724721a2ade83c21f1e89c67be1585cc397b0702719bcc58d2a8c5f7ca77ca32321cb22dd73637cff759b248b0c9f816a895478cbd4e77ba79ca86531929;
+        }
+
+    Transaction:
+    020000000....
+    ```
+
+### 7. Submit the transaction to the Liquid Testnet
 
 Now submit this transaction to the mempool. Open the <a target="_blank" href="https://blockstream.info/liquidtestnet/tx/push">the "broadcast raw transaction" page</a> and paste the transaction hex data from the prior step.
 
