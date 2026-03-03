@@ -2,11 +2,19 @@
 
 Simplicity jets are built-in functions which you can call to efficiently perform various computations, including some related to arithmetic, logic, and cryptography.
 
-Jet calls are currently used in SimplicityHL to perform many operations, such as integer comparisons or arithmetic, that have dedicated notation in other programming languages. For example, in SimplicityHL, you check whether two integers are equal with a call to a jet such as `jet::eq_32`.
+## Uses of jets
 
-Some jets allow a Simplicity program to refuse a proposed transaction by performing a mandatory assertion (these jets' return type is `unit` below). For example, `jet::bip_0340_verify` will refuse the entire transaction if the specified signature cannot be verified. Jets also provide information about the currently proposed transaction, enabling <glossary:introspection> of its inputs and outputs.
+Jet calls are currently used in SimplicityHL to perform many operations, such as integer comparisons or arithmetic, that have dedicated notation in other programming languages.
 
-The list of jets is fixed when Simplicity is integrated with a specific blockchain, because their details become part of the consensus rules for each Simplicity-enabled blockchain. A complete list of jets must be predefined so different verifiers can agree on what a particular Simplicity program means and what its exact behavior is when it is run. Jet implementations are available in native code to allow miners and other node operators to run these functions more quickly and efficiently.
+* For example, in SimplicityHL, you check whether two integers are equal with a call to a jet such as `jet::eq_32`.
+
+Some jets allow a Simplicity program to refuse a proposed transaction by performing a mandatory assertion (these jets' return type is `unit` below). The "panic" or failure effect produced by these jets is the *only* way to decline a transaction, so every program will need to call one or more of these jets directly or indirectly.
+
+* For example, `jet::bip_0340_verify` checks a digital signature and refuses the transaction if the signature cannot be verified.
+
+Jets also provide information about the currently proposed transaction, enabling <glossary:introspection> of its inputs and outputs.
+
+* For example, `jet::output_script_hash` provides the cryptographic identity of the program controls a specified output of the proposed transaction. This can be used to require that assets are sent back to a copy of a specific <glossary:program> (a <glossary:covenant>).
 
 ## Jet list
 
@@ -555,3 +563,11 @@ There are three styles of writing jet names that you may encounter in Simplicity
 * Rust source code writes them like `Elements::Eq32`.
 
 The reference list above is aimed at SimplicityHL developers, so it presents jet names in SimplicityHL format. Remember to include `jet::` before the name of the jet when calling it from a SimplicityHL program.
+
+## More about jet implementation
+
+The list of jets is fixed when Simplicity is integrated with a specific blockchain, because their details become part of the consensus rules for each Simplicity-enabled blockchain. A complete list of jets must be predefined so different verifiers can agree on what a particular Simplicity program means and what its exact behavior is when it is run. Jet implementations are available in native code to allow miners and other node operators to run these functions more quickly and efficiently.
+
+Calling jets, where available, makes your Simplicity program smaller and faster.
+
+A few jets <a href="https://delvingbitcoin.org/t/delving-simplicity-part-two-side-effects/2091">provide behaviors that could not be achieved directly with low-level Simplicity combinators alone</a>, such as transaction introspection. Jets that can fail (those whose return type is `unit`) are the expected and only way for a Simplicity program to disapprove a proposed transaction.
