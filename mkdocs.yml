@@ -4,9 +4,6 @@ site_description: A typed, combinator-based, smart contract language for Bitcoin
 plugins:
   - search:
   - git-revision-date-localized:
-  - ezglossary:
-      tooltip: full
-      ignore_case: true
   - blog:
       blog_dir: news
   - git-committers:
@@ -23,11 +20,13 @@ theme:
     - content.code.annotate
     - content.code.copy
     - content.code.select
-    - content.footnote.tooltips
+#   - content.footnote.tooltips
     - content.tooltips
     - navigation.expand
     - navigation.footer
     - navigation.indexes
+    - navigation.instant
+    - navigation.prefetch
     - navigation.sections
     - navigation.tabs
     - navigation.top
@@ -60,7 +59,9 @@ theme:
         icon: material/brightness-4
         name: Switch to system preference
 markdown_extensions:
-  - attr_list:
+  - abbr
+  - admonition
+  - attr_list
   - md_in_html:
   - attr_list:
   - pymdownx.emoji:
@@ -128,6 +129,9 @@ copyright: Copyright &copy; 2026 Blockstream
 repo_url: https://github.com/BlockstreamResearch/simplicity-lang-org
 repo_name: "" # Hides the GitHub link/icon from title bar while keeping edit functionality
 edit_uri: edit/main/docs/
+
+hooks:
+  - includes/hooks/autolink_glossary.py
 
 nav:
   - Get Started:

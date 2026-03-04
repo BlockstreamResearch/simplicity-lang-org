@@ -1,6 +1,6 @@
 # SimplicityHL Quickstart
 
-This is a quickstart document to help you perform your first <glossary:transaction> on <glossary:Liquid> Testnet using a <glossary:Simplicity> <glossary:contract> with a Rust environment.
+This is a quickstart document to help you perform your first [transaction](../glossary.md#transaction) on [Liquid](../glossary.md#liquid) Testnet using a [Simplicity](../glossary.md#simplicity) [contract](../glossary.md#contract) with a Rust environment.
 
 <a href="https://rust-lang.org/tools/install/">Make sure you have Rust installed.</a>
 
@@ -38,7 +38,7 @@ fn main() {
 This contract has a spot for a public key ("`param::PUBLIC_KEY`") of the person authorized to spend the contract's funds.
 
 ??? "Using your own wallet instead"
-    If you prefer, you can generate a Liquid Testnet wallet of your own and send the tLBTC from the contract to your own wallet instead. You can do this by installing `elementsd` and `elements-cli` and then generating a local wallet with `elements-cli`. Alternatively, you can install a wallet application with Liquid Network support like the <a href="https://blockstream.com/app/">Blockstream App</a>. In the latter case, you'll need to create a Liquid Testnet wallet and account. You must provide an <glossary:unconfidential> <glossary:address> as the destination address here, not a <glossary:confidential> address. The command `hal-simplicity address inspect` can derive the unconfidential equivalent of a confidential address if required.
+    If you prefer, you can generate a Liquid Testnet wallet of your own and send the tLBTC from the contract to your own wallet instead. You can do this by installing `elementsd` and `elements-cli` and then generating a local wallet with `elements-cli`. Alternatively, you can install a wallet application with Liquid Network support like the <a href="https://blockstream.com/app/">Blockstream App</a>. In the latter case, you'll need to create a Liquid Testnet wallet and account. You must provide an [unconfidential](../glossary.md#unconfidential) [address](../glossary.md#address) as the destination address here, not a [confidential](../glossary.md#confidential) address. The command `hal-simplicity address inspect` can derive the unconfidential equivalent of a confidential address if required.
 
 ### 2. Create a random seed for a public and private keypair
 
@@ -120,7 +120,7 @@ flowchart LR
 
 ### 4. Fund the contract on Liquid Testnet
 
-Use the Liquid Testnet Faucet to send some tLBTC (representing Bitcoin on <glossary:Liquid> Testnet) to this contract. Open the <a target="_blank" href="https://liquidtestnet.com/faucet">Liquid Testnet Faucet</a> page in your web browser. Paste the `tex1...` address from step 3 into the first "address" field and click Submit.
+Use the Liquid Testnet Faucet to send some tLBTC (representing Bitcoin on [Liquid](../glossary.md#liquid) Testnet) to this contract. Open the <a target="_blank" href="https://liquidtestnet.com/faucet">Liquid Testnet Faucet</a> page in your web browser. Paste the `tex1...` address from step 3 into the first "address" field and click Submit.
 
 ??? "Alternative using `curl`"
     You can do this via `curl` on your command line, substituting your contract address. For example:
@@ -136,7 +136,7 @@ This funds the contract with 100000 sats of tLBTC. Now that the contract control
 
 ### 5. Find the Faucet transaction on the blockchain
 
-Open the <a target="_blank" href="https://blockstream.info/liquidtestnet/">Liquid Testnet Explorer</a> in your browser. Paste the contract's address (the `tex1...` address from earlier) to find the transaction from the Faucet. Copy its transaction ID to use as the <glossary:UTXO> value in the following step.
+Open the <a target="_blank" href="https://blockstream.info/liquidtestnet/">Liquid Testnet Explorer</a> in your browser. Paste the contract's address (the `tex1...` address from earlier) to find the transaction from the Faucet. Copy its transaction ID to use as the [UTXO](../glossary.md#utxo) value in the following step.
 
 ### 6. Create a transaction that spends the tLBTC
 
@@ -151,15 +151,15 @@ cargo run generate-p2pk-spending-transaction --utxo <TXID>:0 --to-address tex1q9
 You'll see output describing steps in the creation of the spending transaction. This transaction proves to the contract that you're entitled to spend the funds it controls.
 
 ??? "What's happening here?"
-    This command creates a new Liquid Testnet transaction whose <glossary:input> comes from the prior contract-funding transaction and whose <glossary:output>, less a fee, goes to the specified destination address.
+    This command creates a new Liquid Testnet transaction whose [input](../glossary.md#input) comes from the prior contract-funding transaction and whose [output](../glossary.md#output), less a fee, goes to the specified destination address.
 
     The Rust program handles various steps in this process.
 
     * It derives the private key again (from the seed you created earlier).
     * It compiles the SimplicityHL program again to obtain all parameters associated with the compiled program.
-    * It creates a <glossary:transaction> proposing to transfer assets from the contract.
+    * It creates a [transaction](../glossary.md#transaction) proposing to transfer assets from the contract.
     * It signs the transaction with the private key, creating a digital signature.
-    * It creates a <glossary:witness> including this digital signature.
+    * It creates a [witness](../glossary.md#witness) including this digital signature.
     * It combines all of these elements into a single finalized transaction ready for submission to the blockchain.
 
     You'll see each of these steps as it happens, with output something like this:
@@ -223,7 +223,7 @@ View your successful transaction <a href="https://blockstream.info/liquidtestnet
 You've just compiled a smart contract, sent assets to it on a public blockchain, and then satisfied the contract, allowing you to spend those assets.
 
 ??? "See more technical details"
-    Both of the `cargo run` commands above support a `-v` option for verbose output, which includes more technical details about the cryptographic parameters that were calculated by the Rust code. For example, this will display the <glossary:CMR> and compiled program.
+    Both of the `cargo run` commands above support a `-v` option for verbose output, which includes more technical details about the cryptographic parameters that were calculated by the Rust code. For example, this will display the [CMR](../glossary.md#cmr) and compiled program.
 
 #### Next steps
 

@@ -1,6 +1,6 @@
 # SimplicityHL Quickstart
 
-This is a quickstart document to help you perform your first <glossary:transaction> on <glossary:Liquid> Testnet using a <glossary:Simplicity> <glossary:contract>.
+This is a quickstart document to help you perform your first [transaction](../glossary.md#transaction) on [Liquid](../glossary.md#liquid) Testnet using a [Simplicity](../glossary.md#simplicity) [contract](../glossary.md#contract).
 
 Before beginning this tutorial, please <a href="/getting-started/toolchain">make sure you have installed the toolchain applications</a> (`simc` and `hal-simplicity`).
 
@@ -22,14 +22,14 @@ DESTINATION_ADDRESS="tex1q9hgs7pj8etd92rw5qz3dymvujffxzylmj6a28h"
 
 These set up some parameters that will be referenced later on in this process.
 
-The `$INTERNAL_KEY` is a parameter used to construct the <glossary:address> of the Simplicity contract. The value given here is a hard-coded default value based on BIP 0341.
+The `$INTERNAL_KEY` is a parameter used to construct the [address](../glossary.md#address) of the Simplicity contract. The value given here is a hard-coded default value based on BIP 0341.
 
-The `$PRIVKEY` variable represents a <glossary:private key> held by the beneficiary of the contract, who can approve a proposed transaction by digitally signing it with the this private key. This value is intentionally chosen to be the number `1` for demonstration purposes, but in a real contract application it would be a long random number.
+The `$PRIVKEY` variable represents a [private key](../glossary.md#private key) held by the beneficiary of the contract, who can approve a proposed transaction by digitally signing it with the this private key. This value is intentionally chosen to be the number `1` for demonstration purposes, but in a real contract application it would be a long random number.
 
 The `$DESTINATION_ADDRESS` above, ending `...uwkjy`, is a specifically hardcoded value for sending tLBTC to a particular Blockstream test wallet. In the absence of anywhere else to send a payment, we'll make our contract send a payment to this address.
 
 ??? "Using your own wallet instead"
-    If you prefer, you can generate a Liquid Testnet wallet of your own and send the tLBTC from the contract to your own wallet instead. You can do this by installing `elementsd` and `elements-cli` and then generating a local wallet with `elements-cli`. Alternatively, you can install a wallet application with Liquid Network support like the <a href="https://blockstream.com/app/">Blockstream App</a>. In the latter case, you'll need to create a Liquid Testnet wallet and account. You must provide an <glossary:unconfidential> <glossary:address> as the value of `DESTINATION_ADDRESS` here, not a <glossary:confidential> address. The command `hal-simplicity address inspect` can derive the unconfidential equivalent of a confidential address if required.
+    If you prefer, you can generate a Liquid Testnet wallet of your own and send the tLBTC from the contract to your own wallet instead. You can do this by installing `elementsd` and `elements-cli` and then generating a local wallet with `elements-cli`. Alternatively, you can install a wallet application with Liquid Network support like the <a href="https://blockstream.com/app/">Blockstream App</a>. In the latter case, you'll need to create a Liquid Testnet wallet and account. You must provide an [unconfidential](../glossary.md#unconfidential) [address](../glossary.md#address) as the value of `DESTINATION_ADDRESS` here, not a [confidential](../glossary.md#confidential) address. The command `hal-simplicity address inspect` can derive the unconfidential equivalent of a confidential address if required.
 
 ### Step 2: Compile the contract
 
@@ -73,11 +73,11 @@ CMR=$(hal-simplicity simplicity info "$COMPILED_PROGRAM" | jq -r .cmr)
 CONTRACT_ADDRESS=$(hal-simplicity simplicity info "$COMPILED_PROGRAM" | jq -r .liquid_testnet_address_unconf)
 ```
 
-These commands are using `jq` to extract specific named fields from the `hal-simplicity simplicity info` JSON output. In this case we are looking for the program's <glossary:CMR> and <glossary:address> and saving them into variables for future use.
+These commands are using `jq` to extract specific named fields from the `hal-simplicity simplicity info` JSON output. In this case we are looking for the program's [CMR](../glossary.md#cmr) and [address](../glossary.md#address) and saving them into variables for future use.
 
 ### Step 3: Fund the contract on Liquid Testnet
 
-We'll use the Liquid Testnet Faucet to send some tLBTC (a test <glossary:asset> used on <glossary:Liquid> Testnet, representing LBTC on Liquid Network) to this contract. Go to the <a target="_blank" href="https://liquidtestnet.com/faucet">Liquid Testnet Faucet</a> page in your web browser, and paste the address from `CONTRACT_ADDRESS` into the first box (destination).
+We'll use the Liquid Testnet Faucet to send some tLBTC (a test [asset](../glossary.md#asset) used on [Liquid](../glossary.md#liquid) Testnet, representing LBTC on Liquid Network) to this contract. Go to the <a target="_blank" href="https://liquidtestnet.com/faucet">Liquid Testnet Faucet</a> page in your web browser, and paste the address from `CONTRACT_ADDRESS` into the first box (destination).
 
 ??? "Alternative using `curl`"
     You can do this via `curl` on your command line.
@@ -96,19 +96,19 @@ FAUCET_TRANSACTION=[insert your transaction ID from the Faucet here]
 
 ### Step 4: Create a minimal PSET
 
-We'll now begin to build a <glossary:transaction> requesting this contract to spend these <glossary:asset>s by sending them to `$DESTINATION_ADDRESS`. Eventually, when it's complete, this transaction will satisfy the contract and be approved as valid, causing the assets to be transferred.
+We'll now begin to build a [transaction](../glossary.md#transaction) requesting this contract to spend these [asset](../glossary.md#asset)s by sending them to `$DESTINATION_ADDRESS`. Eventually, when it's complete, this transaction will satisfy the contract and be approved as valid, causing the assets to be transferred.
 
 ```bash
 PSET1=$(hal-simplicity simplicity pset create '[ { "txid": "'"$FAUCET_TRANSACTION"'", "vout": 0 } ]' '[ { "'"$DESTINATION_ADDRESS"'": 0.00099900 }, { "fee": 0.00000100 } ]' | jq -r .pset)
 ```
 
-Here we run `hal-simplicity-simplicity pset create` to create a new minimal <glossary:PSET> representing a transaction whose <glossary:input> comes from the prior contract-funding transaction and whose <glossary:output>, less a fee, goes to `$DESTINATION_ADDRESS`.
+Here we run `hal-simplicity-simplicity pset create` to create a new minimal [PSET](../glossary.md#pset) representing a transaction whose [input](../glossary.md#input) comes from the prior contract-funding transaction and whose [output](../glossary.md#output), less a fee, goes to `$DESTINATION_ADDRESS`.
 
-We save the PSET into a shell variable `$PSET1`. We'll gradually modify our PSET into different environment variables as we attach additional <glossary:parameter>s and details to it.
+We save the PSET into a shell variable `$PSET1`. We'll gradually modify our PSET into different environment variables as we attach additional [parameter](../glossary.md#parameter)s and details to it.
 
 ### Step 5: Get more input transaction details
 
-We need to get some more details about the <glossary:UTXO> that this transaction is proposing to spend. These details are available via the Explorer API.
+We need to get some more details about the [UTXO](../glossary.md#utxo) that this transaction is proposing to spend. These details are available via the Explorer API.
 
 First, run
 
@@ -140,7 +140,7 @@ The modified PSET data is stored in the shell variable `$PSET2`.
 
 ### Step 6: Digitally sign the transaction
 
-The contract we're using for this demonstration enforces, via its program logic, that a valid signature is present for the transaction. This means that the contract approves transactions when a prespecified entity (identified by a <glossary:public key> inside the contract's source code) provides a digital signature for those transactions. In this demo version, we have the matching private key already (in fact, it's just the number `1`), so we can make that signature ourselves.
+The contract we're using for this demonstration enforces, via its program logic, that a valid signature is present for the transaction. This means that the contract approves transactions when a prespecified entity (identified by a [public key](../glossary.md#public key) inside the contract's source code) provides a digital signature for those transactions. In this demo version, we have the matching private key already (in fact, it's just the number `1`), so we can make that signature ourselves.
 
 First, let's create the witness file `example.wit`. Copy this JSON and save it into a file with that name.
 
@@ -162,7 +162,7 @@ Copy the hexadecimal value that appears as `signature` in the output. Edit the `
 
 ### Step 7: Create the serialized witness file
 
-We're going to run `simc` again to obtain a version of our updated <glossary:witness> file suitable for publication on the blockchain. (This represents the *input* to our contract as the contract is being run in the context of this transaction. The presence of the valid signature on this transaction will convince our contract logic to approve the transaction.)
+We're going to run `simc` again to obtain a version of our updated [witness](../glossary.md#witness) file suitable for publication on the blockchain. (This represents the *input* to our contract as the contract is being run in the context of this transaction. The presence of the valid signature on this transaction will convince our contract logic to approve the transaction.)
 
 ```bash
 simc example.simf example.wit
@@ -176,7 +176,7 @@ WITNESS=$(simc --json example.simf example.wit | jq -r .witness)
 
 ### Step 8: Finalize and extract the raw transaction
 
-Two more `hal-simplicity` commands will transform our <glossary:PSET> and <glossary:witness> data into a <glossary:transaction> suitable for submission to the Liquid Testnet blockchain.
+Two more `hal-simplicity` commands will transform our [PSET](../glossary.md#pset) and [witness](../glossary.md#witness) data into a [transaction](../glossary.md#transaction) suitable for submission to the Liquid Testnet blockchain.
 
 ```bash
 PSET3=$(hal-simplicity simplicity pset finalize "$PSET2" 0 "$COMPILED_PROGRAM" "$WITNESS" | jq -r .pset)

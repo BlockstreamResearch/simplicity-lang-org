@@ -1,6 +1,6 @@
 # Witnesses in SimplicityHL development
 
-The [execution model](/documentation/execution-model) for Simplicity <glossary:contract>s allows the user who is proposing a <glossary:transaction> to provide input values to the contract. The meaning of these inputs is specific to an individual contract, but in general they help the contract to confirm that the proposed transaction is authorized according to the contract's rules. This is necessary because anyone can propose transactions to spend assets at any time, so a contract needs a clear way to distinguish which transactions are appropriate and which aren't.
+The [execution model](/documentation/execution-model) for Simplicity [contract](../glossary.md#contract)s allows the user who is proposing a [transaction](../glossary.md#transaction) to provide input values to the contract. The meaning of these inputs is specific to an individual contract, but in general they help the contract to confirm that the proposed transaction is authorized according to the contract's rules. This is necessary because anyone can propose transactions to spend assets at any time, so a contract needs a clear way to distinguish which transactions are appropriate and which aren't.
 
 The combination of inputs provided as part of a transaction is known as the *witness*. This term is adopted from its existing use in other kinds of Bitcoin transactions, and originally from a related meaning in computer science.
 
@@ -14,11 +14,11 @@ The witness is directly attached to the transaction and forms a part of it; if t
 
 In an end-user application, witness data will typically be built by wallet or app software that understands how to interact with a certain contract on the user's behalf. During the contract development process, developers might build it manually.
 
-The rest of this document provides details about the means of creating witnesses and about the kinds of data that can be included inside them. Please note that this document is discussing "inputs" informally in the typical software development sense of <a href="https://en.wikipedia.org/wiki/Parameter_(computer_programming)">data provided to a function or program</a>, not the blockchain-specific sense of the specific <glossary:UTXO>s consumed by a transaction (which will also be details relevant to many contracts' logic).
+The rest of this document provides details about the means of creating witnesses and about the kinds of data that can be included inside them. Please note that this document is discussing "inputs" informally in the typical software development sense of <a href="https://en.wikipedia.org/wiki/Parameter_(computer_programming)">data provided to a function or program</a>, not the blockchain-specific sense of the specific [UTXO](../glossary.md#utxo)s consumed by a transaction (which will also be details relevant to many contracts' logic).
 
 ## Command-line development with `.wit` files
 
-The <glossary:simc> compiler is able to compile (in this context, "serialize") a witness using a contract-specific text file called a `.wit` file. The output is a base64 string which can then be provided to other tools like `hal-simplicity pset finalize` to be incorporated into a complete transaction.
+The [simc](../glossary.md#simc) compiler is able to compile (in this context, "serialize") a witness using a contract-specific text file called a `.wit` file. The output is a base64 string which can then be provided to other tools like `hal-simplicity pset finalize` to be incorporated into a complete transaction.
 
 The `.wit` file is formatted as a JSON file. Each top-level entry in the file has a *name* which has two elements: `value` and `type`. The entry name is used in the SimplicityHL program as a variable name to refer to this specific entry. The `value` and `type` are both strings containing Rust-like code for the data value and data type annotation for the entry. For example,
 
@@ -58,7 +58,7 @@ An important type very frequently used in witnesses is `Signature`, which repres
 }
 ```
 
-This witness provides `witness::ALICE_SIG` and `witness::BOB_SIG`, representing two BIP 0340 signatures from two parties who are approving a proposed transaction. A SimplicityHL program will be able to use the `jet::bip_0340_verify()` <glossary:jet> in order to verify a signature over a specific provided `u256` value (or over a calculated SHA-256 hash output, or over `jet::sig_all_hash()`, which obtains the <glossary:sighash> for the currently proposed transaction itself when parties are signing to authorize the transaction directly).
+This witness provides `witness::ALICE_SIG` and `witness::BOB_SIG`, representing two BIP 0340 signatures from two parties who are approving a proposed transaction. A SimplicityHL program will be able to use the `jet::bip_0340_verify()` [jet](../glossary.md#jet) in order to verify a signature over a specific provided `u256` value (or over a calculated SHA-256 hash output, or over `jet::sig_all_hash()`, which obtains the [sighash](../glossary.md#sighash) for the currently proposed transaction itself when parties are signing to authorize the transaction directly).
 
 SHA-256 hash outputs, which are ubiquitous in the Bitcoin ecosystem, can normally be represented with a `u256` value. For more information on data types that can be used in `.wit` files, see the section on types below.
 
@@ -221,7 +221,7 @@ Some more complex type system features that can be used in creating witnesses in
 
 ### More built-in types
 
-Other built-in SimplicityHL types and alias types may also be used in witnesses, including `Pubkey` for <glossary:public key>s, `Distance` for timelock distances, and various others, but there's usually less frequent reason to use these compared to integers and signatures. The complete list of available built-in type aliases and their type definitions is <a href="https://github.com/BlockstreamResearch/SimplicityHL/blob/master/src/types.rs#L815">available in the SimplicityHL source code</a>, but you should generally only use these when passing them as parameters to a specific jet that expects them. These types' names are always capitalized in SimplicityHL code, like `Signature`, `Pubkey`, `Distance`, `Duration`.
+Other built-in SimplicityHL types and alias types may also be used in witnesses, including `Pubkey` for [public key](../glossary.md#public key)s, `Distance` for timelock distances, and various others, but there's usually less frequent reason to use these compared to integers and signatures. The complete list of available built-in type aliases and their type definitions is <a href="https://github.com/BlockstreamResearch/SimplicityHL/blob/master/src/types.rs#L815">available in the SimplicityHL source code</a>, but you should generally only use these when passing them as parameters to a specific jet that expects them. These types' names are always capitalized in SimplicityHL code, like `Signature`, `Pubkey`, `Distance`, `Duration`.
 
 The type signatures of the <a href="https://github.com/BlockstreamResearch/SimplicityHL/blob/c412dfc684a47c9f430195c20d5a906294b27575/src/jet.rs#L32">inputs</a> and <a href="https://github.com/BlockstreamResearch/SimplicityHL/blob/c412dfc684a47c9f430195c20d5a906294b27575/src/jet.rs#L533">outputs</a> to each jet are specified in the jet implementation and will be provided as an integral part of the jet documentation.
 
