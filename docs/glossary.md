@@ -23,6 +23,11 @@ A cryptographic representation of the identity of a specific Simplicity [contrac
 ## Combinator
 A low-level operation in Simplicity, the approximate equivalent of an opcode in [Bitcoin Script](./glossary.md#bitcoin-script) and other low-level programming languages. Simplicity is designed using <a href="https://en.wikipedia.org/wiki/Combinatory_logic">combinatory logic</a>; a low-level Simplicity program is made up of a series of combinator invocations as well as invocations of [jet](./glossary.md#jet)s. In combinatory logic, a combinator is a function that takes functions as input and returns a function as output, so that functions are the underlying objects that the logical system deals with. Architecturally, Simplicity combinators follow this pattern.
 
+## Confidential
+On the [Liquid Network](./glossary.md#liquid), transactions may be <a href="https://blog.liquid.net/guide-to-confidential-transactions/">confidential</a>, preventing third parties from determining the amount and asset of a transaction. To use this feature, the transaction must be sent to a "confidential address" which includes a cryptographic blinding key. If the destination address does not include such a key, it may be called "[unconfidential](./glossary.md#unconfidential)".
+
+For more information, see also <a href="https://docs.liquid.net/docs/liquid-features-and-benefits#confidential-transactions-on-liquid">Confidential Transactions on Liquid</a>.
+
 ## Contract
 Sometimes used interchangeably with "program". Often, a specific instance of Simplicity code that can receive [asset](./glossary.md#asset)s on a blockchain and make decisions about how to dispose of those assets in accordance with its internal logic.
 
@@ -151,6 +156,11 @@ In public-key cryptography, a public value to which a specific [private key](./g
 ## Recursive covenant
 A [covenant](./glossary.md#covenant) that, in at least some circumstances, requires an [asset](./glossary.md#asset) to be sent back to the same contract, or to a [contract](./glossary.md#contract) that continues to enforce a particular rule on downstream [transaction](./glossary.md#transaction)s.
 
+## Sighash
+A cryptographic hash of relevant data to be signed as part of a Bitcoin or [Elements](./glossary.md#elements) [transaction](./glossary.md#transaction) by some party in order to approve the transaction. For example, this may be a hash of a list of all inputs and outputs of the transaction.
+
+In some contexts, the term "sighash" is used to describe the set of relevant data that goes into computing this hash, rather than the hashed value itself.
+
 ## simc
 Blockstream's Simplicity compiler, which translates [SimplicityHL](./glossary.md#simplicityhl) to [Simplicity](./glossary.md#simplicity), as well as serializing [witness](./glossary.md#witness)es for inclusion on a blockchain.
 
@@ -195,6 +205,11 @@ By giving up some amount of expressive power, Simplicity also improves predictab
 This means that Simplicity does not include loops or recursion, and SimplicityHL cannot perform an unbounded loop (such as a while loop, as in other programming languages). SimplicityHL provides bounded looping mechanisms: if a program contains a loop, the maximum number of loop iterations must be known in advance, and the built-in `for_while` function can only repeat a given loop up to 65535 times.
 
 These limitations aid the analysis of the correctness of Simplicity and SimplicityHL programs’ behavior, while still permitting the implementation of complex and useful smart contract functionality.
+
+## Unconfidential
+An address or transaction on the [Liquid Network](./glossary.md#liquid) is called unconfidential, or non-confidential, if it isn't [confidential](./glossary.md#confidential).
+
+Should you need to derive an unconfidential address from a confidential address, you can do so with [elements-cli](./glossary.md#elements-cli). The unconfidential address and confidential address are distinguished by the absence or presence of a cryptographic blinding key.
 
 ## UTXO
 Unspent Transaction Output.
