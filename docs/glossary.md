@@ -33,6 +33,7 @@ In Simplicity blockchain integrations, a metric for the computational resources 
 
 ## Covenant
 A covenant is a condition or behavior in a [contract](./glossary.md#contract) related to restrictions on the [output](./glossary.md#output) destination to which an [asset](./glossary.md#asset) may be transferred.  Covenants allow a contract to enforce various rules that form useful building blocks for higher-level mechanisms and guarantees about contract behavior. Simplicity supports highly general covenant mechanisms by means of its [introspection](./glossary.md#introspection) features. For example, covenants in Simplicity can enforce...
+
 * rules like multi-step spending processes, or preprogrammed delays in spending under some circumstances
 * rules providing for cases in which some assets must be refunded to or retained by the same contract
 * requirements that some assets be sent only to specific recipients or other Simplicity contract instances
