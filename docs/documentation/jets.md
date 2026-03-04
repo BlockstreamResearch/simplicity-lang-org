@@ -14,7 +14,7 @@ Some jets allow a Simplicity program to refuse a proposed transaction by perform
 
 Jets also provide information about the currently proposed transaction, enabling <glossary:introspection> of its inputs and outputs.
 
-* For example, `jet::output_script_hash` provides the cryptographic identity of the program controls a specified output of the proposed transaction. This can be used to require that assets are sent back to a copy of a specific <glossary:program> (a <glossary:covenant>).
+* For example, `jet::output_script_hash` provides the cryptographic identity of the program that controls a specified output of the proposed transaction. This can be used to require that assets are sent back to a copy of a specific <glossary:program> (a <glossary:covenant>).
 
 ## Jet list
 
