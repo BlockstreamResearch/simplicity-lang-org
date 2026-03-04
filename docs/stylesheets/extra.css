@@ -62,12 +62,3 @@
     font-weight: bold;
     text-align: right;
 }
-
-.mkdocs-ezglossary-link {
-  border-bottom: 2px dotted currentColor;
-  cursor: help;
-  text-decoration: none;
-  text-color: red;
-  transition: border-color 125ms;
-  color: currentColor !important;
-}
