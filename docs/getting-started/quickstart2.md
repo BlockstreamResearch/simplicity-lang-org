@@ -24,7 +24,7 @@ These set up some parameters that will be referenced later on in this process.
 
 The `$INTERNAL_KEY` is a parameter used to construct the [address](../glossary.md#address) of the Simplicity contract. The value given here is a hard-coded default value based on BIP 0341.
 
-The `$PRIVKEY` variable represents a [private key](../glossary.md#private key) held by the beneficiary of the contract, who can approve a proposed transaction by digitally signing it with the this private key. This value is intentionally chosen to be the number `1` for demonstration purposes, but in a real contract application it would be a long random number.
+The `$PRIVKEY` variable represents a [private key](../glossary.md#private-key) held by the beneficiary of the contract, who can approve a proposed transaction by digitally signing it with the this private key. This value is intentionally chosen to be the number `1` for demonstration purposes, but in a real contract application it would be a long random number.
 
 The `$DESTINATION_ADDRESS` above, ending `...uwkjy`, is a specifically hardcoded value for sending tLBTC to a particular Blockstream test wallet. In the absence of anywhere else to send a payment, we'll make our contract send a payment to this address.
 
@@ -140,7 +140,7 @@ The modified PSET data is stored in the shell variable `$PSET2`.
 
 ### Step 6: Digitally sign the transaction
 
-The contract we're using for this demonstration enforces, via its program logic, that a valid signature is present for the transaction. This means that the contract approves transactions when a prespecified entity (identified by a [public key](../glossary.md#public key) inside the contract's source code) provides a digital signature for those transactions. In this demo version, we have the matching private key already (in fact, it's just the number `1`), so we can make that signature ourselves.
+The contract we're using for this demonstration enforces, via its program logic, that a valid signature is present for the transaction. This means that the contract approves transactions when a prespecified entity (identified by a [public key](../glossary.md#public-key) inside the contract's source code) provides a digital signature for those transactions. In this demo version, we have the matching private key already (in fact, it's just the number `1`), so we can make that signature ourselves.
 
 First, let's create the witness file `example.wit`. Copy this JSON and save it into a file with that name.
 
