@@ -24,7 +24,7 @@ fn main() {
 
 SimplicityHL compiles to Simplicity bytecode through several stages:
 
-**Code reference:** [`SimplicityHL/src/compile.rs`](https://github.com/BlockstreamResearch/SimplicityHL/blob/master/src/compile.rs)
+**Code reference:** [`SimplicityHL/src/compile/mod.rs`](https://github.com/BlockstreamResearch/SimplicityHL/blob/master/src/compile/mod.rs)
 
 1. **Parse** - Source code to AST
 2. **Type Check** - Verify types are correct
