@@ -470,13 +470,9 @@ Here is a complete list of the available jets in the Elements Simplicity integra
 ???+ "Click to hide"
     | <div style="width:22em">Jet</div> | Description |
     | ----------------------------------- | ----------- |
-    | `check_lock_distance(Distance) -> unit` | Assert that the value returned by `tx_lock_distance` is greater than or equal to the given value.<br><br>## Panics<br>The assertion fails. |
-    | `check_lock_duration(Duration) -> unit` | Assert that the value returned by `tx_lock_duration` is greater than or equal to the given value.<br><br>## Panics<br>The assertion fails |
     | `check_lock_height(Height) -> unit` | Assert that the value returned by `tx_lock_height`   is greater than or equal to the given value.<br><br>## Panics<br>The assertion fails. |
     | `check_lock_time(Time) -> unit` | Assert that the value returned by `tx_lock_time`     is greater than or equal to the given value.<br><br>## Panics<br>The assertion fails. |
     | `tx_is_final() -> bool` | Check if the sequence numbers of all transaction inputs are at their maximum value. |
-    | `tx_lock_distance() -> Distance` | If `version` returns 2 or greater, then return the greatest valid `Distance` value of any transaction input. Return zeroes otherwise. |
-    | `tx_lock_duration() -> Duration` | If `version` returns 2 or greater, then return the greatest valid `Duration` value of any transaction input. Return zeroes otherwise. |
     | `tx_lock_height() -> Height` | If `tx_is_final` returns false, then try to parse the transaction's lock time as a `Height` value. Return zeroes otherwise. |
     | `tx_lock_time() -> Time` | If `tx_is_final` returns false, then try to parse the transaction's lock time as a `Time` value. Return zeroes otherwise. |
 
