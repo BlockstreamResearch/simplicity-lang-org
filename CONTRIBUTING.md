@@ -32,6 +32,7 @@ If you’re unsure it belongs here, it probably does. Submit the PR.
 * Code fences with language tags: \`\`\`rust, \`\`\`bash, \`\`\`json, etc.
 * File/command names as `code` inline.
 * Use lists, tables, and callouts for scan‑ability.
+* Blockstream authors: follow [Tone of Voice Guidelines](https://docs.google.com/document/d/1Y8K606oBo43kLP2C5n5Pe1eAfhzWk_r8B63xK4BTPwU/edit)
 
 ### Examples
 
