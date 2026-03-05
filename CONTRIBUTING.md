@@ -43,4 +43,14 @@ If you’re unsure it belongs here, it probably does. Submit the PR.
 
 * Prefer [Mermaid](https://github.blog/developer-skills/github/include-diagrams-markdown-files-mermaid/) diagrams/flowcharts.
 
+### Audiences
+
+Consider various audiences' perspectives:
+
+**Bitcoin developer:** What are smart contracts and covenants, anyway? How do these things relate to existing tools I know like wallets?
+
+**Solidity or other smart contract developer:** Where are the equivalents to the tools I'm used to? What is different from the account model to the UTXO model?
+
+**Fintech architects:** How does financial logic get represented as an on-chain covenant? How do I think of a financial application in terms of covenant-managed assets and transactions?
+
 **Thanks for making the Simplicity docs better.**
