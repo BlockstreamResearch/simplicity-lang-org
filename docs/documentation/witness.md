@@ -1,8 +1,10 @@
 # Witnesses in SimplicityHL development
 
-The [execution model](/documentation/execution-model) for Simplicity [contract](../glossary.md#contract)s allows the user who is proposing a [transaction](../glossary.md#transaction) to provide input values to the contract. The meaning of these inputs is specific to an individual contract, but in general they help the contract to confirm that the proposed transaction is authorized according to the contract's rules. This is necessary because anyone can propose transactions to spend assets at any time, so a contract needs a clear way to distinguish which transactions are appropriate and which aren't.
+The [execution model](../execution-model) for Simplicity [contract](../glossary.md#contract)s allows the user who is proposing a [transaction](../glossary.md#transaction) to provide input values to the contract. The meaning of these inputs is specific to an individual contract, but in general they help the contract to confirm that the proposed transaction is authorized according to the contract's rules. This is necessary because anyone can propose transactions to spend assets at any time, so a contract needs a clear way to distinguish which transactions are appropriate and which aren't.
 
-The combination of inputs provided as part of a transaction is known as the *witness*. This term is adopted from its existing use in other kinds of Bitcoin transactions, and originally from a related meaning in computer science.
+One can think of a Simplicity program as a function that deterministically answers "yes" or "no" to each proposed transaction. The input data for this function will be the specific transaction details, together with some user-supplied inputs which are collectively known as a *witness*. The form of the expected witness is determined in advance by the Simplicity program, just as any function definition determines what kind of input that function expects.
+
+The term "witness" here is adopted from its existing use in other kinds of Bitcoin transactions, and originally from a related meaning in computer science.
 
 Among other things, a witness will usually contain digital signatures from some party or parties approving the proposed transaction. It might also include things like
 
