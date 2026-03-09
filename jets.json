@@ -1014,7 +1014,7 @@
       "section": "Multi-bit logic",
       "input_type": "",
       "output_type": "u1",
-      "description": "Return `u1::MIN` = 1."
+      "description": "Return `u1::MIN` = 0."
     },
     {
       "haskell_name": "Low8",
