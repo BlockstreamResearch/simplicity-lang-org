@@ -206,7 +206,7 @@
       "section": "Multi-bit logic",
       "input_type": "u8, u1",
       "output_type": "(u1, u8)",
-      "description": "Helper for left-shifting bits. The bits are shifted from a 1-bit value into a 8-bit value. Return the shifted value and the 1 bit that was shifted out."
+      "description": "Helper for left-shifting bits. The bits are shifted from a 1-bit value into an 8-bit value. Return the shifted value and the 1 bit that was shifted out."
     },
     {
       "haskell_name": "FullLeftShift8_2",
@@ -214,7 +214,7 @@
       "section": "Multi-bit logic",
       "input_type": "u8, u2",
       "output_type": "(u2, u8)",
-      "description": "Helper for left-shifting bits. The bits are shifted from a 2-bit value into a 8-bit value. Return the shifted value and the 2 bits that were shifted out."
+      "description": "Helper for left-shifting bits. The bits are shifted from a 2-bit value into an 8-bit value. Return the shifted value and the 2 bits that were shifted out."
     },
     {
       "haskell_name": "FullLeftShift8_4",
@@ -222,7 +222,7 @@
       "section": "Multi-bit logic",
       "input_type": "u8, u4",
       "output_type": "(u4, u8)",
-      "description": "Helper for left-shifting bits. The bits are shifted from a 4-bit value into a 8-bit value. Return the shifted value and the 4 bits that were shifted out."
+      "description": "Helper for left-shifting bits. The bits are shifted from a 4-bit value into an 8-bit value. Return the shifted value and the 4 bits that were shifted out."
     },
     {
       "haskell_name": "FullLeftShift16_1",
@@ -254,7 +254,7 @@
       "section": "Multi-bit logic",
       "input_type": "u16, u8",
       "output_type": "(u8, u16)",
-      "description": "Helper for left-shifting bits. The bits are shifted from a 8-bit value into a 16-bit value. Return the shifted value and the 8 bits that were shifted out."
+      "description": "Helper for left-shifting bits. The bits are shifted from an 8-bit value into a 16-bit value. Return the shifted value and the 8 bits that were shifted out."
     },
     {
       "haskell_name": "FullLeftShift32_1",
@@ -286,7 +286,7 @@
       "section": "Multi-bit logic",
       "input_type": "u32, u8",
       "output_type": "(u8, u32)",
-      "description": "Helper for left-shifting bits. The bits are shifted from a 8-bit value into a 32-bit value. Return the shifted value and the 8 bits that were shifted out."
+      "description": "Helper for left-shifting bits. The bits are shifted from an 8-bit value into a 32-bit value. Return the shifted value and the 8 bits that were shifted out."
     },
     {
       "haskell_name": "FullLeftShift32_16",
@@ -326,7 +326,7 @@
       "section": "Multi-bit logic",
       "input_type": "u64, u8",
       "output_type": "(u8, u64)",
-      "description": "Helper for left-shifting bits. The bits are shifted from a 8-bit value into a 64-bit value. Return the shifted value and the 8 bits that were shifted out."
+      "description": "Helper for left-shifting bits. The bits are shifted from an 8-bit value into a 64-bit value. Return the shifted value and the 8 bits that were shifted out."
     },
     {
       "haskell_name": "FullLeftShift64_16",
@@ -350,7 +350,7 @@
       "section": "Multi-bit logic",
       "input_type": "u1, u8",
       "output_type": "(u8, u1)",
-      "description": "Helper for right-shifting bits. The bits are shifted from a 1-bit value into a 8-bit value. Return the shifted value and the 1 bit that was shifted out."
+      "description": "Helper for right-shifting bits. The bits are shifted from a 1-bit value into an 8-bit value. Return the shifted value and the 1 bit that was shifted out."
     },
     {
       "haskell_name": "FullRightShift8_2",
@@ -358,7 +358,7 @@
       "section": "Multi-bit logic",
       "input_type": "u2, u8",
       "output_type": "(u8, u2)",
-      "description": "Helper for right-shifting bits. The bits are shifted from a 2-bit value into a 8-bit value. Return the shifted value and the 2 bits that were shifted out."
+      "description": "Helper for right-shifting bits. The bits are shifted from a 2-bit value into an 8-bit value. Return the shifted value and the 2 bits that were shifted out."
     },
     {
       "haskell_name": "FullRightShift8_4",
@@ -366,7 +366,7 @@
       "section": "Multi-bit logic",
       "input_type": "u4, u8",
       "output_type": "(u8, u4)",
-      "description": "Helper for right-shifting bits. The bits are shifted from a 4-bit value into a 8-bit value. Return the shifted value and the 4 bits that were shifted out."
+      "description": "Helper for right-shifting bits. The bits are shifted from a 4-bit value into an 8-bit value. Return the shifted value and the 4 bits that were shifted out."
     },
     {
       "haskell_name": "FullRightShift16_1",
@@ -398,7 +398,7 @@
       "section": "Multi-bit logic",
       "input_type": "u8, u16",
       "output_type": "(u16, u8)",
-      "description": "Helper for right-shifting bits. The bits are shifted from a 8-bit value into a 16-bit value. Return the shifted value and the 8 bits that were shifted out."
+      "description": "Helper for right-shifting bits. The bits are shifted from an 8-bit value into a 16-bit value. Return the shifted value and the 8 bits that were shifted out."
     },
     {
       "haskell_name": "FullRightShift32_1",
@@ -430,7 +430,7 @@
       "section": "Multi-bit logic",
       "input_type": "u8, u32",
       "output_type": "(u32, u8)",
-      "description": "Helper for right-shifting bits. The bits are shifted from a 8-bit value into a 32-bit value. Return the shifted value and the 8 bits that were shifted out."
+      "description": "Helper for right-shifting bits. The bits are shifted from an 8-bit value into a 32-bit value. Return the shifted value and the 8 bits that were shifted out."
     },
     {
       "haskell_name": "FullRightShift32_16",
@@ -470,7 +470,7 @@
       "section": "Multi-bit logic",
       "input_type": "u8, u64",
       "output_type": "(u64, u8)",
-      "description": "Helper for right-shifting bits. The bits are shifted from a 8-bit value into a 64-bit value. Return the shifted value and the 8 bits that were shifted out."
+      "description": "Helper for right-shifting bits. The bits are shifted from an 8-bit value into a 64-bit value. Return the shifted value and the 8 bits that were shifted out."
     },
     {
       "haskell_name": "FullRightShift64_16",
