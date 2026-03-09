@@ -3338,7 +3338,7 @@
       "section": "Issuance",
       "input_type": "u32",
       "output_type": "Option<Option<bool>>",
-      "description": "Return the kind of issuance of the input at the given index:<br>- Return `Some(Some(false))` if the input has new issuance.<br>- Return `Some(Some(true))` if the input as reissuance.<br>- Return `Some(None)` if the input has no issuance.<br>- Return `None` if the input does not exist."
+      "description": "Return the kind of issuance of the input at the given index:<br>- Return `Some(Some(false))` if the input has new issuance.<br>- Return `Some(Some(true))` if the input has reissuance.<br>- Return `Some(None)` if the input has no issuance.<br>- Return `None` if the input does not exist."
     },
     {
       "haskell_name": "IssuanceAsset",
