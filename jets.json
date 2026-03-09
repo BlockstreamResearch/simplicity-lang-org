@@ -2974,7 +2974,7 @@
       "section": "Signature hash modes",
       "input_type": "u256",
       "output_type": "u256",
-      "description": "Return the SHA256 hash of the following:<br>- The hash of the ASCII string `TapBranch/elements` (32 bytes).<br>- The hash of the ASCII string `TapBranch/elements` again (32 bytes).<br>- The lexicographically smaller of the two inputs (32 bytes).<br>- The lexicographically larger of the two inputs (32 bytes).<br><br>This builds a taproot from two branches."
+      "description": "Return the SHA256 hash of the following:<br>- The hash of the ASCII string `TapLeaf/elements` (32 bytes).<br>- The hash of the ASCII string `TapLeaf/elements` again (32 bytes).<br>- The Simplicity leaf version `0xbe` (1 byte).<br>- The byte `0x20` (1 byte).<br>- The input CMR (32 bytes).<br><br>This builds a tapleaf hash for a Simplicity program."
     },
     {
       "haskell_name": "BuildTaptweak",
