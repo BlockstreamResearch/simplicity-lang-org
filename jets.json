@@ -118,7 +118,7 @@
       "section": "Multi-bit logic",
       "input_type": "u1",
       "output_type": "u1",
-      "description": "Bitwise NOT of a 1-bit  value."
+      "description": "Bitwise NOT of a 1-bit value."
     },
     {
       "haskell_name": "Complement8",
@@ -206,7 +206,7 @@
       "section": "Multi-bit logic",
       "input_type": "u8, u1",
       "output_type": "(u1, u8)",
-      "description": "Helper for left-shifting  bits. The bits are shifted from a 1-bit  value into a 8-bit  value. Return the shifted value and the 1  bit  that was  shifted out."
+      "description": "Helper for left-shifting bits. The bits are shifted from a 1-bit value into a 8-bit value. Return the shifted value and the 1 bit that was shifted out."
     },
     {
       "haskell_name": "FullLeftShift8_2",
@@ -214,7 +214,7 @@
       "section": "Multi-bit logic",
       "input_type": "u8, u2",
       "output_type": "(u2, u8)",
-      "description": "Helper for left-shifting  bits. The bits are shifted from a 2-bit  value into a 8-bit  value. Return the shifted value and the 2  bits that were shifted out."
+      "description": "Helper for left-shifting bits. The bits are shifted from a 2-bit value into a 8-bit value. Return the shifted value and the 2 bits that were shifted out."
     },
     {
       "haskell_name": "FullLeftShift8_4",
@@ -222,7 +222,7 @@
       "section": "Multi-bit logic",
       "input_type": "u8, u4",
       "output_type": "(u4, u8)",
-      "description": "Helper for left-shifting  bits. The bits are shifted from a 4-bit  value into a 8-bit  value. Return the shifted value and the 4  bits that were shifted out."
+      "description": "Helper for left-shifting bits. The bits are shifted from a 4-bit value into a 8-bit value. Return the shifted value and the 4 bits that were shifted out."
     },
     {
       "haskell_name": "FullLeftShift16_1",
@@ -230,7 +230,7 @@
       "section": "Multi-bit logic",
       "input_type": "u16, u1",
       "output_type": "(u1, u16)",
-      "description": "Helper for left-shifting  bits. The bits are shifted from a 1-bit  value into a 16-bit value. Return the shifted value and the 1  bit  that was  shifted out."
+      "description": "Helper for left-shifting bits. The bits are shifted from a 1-bit value into a 16-bit value. Return the shifted value and the 1 bit that was shifted out."
     },
     {
       "haskell_name": "FullLeftShift16_2",
@@ -238,7 +238,7 @@
       "section": "Multi-bit logic",
       "input_type": "u16, u2",
       "output_type": "(u2, u16)",
-      "description": "Helper for left-shifting  bits. The bits are shifted from a 2-bit  value into a 16-bit value. Return the shifted value and the 2  bits that were shifted out."
+      "description": "Helper for left-shifting bits. The bits are shifted from a 2-bit value into a 16-bit value. Return the shifted value and the 2 bits that were shifted out."
     },
     {
       "haskell_name": "FullLeftShift16_4",
@@ -246,7 +246,7 @@
       "section": "Multi-bit logic",
       "input_type": "u16, u4",
       "output_type": "(u4, u16)",
-      "description": "Helper for left-shifting  bits. The bits are shifted from a 4-bit  value into a 16-bit value. Return the shifted value and the 4  bits that were shifted out."
+      "description": "Helper for left-shifting bits. The bits are shifted from a 4-bit value into a 16-bit value. Return the shifted value and the 4 bits that were shifted out."
     },
     {
       "haskell_name": "FullLeftShift16_8",
@@ -254,7 +254,7 @@
       "section": "Multi-bit logic",
       "input_type": "u16, u8",
       "output_type": "(u8, u16)",
-      "description": "Helper for left-shifting  bits. The bits are shifted from a 8-bit  value into a 16-bit value. Return the shifted value and the 8  bits that were shifted out."
+      "description": "Helper for left-shifting bits. The bits are shifted from a 8-bit value into a 16-bit value. Return the shifted value and the 8 bits that were shifted out."
     },
     {
       "haskell_name": "FullLeftShift32_1",
@@ -262,7 +262,7 @@
       "section": "Multi-bit logic",
       "input_type": "u32, u1",
       "output_type": "(u1, u32)",
-      "description": "Helper for left-shifting  bits. The bits are shifted from a 1-bit  value into a 32-bit value. Return the shifted value and the 1  bit  that was  shifted out."
+      "description": "Helper for left-shifting bits. The bits are shifted from a 1-bit value into a 32-bit value. Return the shifted value and the 1 bit that was shifted out."
     },
     {
       "haskell_name": "FullLeftShift32_2",
@@ -270,7 +270,7 @@
       "section": "Multi-bit logic",
       "input_type": "u32, u2",
       "output_type": "(u2, u32)",
-      "description": "Helper for left-shifting  bits. The bits are shifted from a 2-bit  value into a 32-bit value. Return the shifted value and the 2  bits that were shifted out."
+      "description": "Helper for left-shifting bits. The bits are shifted from a 2-bit value into a 32-bit value. Return the shifted value and the 2 bits that were shifted out."
     },
     {
       "haskell_name": "FullLeftShift32_4",
@@ -278,7 +278,7 @@
       "section": "Multi-bit logic",
       "input_type": "u32, u4",
       "output_type": "(u4, u32)",
-      "description": "Helper for left-shifting  bits. The bits are shifted from a 4-bit  value into a 32-bit value. Return the shifted value and the 4  bits that were shifted out."
+      "description": "Helper for left-shifting bits. The bits are shifted from a 4-bit value into a 32-bit value. Return the shifted value and the 4 bits that were shifted out."
     },
     {
       "haskell_name": "FullLeftShift32_8",
@@ -286,7 +286,7 @@
       "section": "Multi-bit logic",
       "input_type": "u32, u8",
       "output_type": "(u8, u32)",
-      "description": "Helper for left-shifting  bits. The bits are shifted from a 8-bit  value into a 32-bit value. Return the shifted value and the 8  bits that were shifted out."
+      "description": "Helper for left-shifting bits. The bits are shifted from a 8-bit value into a 32-bit value. Return the shifted value and the 8 bits that were shifted out."
     },
     {
       "haskell_name": "FullLeftShift32_16",
@@ -294,7 +294,7 @@
       "section": "Multi-bit logic",
       "input_type": "u32, u16",
       "output_type": "(u16, u32)",
-      "description": "Helper for left-shifting  bits. The bits are shifted from a 16-bit value into a 32-bit value. Return the shifted value and the 16 bits that were shifted out."
+      "description": "Helper for left-shifting bits. The bits are shifted from a 16-bit value into a 32-bit value. Return the shifted value and the 16 bits that were shifted out."
     },
     {
       "haskell_name": "FullLeftShift64_1",
@@ -302,7 +302,7 @@
       "section": "Multi-bit logic",
       "input_type": "u64, u1",
       "output_type": "(u1, u64)",
-      "description": "Helper for left-shifting  bits. The bits are shifted from a 1-bit  value into a 64-bit value. Return the shifted value and the 1  bit  that was  shifted out."
+      "description": "Helper for left-shifting bits. The bits are shifted from a 1-bit value into a 64-bit value. Return the shifted value and the 1 bit that was shifted out."
     },
     {
       "haskell_name": "FullLeftShift64_2",
@@ -310,7 +310,7 @@
       "section": "Multi-bit logic",
       "input_type": "u64, u2",
       "output_type": "(u2, u64)",
-      "description": "Helper for left-shifting  bits. The bits are shifted from a 2-bit  value into a 64-bit value. Return the shifted value and the 2  bits that were shifted out."
+      "description": "Helper for left-shifting bits. The bits are shifted from a 2-bit value into a 64-bit value. Return the shifted value and the 2 bits that were shifted out."
     },
     {
       "haskell_name": "FullLeftShift64_4",
@@ -318,7 +318,7 @@
       "section": "Multi-bit logic",
       "input_type": "u64, u4",
       "output_type": "(u4, u64)",
-      "description": "Helper for left-shifting  bits. The bits are shifted from a 4-bit  value into a 64-bit value. Return the shifted value and the 4  bits that were shifted out."
+      "description": "Helper for left-shifting bits. The bits are shifted from a 4-bit value into a 64-bit value. Return the shifted value and the 4 bits that were shifted out."
     },
     {
       "haskell_name": "FullLeftShift64_8",
@@ -326,7 +326,7 @@
       "section": "Multi-bit logic",
       "input_type": "u64, u8",
       "output_type": "(u8, u64)",
-      "description": "Helper for left-shifting  bits. The bits are shifted from a 8-bit  value into a 64-bit value. Return the shifted value and the 8  bits that were shifted out."
+      "description": "Helper for left-shifting bits. The bits are shifted from a 8-bit value into a 64-bit value. Return the shifted value and the 8 bits that were shifted out."
     },
     {
       "haskell_name": "FullLeftShift64_16",
@@ -334,7 +334,7 @@
       "section": "Multi-bit logic",
       "input_type": "u64, u16",
       "output_type": "(u16, u64)",
-      "description": "Helper for left-shifting  bits. The bits are shifted from a 16-bit value into a 64-bit value. Return the shifted value and the 16 bits that were shifted out."
+      "description": "Helper for left-shifting bits. The bits are shifted from a 16-bit value into a 64-bit value. Return the shifted value and the 16 bits that were shifted out."
     },
     {
       "haskell_name": "FullLeftShift64_32",
@@ -342,7 +342,7 @@
       "section": "Multi-bit logic",
       "input_type": "u64, u32",
       "output_type": "(u32, u64)",
-      "description": "Helper for left-shifting  bits. The bits are shifted from a 32-bit value into a 64-bit value. Return the shifted value and the 32 bits that were shifted out."
+      "description": "Helper for left-shifting bits. The bits are shifted from a 32-bit value into a 64-bit value. Return the shifted value and the 32 bits that were shifted out."
     },
     {
       "haskell_name": "FullRightShift8_1",
@@ -350,7 +350,7 @@
       "section": "Multi-bit logic",
       "input_type": "u1, u8",
       "output_type": "(u8, u1)",
-      "description": "Helper for right-shifting bits. The bits are shifted from a 1-bit  value into a 8-bit  value. Return the shifted value and the 1  bit  that was  shifted out."
+      "description": "Helper for right-shifting bits. The bits are shifted from a 1-bit value into a 8-bit value. Return the shifted value and the 1 bit that was shifted out."
     },
     {
       "haskell_name": "FullRightShift8_2",
@@ -358,7 +358,7 @@
       "section": "Multi-bit logic",
       "input_type": "u2, u8",
       "output_type": "(u8, u2)",
-      "description": "Helper for right-shifting bits. The bits are shifted from a 2-bit  value into a 8-bit  value. Return the shifted value and the 2  bits that were shifted out."
+      "description": "Helper for right-shifting bits. The bits are shifted from a 2-bit value into a 8-bit value. Return the shifted value and the 2 bits that were shifted out."
     },
     {
       "haskell_name": "FullRightShift8_4",
@@ -366,7 +366,7 @@
       "section": "Multi-bit logic",
       "input_type": "u4, u8",
       "output_type": "(u8, u4)",
-      "description": "Helper for right-shifting bits. The bits are shifted from a 4-bit  value into a 8-bit  value. Return the shifted value and the 4  bits that were shifted out."
+      "description": "Helper for right-shifting bits. The bits are shifted from a 4-bit value into a 8-bit value. Return the shifted value and the 4 bits that were shifted out."
     },
     {
       "haskell_name": "FullRightShift16_1",
@@ -374,7 +374,7 @@
       "section": "Multi-bit logic",
       "input_type": "u1, u16",
       "output_type": "(u16, u1)",
-      "description": "Helper for right-shifting bits. The bits are shifted from a 1-bit  value into a 16-bit value. Return the shifted value and the 1  bit  that was  shifted out."
+      "description": "Helper for right-shifting bits. The bits are shifted from a 1-bit value into a 16-bit value. Return the shifted value and the 1 bit that was shifted out."
     },
     {
       "haskell_name": "FullRightShift16_2",
@@ -382,7 +382,7 @@
       "section": "Multi-bit logic",
       "input_type": "u2, u16",
       "output_type": "(u16, u2)",
-      "description": "Helper for right-shifting bits. The bits are shifted from a 2-bit  value into a 16-bit value. Return the shifted value and the 2  bits that were shifted out."
+      "description": "Helper for right-shifting bits. The bits are shifted from a 2-bit value into a 16-bit value. Return the shifted value and the 2 bits that were shifted out."
     },
     {
       "haskell_name": "FullRightShift16_4",
@@ -390,7 +390,7 @@
       "section": "Multi-bit logic",
       "input_type": "u4, u16",
       "output_type": "(u16, u4)",
-      "description": "Helper for right-shifting bits. The bits are shifted from a 4-bit  value into a 16-bit value. Return the shifted value and the 4  bits that were shifted out."
+      "description": "Helper for right-shifting bits. The bits are shifted from a 4-bit value into a 16-bit value. Return the shifted value and the 4 bits that were shifted out."
     },
     {
       "haskell_name": "FullRightShift16_8",
@@ -398,7 +398,7 @@
       "section": "Multi-bit logic",
       "input_type": "u8, u16",
       "output_type": "(u16, u8)",
-      "description": "Helper for right-shifting bits. The bits are shifted from a 8-bit  value into a 16-bit value. Return the shifted value and the 8  bits that were shifted out."
+      "description": "Helper for right-shifting bits. The bits are shifted from a 8-bit value into a 16-bit value. Return the shifted value and the 8 bits that were shifted out."
     },
     {
       "haskell_name": "FullRightShift32_1",
@@ -406,7 +406,7 @@
       "section": "Multi-bit logic",
       "input_type": "u1, u32",
       "output_type": "(u32, u1)",
-      "description": "Helper for right-shifting bits. The bits are shifted from a 1-bit  value into a 32-bit value. Return the shifted value and the 1  bit  that was  shifted out."
+      "description": "Helper for right-shifting bits. The bits are shifted from a 1-bit value into a 32-bit value. Return the shifted value and the 1 bit that was shifted out."
     },
     {
       "haskell_name": "FullRightShift32_2",
@@ -414,7 +414,7 @@
       "section": "Multi-bit logic",
       "input_type": "u2, u32",
       "output_type": "(u32, u2)",
-      "description": "Helper for right-shifting bits. The bits are shifted from a 2-bit  value into a 32-bit value. Return the shifted value and the 2  bits that were shifted out."
+      "description": "Helper for right-shifting bits. The bits are shifted from a 2-bit value into a 32-bit value. Return the shifted value and the 2 bits that were shifted out."
     },
     {
       "haskell_name": "FullRightShift32_4",
@@ -422,7 +422,7 @@
       "section": "Multi-bit logic",
       "input_type": "u4, u32",
       "output_type": "(u32, u4)",
-      "description": "Helper for right-shifting bits. The bits are shifted from a 4-bit  value into a 32-bit value. Return the shifted value and the 4  bits that were shifted out."
+      "description": "Helper for right-shifting bits. The bits are shifted from a 4-bit value into a 32-bit value. Return the shifted value and the 4 bits that were shifted out."
     },
     {
       "haskell_name": "FullRightShift32_8",
@@ -430,7 +430,7 @@
       "section": "Multi-bit logic",
       "input_type": "u8, u32",
       "output_type": "(u32, u8)",
-      "description": "Helper for right-shifting bits. The bits are shifted from a 8-bit  value into a 32-bit value. Return the shifted value and the 8  bits that were shifted out."
+      "description": "Helper for right-shifting bits. The bits are shifted from a 8-bit value into a 32-bit value. Return the shifted value and the 8 bits that were shifted out."
     },
     {
       "haskell_name": "FullRightShift32_16",
@@ -446,7 +446,7 @@
       "section": "Multi-bit logic",
       "input_type": "u1, u64",
       "output_type": "(u64, u1)",
-      "description": "Helper for right-shifting bits. The bits are shifted from a 1-bit  value into a 64-bit value. Return the shifted value and the 1  bit  that was  shifted out."
+      "description": "Helper for right-shifting bits. The bits are shifted from a 1-bit value into a 64-bit value. Return the shifted value and the 1 bit that was shifted out."
     },
     {
       "haskell_name": "FullRightShift64_2",
@@ -454,7 +454,7 @@
       "section": "Multi-bit logic",
       "input_type": "u2, u64",
       "output_type": "(u64, u2)",
-      "description": "Helper for right-shifting bits. The bits are shifted from a 2-bit  value into a 64-bit value. Return the shifted value and the 2  bits that were shifted out."
+      "description": "Helper for right-shifting bits. The bits are shifted from a 2-bit value into a 64-bit value. Return the shifted value and the 2 bits that were shifted out."
     },
     {
       "haskell_name": "FullRightShift64_4",
@@ -462,7 +462,7 @@
       "section": "Multi-bit logic",
       "input_type": "u4, u64",
       "output_type": "(u64, u4)",
-      "description": "Helper for right-shifting bits. The bits are shifted from a 4-bit  value into a 64-bit value. Return the shifted value and the 4  bits that were shifted out."
+      "description": "Helper for right-shifting bits. The bits are shifted from a 4-bit value into a 64-bit value. Return the shifted value and the 4 bits that were shifted out."
     },
     {
       "haskell_name": "FullRightShift64_8",
@@ -470,7 +470,7 @@
       "section": "Multi-bit logic",
       "input_type": "u8, u64",
       "output_type": "(u64, u8)",
-      "description": "Helper for right-shifting bits. The bits are shifted from a 8-bit  value into a 64-bit value. Return the shifted value and the 8  bits that were shifted out."
+      "description": "Helper for right-shifting bits. The bits are shifted from a 8-bit value into a 64-bit value. Return the shifted value and the 8 bits that were shifted out."
     },
     {
       "haskell_name": "FullRightShift64_16",
@@ -534,7 +534,7 @@
       "section": "Multi-bit logic",
       "input_type": "u1",
       "output_type": "u8",
-      "description": "Extend a 1-bit  value to an 8-bit value by padding its left with the MSB."
+      "description": "Extend a 1-bit value to an 8-bit value by padding its left with the MSB."
     },
     {
       "haskell_name": "LeftExtend1_16",
@@ -542,7 +542,7 @@
       "section": "Multi-bit logic",
       "input_type": "u1",
       "output_type": "u16",
-      "description": "Extend a 1-bit  value to a 16-bit value by padding its left with the MSB."
+      "description": "Extend a 1-bit value to a 16-bit value by padding its left with the MSB."
     },
     {
       "haskell_name": "LeftExtend1_32",
@@ -550,7 +550,7 @@
       "section": "Multi-bit logic",
       "input_type": "u1",
       "output_type": "u32",
-      "description": "Extend a 1-bit  value to a 32-bit value by padding its left with the MSB."
+      "description": "Extend a 1-bit value to a 32-bit value by padding its left with the MSB."
     },
     {
       "haskell_name": "LeftExtend1_64",
@@ -558,7 +558,7 @@
       "section": "Multi-bit logic",
       "input_type": "u1",
       "output_type": "u64",
-      "description": "Extend a 1-bit  value to a 64-bit value by padding its left with the MSB."
+      "description": "Extend a 1-bit value to a 64-bit value by padding its left with the MSB."
     },
     {
       "haskell_name": "LeftExtend8_16",
@@ -614,7 +614,7 @@
       "section": "Multi-bit logic",
       "input_type": "u1",
       "output_type": "u8",
-      "description": "Extend a 1-bit  value to an 8-bit value by padding its left with ones."
+      "description": "Extend a 1-bit value to an 8-bit value by padding its left with ones."
     },
     {
       "haskell_name": "LeftPadHigh1_16",
@@ -622,7 +622,7 @@
       "section": "Multi-bit logic",
       "input_type": "u1",
       "output_type": "u16",
-      "description": "Extend a 1-bit  value to a 16-bit value by padding its left with ones."
+      "description": "Extend a 1-bit value to a 16-bit value by padding its left with ones."
     },
     {
       "haskell_name": "LeftPadHigh1_32",
@@ -630,7 +630,7 @@
       "section": "Multi-bit logic",
       "input_type": "u1",
       "output_type": "u32",
-      "description": "Extend a 1-bit  value to a 32-bit value by padding its left with ones."
+      "description": "Extend a 1-bit value to a 32-bit value by padding its left with ones."
     },
     {
       "haskell_name": "LeftPadHigh1_64",
@@ -638,7 +638,7 @@
       "section": "Multi-bit logic",
       "input_type": "u1",
       "output_type": "u64",
-      "description": "Extend a 1-bit  value to a 64-bit value by padding its left with ones."
+      "description": "Extend a 1-bit value to a 64-bit value by padding its left with ones."
     },
     {
       "haskell_name": "LeftPadHigh8_16",
@@ -662,7 +662,7 @@
       "section": "Multi-bit logic",
       "input_type": "u8",
       "output_type": "u64",
-      "description": "Extend a 1-bit  value to a 64-bit value by padding its left with ones."
+      "description": "Extend a 1-bit value to a 64-bit value by padding its left with ones."
     },
     {
       "haskell_name": "LeftPadHigh16_32",
@@ -694,7 +694,7 @@
       "section": "Multi-bit logic",
       "input_type": "u1",
       "output_type": "u8",
-      "description": "Extend a 1-bit  value to an 8-bit value by padding its left with zeroes."
+      "description": "Extend a 1-bit value to an 8-bit value by padding its left with zeroes."
     },
     {
       "haskell_name": "LeftPadLow1_16",
@@ -702,7 +702,7 @@
       "section": "Multi-bit logic",
       "input_type": "u1",
       "output_type": "u16",
-      "description": "Extend a 1-bit  value to a 16-bit value by padding its left with zeroes."
+      "description": "Extend a 1-bit value to a 16-bit value by padding its left with zeroes."
     },
     {
       "haskell_name": "LeftPadLow1_32",
@@ -710,7 +710,7 @@
       "section": "Multi-bit logic",
       "input_type": "u1",
       "output_type": "u32",
-      "description": "Extend a 1-bit  value to a 32-bit value by padding its left with zeroes."
+      "description": "Extend a 1-bit value to a 32-bit value by padding its left with zeroes."
     },
     {
       "haskell_name": "LeftPadLow1_64",
@@ -718,7 +718,7 @@
       "section": "Multi-bit logic",
       "input_type": "u1",
       "output_type": "u64",
-      "description": "Extend a 1-bit  value to a 64-bit value by padding its left with zeroes."
+      "description": "Extend a 1-bit value to a 64-bit value by padding its left with zeroes."
     },
     {
       "haskell_name": "LeftPadLow8_16",
@@ -870,7 +870,7 @@
       "section": "Multi-bit logic",
       "input_type": "u8",
       "output_type": "u1",
-      "description": "Return the most significant 1  bits of an 8-bit value."
+      "description": "Return the most significant 1 bits of an 8-bit value."
     },
     {
       "haskell_name": "Leftmost8_2",
@@ -878,7 +878,7 @@
       "section": "Multi-bit logic",
       "input_type": "u8",
       "output_type": "u2",
-      "description": "Return the most significant 1  bits of an 8-bit value."
+      "description": "Return the most significant 1 bits of an 8-bit value."
     },
     {
       "haskell_name": "Leftmost8_4",
@@ -886,7 +886,7 @@
       "section": "Multi-bit logic",
       "input_type": "u8",
       "output_type": "u4",
-      "description": "Return the most significant 1  bits of an 8-bit value."
+      "description": "Return the most significant 1 bits of an 8-bit value."
     },
     {
       "haskell_name": "Leftmost16_1",
@@ -894,7 +894,7 @@
       "section": "Multi-bit logic",
       "input_type": "u16",
       "output_type": "u1",
-      "description": "Return the most significant 1  bit  of a 16-bit value."
+      "description": "Return the most significant 1 bit of a 16-bit value."
     },
     {
       "haskell_name": "Leftmost16_2",
@@ -902,7 +902,7 @@
       "section": "Multi-bit logic",
       "input_type": "u16",
       "output_type": "u2",
-      "description": "Return the most significant 2  bits of a 16-bit value."
+      "description": "Return the most significant 2 bits of a 16-bit value."
     },
     {
       "haskell_name": "Leftmost16_4",
@@ -910,7 +910,7 @@
       "section": "Multi-bit logic",
       "input_type": "u16",
       "output_type": "u4",
-      "description": "Return the most significant 4  bits of a 16-bit value."
+      "description": "Return the most significant 4 bits of a 16-bit value."
     },
     {
       "haskell_name": "Leftmost16_8",
@@ -918,7 +918,7 @@
       "section": "Multi-bit logic",
       "input_type": "u16",
       "output_type": "u8",
-      "description": "Return the most significant 8  bits of a 16-bit value."
+      "description": "Return the most significant 8 bits of a 16-bit value."
     },
     {
       "haskell_name": "Leftmost32_1",
@@ -926,7 +926,7 @@
       "section": "Multi-bit logic",
       "input_type": "u32",
       "output_type": "u1",
-      "description": "Return the most significant 1  bit  of a 32-bit value."
+      "description": "Return the most significant 1 bit of a 32-bit value."
     },
     {
       "haskell_name": "Leftmost32_2",
@@ -934,7 +934,7 @@
       "section": "Multi-bit logic",
       "input_type": "u32",
       "output_type": "u2",
-      "description": "Return the most significant 2  bits of a 32-bit value."
+      "description": "Return the most significant 2 bits of a 32-bit value."
     },
     {
       "haskell_name": "Leftmost32_4",
@@ -942,7 +942,7 @@
       "section": "Multi-bit logic",
       "input_type": "u32",
       "output_type": "u4",
-      "description": "Return the most significant 4  bits of a 32-bit value."
+      "description": "Return the most significant 4 bits of a 32-bit value."
     },
     {
       "haskell_name": "Leftmost32_8",
@@ -950,7 +950,7 @@
       "section": "Multi-bit logic",
       "input_type": "u32",
       "output_type": "u8",
-      "description": "Return the most significant 8  bits of a 32-bit value."
+      "description": "Return the most significant 8 bits of a 32-bit value."
     },
     {
       "haskell_name": "Leftmost32_16",
@@ -966,7 +966,7 @@
       "section": "Multi-bit logic",
       "input_type": "u64",
       "output_type": "u1",
-      "description": "Return the most significant 1  bits of a 64-bit value."
+      "description": "Return the most significant 1 bits of a 64-bit value."
     },
     {
       "haskell_name": "Leftmost64_2",
@@ -974,7 +974,7 @@
       "section": "Multi-bit logic",
       "input_type": "u64",
       "output_type": "u2",
-      "description": "Return the most significant 2  bits of a 64-bit value."
+      "description": "Return the most significant 2 bits of a 64-bit value."
     },
     {
       "haskell_name": "Leftmost64_4",
@@ -982,7 +982,7 @@
       "section": "Multi-bit logic",
       "input_type": "u64",
       "output_type": "u4",
-      "description": "Return the most significant 4  bits of a 64-bit value."
+      "description": "Return the most significant 4 bits of a 64-bit value."
     },
     {
       "haskell_name": "Leftmost64_8",
@@ -990,7 +990,7 @@
       "section": "Multi-bit logic",
       "input_type": "u64",
       "output_type": "u8",
-      "description": "Return the most significant 8  bits of a 64-bit value."
+      "description": "Return the most significant 8 bits of a 64-bit value."
     },
     {
       "haskell_name": "Leftmost64_16",
@@ -1182,7 +1182,7 @@
       "section": "Multi-bit logic",
       "input_type": "u1",
       "output_type": "u8",
-      "description": "Extend a 1-bit  value to an 8-bit value by padding its right with ones."
+      "description": "Extend a 1-bit value to an 8-bit value by padding its right with ones."
     },
     {
       "haskell_name": "RightPadHigh1_16",
@@ -1190,7 +1190,7 @@
       "section": "Multi-bit logic",
       "input_type": "u1",
       "output_type": "u16",
-      "description": "Extend a 1-bit  value to a 16-bit value by padding its right with ones."
+      "description": "Extend a 1-bit value to a 16-bit value by padding its right with ones."
     },
     {
       "haskell_name": "RightPadHigh1_32",
@@ -1198,7 +1198,7 @@
       "section": "Multi-bit logic",
       "input_type": "u1",
       "output_type": "u32",
-      "description": "Extend a 1-bit  value to a 32-bit value by padding its right with ones."
+      "description": "Extend a 1-bit value to a 32-bit value by padding its right with ones."
     },
     {
       "haskell_name": "RightPadHigh1_64",
@@ -1206,7 +1206,7 @@
       "section": "Multi-bit logic",
       "input_type": "u1",
       "output_type": "u64",
-      "description": "Extend a 1-bit  value to a 64-bit value by padding its right with ones."
+      "description": "Extend a 1-bit value to a 64-bit value by padding its right with ones."
     },
     {
       "haskell_name": "RightPadHigh8_16",
@@ -1214,7 +1214,7 @@
       "section": "Multi-bit logic",
       "input_type": "u8",
       "output_type": "u16",
-      "description": "Extend an 8-bit  value to a 16-bit value by padding its right with ones."
+      "description": "Extend an 8-bit value to a 16-bit value by padding its right with ones."
     },
     {
       "haskell_name": "RightPadHigh8_32",
@@ -1222,7 +1222,7 @@
       "section": "Multi-bit logic",
       "input_type": "u8",
       "output_type": "u32",
-      "description": "Extend an 8-bit  value to a 32-bit value by padding its right with ones."
+      "description": "Extend an 8-bit value to a 32-bit value by padding its right with ones."
     },
     {
       "haskell_name": "RightPadHigh8_64",
@@ -1230,7 +1230,7 @@
       "section": "Multi-bit logic",
       "input_type": "u8",
       "output_type": "u64",
-      "description": "Extend a 1-bit  value to a 64-bit value by padding its right with ones."
+      "description": "Extend a 1-bit value to a 64-bit value by padding its right with ones."
     },
     {
       "haskell_name": "RightPadHigh16_32",
@@ -1262,7 +1262,7 @@
       "section": "Multi-bit logic",
       "input_type": "u1",
       "output_type": "u8",
-      "description": "Extend a 1-bit  value to an 8-bit value by padding its right with zeroes."
+      "description": "Extend a 1-bit value to an 8-bit value by padding its right with zeroes."
     },
     {
       "haskell_name": "RightPadLow1_16",
@@ -1270,7 +1270,7 @@
       "section": "Multi-bit logic",
       "input_type": "u1",
       "output_type": "u16",
-      "description": "Extend a 1-bit  value to a 16-bit value by padding its right with zeroes."
+      "description": "Extend a 1-bit value to a 16-bit value by padding its right with zeroes."
     },
     {
       "haskell_name": "RightPadLow1_32",
@@ -1278,7 +1278,7 @@
       "section": "Multi-bit logic",
       "input_type": "u1",
       "output_type": "u32",
-      "description": "Extend a 1-bit  value to a 32-bit value by padding its right with zeroes."
+      "description": "Extend a 1-bit value to a 32-bit value by padding its right with zeroes."
     },
     {
       "haskell_name": "RightPadLow1_64",
@@ -1286,7 +1286,7 @@
       "section": "Multi-bit logic",
       "input_type": "u1",
       "output_type": "u64",
-      "description": "Extend a 1-bit  value to a 64-bit value by padding its right with zeroes."
+      "description": "Extend a 1-bit value to a 64-bit value by padding its right with zeroes."
     },
     {
       "haskell_name": "RightPadLow8_16",
@@ -2462,7 +2462,7 @@
       "section": "Hash functions",
       "input_type": "Ctx8, u8",
       "output_type": "Ctx8",
-      "description": "Add 1   byte  to the SHA256 hash engine."
+      "description": "Add 1 byte to the SHA256 hash engine."
     },
     {
       "haskell_name": "Sha256Ctx8Add2",
@@ -2470,7 +2470,7 @@
       "section": "Hash functions",
       "input_type": "Ctx8, u16",
       "output_type": "Ctx8",
-      "description": "Add 2   bytes to the SHA256 hash engine."
+      "description": "Add 2 bytes to the SHA256 hash engine."
     },
     {
       "haskell_name": "Sha256Ctx8Add4",
@@ -2478,7 +2478,7 @@
       "section": "Hash functions",
       "input_type": "Ctx8, u32",
       "output_type": "Ctx8",
-      "description": "Add 4   bytes to the SHA256 hash engine."
+      "description": "Add 4 bytes to the SHA256 hash engine."
     },
     {
       "haskell_name": "Sha256Ctx8Add8",
@@ -2486,7 +2486,7 @@
       "section": "Hash functions",
       "input_type": "Ctx8, u64",
       "output_type": "Ctx8",
-      "description": "Add 8   bytes to the SHA256 hash engine."
+      "description": "Add 8 bytes to the SHA256 hash engine."
     },
     {
       "haskell_name": "Sha256Ctx8Add16",
@@ -3246,7 +3246,7 @@
       "section": "Time locks",
       "input_type": "Height",
       "output_type": "unit",
-      "description": "Assert that the value returned by `tx_lock_height`   is greater than or equal to the given value.<br><br>## Panics<br>The assertion fails."
+      "description": "Assert that the value returned by `tx_lock_height` is greater than or equal to the given value.<br><br>## Panics<br>The assertion fails."
     },
     {
       "haskell_name": "CheckLockTime",
@@ -3254,7 +3254,7 @@
       "section": "Time locks",
       "input_type": "Time",
       "output_type": "unit",
-      "description": "Assert that the value returned by `tx_lock_time`     is greater than or equal to the given value.<br><br>## Panics<br>The assertion fails."
+      "description": "Assert that the value returned by `tx_lock_time` is greater than or equal to the given value.<br><br>## Panics<br>The assertion fails."
     },
     {
       "haskell_name": "TxIsFinal",
@@ -3414,7 +3414,7 @@
       "section": "Transaction",
       "input_type": "",
       "output_type": "u256",
-      "description": "Return the `issuance_asset_proof`  at the `current_index`."
+      "description": "Return the `issuance_asset_proof` at the `current_index`."
     },
     {
       "haskell_name": "CurrentIssuanceTokenAmount",
@@ -3430,7 +3430,7 @@
       "section": "Transaction",
       "input_type": "",
       "output_type": "u256",
-      "description": "Return the `issuance_token_proof`  at the `current_index`."
+      "description": "Return the `issuance_token_proof` at the `current_index`."
     },
     {
       "haskell_name": "CurrentNewIssuanceContract",
@@ -3470,7 +3470,7 @@
       "section": "Transaction",
       "input_type": "",
       "output_type": "Option<u256>",
-      "description": "Return the `reissuance_entropy`  at the `current_index`."
+      "description": "Return the `reissuance_entropy` at the `current_index`."
     },
     {
       "haskell_name": "CurrentScriptHash",
@@ -3646,7 +3646,7 @@
       "section": "Transaction",
       "input_type": "u32",
       "output_type": "Option<(Asset1, Amount1)>",
-      "description": "Return the asset amount of the output at the given index.  <br>Return `None` if the output does not exist."
+      "description": "Return the asset amount of the output at the given index.<br>Return `None` if the output does not exist."
     },
     {
       "haskell_name": "OutputAsset",
