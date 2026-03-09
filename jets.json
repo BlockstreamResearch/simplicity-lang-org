@@ -1,0 +1,3772 @@
+{
+  "elements": [
+    {
+      "haskell_name": "All8",
+      "simplicityhl_name": "all_8",
+      "section": "Multi-bit logic",
+      "input_type": "u8",
+      "output_type": "bool",
+      "description": "Check if the value is `u8::MAX`."
+    },
+    {
+      "haskell_name": "All16",
+      "simplicityhl_name": "all_16",
+      "section": "Multi-bit logic",
+      "input_type": "u16",
+      "output_type": "bool",
+      "description": "Check if the value is `u16::MAX`."
+    },
+    {
+      "haskell_name": "All32",
+      "simplicityhl_name": "all_32",
+      "section": "Multi-bit logic",
+      "input_type": "u32",
+      "output_type": "bool",
+      "description": "Check if the value is `u32::MAX`."
+    },
+    {
+      "haskell_name": "All64",
+      "simplicityhl_name": "all_64",
+      "section": "Multi-bit logic",
+      "input_type": "u64",
+      "output_type": "bool",
+      "description": "Check if the value is `u64::MAX`."
+    },
+    {
+      "haskell_name": "And1",
+      "simplicityhl_name": "and_1",
+      "section": "Multi-bit logic",
+      "input_type": "u1, u1",
+      "output_type": "u1",
+      "description": "Bitwise AND of two 1-bit values."
+    },
+    {
+      "haskell_name": "And8",
+      "simplicityhl_name": "and_8",
+      "section": "Multi-bit logic",
+      "input_type": "u8, u8",
+      "output_type": "u8",
+      "description": "Bitwise AND of two 8-bit values."
+    },
+    {
+      "haskell_name": "And16",
+      "simplicityhl_name": "and_16",
+      "section": "Multi-bit logic",
+      "input_type": "u16, u16",
+      "output_type": "u16",
+      "description": "Bitwise AND of two 16-bit values."
+    },
+    {
+      "haskell_name": "And32",
+      "simplicityhl_name": "and_32",
+      "section": "Multi-bit logic",
+      "input_type": "u32, u32",
+      "output_type": "u32",
+      "description": "Bitwise AND of two 32-bit values"
+    },
+    {
+      "haskell_name": "And64",
+      "simplicityhl_name": "and_64",
+      "section": "Multi-bit logic",
+      "input_type": "u64, u64",
+      "output_type": "u64",
+      "description": "Bitwise AND of two 64-bit values"
+    },
+    {
+      "haskell_name": "Ch1",
+      "simplicityhl_name": "ch_1",
+      "section": "Multi-bit logic",
+      "input_type": "u1, u1, u1",
+      "output_type": "u1",
+      "description": "Bitwise CHOICE of a bit and two 1-bit values.  If the bit is true, then take the first value, else take the second value."
+    },
+    {
+      "haskell_name": "Ch8",
+      "simplicityhl_name": "ch_8",
+      "section": "Multi-bit logic",
+      "input_type": "u8, u8, u8",
+      "output_type": "u8",
+      "description": "Bitwise CHOICE of a bit and two 8-bit values.  If the bit is true, then take the first value, else take the second value."
+    },
+    {
+      "haskell_name": "Ch16",
+      "simplicityhl_name": "ch_16",
+      "section": "Multi-bit logic",
+      "input_type": "u16, (u16, u16)",
+      "output_type": "u16",
+      "description": "Bitwise CHOICE of a bit and two 16-bit values. If the bit is true, then take the first value, else take the second value."
+    },
+    {
+      "haskell_name": "Ch32",
+      "simplicityhl_name": "ch_32",
+      "section": "Multi-bit logic",
+      "input_type": "u32, (u32, u32)",
+      "output_type": "u32",
+      "description": "Bitwise CHOICE of a bit and two 32-bit values. If the bit is true, then take the first value, else take the second value."
+    },
+    {
+      "haskell_name": "Ch64",
+      "simplicityhl_name": "ch_64",
+      "section": "Multi-bit logic",
+      "input_type": "u64, (u64, u64)",
+      "output_type": "u64",
+      "description": "Bitwise CHOICE of a bit and two 64-bit values. If the bit is true, then take the first value, else take the second value."
+    },
+    {
+      "haskell_name": "Complement1",
+      "simplicityhl_name": "complement_1",
+      "section": "Multi-bit logic",
+      "input_type": "u1",
+      "output_type": "u1",
+      "description": "Bitwise NOT of a 1-bit  value."
+    },
+    {
+      "haskell_name": "Complement8",
+      "simplicityhl_name": "complement_8",
+      "section": "Multi-bit logic",
+      "input_type": "u8",
+      "output_type": "u8",
+      "description": "Bitwise NOT of an 8-bit value."
+    },
+    {
+      "haskell_name": "Complement16",
+      "simplicityhl_name": "complement_16",
+      "section": "Multi-bit logic",
+      "input_type": "u16",
+      "output_type": "u16",
+      "description": "Bitwise NOT of a 16-bit value."
+    },
+    {
+      "haskell_name": "Complement32",
+      "simplicityhl_name": "complement_32",
+      "section": "Multi-bit logic",
+      "input_type": "u32",
+      "output_type": "u32",
+      "description": "Bitwise NOT of a 32-bit value."
+    },
+    {
+      "haskell_name": "Complement64",
+      "simplicityhl_name": "complement_64",
+      "section": "Multi-bit logic",
+      "input_type": "u64",
+      "output_type": "u64",
+      "description": "Bitwise NOT of a 64-bit value."
+    },
+    {
+      "haskell_name": "Eq1",
+      "simplicityhl_name": "eq_1",
+      "section": "Multi-bit logic",
+      "input_type": "u1, u1",
+      "output_type": "bool",
+      "description": "Check if two 1-bit values are equal."
+    },
+    {
+      "haskell_name": "Eq8",
+      "simplicityhl_name": "eq_8",
+      "section": "Multi-bit logic",
+      "input_type": "u8, u8",
+      "output_type": "bool",
+      "description": "Check if two 8-bit values are equal."
+    },
+    {
+      "haskell_name": "Eq16",
+      "simplicityhl_name": "eq_16",
+      "section": "Multi-bit logic",
+      "input_type": "u16, u16",
+      "output_type": "bool",
+      "description": "Check if two 16-bit values are equal."
+    },
+    {
+      "haskell_name": "Eq32",
+      "simplicityhl_name": "eq_32",
+      "section": "Multi-bit logic",
+      "input_type": "u32, u32",
+      "output_type": "bool",
+      "description": "Check if two 32-bit values are equal."
+    },
+    {
+      "haskell_name": "Eq64",
+      "simplicityhl_name": "eq_64",
+      "section": "Multi-bit logic",
+      "input_type": "u64, u64",
+      "output_type": "bool",
+      "description": "Check if two 64-bit values are equal."
+    },
+    {
+      "haskell_name": "Eq256",
+      "simplicityhl_name": "eq_256",
+      "section": "Multi-bit logic",
+      "input_type": "u256, u256",
+      "output_type": "bool",
+      "description": "Check if two 256-bit values are equal."
+    },
+    {
+      "haskell_name": "FullLeftShift8_1",
+      "simplicityhl_name": "full_left_shift_8_1",
+      "section": "Multi-bit logic",
+      "input_type": "u8, u1",
+      "output_type": "(u1, u8)",
+      "description": "Helper for left-shifting  bits. The bits are shifted from a 1-bit  value into a 8-bit  value. Return the shifted value and the 1  bit  that was  shifted out."
+    },
+    {
+      "haskell_name": "FullLeftShift8_2",
+      "simplicityhl_name": "full_left_shift_8_2",
+      "section": "Multi-bit logic",
+      "input_type": "u8, u2",
+      "output_type": "(u2, u8)",
+      "description": "Helper for left-shifting  bits. The bits are shifted from a 2-bit  value into a 8-bit  value. Return the shifted value and the 2  bits that were shifted out."
+    },
+    {
+      "haskell_name": "FullLeftShift8_4",
+      "simplicityhl_name": "full_left_shift_8_4",
+      "section": "Multi-bit logic",
+      "input_type": "u8, u4",
+      "output_type": "(u4, u8)",
+      "description": "Helper for left-shifting  bits. The bits are shifted from a 4-bit  value into a 8-bit  value. Return the shifted value and the 4  bits that were shifted out."
+    },
+    {
+      "haskell_name": "FullLeftShift16_1",
+      "simplicityhl_name": "full_left_shift_16_1",
+      "section": "Multi-bit logic",
+      "input_type": "u16, u1",
+      "output_type": "(u1, u16)",
+      "description": "Helper for left-shifting  bits. The bits are shifted from a 1-bit  value into a 16-bit value. Return the shifted value and the 1  bit  that was  shifted out."
+    },
+    {
+      "haskell_name": "FullLeftShift16_2",
+      "simplicityhl_name": "full_left_shift_16_2",
+      "section": "Multi-bit logic",
+      "input_type": "u16, u2",
+      "output_type": "(u2, u16)",
+      "description": "Helper for left-shifting  bits. The bits are shifted from a 2-bit  value into a 16-bit value. Return the shifted value and the 2  bits that were shifted out."
+    },
+    {
+      "haskell_name": "FullLeftShift16_4",
+      "simplicityhl_name": "full_left_shift_16_4",
+      "section": "Multi-bit logic",
+      "input_type": "u16, u4",
+      "output_type": "(u4, u16)",
+      "description": "Helper for left-shifting  bits. The bits are shifted from a 4-bit  value into a 16-bit value. Return the shifted value and the 4  bits that were shifted out."
+    },
+    {
+      "haskell_name": "FullLeftShift16_8",
+      "simplicityhl_name": "full_left_shift_16_8",
+      "section": "Multi-bit logic",
+      "input_type": "u16, u8",
+      "output_type": "(u8, u16)",
+      "description": "Helper for left-shifting  bits. The bits are shifted from a 8-bit  value into a 16-bit value. Return the shifted value and the 8  bits that were shifted out."
+    },
+    {
+      "haskell_name": "FullLeftShift32_1",
+      "simplicityhl_name": "full_left_shift_32_1",
+      "section": "Multi-bit logic",
+      "input_type": "u32, u1",
+      "output_type": "(u1, u32)",
+      "description": "Helper for left-shifting  bits. The bits are shifted from a 1-bit  value into a 32-bit value. Return the shifted value and the 1  bit  that was  shifted out."
+    },
+    {
+      "haskell_name": "FullLeftShift32_2",
+      "simplicityhl_name": "full_left_shift_32_2",
+      "section": "Multi-bit logic",
+      "input_type": "u32, u2",
+      "output_type": "(u2, u32)",
+      "description": "Helper for left-shifting  bits. The bits are shifted from a 2-bit  value into a 32-bit value. Return the shifted value and the 2  bits that were shifted out."
+    },
+    {
+      "haskell_name": "FullLeftShift32_4",
+      "simplicityhl_name": "full_left_shift_32_4",
+      "section": "Multi-bit logic",
+      "input_type": "u32, u4",
+      "output_type": "(u4, u32)",
+      "description": "Helper for left-shifting  bits. The bits are shifted from a 4-bit  value into a 32-bit value. Return the shifted value and the 4  bits that were shifted out."
+    },
+    {
+      "haskell_name": "FullLeftShift32_8",
+      "simplicityhl_name": "full_left_shift_32_8",
+      "section": "Multi-bit logic",
+      "input_type": "u32, u8",
+      "output_type": "(u8, u32)",
+      "description": "Helper for left-shifting  bits. The bits are shifted from a 8-bit  value into a 32-bit value. Return the shifted value and the 8  bits that were shifted out."
+    },
+    {
+      "haskell_name": "FullLeftShift32_16",
+      "simplicityhl_name": "full_left_shift_32_16",
+      "section": "Multi-bit logic",
+      "input_type": "u32, u16",
+      "output_type": "(u16, u32)",
+      "description": "Helper for left-shifting  bits. The bits are shifted from a 16-bit value into a 32-bit value. Return the shifted value and the 16 bits that were shifted out."
+    },
+    {
+      "haskell_name": "FullLeftShift64_1",
+      "simplicityhl_name": "full_left_shift_64_1",
+      "section": "Multi-bit logic",
+      "input_type": "u64, u1",
+      "output_type": "(u1, u64)",
+      "description": "Helper for left-shifting  bits. The bits are shifted from a 1-bit  value into a 64-bit value. Return the shifted value and the 1  bit  that was  shifted out."
+    },
+    {
+      "haskell_name": "FullLeftShift64_2",
+      "simplicityhl_name": "full_left_shift_64_2",
+      "section": "Multi-bit logic",
+      "input_type": "u64, u2",
+      "output_type": "(u2, u64)",
+      "description": "Helper for left-shifting  bits. The bits are shifted from a 2-bit  value into a 64-bit value. Return the shifted value and the 2  bits that were shifted out."
+    },
+    {
+      "haskell_name": "FullLeftShift64_4",
+      "simplicityhl_name": "full_left_shift_64_4",
+      "section": "Multi-bit logic",
+      "input_type": "u64, u4",
+      "output_type": "(u4, u64)",
+      "description": "Helper for left-shifting  bits. The bits are shifted from a 4-bit  value into a 64-bit value. Return the shifted value and the 4  bits that were shifted out."
+    },
+    {
+      "haskell_name": "FullLeftShift64_8",
+      "simplicityhl_name": "full_left_shift_64_8",
+      "section": "Multi-bit logic",
+      "input_type": "u64, u8",
+      "output_type": "(u8, u64)",
+      "description": "Helper for left-shifting  bits. The bits are shifted from a 8-bit  value into a 64-bit value. Return the shifted value and the 8  bits that were shifted out."
+    },
+    {
+      "haskell_name": "FullLeftShift64_16",
+      "simplicityhl_name": "full_left_shift_64_16",
+      "section": "Multi-bit logic",
+      "input_type": "u64, u16",
+      "output_type": "(u16, u64)",
+      "description": "Helper for left-shifting  bits. The bits are shifted from a 16-bit value into a 64-bit value. Return the shifted value and the 16 bits that were shifted out."
+    },
+    {
+      "haskell_name": "FullLeftShift64_32",
+      "simplicityhl_name": "full_left_shift_64_32",
+      "section": "Multi-bit logic",
+      "input_type": "u64, u32",
+      "output_type": "(u32, u64)",
+      "description": "Helper for left-shifting  bits. The bits are shifted from a 32-bit value into a 64-bit value. Return the shifted value and the 32 bits that were shifted out."
+    },
+    {
+      "haskell_name": "FullRightShift8_1",
+      "simplicityhl_name": "full_right_shift_8_1",
+      "section": "Multi-bit logic",
+      "input_type": "u1, u8",
+      "output_type": "(u8, u1)",
+      "description": "Helper for right-shifting bits. The bits are shifted from a 1-bit  value into a 8-bit  value. Return the shifted value and the 1  bit  that was  shifted out."
+    },
+    {
+      "haskell_name": "FullRightShift8_2",
+      "simplicityhl_name": "full_right_shift_8_2",
+      "section": "Multi-bit logic",
+      "input_type": "u2, u8",
+      "output_type": "(u8, u2)",
+      "description": "Helper for right-shifting bits. The bits are shifted from a 2-bit  value into a 8-bit  value. Return the shifted value and the 2  bits that were shifted out."
+    },
+    {
+      "haskell_name": "FullRightShift8_4",
+      "simplicityhl_name": "full_right_shift_8_4",
+      "section": "Multi-bit logic",
+      "input_type": "u4, u8",
+      "output_type": "(u8, u4)",
+      "description": "Helper for right-shifting bits. The bits are shifted from a 4-bit  value into a 8-bit  value. Return the shifted value and the 4  bits that were shifted out."
+    },
+    {
+      "haskell_name": "FullRightShift16_1",
+      "simplicityhl_name": "full_right_shift_16_1",
+      "section": "Multi-bit logic",
+      "input_type": "u1, u16",
+      "output_type": "(u16, u1)",
+      "description": "Helper for right-shifting bits. The bits are shifted from a 1-bit  value into a 16-bit value. Return the shifted value and the 1  bit  that was  shifted out."
+    },
+    {
+      "haskell_name": "FullRightShift16_2",
+      "simplicityhl_name": "full_right_shift_16_2",
+      "section": "Multi-bit logic",
+      "input_type": "u2, u16",
+      "output_type": "(u16, u2)",
+      "description": "Helper for right-shifting bits. The bits are shifted from a 2-bit  value into a 16-bit value. Return the shifted value and the 2  bits that were shifted out."
+    },
+    {
+      "haskell_name": "FullRightShift16_4",
+      "simplicityhl_name": "full_right_shift_16_4",
+      "section": "Multi-bit logic",
+      "input_type": "u4, u16",
+      "output_type": "(u16, u4)",
+      "description": "Helper for right-shifting bits. The bits are shifted from a 4-bit  value into a 16-bit value. Return the shifted value and the 4  bits that were shifted out."
+    },
+    {
+      "haskell_name": "FullRightShift16_8",
+      "simplicityhl_name": "full_right_shift_16_8",
+      "section": "Multi-bit logic",
+      "input_type": "u8, u16",
+      "output_type": "(u16, u8)",
+      "description": "Helper for right-shifting bits. The bits are shifted from a 8-bit  value into a 16-bit value. Return the shifted value and the 8  bits that were shifted out."
+    },
+    {
+      "haskell_name": "FullRightShift32_1",
+      "simplicityhl_name": "full_right_shift_32_1",
+      "section": "Multi-bit logic",
+      "input_type": "u1, u32",
+      "output_type": "(u32, u1)",
+      "description": "Helper for right-shifting bits. The bits are shifted from a 1-bit  value into a 32-bit value. Return the shifted value and the 1  bit  that was  shifted out."
+    },
+    {
+      "haskell_name": "FullRightShift32_2",
+      "simplicityhl_name": "full_right_shift_32_2",
+      "section": "Multi-bit logic",
+      "input_type": "u2, u32",
+      "output_type": "(u32, u2)",
+      "description": "Helper for right-shifting bits. The bits are shifted from a 2-bit  value into a 32-bit value. Return the shifted value and the 2  bits that were shifted out."
+    },
+    {
+      "haskell_name": "FullRightShift32_4",
+      "simplicityhl_name": "full_right_shift_32_4",
+      "section": "Multi-bit logic",
+      "input_type": "u4, u32",
+      "output_type": "(u32, u4)",
+      "description": "Helper for right-shifting bits. The bits are shifted from a 4-bit  value into a 32-bit value. Return the shifted value and the 4  bits that were shifted out."
+    },
+    {
+      "haskell_name": "FullRightShift32_8",
+      "simplicityhl_name": "full_right_shift_32_8",
+      "section": "Multi-bit logic",
+      "input_type": "u8, u32",
+      "output_type": "(u32, u8)",
+      "description": "Helper for right-shifting bits. The bits are shifted from a 8-bit  value into a 32-bit value. Return the shifted value and the 8  bits that were shifted out."
+    },
+    {
+      "haskell_name": "FullRightShift32_16",
+      "simplicityhl_name": "full_right_shift_32_16",
+      "section": "Multi-bit logic",
+      "input_type": "u16, u32",
+      "output_type": "(u32, u16)",
+      "description": "Helper for right-shifting bits. The bits are shifted from a 16-bit value into a 32-bit value. Return the shifted value and the 16 bits that were shifted out."
+    },
+    {
+      "haskell_name": "FullRightShift64_1",
+      "simplicityhl_name": "full_right_shift_64_1",
+      "section": "Multi-bit logic",
+      "input_type": "u1, u64",
+      "output_type": "(u64, u1)",
+      "description": "Helper for right-shifting bits. The bits are shifted from a 1-bit  value into a 64-bit value. Return the shifted value and the 1  bit  that was  shifted out."
+    },
+    {
+      "haskell_name": "FullRightShift64_2",
+      "simplicityhl_name": "full_right_shift_64_2",
+      "section": "Multi-bit logic",
+      "input_type": "u2, u64",
+      "output_type": "(u64, u2)",
+      "description": "Helper for right-shifting bits. The bits are shifted from a 2-bit  value into a 64-bit value. Return the shifted value and the 2  bits that were shifted out."
+    },
+    {
+      "haskell_name": "FullRightShift64_4",
+      "simplicityhl_name": "full_right_shift_64_4",
+      "section": "Multi-bit logic",
+      "input_type": "u4, u64",
+      "output_type": "(u64, u4)",
+      "description": "Helper for right-shifting bits. The bits are shifted from a 4-bit  value into a 64-bit value. Return the shifted value and the 4  bits that were shifted out."
+    },
+    {
+      "haskell_name": "FullRightShift64_8",
+      "simplicityhl_name": "full_right_shift_64_8",
+      "section": "Multi-bit logic",
+      "input_type": "u8, u64",
+      "output_type": "(u64, u8)",
+      "description": "Helper for right-shifting bits. The bits are shifted from a 8-bit  value into a 64-bit value. Return the shifted value and the 8  bits that were shifted out."
+    },
+    {
+      "haskell_name": "FullRightShift64_16",
+      "simplicityhl_name": "full_right_shift_64_16",
+      "section": "Multi-bit logic",
+      "input_type": "u16, u64",
+      "output_type": "(u64, u16)",
+      "description": "Helper for right-shifting bits. The bits are shifted from a 16-bit value into a 64-bit value. Return the shifted value and the 16 bits that were shifted out."
+    },
+    {
+      "haskell_name": "FullRightShift64_32",
+      "simplicityhl_name": "full_right_shift_64_32",
+      "section": "Multi-bit logic",
+      "input_type": "u32, u64",
+      "output_type": "(u64, u32)",
+      "description": "Helper for right-shifting bits. The bits are shifted from a 32-bit value into a 64-bit value. Return the shifted value and the 32 bits that were shifted out."
+    },
+    {
+      "haskell_name": "High1",
+      "simplicityhl_name": "high_1",
+      "section": "Multi-bit logic",
+      "input_type": "",
+      "output_type": "u1",
+      "description": "Return `u1::MAX` = 1."
+    },
+    {
+      "haskell_name": "High8",
+      "simplicityhl_name": "high_8",
+      "section": "Multi-bit logic",
+      "input_type": "",
+      "output_type": "u8",
+      "description": "Return `u8::MAX`."
+    },
+    {
+      "haskell_name": "High16",
+      "simplicityhl_name": "high_16",
+      "section": "Multi-bit logic",
+      "input_type": "",
+      "output_type": "u16",
+      "description": "Return `u16::MAX`."
+    },
+    {
+      "haskell_name": "High32",
+      "simplicityhl_name": "high_32",
+      "section": "Multi-bit logic",
+      "input_type": "",
+      "output_type": "u32",
+      "description": "Return `u32::MAX`."
+    },
+    {
+      "haskell_name": "High64",
+      "simplicityhl_name": "high_64",
+      "section": "Multi-bit logic",
+      "input_type": "",
+      "output_type": "u64",
+      "description": "Return `u64::MAX`."
+    },
+    {
+      "haskell_name": "LeftExtend1_8",
+      "simplicityhl_name": "left_extend_1_8",
+      "section": "Multi-bit logic",
+      "input_type": "u1",
+      "output_type": "u8",
+      "description": "Extend a 1-bit  value to an 8-bit value by padding its left with the MSB."
+    },
+    {
+      "haskell_name": "LeftExtend1_16",
+      "simplicityhl_name": "left_extend_1_16",
+      "section": "Multi-bit logic",
+      "input_type": "u1",
+      "output_type": "u16",
+      "description": "Extend a 1-bit  value to a 16-bit value by padding its left with the MSB."
+    },
+    {
+      "haskell_name": "LeftExtend1_32",
+      "simplicityhl_name": "left_extend_1_32",
+      "section": "Multi-bit logic",
+      "input_type": "u1",
+      "output_type": "u32",
+      "description": "Extend a 1-bit  value to a 32-bit value by padding its left with the MSB."
+    },
+    {
+      "haskell_name": "LeftExtend1_64",
+      "simplicityhl_name": "left_extend_1_64",
+      "section": "Multi-bit logic",
+      "input_type": "u1",
+      "output_type": "u64",
+      "description": "Extend a 1-bit  value to a 64-bit value by padding its left with the MSB."
+    },
+    {
+      "haskell_name": "LeftExtend8_16",
+      "simplicityhl_name": "left_extend_8_16",
+      "section": "Multi-bit logic",
+      "input_type": "u8",
+      "output_type": "u16",
+      "description": "Extend an 8-bit value to a 16-bit value by padding its left with the MSB."
+    },
+    {
+      "haskell_name": "LeftExtend8_32",
+      "simplicityhl_name": "left_extend_8_32",
+      "section": "Multi-bit logic",
+      "input_type": "u8",
+      "output_type": "u32",
+      "description": "Extend an 8-bit value to a 32-bit value by padding its left with the MSB."
+    },
+    {
+      "haskell_name": "LeftExtend8_64",
+      "simplicityhl_name": "left_extend_8_64",
+      "section": "Multi-bit logic",
+      "input_type": "u8",
+      "output_type": "u64",
+      "description": "Extend an 8-bit value to a 64-bit value by padding its left with the MSB."
+    },
+    {
+      "haskell_name": "LeftExtend16_32",
+      "simplicityhl_name": "left_extend_16_32",
+      "section": "Multi-bit logic",
+      "input_type": "u16",
+      "output_type": "u32",
+      "description": "Extend a 16-bit value to a 32-bit value by padding its left with the MSB."
+    },
+    {
+      "haskell_name": "LeftExtend16_64",
+      "simplicityhl_name": "left_extend_16_64",
+      "section": "Multi-bit logic",
+      "input_type": "u16",
+      "output_type": "u64",
+      "description": "Extend a 16-bit value to a 64-bit value by padding its left with the MSB."
+    },
+    {
+      "haskell_name": "LeftExtend32_64",
+      "simplicityhl_name": "left_extend_32_64",
+      "section": "Multi-bit logic",
+      "input_type": "u32",
+      "output_type": "u64",
+      "description": "Extend a 16-bit value to a 64-bit value by padding its left with the MSB."
+    },
+    {
+      "haskell_name": "LeftPadHigh1_8",
+      "simplicityhl_name": "left_pad_high_1_8",
+      "section": "Multi-bit logic",
+      "input_type": "u1",
+      "output_type": "u8",
+      "description": "Extend a 1-bit  value to an 8-bit value by padding its left with ones."
+    },
+    {
+      "haskell_name": "LeftPadHigh1_16",
+      "simplicityhl_name": "left_pad_high_1_16",
+      "section": "Multi-bit logic",
+      "input_type": "u1",
+      "output_type": "u16",
+      "description": "Extend a 1-bit  value to a 16-bit value by padding its left with ones."
+    },
+    {
+      "haskell_name": "LeftPadHigh1_32",
+      "simplicityhl_name": "left_pad_high_1_32",
+      "section": "Multi-bit logic",
+      "input_type": "u1",
+      "output_type": "u32",
+      "description": "Extend a 1-bit  value to a 32-bit value by padding its left with ones."
+    },
+    {
+      "haskell_name": "LeftPadHigh1_64",
+      "simplicityhl_name": "left_pad_high_1_64",
+      "section": "Multi-bit logic",
+      "input_type": "u1",
+      "output_type": "u64",
+      "description": "Extend a 1-bit  value to a 64-bit value by padding its left with ones."
+    },
+    {
+      "haskell_name": "LeftPadHigh8_16",
+      "simplicityhl_name": "left_pad_high_8_16",
+      "section": "Multi-bit logic",
+      "input_type": "u8",
+      "output_type": "u16",
+      "description": "Extend an 8-bit value to a 16-bit value by padding its left with ones."
+    },
+    {
+      "haskell_name": "LeftPadHigh8_32",
+      "simplicityhl_name": "left_pad_high_8_32",
+      "section": "Multi-bit logic",
+      "input_type": "u8",
+      "output_type": "u32",
+      "description": "Extend an 8-bit value to a 32-bit value by padding its left with ones."
+    },
+    {
+      "haskell_name": "LeftPadHigh8_64",
+      "simplicityhl_name": "left_pad_high_8_64",
+      "section": "Multi-bit logic",
+      "input_type": "u8",
+      "output_type": "u64",
+      "description": "Extend a 1-bit  value to a 64-bit value by padding its left with ones."
+    },
+    {
+      "haskell_name": "LeftPadHigh16_32",
+      "simplicityhl_name": "left_pad_high_16_32",
+      "section": "Multi-bit logic",
+      "input_type": "u16",
+      "output_type": "u32",
+      "description": "Extend a 16-bit value to a 32-bit value by padding its left with ones."
+    },
+    {
+      "haskell_name": "LeftPadHigh16_64",
+      "simplicityhl_name": "left_pad_high_16_64",
+      "section": "Multi-bit logic",
+      "input_type": "u16",
+      "output_type": "u64",
+      "description": "Extend a 16-bit value to a 64-bit value by padding its left with ones."
+    },
+    {
+      "haskell_name": "LeftPadHigh32_64",
+      "simplicityhl_name": "left_pad_high_32_64",
+      "section": "Multi-bit logic",
+      "input_type": "u32",
+      "output_type": "u64",
+      "description": "Extend a 32-bit value to a 64-bit value by padding its left with ones."
+    },
+    {
+      "haskell_name": "LeftPadLow1_8",
+      "simplicityhl_name": "left_pad_low_1_8",
+      "section": "Multi-bit logic",
+      "input_type": "u1",
+      "output_type": "u8",
+      "description": "Extend a 1-bit  value to an 8-bit value by padding its left with zeroes."
+    },
+    {
+      "haskell_name": "LeftPadLow1_16",
+      "simplicityhl_name": "left_pad_low_1_16",
+      "section": "Multi-bit logic",
+      "input_type": "u1",
+      "output_type": "u16",
+      "description": "Extend a 1-bit  value to a 16-bit value by padding its left with zeroes."
+    },
+    {
+      "haskell_name": "LeftPadLow1_32",
+      "simplicityhl_name": "left_pad_low_1_32",
+      "section": "Multi-bit logic",
+      "input_type": "u1",
+      "output_type": "u32",
+      "description": "Extend a 1-bit  value to a 32-bit value by padding its left with zeroes."
+    },
+    {
+      "haskell_name": "LeftPadLow1_64",
+      "simplicityhl_name": "left_pad_low_1_64",
+      "section": "Multi-bit logic",
+      "input_type": "u1",
+      "output_type": "u64",
+      "description": "Extend a 1-bit  value to a 64-bit value by padding its left with zeroes."
+    },
+    {
+      "haskell_name": "LeftPadLow8_16",
+      "simplicityhl_name": "left_pad_low_8_16",
+      "section": "Multi-bit logic",
+      "input_type": "u8",
+      "output_type": "u16",
+      "description": "Extend an 8-bit value to a 16-bit value by padding its left with zeroes."
+    },
+    {
+      "haskell_name": "LeftPadLow8_32",
+      "simplicityhl_name": "left_pad_low_8_32",
+      "section": "Multi-bit logic",
+      "input_type": "u8",
+      "output_type": "u32",
+      "description": "Extend an 8-bit value to a 32-bit value by padding its left with zeroes."
+    },
+    {
+      "haskell_name": "LeftPadLow8_64",
+      "simplicityhl_name": "left_pad_low_8_64",
+      "section": "Multi-bit logic",
+      "input_type": "u8",
+      "output_type": "u64",
+      "description": "Extend an 8-bit value to a 64-bit value by padding its left with zeroes."
+    },
+    {
+      "haskell_name": "LeftPadLow16_32",
+      "simplicityhl_name": "left_pad_low_16_32",
+      "section": "Multi-bit logic",
+      "input_type": "u16",
+      "output_type": "u32",
+      "description": "Extend a 16-bit value to a 32-bit value by padding its left with zeroes."
+    },
+    {
+      "haskell_name": "LeftPadLow16_64",
+      "simplicityhl_name": "left_pad_low_16_64",
+      "section": "Multi-bit logic",
+      "input_type": "u16",
+      "output_type": "u64",
+      "description": "Extend a 16-bit value to a 64-bit value by padding its left with zeroes."
+    },
+    {
+      "haskell_name": "LeftPadLow32_64",
+      "simplicityhl_name": "left_pad_low_32_64",
+      "section": "Multi-bit logic",
+      "input_type": "u32",
+      "output_type": "u64",
+      "description": "Extend a 32-bit value to a 64-bit value by padding its left with zeroes."
+    },
+    {
+      "haskell_name": "LeftRotate8",
+      "simplicityhl_name": "left_rotate_8",
+      "section": "Multi-bit logic",
+      "input_type": "u4, u8",
+      "output_type": "u8",
+      "description": "Left-rotate an 8-bit value by the given amount."
+    },
+    {
+      "haskell_name": "LeftRotate16",
+      "simplicityhl_name": "left_rotate_16",
+      "section": "Multi-bit logic",
+      "input_type": "u4, u16",
+      "output_type": "u16",
+      "description": "Left-rotate a 16-bit value by the given amount."
+    },
+    {
+      "haskell_name": "LeftRotate32",
+      "simplicityhl_name": "left_rotate_32",
+      "section": "Multi-bit logic",
+      "input_type": "u8, u32",
+      "output_type": "u32",
+      "description": "Left-rotate a 32-bit value by the given amount."
+    },
+    {
+      "haskell_name": "LeftRotate64",
+      "simplicityhl_name": "left_rotate_64",
+      "section": "Multi-bit logic",
+      "input_type": "u8, u64",
+      "output_type": "u64",
+      "description": "Left-rotate a 64-bit value by the given amount."
+    },
+    {
+      "haskell_name": "LeftShift8",
+      "simplicityhl_name": "left_shift_8",
+      "section": "Multi-bit logic",
+      "input_type": "u4, u8",
+      "output_type": "u8",
+      "description": "Left-shift an 8-bit value by the given amount. Bits are filled with zeroes."
+    },
+    {
+      "haskell_name": "LeftShift16",
+      "simplicityhl_name": "left_shift_16",
+      "section": "Multi-bit logic",
+      "input_type": "u4, u16",
+      "output_type": "u16",
+      "description": "Left-shift a 16-bit value by the given amount. Bits are filled with zeroes."
+    },
+    {
+      "haskell_name": "LeftShift32",
+      "simplicityhl_name": "left_shift_32",
+      "section": "Multi-bit logic",
+      "input_type": "u8, u32",
+      "output_type": "u32",
+      "description": "Left-shift a 32-bit value by the given amount. Bits are filled with zeroes."
+    },
+    {
+      "haskell_name": "LeftShift64",
+      "simplicityhl_name": "left_shift_64",
+      "section": "Multi-bit logic",
+      "input_type": "u8, u64",
+      "output_type": "u64",
+      "description": "Left-shift a 64-bit value by the given amount. Bits are filled with zeroes."
+    },
+    {
+      "haskell_name": "LeftShiftWith8",
+      "simplicityhl_name": "left_shift_with_8",
+      "section": "Multi-bit logic",
+      "input_type": "u1, u4, u8",
+      "output_type": "u8",
+      "description": "Left-shift an 8-bit value by the given amount. Bits are filled with the given bit."
+    },
+    {
+      "haskell_name": "LeftShiftWith16",
+      "simplicityhl_name": "left_shift_with_16",
+      "section": "Multi-bit logic",
+      "input_type": "u1, u4, u16",
+      "output_type": "u16",
+      "description": "Left-shift a 16-bit value by the given amount. Bits are filled with the given bit."
+    },
+    {
+      "haskell_name": "LeftShiftWith32",
+      "simplicityhl_name": "left_shift_with_32",
+      "section": "Multi-bit logic",
+      "input_type": "u1, u8, u32",
+      "output_type": "u32",
+      "description": "Left-shift a 32-bit value by the given amount. Bits are filled with the given bit."
+    },
+    {
+      "haskell_name": "LeftShiftWith64",
+      "simplicityhl_name": "left_shift_with_64",
+      "section": "Multi-bit logic",
+      "input_type": "u1, u8, u64",
+      "output_type": "u64",
+      "description": "Left-shift a 64-bit value by the given amount. Bits are filled with the given bit."
+    },
+    {
+      "haskell_name": "Leftmost8_1",
+      "simplicityhl_name": "leftmost_8_1",
+      "section": "Multi-bit logic",
+      "input_type": "u8",
+      "output_type": "u1",
+      "description": "Return the most significant 1  bits of an 8-bit value."
+    },
+    {
+      "haskell_name": "Leftmost8_2",
+      "simplicityhl_name": "leftmost_8_2",
+      "section": "Multi-bit logic",
+      "input_type": "u8",
+      "output_type": "u2",
+      "description": "Return the most significant 1  bits of an 8-bit value."
+    },
+    {
+      "haskell_name": "Leftmost8_4",
+      "simplicityhl_name": "leftmost_8_4",
+      "section": "Multi-bit logic",
+      "input_type": "u8",
+      "output_type": "u4",
+      "description": "Return the most significant 1  bits of an 8-bit value."
+    },
+    {
+      "haskell_name": "Leftmost16_1",
+      "simplicityhl_name": "leftmost_16_1",
+      "section": "Multi-bit logic",
+      "input_type": "u16",
+      "output_type": "u1",
+      "description": "Return the most significant 1  bit  of a 16-bit value."
+    },
+    {
+      "haskell_name": "Leftmost16_2",
+      "simplicityhl_name": "leftmost_16_2",
+      "section": "Multi-bit logic",
+      "input_type": "u16",
+      "output_type": "u2",
+      "description": "Return the most significant 2  bits of a 16-bit value."
+    },
+    {
+      "haskell_name": "Leftmost16_4",
+      "simplicityhl_name": "leftmost_16_4",
+      "section": "Multi-bit logic",
+      "input_type": "u16",
+      "output_type": "u4",
+      "description": "Return the most significant 4  bits of a 16-bit value."
+    },
+    {
+      "haskell_name": "Leftmost16_8",
+      "simplicityhl_name": "leftmost_16_8",
+      "section": "Multi-bit logic",
+      "input_type": "u16",
+      "output_type": "u8",
+      "description": "Return the most significant 8  bits of a 16-bit value."
+    },
+    {
+      "haskell_name": "Leftmost32_1",
+      "simplicityhl_name": "leftmost_32_1",
+      "section": "Multi-bit logic",
+      "input_type": "u32",
+      "output_type": "u1",
+      "description": "Return the most significant 1  bit  of a 32-bit value."
+    },
+    {
+      "haskell_name": "Leftmost32_2",
+      "simplicityhl_name": "leftmost_32_2",
+      "section": "Multi-bit logic",
+      "input_type": "u32",
+      "output_type": "u2",
+      "description": "Return the most significant 2  bits of a 32-bit value."
+    },
+    {
+      "haskell_name": "Leftmost32_4",
+      "simplicityhl_name": "leftmost_32_4",
+      "section": "Multi-bit logic",
+      "input_type": "u32",
+      "output_type": "u4",
+      "description": "Return the most significant 4  bits of a 32-bit value."
+    },
+    {
+      "haskell_name": "Leftmost32_8",
+      "simplicityhl_name": "leftmost_32_8",
+      "section": "Multi-bit logic",
+      "input_type": "u32",
+      "output_type": "u8",
+      "description": "Return the most significant 8  bits of a 32-bit value."
+    },
+    {
+      "haskell_name": "Leftmost32_16",
+      "simplicityhl_name": "leftmost_32_16",
+      "section": "Multi-bit logic",
+      "input_type": "u32",
+      "output_type": "u16",
+      "description": "Return the most significant 16 bits of a 32-bit value."
+    },
+    {
+      "haskell_name": "Leftmost64_1",
+      "simplicityhl_name": "leftmost_64_1",
+      "section": "Multi-bit logic",
+      "input_type": "u64",
+      "output_type": "u1",
+      "description": "Return the most significant 1  bits of a 64-bit value."
+    },
+    {
+      "haskell_name": "Leftmost64_2",
+      "simplicityhl_name": "leftmost_64_2",
+      "section": "Multi-bit logic",
+      "input_type": "u64",
+      "output_type": "u2",
+      "description": "Return the most significant 2  bits of a 64-bit value."
+    },
+    {
+      "haskell_name": "Leftmost64_4",
+      "simplicityhl_name": "leftmost_64_4",
+      "section": "Multi-bit logic",
+      "input_type": "u64",
+      "output_type": "u4",
+      "description": "Return the most significant 4  bits of a 64-bit value."
+    },
+    {
+      "haskell_name": "Leftmost64_8",
+      "simplicityhl_name": "leftmost_64_8",
+      "section": "Multi-bit logic",
+      "input_type": "u64",
+      "output_type": "u8",
+      "description": "Return the most significant 8  bits of a 64-bit value."
+    },
+    {
+      "haskell_name": "Leftmost64_16",
+      "simplicityhl_name": "leftmost_64_16",
+      "section": "Multi-bit logic",
+      "input_type": "u64",
+      "output_type": "u16",
+      "description": "Return the most significant 16 bits of a 64-bit value."
+    },
+    {
+      "haskell_name": "Leftmost64_32",
+      "simplicityhl_name": "leftmost_64_32",
+      "section": "Multi-bit logic",
+      "input_type": "u64",
+      "output_type": "u32",
+      "description": "Return the most significant 32 bits of a 64-bit value."
+    },
+    {
+      "haskell_name": "Low1",
+      "simplicityhl_name": "low_1",
+      "section": "Multi-bit logic",
+      "input_type": "",
+      "output_type": "u1",
+      "description": "Return `u1::MIN` = 1."
+    },
+    {
+      "haskell_name": "Low8",
+      "simplicityhl_name": "low_8",
+      "section": "Multi-bit logic",
+      "input_type": "",
+      "output_type": "u8",
+      "description": "Return `u8::MIN`."
+    },
+    {
+      "haskell_name": "Low16",
+      "simplicityhl_name": "low_16",
+      "section": "Multi-bit logic",
+      "input_type": "",
+      "output_type": "u16",
+      "description": "Return `u16::MIN`."
+    },
+    {
+      "haskell_name": "Low32",
+      "simplicityhl_name": "low_32",
+      "section": "Multi-bit logic",
+      "input_type": "",
+      "output_type": "u32",
+      "description": "Return `u32::MIN`."
+    },
+    {
+      "haskell_name": "Low64",
+      "simplicityhl_name": "low_64",
+      "section": "Multi-bit logic",
+      "input_type": "",
+      "output_type": "u64",
+      "description": "Return `u64::MIN`."
+    },
+    {
+      "haskell_name": "Maj1",
+      "simplicityhl_name": "maj_1",
+      "section": "Multi-bit logic",
+      "input_type": "u1, u1, u1",
+      "output_type": "u1",
+      "description": "Bitwise MAJORITY of three 1-bit values. The output bit is false if two or more input bits are false, and true otherwise."
+    },
+    {
+      "haskell_name": "Maj8",
+      "simplicityhl_name": "maj_8",
+      "section": "Multi-bit logic",
+      "input_type": "u8, u8, u8",
+      "output_type": "u8",
+      "description": "Bitwise MAJORITY of three 1-bit values. The output bit is false if two or more input bits are false, and true otherwise."
+    },
+    {
+      "haskell_name": "Maj16",
+      "simplicityhl_name": "maj_16",
+      "section": "Multi-bit logic",
+      "input_type": "u16, (u16, u16)",
+      "output_type": "u16",
+      "description": "Bitwise MAJORITY of three 1-bit values. The output bit is false if two or more input bits are false, and true otherwise."
+    },
+    {
+      "haskell_name": "Maj32",
+      "simplicityhl_name": "maj_32",
+      "section": "Multi-bit logic",
+      "input_type": "u32, (u32, u32)",
+      "output_type": "u32",
+      "description": "Bitwise MAJORITY of three 1-bit values. The output bit is false if two or more input bits are false, and true otherwise."
+    },
+    {
+      "haskell_name": "Maj64",
+      "simplicityhl_name": "maj_64",
+      "section": "Multi-bit logic",
+      "input_type": "u64, (u64, u64)",
+      "output_type": "u64",
+      "description": "Bitwise MAJORITY of three 1-bit values. The output bit is false if two or more input bits are false, and true otherwise."
+    },
+    {
+      "haskell_name": "Or1",
+      "simplicityhl_name": "or_1",
+      "section": "Multi-bit logic",
+      "input_type": "u1, u1",
+      "output_type": "u1",
+      "description": "Bitwise OR of two 1-bit values."
+    },
+    {
+      "haskell_name": "Or8",
+      "simplicityhl_name": "or_8",
+      "section": "Multi-bit logic",
+      "input_type": "u8, u8",
+      "output_type": "u8",
+      "description": "Bitwise OR of two 8-bit values."
+    },
+    {
+      "haskell_name": "Or16",
+      "simplicityhl_name": "or_16",
+      "section": "Multi-bit logic",
+      "input_type": "u16, u16",
+      "output_type": "u16",
+      "description": "Bitwise OR of two 16-bit values."
+    },
+    {
+      "haskell_name": "Or32",
+      "simplicityhl_name": "or_32",
+      "section": "Multi-bit logic",
+      "input_type": "u32, u32",
+      "output_type": "u32",
+      "description": "Bitwise OR of two 32-bit values."
+    },
+    {
+      "haskell_name": "Or64",
+      "simplicityhl_name": "or_64",
+      "section": "Multi-bit logic",
+      "input_type": "u64, u64",
+      "output_type": "u64",
+      "description": "Bitwise OR of two 64-bit values."
+    },
+    {
+      "haskell_name": "RightExtend8_16",
+      "simplicityhl_name": "right_extend_8_16",
+      "section": "Multi-bit logic",
+      "input_type": "u8",
+      "output_type": "u16",
+      "description": "Extend an 8-bit value to a 16-bit value by padding its right with the MSB."
+    },
+    {
+      "haskell_name": "RightExtend8_32",
+      "simplicityhl_name": "right_extend_8_32",
+      "section": "Multi-bit logic",
+      "input_type": "u8",
+      "output_type": "u32",
+      "description": "Extend an 8-bit value to a 32-bit value by padding its right with the MSB."
+    },
+    {
+      "haskell_name": "RightExtend8_64",
+      "simplicityhl_name": "right_extend_8_64",
+      "section": "Multi-bit logic",
+      "input_type": "u8",
+      "output_type": "u64",
+      "description": "Extend an 8-bit value to a 64-bit value by padding its right with the MSB."
+    },
+    {
+      "haskell_name": "RightExtend16_32",
+      "simplicityhl_name": "right_extend_16_32",
+      "section": "Multi-bit logic",
+      "input_type": "u16",
+      "output_type": "u32",
+      "description": "Extend a 16-bit value to a 32-bit value by padding its right with the MSB."
+    },
+    {
+      "haskell_name": "RightExtend16_64",
+      "simplicityhl_name": "right_extend_16_64",
+      "section": "Multi-bit logic",
+      "input_type": "u16",
+      "output_type": "u64",
+      "description": "Extend a 16-bit value to a 64-bit value by padding its right with the MSB."
+    },
+    {
+      "haskell_name": "RightExtend32_64",
+      "simplicityhl_name": "right_extend_32_64",
+      "section": "Multi-bit logic",
+      "input_type": "u32",
+      "output_type": "u64",
+      "description": "Extend a 16-bit value to a 64-bit value by padding its right with the MSB."
+    },
+    {
+      "haskell_name": "RightPadHigh1_8",
+      "simplicityhl_name": "right_pad_high_1_8",
+      "section": "Multi-bit logic",
+      "input_type": "u1",
+      "output_type": "u8",
+      "description": "Extend a 1-bit  value to an 8-bit value by padding its right with ones."
+    },
+    {
+      "haskell_name": "RightPadHigh1_16",
+      "simplicityhl_name": "right_pad_high_1_16",
+      "section": "Multi-bit logic",
+      "input_type": "u1",
+      "output_type": "u16",
+      "description": "Extend a 1-bit  value to a 16-bit value by padding its right with ones."
+    },
+    {
+      "haskell_name": "RightPadHigh1_32",
+      "simplicityhl_name": "right_pad_high_1_32",
+      "section": "Multi-bit logic",
+      "input_type": "u1",
+      "output_type": "u32",
+      "description": "Extend a 1-bit  value to a 32-bit value by padding its right with ones."
+    },
+    {
+      "haskell_name": "RightPadHigh1_64",
+      "simplicityhl_name": "right_pad_high_1_64",
+      "section": "Multi-bit logic",
+      "input_type": "u1",
+      "output_type": "u64",
+      "description": "Extend a 1-bit  value to a 64-bit value by padding its right with ones."
+    },
+    {
+      "haskell_name": "RightPadHigh8_16",
+      "simplicityhl_name": "right_pad_high_8_16",
+      "section": "Multi-bit logic",
+      "input_type": "u8",
+      "output_type": "u16",
+      "description": "Extend an 8-bit  value to a 16-bit value by padding its right with ones."
+    },
+    {
+      "haskell_name": "RightPadHigh8_32",
+      "simplicityhl_name": "right_pad_high_8_32",
+      "section": "Multi-bit logic",
+      "input_type": "u8",
+      "output_type": "u32",
+      "description": "Extend an 8-bit  value to a 32-bit value by padding its right with ones."
+    },
+    {
+      "haskell_name": "RightPadHigh8_64",
+      "simplicityhl_name": "right_pad_high_8_64",
+      "section": "Multi-bit logic",
+      "input_type": "u8",
+      "output_type": "u64",
+      "description": "Extend a 1-bit  value to a 64-bit value by padding its right with ones."
+    },
+    {
+      "haskell_name": "RightPadHigh16_32",
+      "simplicityhl_name": "right_pad_high_16_32",
+      "section": "Multi-bit logic",
+      "input_type": "u16",
+      "output_type": "u32",
+      "description": "Extend a 16-bit value to a 32-bit value by padding its right with ones."
+    },
+    {
+      "haskell_name": "RightPadHigh16_64",
+      "simplicityhl_name": "right_pad_high_16_64",
+      "section": "Multi-bit logic",
+      "input_type": "u16",
+      "output_type": "u64",
+      "description": "Extend a 16-bit value to a 64-bit value by padding its right with ones."
+    },
+    {
+      "haskell_name": "RightPadHigh32_64",
+      "simplicityhl_name": "right_pad_high_32_64",
+      "section": "Multi-bit logic",
+      "input_type": "u32",
+      "output_type": "u64",
+      "description": "Extend a 32-bit value to a 64-bit value by padding its right with ones."
+    },
+    {
+      "haskell_name": "RightPadLow1_8",
+      "simplicityhl_name": "right_pad_low_1_8",
+      "section": "Multi-bit logic",
+      "input_type": "u1",
+      "output_type": "u8",
+      "description": "Extend a 1-bit  value to an 8-bit value by padding its right with zeroes."
+    },
+    {
+      "haskell_name": "RightPadLow1_16",
+      "simplicityhl_name": "right_pad_low_1_16",
+      "section": "Multi-bit logic",
+      "input_type": "u1",
+      "output_type": "u16",
+      "description": "Extend a 1-bit  value to a 16-bit value by padding its right with zeroes."
+    },
+    {
+      "haskell_name": "RightPadLow1_32",
+      "simplicityhl_name": "right_pad_low_1_32",
+      "section": "Multi-bit logic",
+      "input_type": "u1",
+      "output_type": "u32",
+      "description": "Extend a 1-bit  value to a 32-bit value by padding its right with zeroes."
+    },
+    {
+      "haskell_name": "RightPadLow1_64",
+      "simplicityhl_name": "right_pad_low_1_64",
+      "section": "Multi-bit logic",
+      "input_type": "u1",
+      "output_type": "u64",
+      "description": "Extend a 1-bit  value to a 64-bit value by padding its right with zeroes."
+    },
+    {
+      "haskell_name": "RightPadLow8_16",
+      "simplicityhl_name": "right_pad_low_8_16",
+      "section": "Multi-bit logic",
+      "input_type": "u8",
+      "output_type": "u16",
+      "description": "Extend an 8-bit value to a 16-bit value by padding its right with zeroes."
+    },
+    {
+      "haskell_name": "RightPadLow8_32",
+      "simplicityhl_name": "right_pad_low_8_32",
+      "section": "Multi-bit logic",
+      "input_type": "u8",
+      "output_type": "u32",
+      "description": "Extend an 8-bit value to a 32-bit value by padding its right with zeroes."
+    },
+    {
+      "haskell_name": "RightPadLow8_64",
+      "simplicityhl_name": "right_pad_low_8_64",
+      "section": "Multi-bit logic",
+      "input_type": "u8",
+      "output_type": "u64",
+      "description": "Extend an 8-bit value to a 64-bit value by padding its right with zeroes."
+    },
+    {
+      "haskell_name": "RightPadLow16_32",
+      "simplicityhl_name": "right_pad_low_16_32",
+      "section": "Multi-bit logic",
+      "input_type": "u16",
+      "output_type": "u32",
+      "description": "Extend a 16-bit value to a 32-bit value by padding its right with zeroes."
+    },
+    {
+      "haskell_name": "RightPadLow16_64",
+      "simplicityhl_name": "right_pad_low_16_64",
+      "section": "Multi-bit logic",
+      "input_type": "u16",
+      "output_type": "u64",
+      "description": "Extend a 16-bit value to a 64-bit value by padding its right with zeroes."
+    },
+    {
+      "haskell_name": "RightPadLow32_64",
+      "simplicityhl_name": "right_pad_low_32_64",
+      "section": "Multi-bit logic",
+      "input_type": "u32",
+      "output_type": "u64",
+      "description": "Extend a 32-bit value to a 64-bit value by padding its right with zeroes."
+    },
+    {
+      "haskell_name": "RightRotate8",
+      "simplicityhl_name": "right_rotate_8",
+      "section": "Multi-bit logic",
+      "input_type": "u4, u8",
+      "output_type": "u8",
+      "description": "Right-rotate an 8-bit value by the given amount."
+    },
+    {
+      "haskell_name": "RightRotate16",
+      "simplicityhl_name": "right_rotate_16",
+      "section": "Multi-bit logic",
+      "input_type": "u4, u16",
+      "output_type": "u16",
+      "description": "Right-rotate a 16-bit value by the given amount."
+    },
+    {
+      "haskell_name": "RightRotate32",
+      "simplicityhl_name": "right_rotate_32",
+      "section": "Multi-bit logic",
+      "input_type": "u8, u32",
+      "output_type": "u32",
+      "description": "Right-rotate a 32-bit value by the given amount."
+    },
+    {
+      "haskell_name": "RightRotate64",
+      "simplicityhl_name": "right_rotate_64",
+      "section": "Multi-bit logic",
+      "input_type": "u8, u64",
+      "output_type": "u64",
+      "description": "Right-rotate a 64-bit value by the given amount."
+    },
+    {
+      "haskell_name": "RightShift8",
+      "simplicityhl_name": "right_shift_8",
+      "section": "Multi-bit logic",
+      "input_type": "u4, u8",
+      "output_type": "u8",
+      "description": "Right-shift an 8-bit value by the given amount. Bits are filled with zeroes."
+    },
+    {
+      "haskell_name": "RightShift16",
+      "simplicityhl_name": "right_shift_16",
+      "section": "Multi-bit logic",
+      "input_type": "u4, u16",
+      "output_type": "u16",
+      "description": "Right-shift a 16-bit value by the given amount. Bits are filled with zeroes."
+    },
+    {
+      "haskell_name": "RightShift32",
+      "simplicityhl_name": "right_shift_32",
+      "section": "Multi-bit logic",
+      "input_type": "u8, u32",
+      "output_type": "u32",
+      "description": "Right-shift a 32-bit value by the given amount. Bits are filled with zeroes."
+    },
+    {
+      "haskell_name": "RightShift64",
+      "simplicityhl_name": "right_shift_64",
+      "section": "Multi-bit logic",
+      "input_type": "u8, u64",
+      "output_type": "u64",
+      "description": "Right-shift a 64-bit value by the given amount. Bits are filled with zeroes."
+    },
+    {
+      "haskell_name": "RightShiftWith8",
+      "simplicityhl_name": "right_shift_with_8",
+      "section": "Multi-bit logic",
+      "input_type": "u1, u4, u8",
+      "output_type": "u8",
+      "description": "Right-shift an 8-bit value by the given amount. Bits are filled with the given bit."
+    },
+    {
+      "haskell_name": "RightShiftWith16",
+      "simplicityhl_name": "right_shift_with_16",
+      "section": "Multi-bit logic",
+      "input_type": "u1, u4, u16",
+      "output_type": "u16",
+      "description": "Right-shift a 16-bit value by the given amount. Bits are filled with the given bit."
+    },
+    {
+      "haskell_name": "RightShiftWith32",
+      "simplicityhl_name": "right_shift_with_32",
+      "section": "Multi-bit logic",
+      "input_type": "u1, u8, u32",
+      "output_type": "u32",
+      "description": "Right-shift a 32-bit value by the given amount. Bits are filled with the given bit."
+    },
+    {
+      "haskell_name": "RightShiftWith64",
+      "simplicityhl_name": "right_shift_with_64",
+      "section": "Multi-bit logic",
+      "input_type": "u1, u8, u64",
+      "output_type": "u64",
+      "description": "Right-shift a 64-bit value by the given amount. Bits are filled with the given bit."
+    },
+    {
+      "haskell_name": "Rightmost8_1",
+      "simplicityhl_name": "rightmost_8_1",
+      "section": "Multi-bit logic",
+      "input_type": "u8",
+      "output_type": "u1",
+      "description": "Return the least significant 1  bits of an 8-bit value."
+    },
+    {
+      "haskell_name": "Rightmost8_2",
+      "simplicityhl_name": "rightmost_8_2",
+      "section": "Multi-bit logic",
+      "input_type": "u8",
+      "output_type": "u2",
+      "description": "Return the least significant 1  bits of an 8-bit value."
+    },
+    {
+      "haskell_name": "Rightmost8_4",
+      "simplicityhl_name": "rightmost_8_4",
+      "section": "Multi-bit logic",
+      "input_type": "u8",
+      "output_type": "u4",
+      "description": "Return the least significant 1  bits of an 8-bit value."
+    },
+    {
+      "haskell_name": "Rightmost16_1",
+      "simplicityhl_name": "rightmost_16_1",
+      "section": "Multi-bit logic",
+      "input_type": "u16",
+      "output_type": "u1",
+      "description": "Return the least significant 1  bit  of a 16-bit value."
+    },
+    {
+      "haskell_name": "Rightmost16_2",
+      "simplicityhl_name": "rightmost_16_2",
+      "section": "Multi-bit logic",
+      "input_type": "u16",
+      "output_type": "u2",
+      "description": "Return the least significant 2  bits of a 16-bit value."
+    },
+    {
+      "haskell_name": "Rightmost16_4",
+      "simplicityhl_name": "rightmost_16_4",
+      "section": "Multi-bit logic",
+      "input_type": "u16",
+      "output_type": "u4",
+      "description": "Return the least significant 4  bits of a 16-bit value."
+    },
+    {
+      "haskell_name": "Rightmost16_8",
+      "simplicityhl_name": "rightmost_16_8",
+      "section": "Multi-bit logic",
+      "input_type": "u16",
+      "output_type": "u8",
+      "description": "Return the least significant 8  bits of a 16-bit value."
+    },
+    {
+      "haskell_name": "Rightmost32_1",
+      "simplicityhl_name": "rightmost_32_1",
+      "section": "Multi-bit logic",
+      "input_type": "u32",
+      "output_type": "u1",
+      "description": "Return the least significant 1  bit  of a 32-bit value."
+    },
+    {
+      "haskell_name": "Rightmost32_2",
+      "simplicityhl_name": "rightmost_32_2",
+      "section": "Multi-bit logic",
+      "input_type": "u32",
+      "output_type": "u2",
+      "description": "Return the least significant 2  bits of a 32-bit value."
+    },
+    {
+      "haskell_name": "Rightmost32_4",
+      "simplicityhl_name": "rightmost_32_4",
+      "section": "Multi-bit logic",
+      "input_type": "u32",
+      "output_type": "u4",
+      "description": "Return the least significant 4  bits of a 32-bit value."
+    },
+    {
+      "haskell_name": "Rightmost32_8",
+      "simplicityhl_name": "rightmost_32_8",
+      "section": "Multi-bit logic",
+      "input_type": "u32",
+      "output_type": "u8",
+      "description": "Return the least significant 8  bits of a 32-bit value."
+    },
+    {
+      "haskell_name": "Rightmost32_16",
+      "simplicityhl_name": "rightmost_32_16",
+      "section": "Multi-bit logic",
+      "input_type": "u32",
+      "output_type": "u16",
+      "description": "Return the least significant 16 bits of a 32-bit value."
+    },
+    {
+      "haskell_name": "Rightmost64_1",
+      "simplicityhl_name": "rightmost_64_1",
+      "section": "Multi-bit logic",
+      "input_type": "u64",
+      "output_type": "u1",
+      "description": "Return the least significant 1  bits of a 64-bit value."
+    },
+    {
+      "haskell_name": "Rightmost64_2",
+      "simplicityhl_name": "rightmost_64_2",
+      "section": "Multi-bit logic",
+      "input_type": "u64",
+      "output_type": "u2",
+      "description": "Return the least significant 2  bits of a 64-bit value."
+    },
+    {
+      "haskell_name": "Rightmost64_4",
+      "simplicityhl_name": "rightmost_64_4",
+      "section": "Multi-bit logic",
+      "input_type": "u64",
+      "output_type": "u4",
+      "description": "Return the least significant 4  bits of a 64-bit value."
+    },
+    {
+      "haskell_name": "Rightmost64_8",
+      "simplicityhl_name": "rightmost_64_8",
+      "section": "Multi-bit logic",
+      "input_type": "u64",
+      "output_type": "u8",
+      "description": "Return the least significant 8  bits of a 64-bit value."
+    },
+    {
+      "haskell_name": "Rightmost64_16",
+      "simplicityhl_name": "rightmost_64_16",
+      "section": "Multi-bit logic",
+      "input_type": "u64",
+      "output_type": "u16",
+      "description": "Return the least significant 16 bits of a 64-bit value."
+    },
+    {
+      "haskell_name": "Rightmost64_32",
+      "simplicityhl_name": "rightmost_64_32",
+      "section": "Multi-bit logic",
+      "input_type": "u64",
+      "output_type": "u32",
+      "description": "Return the least significant 32 bits of a 64-bit value."
+    },
+    {
+      "haskell_name": "Some1",
+      "simplicityhl_name": "some_1",
+      "section": "Multi-bit logic",
+      "input_type": "u1",
+      "output_type": "bool",
+      "description": "Check if a 1-bit  value is nonzero."
+    },
+    {
+      "haskell_name": "Some8",
+      "simplicityhl_name": "some_8",
+      "section": "Multi-bit logic",
+      "input_type": "u8",
+      "output_type": "bool",
+      "description": "Check if an 8-bit value is nonzero."
+    },
+    {
+      "haskell_name": "Some16",
+      "simplicityhl_name": "some_16",
+      "section": "Multi-bit logic",
+      "input_type": "u16",
+      "output_type": "bool",
+      "description": "Check if a 16-bit value is nonzero."
+    },
+    {
+      "haskell_name": "Some32",
+      "simplicityhl_name": "some_32",
+      "section": "Multi-bit logic",
+      "input_type": "u32",
+      "output_type": "bool",
+      "description": "Check if a 32-bit value is nonzero."
+    },
+    {
+      "haskell_name": "Some64",
+      "simplicityhl_name": "some_64",
+      "section": "Multi-bit logic",
+      "input_type": "u64",
+      "output_type": "bool",
+      "description": "Check if a 64-bit value is nonzero."
+    },
+    {
+      "haskell_name": "Verify",
+      "simplicityhl_name": "verify",
+      "section": "Multi-bit logic",
+      "input_type": "bool",
+      "output_type": "unit",
+      "description": "Assert that a bit is true.<br><br>## Panics<br>The assertion fails."
+    },
+    {
+      "haskell_name": "Xor1",
+      "simplicityhl_name": "xor_1",
+      "section": "Multi-bit logic",
+      "input_type": "u1, u1",
+      "output_type": "u1",
+      "description": "Bitwise XOR of two 1-bit  values."
+    },
+    {
+      "haskell_name": "Xor8",
+      "simplicityhl_name": "xor_8",
+      "section": "Multi-bit logic",
+      "input_type": "u8, u8",
+      "output_type": "u8",
+      "description": "Bitwise XOR of two 8-bit  values."
+    },
+    {
+      "haskell_name": "Xor16",
+      "simplicityhl_name": "xor_16",
+      "section": "Multi-bit logic",
+      "input_type": "u16, u16",
+      "output_type": "u16",
+      "description": "Bitwise XOR of two 16-bit values."
+    },
+    {
+      "haskell_name": "Xor32",
+      "simplicityhl_name": "xor_32",
+      "section": "Multi-bit logic",
+      "input_type": "u32, u32",
+      "output_type": "u32",
+      "description": "Bitwise XOR of two 32-bit values."
+    },
+    {
+      "haskell_name": "Xor64",
+      "simplicityhl_name": "xor_64",
+      "section": "Multi-bit logic",
+      "input_type": "u64, u64",
+      "output_type": "u64",
+      "description": "Bitwise XOR of two 64-bit values."
+    },
+    {
+      "haskell_name": "XorXor1",
+      "simplicityhl_name": "xor_xor_1",
+      "section": "Multi-bit logic",
+      "input_type": "u1, u1, u1",
+      "output_type": "u1",
+      "description": "Bitwise XOR of three 1-bit  values."
+    },
+    {
+      "haskell_name": "XorXor8",
+      "simplicityhl_name": "xor_xor_8",
+      "section": "Multi-bit logic",
+      "input_type": "u8, u8, u8",
+      "output_type": "u8",
+      "description": "Bitwise XOR of three 8-bit  values."
+    },
+    {
+      "haskell_name": "XorXor16",
+      "simplicityhl_name": "xor_xor_16",
+      "section": "Multi-bit logic",
+      "input_type": "u16, (u16, u16)",
+      "output_type": "u16",
+      "description": "Bitwise XOR of three 16-bit values."
+    },
+    {
+      "haskell_name": "XorXor32",
+      "simplicityhl_name": "xor_xor_32",
+      "section": "Multi-bit logic",
+      "input_type": "u32, (u32, u32)",
+      "output_type": "u32",
+      "description": "Bitwise XOR of three 32-bit values."
+    },
+    {
+      "haskell_name": "XorXor64",
+      "simplicityhl_name": "xor_xor_64",
+      "section": "Multi-bit logic",
+      "input_type": "u64, (u64, u64)",
+      "output_type": "u64",
+      "description": "Bitwise XOR of three 64-bit values."
+    },
+    {
+      "haskell_name": "Add8",
+      "simplicityhl_name": "add_8",
+      "section": "Arithmetic",
+      "input_type": "u8, u8",
+      "output_type": "(bool, u8)",
+      "description": "Add two integers and return the carry."
+    },
+    {
+      "haskell_name": "Add16",
+      "simplicityhl_name": "add_16",
+      "section": "Arithmetic",
+      "input_type": "u16, u16",
+      "output_type": "(bool, u16)",
+      "description": "Add two integers and return the carry."
+    },
+    {
+      "haskell_name": "Add32",
+      "simplicityhl_name": "add_32",
+      "section": "Arithmetic",
+      "input_type": "u32, u32",
+      "output_type": "(bool, u32)",
+      "description": "Add two integers and return the carry."
+    },
+    {
+      "haskell_name": "Add64",
+      "simplicityhl_name": "add_64",
+      "section": "Arithmetic",
+      "input_type": "u64, u64",
+      "output_type": "(bool, u64)",
+      "description": "Add two integers and return the carry."
+    },
+    {
+      "haskell_name": "Decrement8",
+      "simplicityhl_name": "decrement_8",
+      "section": "Arithmetic",
+      "input_type": "u8",
+      "output_type": "(bool, u8)",
+      "description": "Decrement an integer by one and return the borrow bit."
+    },
+    {
+      "haskell_name": "Decrement16",
+      "simplicityhl_name": "decrement_16",
+      "section": "Arithmetic",
+      "input_type": "u16",
+      "output_type": "(bool, u16)",
+      "description": "Decrement an integer by one and return the borrow bit."
+    },
+    {
+      "haskell_name": "Decrement32",
+      "simplicityhl_name": "decrement_32",
+      "section": "Arithmetic",
+      "input_type": "u32",
+      "output_type": "(bool, u32)",
+      "description": "Decrement an integer by one and return the borrow bit."
+    },
+    {
+      "haskell_name": "Decrement64",
+      "simplicityhl_name": "decrement_64",
+      "section": "Arithmetic",
+      "input_type": "u64",
+      "output_type": "(bool, u64)",
+      "description": "Decrement an integer by one and return the borrow bit."
+    },
+    {
+      "haskell_name": "DivMod8",
+      "simplicityhl_name": "div_mod_8",
+      "section": "Arithmetic",
+      "input_type": "u8, u8",
+      "output_type": "(u8, u8)",
+      "description": "Divide the first integer by the second integer, and return the remainder."
+    },
+    {
+      "haskell_name": "DivMod16",
+      "simplicityhl_name": "div_mod_16",
+      "section": "Arithmetic",
+      "input_type": "u16, u16",
+      "output_type": "(u16, u16)",
+      "description": "Divide the first integer by the second integer, and return the remainder."
+    },
+    {
+      "haskell_name": "DivMod32",
+      "simplicityhl_name": "div_mod_32",
+      "section": "Arithmetic",
+      "input_type": "u32, u32",
+      "output_type": "(u32, u32)",
+      "description": "Divide the first integer by the second integer, and return the remainder."
+    },
+    {
+      "haskell_name": "DivMod64",
+      "simplicityhl_name": "div_mod_64",
+      "section": "Arithmetic",
+      "input_type": "u64, u64",
+      "output_type": "(u64, u64)",
+      "description": "Divide the first integer by the second integer, and return the remainder."
+    },
+    {
+      "haskell_name": "DivMod128_64",
+      "simplicityhl_name": "div_mod_128_64",
+      "section": "Arithmetic",
+      "input_type": "u128, u64",
+      "output_type": "(u64, u64)",
+      "description": "Divide the 128-bit integer `a` by the 64-bit integer `b`.<br>Return a tuple of the quotient `q` and the remainder `r`.<br><br>Use this jet to recursively define wide integer divisions.<br><br>## Preconditions<br>1. `q` < 2^64<br>2. 2^63 ≤ `b`<br><br>Return `(u64::MAX, u64::MAX)` when the preconditions are not satisfied."
+    },
+    {
+      "haskell_name": "Divide8",
+      "simplicityhl_name": "divide_8",
+      "section": "Arithmetic",
+      "input_type": "u8, u8",
+      "output_type": "u8",
+      "description": "Divide the first integer by the second integer."
+    },
+    {
+      "haskell_name": "Divide16",
+      "simplicityhl_name": "divide_16",
+      "section": "Arithmetic",
+      "input_type": "u16, u16",
+      "output_type": "u16",
+      "description": "Divide the first integer by the second integer."
+    },
+    {
+      "haskell_name": "Divide32",
+      "simplicityhl_name": "divide_32",
+      "section": "Arithmetic",
+      "input_type": "u32, u32",
+      "output_type": "u32",
+      "description": "Divide the first integer by the second integer."
+    },
+    {
+      "haskell_name": "Divide64",
+      "simplicityhl_name": "divide_64",
+      "section": "Arithmetic",
+      "input_type": "u64, u64",
+      "output_type": "u64",
+      "description": "Divide the first integer by the second integer."
+    },
+    {
+      "haskell_name": "Divides8",
+      "simplicityhl_name": "divides_8",
+      "section": "Arithmetic",
+      "input_type": "u8, u8",
+      "output_type": "bool",
+      "description": "Check if the first integer is divisible by the second integer."
+    },
+    {
+      "haskell_name": "Divides16",
+      "simplicityhl_name": "divides_16",
+      "section": "Arithmetic",
+      "input_type": "u16, u16",
+      "output_type": "bool",
+      "description": "Check if the first integer is divisible by the second integer."
+    },
+    {
+      "haskell_name": "Divides32",
+      "simplicityhl_name": "divides_32",
+      "section": "Arithmetic",
+      "input_type": "u32, u32",
+      "output_type": "bool",
+      "description": "Check if the first integer is divisible by the second integer."
+    },
+    {
+      "haskell_name": "Divides64",
+      "simplicityhl_name": "divides_64",
+      "section": "Arithmetic",
+      "input_type": "u64, u64",
+      "output_type": "bool",
+      "description": "Check if the first integer is divisible by the second integer."
+    },
+    {
+      "haskell_name": "FullAdd8",
+      "simplicityhl_name": "full_add_8",
+      "section": "Arithmetic",
+      "input_type": "bool, u8, u8",
+      "output_type": "(bool, u8)",
+      "description": "Add two integers. Take a carry-in and return a carry-out."
+    },
+    {
+      "haskell_name": "FullAdd16",
+      "simplicityhl_name": "full_add_16",
+      "section": "Arithmetic",
+      "input_type": "bool, u16, u16",
+      "output_type": "(bool, u16)",
+      "description": "Add two integers. Take a carry-in and return a carry-out."
+    },
+    {
+      "haskell_name": "FullAdd32",
+      "simplicityhl_name": "full_add_32",
+      "section": "Arithmetic",
+      "input_type": "bool, u32, u32",
+      "output_type": "(bool, u32)",
+      "description": "Add two integers. Take a carry-in and return a carry-out."
+    },
+    {
+      "haskell_name": "FullAdd64",
+      "simplicityhl_name": "full_add_64",
+      "section": "Arithmetic",
+      "input_type": "bool, u64, u64",
+      "output_type": "(bool, u64)",
+      "description": "Add two integers. Take a carry-in and return a carry-out."
+    },
+    {
+      "haskell_name": "FullDecrement8",
+      "simplicityhl_name": "full_decrement_8",
+      "section": "Arithmetic",
+      "input_type": "bool, u8",
+      "output_type": "(bool, u8)",
+      "description": "Decrement an integer by one. Take a borrow-in and return a borrow-out."
+    },
+    {
+      "haskell_name": "FullDecrement16",
+      "simplicityhl_name": "full_decrement_16",
+      "section": "Arithmetic",
+      "input_type": "bool, u16",
+      "output_type": "(bool, u16)",
+      "description": "Decrement an integer by one. Take a borrow-in and return a borrow-out."
+    },
+    {
+      "haskell_name": "FullDecrement32",
+      "simplicityhl_name": "full_decrement_32",
+      "section": "Arithmetic",
+      "input_type": "bool, u32",
+      "output_type": "(bool, u32)",
+      "description": "Decrement an integer by one. Take a borrow-in and return a borrow-out."
+    },
+    {
+      "haskell_name": "FullDecrement64",
+      "simplicityhl_name": "full_decrement_64",
+      "section": "Arithmetic",
+      "input_type": "bool, u64",
+      "output_type": "(bool, u64)",
+      "description": "Decrement an integer by one. Take a borrow-in and return a borrow-out."
+    },
+    {
+      "haskell_name": "FullIncrement8",
+      "simplicityhl_name": "full_increment_8",
+      "section": "Arithmetic",
+      "input_type": "bool, u8",
+      "output_type": "(bool, u8)",
+      "description": "Increment an integer by one. Take a carry-in and return a carry-out."
+    },
+    {
+      "haskell_name": "FullIncrement16",
+      "simplicityhl_name": "full_increment_16",
+      "section": "Arithmetic",
+      "input_type": "bool, u16",
+      "output_type": "(bool, u16)",
+      "description": "Increment an integer by one. Take a carry-in and return a carry-out."
+    },
+    {
+      "haskell_name": "FullIncrement32",
+      "simplicityhl_name": "full_increment_32",
+      "section": "Arithmetic",
+      "input_type": "bool, u32",
+      "output_type": "(bool, u32)",
+      "description": "Increment an integer by one. Take a carry-in and return a carry-out."
+    },
+    {
+      "haskell_name": "FullIncrement64",
+      "simplicityhl_name": "full_increment_64",
+      "section": "Arithmetic",
+      "input_type": "bool, u64",
+      "output_type": "(bool, u64)",
+      "description": "Increment an integer by one. Take a carry-in and return a carry-out."
+    },
+    {
+      "haskell_name": "FullMultiply8",
+      "simplicityhl_name": "full_multiply_8",
+      "section": "Arithmetic",
+      "input_type": "(u8, u8), (u8, u8)",
+      "output_type": "u16",
+      "description": "Helper for multiplying integers. Take the product of the first pair of integers and add the sum of the second pair."
+    },
+    {
+      "haskell_name": "FullMultiply16",
+      "simplicityhl_name": "full_multiply_16",
+      "section": "Arithmetic",
+      "input_type": "(u16, u16), (u16, u16)",
+      "output_type": "u32",
+      "description": "Helper for multiplying integers. Take the product of the first pair of integers and add the sum of the second pair."
+    },
+    {
+      "haskell_name": "FullMultiply32",
+      "simplicityhl_name": "full_multiply_32",
+      "section": "Arithmetic",
+      "input_type": "(u32, u32), (u32, u32)",
+      "output_type": "u64",
+      "description": "Helper for multiplying integers. Take the product of the first pair of integers and add the sum of the second pair."
+    },
+    {
+      "haskell_name": "FullMultiply64",
+      "simplicityhl_name": "full_multiply_64",
+      "section": "Arithmetic",
+      "input_type": "(u64, u64), (u64, u64)",
+      "output_type": "u128",
+      "description": "Helper for multiplying integers. Take the product of the first pair of integers and add the sum of the second pair."
+    },
+    {
+      "haskell_name": "FullSubtract8",
+      "simplicityhl_name": "full_subtract_8",
+      "section": "Arithmetic",
+      "input_type": "bool, u8, u8",
+      "output_type": "(bool, u8)",
+      "description": "Subtract the second integer from the first integer. Take a borrow-in and return a borrow-out."
+    },
+    {
+      "haskell_name": "FullSubtract16",
+      "simplicityhl_name": "full_subtract_16",
+      "section": "Arithmetic",
+      "input_type": "bool, u16, u16",
+      "output_type": "(bool, u16)",
+      "description": "Subtract the second integer from the first integer. Take a borrow-in and return a borrow-out."
+    },
+    {
+      "haskell_name": "FullSubtract32",
+      "simplicityhl_name": "full_subtract_32",
+      "section": "Arithmetic",
+      "input_type": "bool, u32, u32",
+      "output_type": "(bool, u32)",
+      "description": "Subtract the second integer from the first integer. Take a borrow-in and return a borrow-out."
+    },
+    {
+      "haskell_name": "FullSubtract64",
+      "simplicityhl_name": "full_subtract_64",
+      "section": "Arithmetic",
+      "input_type": "bool, u64, u64",
+      "output_type": "(bool, u64)",
+      "description": "Subtract the second integer from the first integer. Take a borrow-in and return a borrow-out."
+    },
+    {
+      "haskell_name": "Increment8",
+      "simplicityhl_name": "increment_8",
+      "section": "Arithmetic",
+      "input_type": "u8",
+      "output_type": "(bool, u8)",
+      "description": "Increment an integer by one and return the carry."
+    },
+    {
+      "haskell_name": "Increment16",
+      "simplicityhl_name": "increment_16",
+      "section": "Arithmetic",
+      "input_type": "u16",
+      "output_type": "(bool, u16)",
+      "description": "Increment an integer by one and return the carry."
+    },
+    {
+      "haskell_name": "Increment32",
+      "simplicityhl_name": "increment_32",
+      "section": "Arithmetic",
+      "input_type": "u32",
+      "output_type": "(bool, u32)",
+      "description": "Increment an integer by one and return the carry."
+    },
+    {
+      "haskell_name": "Increment64",
+      "simplicityhl_name": "increment_64",
+      "section": "Arithmetic",
+      "input_type": "u64",
+      "output_type": "(bool, u64)",
+      "description": "Increment an integer by one and return the carry."
+    },
+    {
+      "haskell_name": "IsOne8",
+      "simplicityhl_name": "is_one_8",
+      "section": "Arithmetic",
+      "input_type": "u8",
+      "output_type": "bool",
+      "description": "Check if an integer is one."
+    },
+    {
+      "haskell_name": "IsOne16",
+      "simplicityhl_name": "is_one_16",
+      "section": "Arithmetic",
+      "input_type": "u16",
+      "output_type": "bool",
+      "description": "Check if an integer is one."
+    },
+    {
+      "haskell_name": "IsOne32",
+      "simplicityhl_name": "is_one_32",
+      "section": "Arithmetic",
+      "input_type": "u32",
+      "output_type": "bool",
+      "description": "Check if an integer is one."
+    },
+    {
+      "haskell_name": "IsOne64",
+      "simplicityhl_name": "is_one_64",
+      "section": "Arithmetic",
+      "input_type": "u64",
+      "output_type": "bool",
+      "description": "Check if an integer is one."
+    },
+    {
+      "haskell_name": "IsZero8",
+      "simplicityhl_name": "is_zero_8",
+      "section": "Arithmetic",
+      "input_type": "u8",
+      "output_type": "bool",
+      "description": "Check if an integer is zero."
+    },
+    {
+      "haskell_name": "IsZero16",
+      "simplicityhl_name": "is_zero_16",
+      "section": "Arithmetic",
+      "input_type": "u16",
+      "output_type": "bool",
+      "description": "Check if an integer is zero."
+    },
+    {
+      "haskell_name": "IsZero32",
+      "simplicityhl_name": "is_zero_32",
+      "section": "Arithmetic",
+      "input_type": "u32",
+      "output_type": "bool",
+      "description": "Check if an integer is zero."
+    },
+    {
+      "haskell_name": "IsZero64",
+      "simplicityhl_name": "is_zero_64",
+      "section": "Arithmetic",
+      "input_type": "u64",
+      "output_type": "bool",
+      "description": "Check if an integer is zero."
+    },
+    {
+      "haskell_name": "Le8",
+      "simplicityhl_name": "le_8",
+      "section": "Arithmetic",
+      "input_type": "u8, u8",
+      "output_type": "bool",
+      "description": "Check if an integer is less than or equal to another integer."
+    },
+    {
+      "haskell_name": "Le16",
+      "simplicityhl_name": "le_16",
+      "section": "Arithmetic",
+      "input_type": "u16, u16",
+      "output_type": "bool",
+      "description": "Check if an integer is less than or equal to another integer."
+    },
+    {
+      "haskell_name": "Le32",
+      "simplicityhl_name": "le_32",
+      "section": "Arithmetic",
+      "input_type": "u32, u32",
+      "output_type": "bool",
+      "description": "Check if an integer is less than or equal to another integer."
+    },
+    {
+      "haskell_name": "Le64",
+      "simplicityhl_name": "le_64",
+      "section": "Arithmetic",
+      "input_type": "u64, u64",
+      "output_type": "bool",
+      "description": "Check if an integer is less than or equal to another integer."
+    },
+    {
+      "haskell_name": "Lt8",
+      "simplicityhl_name": "lt_8",
+      "section": "Arithmetic",
+      "input_type": "u8, u8",
+      "output_type": "bool",
+      "description": "Check if an integer is less than another integer."
+    },
+    {
+      "haskell_name": "Lt16",
+      "simplicityhl_name": "lt_16",
+      "section": "Arithmetic",
+      "input_type": "u16, u16",
+      "output_type": "bool",
+      "description": "Check if an integer is less than another integer."
+    },
+    {
+      "haskell_name": "Lt32",
+      "simplicityhl_name": "lt_32",
+      "section": "Arithmetic",
+      "input_type": "u32, u32",
+      "output_type": "bool",
+      "description": "Check if an integer is less than another integer."
+    },
+    {
+      "haskell_name": "Lt64",
+      "simplicityhl_name": "lt_64",
+      "section": "Arithmetic",
+      "input_type": "u64, u64",
+      "output_type": "bool",
+      "description": "Check if an integer is less than another integer."
+    },
+    {
+      "haskell_name": "Max8",
+      "simplicityhl_name": "max_8",
+      "section": "Arithmetic",
+      "input_type": "u8, u8",
+      "output_type": "u8",
+      "description": "Return the bigger of two integers."
+    },
+    {
+      "haskell_name": "Max16",
+      "simplicityhl_name": "max_16",
+      "section": "Arithmetic",
+      "input_type": "u16, u16",
+      "output_type": "u16",
+      "description": "Return the bigger of two integers."
+    },
+    {
+      "haskell_name": "Max32",
+      "simplicityhl_name": "max_32",
+      "section": "Arithmetic",
+      "input_type": "u32, u32",
+      "output_type": "u32",
+      "description": "Return the bigger of two integers."
+    },
+    {
+      "haskell_name": "Max64",
+      "simplicityhl_name": "max_64",
+      "section": "Arithmetic",
+      "input_type": "u64, u64",
+      "output_type": "u64",
+      "description": "Return the bigger of two integers."
+    },
+    {
+      "haskell_name": "Median8",
+      "simplicityhl_name": "median_8",
+      "section": "Arithmetic",
+      "input_type": "u8, u8, u8",
+      "output_type": "u8",
+      "description": "Return the median of three integers."
+    },
+    {
+      "haskell_name": "Median16",
+      "simplicityhl_name": "median_16",
+      "section": "Arithmetic",
+      "input_type": "u16, u16, u16",
+      "output_type": "u16",
+      "description": "Return the median of three integers."
+    },
+    {
+      "haskell_name": "Median32",
+      "simplicityhl_name": "median_32",
+      "section": "Arithmetic",
+      "input_type": "u32, u32, u32",
+      "output_type": "u32",
+      "description": "Return the median of three integers."
+    },
+    {
+      "haskell_name": "Median64",
+      "simplicityhl_name": "median_64",
+      "section": "Arithmetic",
+      "input_type": "u64, u64, u64",
+      "output_type": "u64",
+      "description": "Return the median of three integers."
+    },
+    {
+      "haskell_name": "Min8",
+      "simplicityhl_name": "min_8",
+      "section": "Arithmetic",
+      "input_type": "u8, u8",
+      "output_type": "u8",
+      "description": "Return the smaller of two integers."
+    },
+    {
+      "haskell_name": "Min16",
+      "simplicityhl_name": "min_16",
+      "section": "Arithmetic",
+      "input_type": "u16, u16",
+      "output_type": "u16",
+      "description": "Return the smaller of two integers."
+    },
+    {
+      "haskell_name": "Min32",
+      "simplicityhl_name": "min_32",
+      "section": "Arithmetic",
+      "input_type": "u32, u32",
+      "output_type": "u32",
+      "description": "Return the smaller of two integers."
+    },
+    {
+      "haskell_name": "Min64",
+      "simplicityhl_name": "min_64",
+      "section": "Arithmetic",
+      "input_type": "u64, u64",
+      "output_type": "u64",
+      "description": "Return the smaller of two integers."
+    },
+    {
+      "haskell_name": "Modulo8",
+      "simplicityhl_name": "modulo_8",
+      "section": "Arithmetic",
+      "input_type": "u8, u8",
+      "output_type": "u8",
+      "description": "Compute the remainder after dividing both integers."
+    },
+    {
+      "haskell_name": "Modulo16",
+      "simplicityhl_name": "modulo_16",
+      "section": "Arithmetic",
+      "input_type": "u16, u16",
+      "output_type": "u16",
+      "description": "Compute the remainder after dividing both integers."
+    },
+    {
+      "haskell_name": "Modulo32",
+      "simplicityhl_name": "modulo_32",
+      "section": "Arithmetic",
+      "input_type": "u32, u32",
+      "output_type": "u32",
+      "description": "Compute the remainder after dividing both integers."
+    },
+    {
+      "haskell_name": "Modulo64",
+      "simplicityhl_name": "modulo_64",
+      "section": "Arithmetic",
+      "input_type": "u64, u64",
+      "output_type": "u64",
+      "description": "Compute the remainder after dividing both integers."
+    },
+    {
+      "haskell_name": "Multiply8",
+      "simplicityhl_name": "multiply_8",
+      "section": "Arithmetic",
+      "input_type": "u8, u8",
+      "output_type": "u16",
+      "description": "Multiply two integers. The output is a 16-bit integer."
+    },
+    {
+      "haskell_name": "Multiply16",
+      "simplicityhl_name": "multiply_16",
+      "section": "Arithmetic",
+      "input_type": "u16, u16",
+      "output_type": "u32",
+      "description": "Multiply two integers. The output is a 32-bit integer."
+    },
+    {
+      "haskell_name": "Multiply32",
+      "simplicityhl_name": "multiply_32",
+      "section": "Arithmetic",
+      "input_type": "u32, u32",
+      "output_type": "u64",
+      "description": "Multiply two integers. The output is a 64-bit integer."
+    },
+    {
+      "haskell_name": "Multiply64",
+      "simplicityhl_name": "multiply_64",
+      "section": "Arithmetic",
+      "input_type": "u64, u64",
+      "output_type": "u128",
+      "description": "Multiply two integers. The output is a 128-bit integer."
+    },
+    {
+      "haskell_name": "Negate8",
+      "simplicityhl_name": "negate_8",
+      "section": "Arithmetic",
+      "input_type": "u8",
+      "output_type": "(bool, u8)",
+      "description": "Negate the integer (modulo 2⁸)  and return the borrow bit."
+    },
+    {
+      "haskell_name": "Negate16",
+      "simplicityhl_name": "negate_16",
+      "section": "Arithmetic",
+      "input_type": "u16",
+      "output_type": "(bool, u16)",
+      "description": "Negate the integer (modulo 2¹⁶) and return the borrow bit."
+    },
+    {
+      "haskell_name": "Negate32",
+      "simplicityhl_name": "negate_32",
+      "section": "Arithmetic",
+      "input_type": "u32",
+      "output_type": "(bool, u32)",
+      "description": "Negate the integer (modulo 2³²) and return the borrow bit."
+    },
+    {
+      "haskell_name": "Negate64",
+      "simplicityhl_name": "negate_64",
+      "section": "Arithmetic",
+      "input_type": "u64",
+      "output_type": "(bool, u64)",
+      "description": "Negate the integer (modulo 2⁶⁴) and return the borrow bit."
+    },
+    {
+      "haskell_name": "One8",
+      "simplicityhl_name": "one_8",
+      "section": "Arithmetic",
+      "input_type": "",
+      "output_type": "u8",
+      "description": "Return 1 as an 8-bit integer."
+    },
+    {
+      "haskell_name": "One16",
+      "simplicityhl_name": "one_16",
+      "section": "Arithmetic",
+      "input_type": "",
+      "output_type": "u16",
+      "description": "Return 1 as a 16-bit integer."
+    },
+    {
+      "haskell_name": "One32",
+      "simplicityhl_name": "one_32",
+      "section": "Arithmetic",
+      "input_type": "",
+      "output_type": "u32",
+      "description": "Return 1 as a 32-bit integer."
+    },
+    {
+      "haskell_name": "One64",
+      "simplicityhl_name": "one_64",
+      "section": "Arithmetic",
+      "input_type": "",
+      "output_type": "u64",
+      "description": "Return 1 as a 64-bit integer."
+    },
+    {
+      "haskell_name": "Subtract8",
+      "simplicityhl_name": "subtract_8",
+      "section": "Arithmetic",
+      "input_type": "u8, u8",
+      "output_type": "(bool, u8)",
+      "description": "Subtract the second integer from the first integer, and return the borrow bit."
+    },
+    {
+      "haskell_name": "Subtract16",
+      "simplicityhl_name": "subtract_16",
+      "section": "Arithmetic",
+      "input_type": "u16, u16",
+      "output_type": "(bool, u16)",
+      "description": "Subtract the second integer from the first integer, and return the borrow bit."
+    },
+    {
+      "haskell_name": "Subtract32",
+      "simplicityhl_name": "subtract_32",
+      "section": "Arithmetic",
+      "input_type": "u32, u32",
+      "output_type": "(bool, u32)",
+      "description": "Subtract the second integer from the first integer, and return the borrow bit."
+    },
+    {
+      "haskell_name": "Subtract64",
+      "simplicityhl_name": "subtract_64",
+      "section": "Arithmetic",
+      "input_type": "u64, u64",
+      "output_type": "(bool, u64)",
+      "description": "Subtract the second integer from the first integer, and return the borrow bit."
+    },
+    {
+      "haskell_name": "Sha256Block",
+      "simplicityhl_name": "sha_256_block",
+      "section": "Hash functions",
+      "input_type": "u256, u256, u256",
+      "output_type": "u256",
+      "description": "Update the given 256-bit midstate by running the SHA256 block compression function, using the given 512-bit block."
+    },
+    {
+      "haskell_name": "Sha256Ctx8Add1",
+      "simplicityhl_name": "sha_256_ctx8_add1",
+      "section": "Hash functions",
+      "input_type": "Ctx8, u8",
+      "output_type": "Ctx8",
+      "description": "Add 1   byte  to the SHA256 hash engine."
+    },
+    {
+      "haskell_name": "Sha256Ctx8Add2",
+      "simplicityhl_name": "sha_256_ctx8_add2",
+      "section": "Hash functions",
+      "input_type": "Ctx8, u16",
+      "output_type": "Ctx8",
+      "description": "Add 2   bytes to the SHA256 hash engine."
+    },
+    {
+      "haskell_name": "Sha256Ctx8Add4",
+      "simplicityhl_name": "sha_256_ctx8_add4",
+      "section": "Hash functions",
+      "input_type": "Ctx8, u32",
+      "output_type": "Ctx8",
+      "description": "Add 4   bytes to the SHA256 hash engine."
+    },
+    {
+      "haskell_name": "Sha256Ctx8Add8",
+      "simplicityhl_name": "sha_256_ctx8_add8",
+      "section": "Hash functions",
+      "input_type": "Ctx8, u64",
+      "output_type": "Ctx8",
+      "description": "Add 8   bytes to the SHA256 hash engine."
+    },
+    {
+      "haskell_name": "Sha256Ctx8Add16",
+      "simplicityhl_name": "sha_256_ctx8_add16",
+      "section": "Hash functions",
+      "input_type": "Ctx8, u128",
+      "output_type": "Ctx8",
+      "description": "Add 16  bytes to the SHA256 hash engine."
+    },
+    {
+      "haskell_name": "Sha256Ctx8Add32",
+      "simplicityhl_name": "sha_256_ctx8_add32",
+      "section": "Hash functions",
+      "input_type": "Ctx8, u256",
+      "output_type": "Ctx8",
+      "description": "Add 32  bytes to the SHA256 hash engine."
+    },
+    {
+      "haskell_name": "Sha256Ctx8Add64",
+      "simplicityhl_name": "sha_256_ctx8_add64",
+      "section": "Hash functions",
+      "input_type": "Ctx8, array(u8, 64)",
+      "output_type": "Ctx8",
+      "description": "Add 64  bytes to the SHA256 hash engine."
+    },
+    {
+      "haskell_name": "Sha256Ctx8Add128",
+      "simplicityhl_name": "sha_256_ctx8_add128",
+      "section": "Hash functions",
+      "input_type": "Ctx8, array(u8, 128)",
+      "output_type": "Ctx8",
+      "description": "Add 128 bytes to the SHA256 hash engine."
+    },
+    {
+      "haskell_name": "Sha256Ctx8Add256",
+      "simplicityhl_name": "sha_256_ctx8_add256",
+      "section": "Hash functions",
+      "input_type": "Ctx8, array(u8, 256)",
+      "output_type": "Ctx8",
+      "description": "Add 256 bytes to the SHA256 hash engine."
+    },
+    {
+      "haskell_name": "Sha256Ctx8Add512",
+      "simplicityhl_name": "sha_256_ctx8_add512",
+      "section": "Hash functions",
+      "input_type": "Ctx8, array(u8, 512)",
+      "output_type": "Ctx8",
+      "description": "Add 512 bytes to the SHA256 hash engine."
+    },
+    {
+      "haskell_name": "Sha256Ctx8AddBuffer511",
+      "simplicityhl_name": "sha_256_ctx8_add_buffer511",
+      "section": "Hash functions",
+      "input_type": "Ctx8, [u8; 512]",
+      "output_type": "Ctx8",
+      "description": "Add a list of less than 512 bytes to the SHA256 hash engine."
+    },
+    {
+      "haskell_name": "Sha256Ctx8Finalize",
+      "simplicityhl_name": "sha_256_ctx8_finalize",
+      "section": "Hash functions",
+      "input_type": "Ctx8",
+      "output_type": "u256",
+      "description": "Produce a hash from the current state of the SHA256 hash engine."
+    },
+    {
+      "haskell_name": "Sha256Ctx8Init",
+      "simplicityhl_name": "sha_256_ctx8_init",
+      "section": "Hash functions",
+      "input_type": "",
+      "output_type": "Ctx8",
+      "description": "Initialize a default SHA256 hash engine."
+    },
+    {
+      "haskell_name": "Sha256Iv",
+      "simplicityhl_name": "sha_256_iv",
+      "section": "Hash functions",
+      "input_type": "",
+      "output_type": "u256",
+      "description": "Return the SHA256 initial value."
+    },
+    {
+      "haskell_name": "Decompress",
+      "simplicityhl_name": "decompress",
+      "section": "Elliptic curve functions",
+      "input_type": "Point",
+      "output_type": "Option<Ge>",
+      "description": "Decompress a point into affine coordinates.<br><br>- Return `None` if the x-coordinate is not on the curve.<br>- Return `Some(ge)` even if the x-coordinate is not normalized."
+    },
+    {
+      "haskell_name": "FeAdd",
+      "simplicityhl_name": "fe_add",
+      "section": "Elliptic curve functions",
+      "input_type": "Fe, Fe",
+      "output_type": "Fe",
+      "description": "Add two field elements."
+    },
+    {
+      "haskell_name": "FeInvert",
+      "simplicityhl_name": "fe_invert",
+      "section": "Elliptic curve functions",
+      "input_type": "Fe",
+      "output_type": "Fe",
+      "description": "Compute the modular inverse of a field element."
+    },
+    {
+      "haskell_name": "FeIsOdd",
+      "simplicityhl_name": "fe_is_odd",
+      "section": "Elliptic curve functions",
+      "input_type": "Fe",
+      "output_type": "bool",
+      "description": "Check if the canonical representative of the field element is odd."
+    },
+    {
+      "haskell_name": "FeIsZero",
+      "simplicityhl_name": "fe_is_zero",
+      "section": "Elliptic curve functions",
+      "input_type": "Fe",
+      "output_type": "bool",
+      "description": "Check if the field element represents zero."
+    },
+    {
+      "haskell_name": "FeMultiply",
+      "simplicityhl_name": "fe_multiply",
+      "section": "Elliptic curve functions",
+      "input_type": "Fe, Fe",
+      "output_type": "Fe",
+      "description": "Multiply two field elements."
+    },
+    {
+      "haskell_name": "FeMultiplyBeta",
+      "simplicityhl_name": "fe_multiply_beta",
+      "section": "Elliptic curve functions",
+      "input_type": "Fe",
+      "output_type": "Fe",
+      "description": "Multiply a field element by the canonical primitive cube root of unity (beta)."
+    },
+    {
+      "haskell_name": "FeNegate",
+      "simplicityhl_name": "fe_negate",
+      "section": "Elliptic curve functions",
+      "input_type": "Fe",
+      "output_type": "Fe",
+      "description": "Negate a field element."
+    },
+    {
+      "haskell_name": "FeNormalize",
+      "simplicityhl_name": "fe_normalize",
+      "section": "Elliptic curve functions",
+      "input_type": "Fe",
+      "output_type": "Fe",
+      "description": "Return the canonical representation of a field element."
+    },
+    {
+      "haskell_name": "FeSquare",
+      "simplicityhl_name": "fe_square",
+      "section": "Elliptic curve functions",
+      "input_type": "Fe",
+      "output_type": "Fe",
+      "description": "Square a field element."
+    },
+    {
+      "haskell_name": "FeSquareRoot",
+      "simplicityhl_name": "fe_square_root",
+      "section": "Elliptic curve functions",
+      "input_type": "Fe",
+      "output_type": "Option<Fe>",
+      "description": "Compute the modular square root of a field element if it exists."
+    },
+    {
+      "haskell_name": "GeIsOnCurve",
+      "simplicityhl_name": "ge_is_on_curve",
+      "section": "Elliptic curve functions",
+      "input_type": "Ge",
+      "output_type": "bool",
+      "description": "Check if the given point satisfies the curve equation y² = x³ + 7."
+    },
+    {
+      "haskell_name": "GejIsOnCurve",
+      "simplicityhl_name": "gej_is_on_curve",
+      "section": "Elliptic curve functions",
+      "input_type": "Gej",
+      "output_type": "bool",
+      "description": "Check if the given point satisfies the curve equation y² = x³ + 7."
+    },
+    {
+      "haskell_name": "GeNegate",
+      "simplicityhl_name": "ge_negate",
+      "section": "Elliptic curve functions",
+      "input_type": "Ge",
+      "output_type": "Ge",
+      "description": "Negate a point."
+    },
+    {
+      "haskell_name": "GejNegate",
+      "simplicityhl_name": "gej_negate",
+      "section": "Elliptic curve functions",
+      "input_type": "Gej",
+      "output_type": "Gej",
+      "description": "Negate a point."
+    },
+    {
+      "haskell_name": "GejAdd",
+      "simplicityhl_name": "gej_add",
+      "section": "Elliptic curve functions",
+      "input_type": "Gej, Gej",
+      "output_type": "Gej",
+      "description": "Add two points."
+    },
+    {
+      "haskell_name": "GejDouble",
+      "simplicityhl_name": "gej_double",
+      "section": "Elliptic curve functions",
+      "input_type": "Gej",
+      "output_type": "Gej",
+      "description": "Double a point. If the result is the point at infinity, it is returned in canonical form."
+    },
+    {
+      "haskell_name": "GejEquiv",
+      "simplicityhl_name": "gej_equiv",
+      "section": "Elliptic curve functions",
+      "input_type": "Gej, Gej",
+      "output_type": "bool",
+      "description": "Check if two points represent the same point."
+    },
+    {
+      "haskell_name": "GejGeAdd",
+      "simplicityhl_name": "gej_ge_add",
+      "section": "Elliptic curve functions",
+      "input_type": "Gej, Ge",
+      "output_type": "Gej",
+      "description": "Add two points. If the result is the point at infinity, it is returned in canonical form."
+    },
+    {
+      "haskell_name": "GejGeAddEx",
+      "simplicityhl_name": "gej_ge_add_ex",
+      "section": "Elliptic curve functions",
+      "input_type": "Gej, Ge",
+      "output_type": "(Fe, Gej)",
+      "description": "Add two points. Also return the ration of the `a`s z-coordinate and the result's z-coordinate. If the result is the point at infinity, it is returned in canonical form."
+    },
+    {
+      "haskell_name": "GejGeEquiv",
+      "simplicityhl_name": "gej_ge_equiv",
+      "section": "Elliptic curve functions",
+      "input_type": "Gej, Ge",
+      "output_type": "bool",
+      "description": "Check if two points represent the same point."
+    },
+    {
+      "haskell_name": "GejInfinity",
+      "simplicityhl_name": "gej_infinity",
+      "section": "Elliptic curve functions",
+      "input_type": "",
+      "output_type": "Gej",
+      "description": "Return the canonical representation of the point at infinity."
+    },
+    {
+      "haskell_name": "GejIsInfinity",
+      "simplicityhl_name": "gej_is_infinity",
+      "section": "Elliptic curve functions",
+      "input_type": "Gej",
+      "output_type": "bool",
+      "description": "Check if the point represents infinity."
+    },
+    {
+      "haskell_name": "GejNormalize",
+      "simplicityhl_name": "gej_normalize",
+      "section": "Elliptic curve functions",
+      "input_type": "Gej",
+      "output_type": "Option<Ge>",
+      "description": "Convert the point into affine coordinates with canonical field representatives. If the result is the point at infinity, it is returned in canonical form."
+    },
+    {
+      "haskell_name": "GejRescale",
+      "simplicityhl_name": "gej_rescale",
+      "section": "Elliptic curve functions",
+      "input_type": "Gej, Fe",
+      "output_type": "Gej",
+      "description": "Change the representatives of a point by multiplying the z-coefficient by the given value."
+    },
+    {
+      "haskell_name": "GejXEquiv",
+      "simplicityhl_name": "gej_x_equiv",
+      "section": "Elliptic curve functions",
+      "input_type": "Fe, Gej",
+      "output_type": "bool",
+      "description": "Check if the point represents an affine point with the given x-coordinate."
+    },
+    {
+      "haskell_name": "GejYIsOdd",
+      "simplicityhl_name": "gej_y_is_odd",
+      "section": "Elliptic curve functions",
+      "input_type": "Gej",
+      "output_type": "bool",
+      "description": "Check if the point represents an affine point with odd y-coordinate."
+    },
+    {
+      "haskell_name": "Generate",
+      "simplicityhl_name": "generate",
+      "section": "Elliptic curve functions",
+      "input_type": "Scalar",
+      "output_type": "Gej",
+      "description": "Multiply the generator point with the given scalar."
+    },
+    {
+      "haskell_name": "LinearCombination1",
+      "simplicityhl_name": "linear_combination_1",
+      "section": "Elliptic curve functions",
+      "input_type": "(Scalar, Gej), Scalar",
+      "output_type": "Gej",
+      "description": "Compute the linear combination `b * a + c * g` for point `b` and scalars `a` and `c`, where `g` is the generator point."
+    },
+    {
+      "haskell_name": "LinearVerify1",
+      "simplicityhl_name": "linear_verify_1",
+      "section": "Elliptic curve functions",
+      "input_type": "((Scalar, Ge), Scalar), Ge",
+      "output_type": "unit",
+      "description": "Assert that a point `b` is equal to the linear combination `a.0 * a.1 + a.2 * g`, where `g` is the generator point.<br><br>## Panics<br>The assertion fails."
+    },
+    {
+      "haskell_name": "PointVerify1",
+      "simplicityhl_name": "point_verify_1",
+      "section": "Elliptic curve functions",
+      "input_type": "((Scalar, Point), Scalar), Point",
+      "output_type": "unit",
+      "description": "Assert that a point `b` is equal to the linear combination `a.0 * a.1 + a.2 * g`, where `g` is the generator point.<br><br>## Panics<br>- The assertion fails.<br>- Fails if the points cannot be decompressed."
+    },
+    {
+      "haskell_name": "ScalarAdd",
+      "simplicityhl_name": "scalar_add",
+      "section": "Elliptic curve functions",
+      "input_type": "Scalar, Scalar",
+      "output_type": "Scalar",
+      "description": "Add two scalars."
+    },
+    {
+      "haskell_name": "ScalarInvert",
+      "simplicityhl_name": "scalar_invert",
+      "section": "Elliptic curve functions",
+      "input_type": "Scalar",
+      "output_type": "Scalar",
+      "description": "Compute the modular inverse of a scalar."
+    },
+    {
+      "haskell_name": "ScalarIsZero",
+      "simplicityhl_name": "scalar_is_zero",
+      "section": "Elliptic curve functions",
+      "input_type": "Scalar",
+      "output_type": "bool",
+      "description": "Check if the scalar represents zero."
+    },
+    {
+      "haskell_name": "ScalarMultiply",
+      "simplicityhl_name": "scalar_multiply",
+      "section": "Elliptic curve functions",
+      "input_type": "Scalar, Scalar",
+      "output_type": "Scalar",
+      "description": "Multiply two scalars."
+    },
+    {
+      "haskell_name": "ScalarMultiplyLambda",
+      "simplicityhl_name": "scalar_multiply_lambda",
+      "section": "Elliptic curve functions",
+      "input_type": "Scalar",
+      "output_type": "Scalar",
+      "description": "Multiply a scalar with the canonical primitive cube of unity (lambda)"
+    },
+    {
+      "haskell_name": "ScalarNegate",
+      "simplicityhl_name": "scalar_negate",
+      "section": "Elliptic curve functions",
+      "input_type": "Scalar",
+      "output_type": "Scalar",
+      "description": "Negate a scalar."
+    },
+    {
+      "haskell_name": "ScalarNormalize",
+      "simplicityhl_name": "scalar_normalize",
+      "section": "Elliptic curve functions",
+      "input_type": "Scalar",
+      "output_type": "Scalar",
+      "description": "Return the canonical representation of the scalar."
+    },
+    {
+      "haskell_name": "ScalarSquare",
+      "simplicityhl_name": "scalar_square",
+      "section": "Elliptic curve functions",
+      "input_type": "Scalar",
+      "output_type": "Scalar",
+      "description": "Square a scalar."
+    },
+    {
+      "haskell_name": "Scale",
+      "simplicityhl_name": "scale",
+      "section": "Elliptic curve functions",
+      "input_type": "Scalar, Gej",
+      "output_type": "Gej",
+      "description": "Multiply a point by a scalar."
+    },
+    {
+      "haskell_name": "HashToCurve",
+      "simplicityhl_name": "hash_to_curve",
+      "section": "Elliptic curve functions",
+      "input_type": "u256",
+      "output_type": "Ge",
+      "description": "A cryptographic hash function that results in a point on the secp256k1 curve.<br><br>This matches the hash function used to map asset IDs to asset commitments."
+    },
+    {
+      "haskell_name": "Swu",
+      "simplicityhl_name": "swu",
+      "section": "Elliptic curve functions",
+      "input_type": "Fe",
+      "output_type": "Ge",
+      "description": "Algebraically distribute a field element over the secp256k1 curve as defined in<br>'Indifferentiable Hashing to Barreto-Naehrig Curves' by Pierre-Alain Fouque, Mehdi Tibouchi.<br><br>While this by itself is not a cryptographic hash function, it can be used as a subroutine in a `hash_to_curve` function. However, the distribution only approaches uniformity when it is called twice."
+    },
+    {
+      "haskell_name": "Bip0340Verify",
+      "simplicityhl_name": "bip_0340_verify",
+      "section": "Digital Signatures",
+      "input_type": "(Pubkey, Message), Signature",
+      "output_type": "unit",
+      "description": "Assert that a Schnorr signature matches a public key and message.<br><br>## Panics<br>The assertion fails."
+    },
+    {
+      "haskell_name": "CheckSigVerify",
+      "simplicityhl_name": "check_sig_verify",
+      "section": "Digital Signatures",
+      "input_type": "(Pubkey, Message64), Signature",
+      "output_type": "unit",
+      "description": "Assert that a Schnorr signature matches a public key and message, using a custom sighash mode.<br><br>## Panics<br>The assertion fails.<br><br>## Safety<br>This jet should not be used directly."
+    },
+    {
+      "haskell_name": "ParseLock",
+      "simplicityhl_name": "parse_lock",
+      "section": "Bitcoin (without primitives)",
+      "input_type": "u32",
+      "output_type": "Either<Height, Time>",
+      "description": "Parse an integer as a consensus-encoded Bitcoin lock time."
+    },
+    {
+      "haskell_name": "ParseSequence",
+      "simplicityhl_name": "parse_sequence",
+      "section": "Bitcoin (without primitives)",
+      "input_type": "u32",
+      "output_type": "Option<Either<Distance, Duration>>",
+      "description": "Parse an integer as a consensus-encoded Bitcoin sequence number."
+    },
+    {
+      "haskell_name": "TapdataInit",
+      "simplicityhl_name": "tapdata_init",
+      "section": "Bitcoin (without primitives)",
+      "input_type": "",
+      "output_type": "Ctx8",
+      "description": "Create a SHA256 context, initialized with a `TapData` tag."
+    },
+    {
+      "haskell_name": "AnnexHash",
+      "simplicityhl_name": "annex_hash",
+      "section": "Signature hash modes",
+      "input_type": "Ctx8, Option<u256>",
+      "output_type": "Ctx8",
+      "description": "Continue a SHA256 hash with an optional hash by appending the following:<br>- If there is no hash, then the byte `0x00`.<br>- If there is a hash, then the byte `0x01` followed by the given hash (32 bytes)."
+    },
+    {
+      "haskell_name": "AssetAmountHash",
+      "simplicityhl_name": "asset_amount_hash",
+      "section": "Signature hash modes",
+      "input_type": "Ctx8, Asset1, Amount1",
+      "output_type": "Ctx8",
+      "description": "Continue a SHA256 hash with the serialization of a confidential asset followed by the serialization of a amount."
+    },
+    {
+      "haskell_name": "BuildTapbranch",
+      "simplicityhl_name": "build_tapbranch",
+      "section": "Signature hash modes",
+      "input_type": "u256, u256",
+      "output_type": "u256",
+      "description": "Return the SHA256 hash of the following:<br>- The hash of the ASCII string `TapBranch/elements` (32 bytes).<br>- The lexicographically smaller of the two inputs (32 bytes).<br>- The hash of the ASCII string `TapBranch/elements` again (32 bytes).<br>- The lexicographically larger of the two inputs (32 bytes).<br><br>This builds a taproot from two branches."
+    },
+    {
+      "haskell_name": "BuildTapleafSimplicity",
+      "simplicityhl_name": "build_tapleaf_simplicity",
+      "section": "Signature hash modes",
+      "input_type": "u256",
+      "output_type": "u256",
+      "description": "Return the SHA256 hash of the following:<br>- The hash of the ASCII string `TapBranch/elements` (32 bytes).<br>- The hash of the ASCII string `TapBranch/elements` again (32 bytes).<br>- The lexicographically smaller of the two inputs (32 bytes).<br>- The lexicographically larger of the two inputs (32 bytes).<br><br>This builds a taproot from two branches."
+    },
+    {
+      "haskell_name": "BuildTaptweak",
+      "simplicityhl_name": "build_taptweak",
+      "section": "Signature hash modes",
+      "input_type": "Pubkey, u256",
+      "output_type": "u256",
+      "description": "Implementation of `taproot_tweak_pubkey` from BIP-0341.<br><br>## Panics<br>1. The input x-only public key is off curve or exceeds the field size.<br>2. The internal hash value `t` exceeds the secp256k1 group order.<br>3. The generated tweaked point is infinity, and thus has no valid x-only public key.<br><br>Note that situations 2 and 3 are cryptographically impossible to occur."
+    },
+    {
+      "haskell_name": "InputAmountsHash",
+      "simplicityhl_name": "input_amounts_hash",
+      "section": "Signature hash modes",
+      "input_type": "",
+      "output_type": "u256",
+      "description": "Return the SHA256 hash of the serialization of each input UTXO's asset and amount fields."
+    },
+    {
+      "haskell_name": "InputAnnexesHash",
+      "simplicityhl_name": "input_annexes_hash",
+      "section": "Signature hash modes",
+      "input_type": "",
+      "output_type": "u256",
+      "description": "Return the SHA256 hash of the concatenation of the following for every input:<br>- If the input has no annex, or isn't a taproot spend, then the byte `0x00`.<br>- If the input has an annex, then the byte `0x01` followed by the SHA256 hash of the annex (32 bytes)."
+    },
+    {
+      "haskell_name": "InputOutpointsHash",
+      "simplicityhl_name": "input_outpoints_hash",
+      "section": "Signature hash modes",
+      "input_type": "",
+      "output_type": "u256",
+      "description": "Return the SHA256 hash of the concatenation of the following for every input:<br>- If the input is not a pegin, then the byte `0x00`.<br>- If the input is a pegin, then the byte `0x01` followed by the parent chain's genesis hash (32 bytes).<br>- The input's serialized previous transaction id (32 bytes).<br>- The input's previous transaction index in big endian format (4 bytes).<br><br>IMPORTANT: the index is serialized in big endian format rather than little endian format."
+    },
+    {
+      "haskell_name": "InputScriptSigsHash",
+      "simplicityhl_name": "input_script_sigs_hash",
+      "section": "Signature hash modes",
+      "input_type": "",
+      "output_type": "u256",
+      "description": "Return the SHA256 hash of the concatenation of the SHA256 hash of each input's scriptSig.<br><br>Note that if an input's UTXO uses segwit, then it's scriptSig will necessarily be the empty string. In such cases we still use the SHA256 hash of the empty string."
+    },
+    {
+      "haskell_name": "InputScriptsHash",
+      "simplicityhl_name": "input_scripts_hash",
+      "section": "Signature hash modes",
+      "input_type": "",
+      "output_type": "u256",
+      "description": "Return the SHA256 hash of the concatenation of the SHA256 hash of each input UTXO's scriptPubKey."
+    },
+    {
+      "haskell_name": "InputSequencesHash",
+      "simplicityhl_name": "input_sequences_hash",
+      "section": "Signature hash modes",
+      "input_type": "",
+      "output_type": "u256",
+      "description": "Return the SHA256 hash of the concatenation of the following for every input:<br>- The input's sequence number in big endian format (4 bytes).<br><br>IMPORTANT, the sequence number is serialized in big endian format rather than little endian format."
+    },
+    {
+      "haskell_name": "InputUtxoHash",
+      "simplicityhl_name": "input_utxo_hash",
+      "section": "Signature hash modes",
+      "input_type": "u32",
+      "output_type": "Option<u256>",
+      "description": "Return the SHA256 hash of the following:<br>- The serialization of the input UTXO's asset and amount fields.<br>- The SHA256 hash of the input UTXO's scriptPubKey.<br><br>Return `None` if the input does not exist."
+    },
+    {
+      "haskell_name": "InputUtxosHash",
+      "simplicityhl_name": "input_utxos_hash",
+      "section": "Signature hash modes",
+      "input_type": "",
+      "output_type": "u256",
+      "description": "Return the SHA256 hash of the following:<br>- The result of `input_amounts_hash` (32 bytes).<br>- The result of `input_scripts_hash` (32 bytes)."
+    },
+    {
+      "haskell_name": "InputHash",
+      "simplicityhl_name": "input_hash",
+      "section": "Signature hash modes",
+      "input_type": "u32",
+      "output_type": "Option<u256>",
+      "description": "Return the SHA256 hash of the following:<br>- If the input is not a pegin, then the byte `0x00`.<br>- If the input is a pegin, then the byte `0x01` followed by the parent chain's genesis hash (32 bytes).<br>- The input's serialized previous transaction id (32 bytes).<br>- The input's previous transaction index in big endian format (4 bytes).<br>- The input's sequence number in big endian format (4 bytes).<br>- If the input has no annex, or isn't a taproot spend, then the byte `0x00`.<br>- If the input has an annex, then the byte `0x01` followed by the SHA256 hash of the annex (32 bytes).<br><br>Return `None` if the input does not exist."
+    },
+    {
+      "haskell_name": "InputsHash",
+      "simplicityhl_name": "inputs_hash",
+      "section": "Signature hash modes",
+      "input_type": "",
+      "output_type": "u256",
+      "description": "Return the SHA256 hash of the following:<br>- The result of `input_outpoints_hash` (32 bytes).<br>- The result of `input_sequences_hash` (32 bytes).<br>- The result of `input_annexes_hash` (32 bytes)."
+    },
+    {
+      "haskell_name": "IssuanceAssetAmountsHash",
+      "simplicityhl_name": "issuance_asset_amounts_hash",
+      "section": "Signature hash modes",
+      "input_type": "",
+      "output_type": "u256",
+      "description": "Return the SHA256 hash of the concatenation of the following for every input:<br>- If the input has no issuance then two bytes `0x00 0x00`.<br>- If the input is has a new issuance then the byte `0x01` followed by a serialization of the calculated issued asset id (32 bytes) followed by the serialization of the (possibly confidential) issued asset amount (9 bytes or 33 bytes).<br>- If the input is has a reissuance then the byte `0x01` followed by a serialization of the issued asset id<br>(32 bytes), followed by the serialization of the (possibly confidential) issued asset amount (9 bytes or<br>33 bytes).<br><br>IMPORTANT: If there is an issuance but there are no asset issued (i.e. the amount is null) we serialize the vase as the explicit 0 amount, (i.e. `0x01 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00`).<br><br>Note, the issuance asset id is serialized in the same format as an explicit asset id would be."
+    },
+    {
+      "haskell_name": "IssuanceBlindingEntropyHash",
+      "simplicityhl_name": "issuance_blinding_entropy_hash",
+      "section": "Signature hash modes",
+      "input_type": "",
+      "output_type": "u256",
+      "description": "Return the SHA256 hash of the concatenation of the following for every input:<br>- If the input has no issuance then the byte `0x00`.<br>- If the input is has a new issuance then the byte `0x01` followed by 32 `0x00` bytes and the new issuance's contract hash field (32 bytes).<br>- If the input is has reissuance then the byte `0x01` followed by a serializaiton of the reissuance's blinding nonce field (32 bytes) and the reissuance's entropy field (32 bytes).<br><br>Note that if the issuance is a new issuance then the blinding nonce field is 32 `0x00` bytes and new issuance's contract hash."
+    },
+    {
+      "haskell_name": "IssuanceRangeProofsHash",
+      "simplicityhl_name": "issuance_range_proofs_hash",
+      "section": "Signature hash modes",
+      "input_type": "",
+      "output_type": "u256",
+      "description": "Return the SHA256 hash of the concatenation of the following for every input:<br>- The SHA256 hash of the range proof of the input's issuance asset amount (32 bytes).<br>- The SHA256 hash of the range proof of the input's issuance token amount (32 bytes).<br><br>Note that each the range proof is considered to be the empty string in the case there is no issuance, or if the asset or token amount doesn't exist (i.e is null). The SHA256 hash of the empty string is still used in these cases."
+    },
+    {
+      "haskell_name": "IssuanceTokenAmountsHash",
+      "simplicityhl_name": "issuance_token_amounts_hash",
+      "section": "Signature hash modes",
+      "input_type": "",
+      "output_type": "u256",
+      "description": "Return the SHA256 hash of the concatenation of the following for every input:<br>- If the input has no issuance then two bytes `0x00 0x00`.<br>- If the input is has a new issuance then the byte `0x01` followed by a serialization of the calculated issued token id (32 bytes) followed by the serialization of the (possibly confidential) issued token amount (9 bytes or 33 bytes).<br>- If the input is has a reissuance then the byte `0x01` followed by a serialization of the issued token id<br>(32 bytes), followed by the serialization of the explicit 0 amount (i.e `0x01 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00`) (9 bytes).<br><br>IMPORTANT: If there is an issuance but there are no tokens issued (i.e. the amount is null) we serialize the vase as the explicit 0 amount, (i.e. `0x01 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00`).<br><br>Note, the issuance token id is serialized in the same format as an explicit asset id would be."
+    },
+    {
+      "haskell_name": "IssuanceHash",
+      "simplicityhl_name": "issuance_hash",
+      "section": "Signature hash modes",
+      "input_type": "u32",
+      "output_type": "Option<u256>",
+      "description": "Return the SHA256 hash of the following:<br>1. The asset issuance:<br>- If the input has no issuance then two bytes `0x00 0x00`.<br>- If the input is has a new issuance then the byte `0x01` followed by a serialization of the calculated issued asset id (32 bytes) followed by the serialization of the (possibly confidential) issued asset amount (9 bytes or 33 bytes).<br>- If the input is has a reissuance then the byte `0x01` followed by a serialization of the issued asset id<br>(32 bytes), followed by the serialization of the (possibly confidential) issued asset amount (9 bytes or 33 bytes).<br>2. The token issuance:<br>- If the input has no issuance then two bytes `0x00 0x00`.<br>- If the input is has a new issuance then the byte `0x01` followed by a serialization of the calculated issued token id (32 bytes) followed by the serialization of the (possibly confidential) issued token amount (9 bytes or 33 bytes).<br>- If the input is has a reissuance then the byte `0x01` followed by a serialization of the issued token id (32 bytes), followed by the serialization of the explicit 0 amount (i.e `0x01 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00`) (9 bytes).<br>3. The range proofs:<br>- The SHA256 hash of the range proof of the input's issuance asset amount (32 bytes).<br>- The SHA256 hash of the range proof of the input's issuance token amount (32 bytes).<br>4. The blinding entropy:<br>- If the input has no issuance then the byte `0x00`.<br>- If the input is has a new issuance then the byte `0x01` followed by 32 `0x00` bytes and the new issuance's contract hash field (32 bytes).<br>- If the input is has reissuance then the byte `0x01` followed by a serializaiton of the reissuance's blinding nonce field (32 bytes) and the reissuance's entropy field (32 bytes).<br><br>Return `None` if the input does not exist."
+    },
+    {
+      "haskell_name": "IssuancesHash",
+      "simplicityhl_name": "issuances_hash",
+      "section": "Signature hash modes",
+      "input_type": "",
+      "output_type": "u256",
+      "description": "Return the SHA256 hash of the following:<br>- The result of `issuance_asset_amounts_hash` (32 bytes).<br>- The result of `issuance_token_amounts_hash` (32 bytes).<br>- The result of `issuance_range_proofs_hash` (32 bytes).<br>- The result of `issuance_blinding_entropy_hash` (32 bytes)."
+    },
+    {
+      "haskell_name": "NonceHash",
+      "simplicityhl_name": "nonce_hash",
+      "section": "Signature hash modes",
+      "input_type": "Ctx8, Option<Nonce>",
+      "output_type": "Ctx8",
+      "description": "Continue the SHA256 hash with the serialization of an optional nonce."
+    },
+    {
+      "haskell_name": "OutpointHash",
+      "simplicityhl_name": "outpoint_hash",
+      "section": "Signature hash modes",
+      "input_type": "Ctx8, Option<u256>, Outpoint",
+      "output_type": "Ctx8",
+      "description": "Continue the SHA256 hash with an optional pegin and an outpoint by appending the following:<br>- If the input is not a pegin, then the byte `0x00`.<br>- If the input is a pegin, then the byte `0x01` followed by the given parent genesis hash (32 bytes).<br>- The input's previous transaction id (32 bytes).<br>- The input's previous transaction index in big endian format (4 bytes)."
+    },
+    {
+      "haskell_name": "OutputAmountsHash",
+      "simplicityhl_name": "output_amounts_hash",
+      "section": "Signature hash modes",
+      "input_type": "",
+      "output_type": "u256",
+      "description": "Return the SHA256 hash of the serialization of each output's asset and amount fields."
+    },
+    {
+      "haskell_name": "OutputNoncesHash",
+      "simplicityhl_name": "output_nonces_hash",
+      "section": "Signature hash modes",
+      "input_type": "",
+      "output_type": "u256",
+      "description": "Return the SHA256 hash of the serialization of each output's nonce field."
+    },
+    {
+      "haskell_name": "OutputRangeProofsHash",
+      "simplicityhl_name": "output_range_proofs_hash",
+      "section": "Signature hash modes",
+      "input_type": "",
+      "output_type": "u256",
+      "description": "Return the SHA256 hash of the concatenation of the SHA256 hash of each output's range proof.<br><br>Note that if the output's amount is explicit then the range proof is considered the empty string."
+    },
+    {
+      "haskell_name": "OutputScriptsHash",
+      "simplicityhl_name": "output_scripts_hash",
+      "section": "Signature hash modes",
+      "input_type": "",
+      "output_type": "u256",
+      "description": "Return the SHA256 hash of the concatenation of the SHA256 hash of each output's scriptPubKey."
+    },
+    {
+      "haskell_name": "OutputSurjectionProofsHash",
+      "simplicityhl_name": "output_surjection_proofs_hash",
+      "section": "Signature hash modes",
+      "input_type": "",
+      "output_type": "u256",
+      "description": "Return the SHA256 hash of the concatenation of the SHA256 hash of each output's surjection proof.<br><br>Note that if the output's asset is explicit then the surjection proof is considered the empty string."
+    },
+    {
+      "haskell_name": "OutputHash",
+      "simplicityhl_name": "output_hash",
+      "section": "Signature hash modes",
+      "input_type": "u32",
+      "output_type": "Option<u256>",
+      "description": "Return the SHA256 hash of the following:<br>- The serialization of the output's asset and amount fields.<br>- The serialization of the output's nonce field.<br>- The SHA256 hash of the output's scriptPubKey.<br>- The SHA256 hash of the output's range proof.<br><br>Return `None` if the output does not exist.<br><br>Note: the result of `output_surjection_proofs_hash` is specifically excluded because surjection proofs are dependent on the inputs as well as the output."
+    },
+    {
+      "haskell_name": "OutputsHash",
+      "simplicityhl_name": "outputs_hash",
+      "section": "Signature hash modes",
+      "input_type": "",
+      "output_type": "u256",
+      "description": "Return the SHA256 hash of the following:<br>- The result of `output_amounts_hash` (32 bytes).<br>- The result of `output_nonces_hash` (32 bytes).<br>- The result of `output_scripts_hash` (32 bytes).<br>- The result of `output_range_proofs_hash` (32 bytes).<br><br>Note: the result of `output_surjection_proofs_hash` is specifically excluded because surjection proofs are dependent on the inputs as well as the output. See also `tx_hash`."
+    },
+    {
+      "haskell_name": "SigAllHash",
+      "simplicityhl_name": "sig_all_hash",
+      "section": "Signature hash modes",
+      "input_type": "",
+      "output_type": "u256",
+      "description": "Return the SHA256 hash of the following:<br>- The result of `genesis_block_hash` (32 bytes).<br>- The result of `genesis_block_hash` again (32 bytes).<br>- The result of `tx_hash` (32 bytes).<br>- The result of `tap_env_hash` (32 bytes).<br>- The result of `current_index` (Note: this is in big endian format) (4 bytes).<br><br>Note: the two copies of the `genesis_block_hash` values effectively makes this result a BIP-340 style tagged hash."
+    },
+    {
+      "haskell_name": "TapEnvHash",
+      "simplicityhl_name": "tap_env_hash",
+      "section": "Signature hash modes",
+      "input_type": "",
+      "output_type": "u256",
+      "description": "Return the SHA256 hash of the following:<br>- The result of `tapleaf_hash` (32 bytes).<br>- The result of `tappath_hash` (32 bytes).<br>- The result of `internal_key` (32 bytes)."
+    },
+    {
+      "haskell_name": "TapleafHash",
+      "simplicityhl_name": "tapleaf_hash",
+      "section": "Signature hash modes",
+      "input_type": "",
+      "output_type": "u256",
+      "description": "Return the SHA256 hash of the following:<br>- The hash of the ASCII string `TapLeaf/elements` (32 bytes).<br>- The hash of the ASCII string `TapLeaf/elements` again (32 bytes).<br>- The result of `tapleaf_version` (1 byte).<br>- The byte `0x20` (1 byte).<br>- The result of `script_cmr` (32 bytes).<br><br>Note: this matches Elements's modified BIP-0341 definition of tapleaf hash."
+    },
+    {
+      "haskell_name": "TappathHash",
+      "simplicityhl_name": "tappath_hash",
+      "section": "Signature hash modes",
+      "input_type": "",
+      "output_type": "u256",
+      "description": "Return a hash of the current input's control block excluding the leaf version and the taproot internal key.<br><br>Using the notation of BIP-0341, it returns the SHA256 hash of c33: 33 + 32m."
+    },
+    {
+      "haskell_name": "TxHash",
+      "simplicityhl_name": "tx_hash",
+      "section": "Signature hash modes",
+      "input_type": "",
+      "output_type": "u256",
+      "description": "Return the SHA256 hash of the following:<br>- The result of `version` (Note: this is in big endian format) (4 bytes).<br>- The result of `tx_lock_time` (Note: this is in big endian format) (4 bytes).<br>- The result of `inputs_hash` (32 bytes).<br>- The result of `outputs_hash` (32 bytes).<br>- The result of `issuances_hash` (32 bytes).<br>- The result of `output_surjection_proofs_hash` (32 bytes).<br>- The result of `input_utxos_hash` (32 bytes)."
+    },
+    {
+      "haskell_name": "CheckLockDistance",
+      "simplicityhl_name": "check_lock_distance",
+      "section": "Time locks",
+      "input_type": "Distance",
+      "output_type": "unit",
+      "description": "Assert that the value returned by `tx_lock_distance` is greater than or equal to the given value.<br><br>## Panics<br>The assertion fails."
+    },
+    {
+      "haskell_name": "CheckLockDuration",
+      "simplicityhl_name": "check_lock_duration",
+      "section": "Time locks",
+      "input_type": "Duration",
+      "output_type": "unit",
+      "description": "Assert that the value returned by `tx_lock_duration` is greater than or equal to the given value.<br><br>## Panics<br>The assertion fails"
+    },
+    {
+      "haskell_name": "CheckLockHeight",
+      "simplicityhl_name": "check_lock_height",
+      "section": "Time locks",
+      "input_type": "Height",
+      "output_type": "unit",
+      "description": "Assert that the value returned by `tx_lock_height`   is greater than or equal to the given value.<br><br>## Panics<br>The assertion fails."
+    },
+    {
+      "haskell_name": "CheckLockTime",
+      "simplicityhl_name": "check_lock_time",
+      "section": "Time locks",
+      "input_type": "Time",
+      "output_type": "unit",
+      "description": "Assert that the value returned by `tx_lock_time`     is greater than or equal to the given value.<br><br>## Panics<br>The assertion fails."
+    },
+    {
+      "haskell_name": "TxIsFinal",
+      "simplicityhl_name": "tx_is_final",
+      "section": "Time locks",
+      "input_type": "",
+      "output_type": "bool",
+      "description": "Check if the sequence numbers of all transaction inputs are at their maximum value."
+    },
+    {
+      "haskell_name": "TxLockDistance",
+      "simplicityhl_name": "tx_lock_distance",
+      "section": "Time locks",
+      "input_type": "",
+      "output_type": "Distance",
+      "description": "If `version` returns 2 or greater, then return the greatest valid `Distance` value of any transaction input. Return zeroes otherwise."
+    },
+    {
+      "haskell_name": "TxLockDuration",
+      "simplicityhl_name": "tx_lock_duration",
+      "section": "Time locks",
+      "input_type": "",
+      "output_type": "Duration",
+      "description": "If `version` returns 2 or greater, then return the greatest valid `Duration` value of any transaction input. Return zeroes otherwise."
+    },
+    {
+      "haskell_name": "TxLockHeight",
+      "simplicityhl_name": "tx_lock_height",
+      "section": "Time locks",
+      "input_type": "",
+      "output_type": "Height",
+      "description": "If `tx_is_final` returns false, then try to parse the transaction's lock time as a `Height` value. Return zeroes otherwise."
+    },
+    {
+      "haskell_name": "TxLockTime",
+      "simplicityhl_name": "tx_lock_time",
+      "section": "Time locks",
+      "input_type": "",
+      "output_type": "Time",
+      "description": "If `tx_is_final` returns false, then try to parse the transaction's lock time as a `Time` value. Return zeroes otherwise."
+    },
+    {
+      "haskell_name": "CalculateAsset",
+      "simplicityhl_name": "calculate_asset",
+      "section": "Issuance",
+      "input_type": "u256",
+      "output_type": "ExplicitAsset",
+      "description": "Calculate the issued asset id from a given entropy value."
+    },
+    {
+      "haskell_name": "CalculateConfidentialToken",
+      "simplicityhl_name": "calculate_confidential_token",
+      "section": "Issuance",
+      "input_type": "u256",
+      "output_type": "ExplicitAsset",
+      "description": "Calculate the reissuance token id from a given entropy value for assets with confidential issued amounts."
+    },
+    {
+      "haskell_name": "CalculateExplicitToken",
+      "simplicityhl_name": "calculate_explicit_token",
+      "section": "Issuance",
+      "input_type": "u256",
+      "output_type": "ExplicitAsset",
+      "description": "Calculate the reissuance token id from a given entropy value for assets with explicit issued amounts."
+    },
+    {
+      "haskell_name": "CalculateIssuanceEntropy",
+      "simplicityhl_name": "calculate_issuance_entropy",
+      "section": "Issuance",
+      "input_type": "Outpoint, u256",
+      "output_type": "u256",
+      "description": "Calculate the entropy value from a given outpoint and contract hash.<br><br>This entropy value is used to compute issued asset and token IDs."
+    },
+    {
+      "haskell_name": "Issuance",
+      "simplicityhl_name": "issuance",
+      "section": "Issuance",
+      "input_type": "u32",
+      "output_type": "Option<Option<bool>>",
+      "description": "Return the kind of issuance of the input at the given index:<br>- Return `Some(Some(false))` if the input has new issuance.<br>- Return `Some(Some(true))` if the input as reissuance.<br>- Return `Some(None)` if the input has no issuance.<br>- Return `None` if the input does not exist."
+    },
+    {
+      "haskell_name": "IssuanceAsset",
+      "simplicityhl_name": "issuance_asset",
+      "section": "Issuance",
+      "input_type": "u32",
+      "output_type": "Option<Option<ExplicitAsset>>",
+      "description": "Return the ID of the issued asset of the input at the given index:<br>- Return `Some(Some(x))` if the input has issuance with asset id `x`.<br>- Return `Some(None)` if the input has no issuance.<br>- Return `None` if the input does not exist."
+    },
+    {
+      "haskell_name": "IssuanceEntropy",
+      "simplicityhl_name": "issuance_entropy",
+      "section": "Issuance",
+      "input_type": "u32",
+      "output_type": "Option<Option<u256>>",
+      "description": "Return the issuance entropy of the input at the given index:<br>- Return `Some(Some(x))` if the input has reissuance with entropy `x` or if there is new issuance whose computed entropy is `x`.<br>- Return `Some(Some(x))` if the input has no issuance.<br>- Return `None` if the input does not exist."
+    },
+    {
+      "haskell_name": "IssuanceToken",
+      "simplicityhl_name": "issuance_token",
+      "section": "Issuance",
+      "input_type": "u32",
+      "output_type": "Option<Option<ExplicitAsset>>",
+      "description": "Return the reissuance token of the input at the given index:<br>- Return `Some(Some(x))` if the input has issuance with the reissuance token ID `x`.<br>- Return `Some(None)` if the input has no issuance.<br>- Return `None` if the input does not exist."
+    },
+    {
+      "haskell_name": "LbtcAsset",
+      "simplicityhl_name": "lbtc_asset",
+      "section": "Issuance",
+      "input_type": "",
+      "output_type": "u256",
+      "description": "Return the asset for Liquid Bitcoin."
+    },
+    {
+      "haskell_name": "CurrentAmount",
+      "simplicityhl_name": "current_amount",
+      "section": "Transaction",
+      "input_type": "",
+      "output_type": "(Asset1, Amount1)",
+      "description": "Return the `input_amount` at the `current_index`."
+    },
+    {
+      "haskell_name": "CurrentAnnexHash",
+      "simplicityhl_name": "current_annex_hash",
+      "section": "Transaction",
+      "input_type": "",
+      "output_type": "Option<u256>",
+      "description": "Return the `input_annex_hash` at th `current_index`."
+    },
+    {
+      "haskell_name": "CurrentAsset",
+      "simplicityhl_name": "current_asset",
+      "section": "Transaction",
+      "input_type": "",
+      "output_type": "Asset1",
+      "description": "Return the `input_asset` at the `current_index`."
+    },
+    {
+      "haskell_name": "CurrentIndex",
+      "simplicityhl_name": "current_index",
+      "section": "Transaction",
+      "input_type": "",
+      "output_type": "u32",
+      "description": "Return the index of the current txin."
+    },
+    {
+      "haskell_name": "CurrentIssuanceAssetAmount",
+      "simplicityhl_name": "current_issuance_asset_amount",
+      "section": "Transaction",
+      "input_type": "",
+      "output_type": "Option<Amount1>",
+      "description": "Return the `issuance_asset_amount` at the `current_index`."
+    },
+    {
+      "haskell_name": "CurrentIssuanceAssetProof",
+      "simplicityhl_name": "current_issuance_asset_proof",
+      "section": "Transaction",
+      "input_type": "",
+      "output_type": "u256",
+      "description": "Return the `issuance_asset_proof`  at the `current_index`."
+    },
+    {
+      "haskell_name": "CurrentIssuanceTokenAmount",
+      "simplicityhl_name": "current_issuance_token_amount",
+      "section": "Transaction",
+      "input_type": "",
+      "output_type": "Option<TokenAmount1>",
+      "description": "Return the `issuance_token_amount` at the `current_index`."
+    },
+    {
+      "haskell_name": "CurrentIssuanceTokenProof",
+      "simplicityhl_name": "current_issuance_token_proof",
+      "section": "Transaction",
+      "input_type": "",
+      "output_type": "u256",
+      "description": "Return the `issuance_token_proof`  at the `current_index`."
+    },
+    {
+      "haskell_name": "CurrentNewIssuanceContract",
+      "simplicityhl_name": "current_new_issuance_contract",
+      "section": "Transaction",
+      "input_type": "",
+      "output_type": "Option<u256>",
+      "description": "Return the `new_issuance_contract` at the `current_index`."
+    },
+    {
+      "haskell_name": "CurrentPegin",
+      "simplicityhl_name": "current_pegin",
+      "section": "Transaction",
+      "input_type": "",
+      "output_type": "Option<u256>",
+      "description": "Return the `input_pegin` at the `current_index`."
+    },
+    {
+      "haskell_name": "CurrentPrevOutpoint",
+      "simplicityhl_name": "current_prev_outpoint",
+      "section": "Transaction",
+      "input_type": "",
+      "output_type": "Outpoint",
+      "description": "Return the previous outpoint of the current txin."
+    },
+    {
+      "haskell_name": "CurrentReissuanceBlinding",
+      "simplicityhl_name": "current_reissuance_blinding",
+      "section": "Transaction",
+      "input_type": "",
+      "output_type": "Option<ExplicitNonce>",
+      "description": "Return the `reissuance_blinding` at the `current_index`."
+    },
+    {
+      "haskell_name": "CurrentReissuanceEntropy",
+      "simplicityhl_name": "current_reissuance_entropy",
+      "section": "Transaction",
+      "input_type": "",
+      "output_type": "Option<u256>",
+      "description": "Return the `reissuance_entropy`  at the `current_index`."
+    },
+    {
+      "haskell_name": "CurrentScriptHash",
+      "simplicityhl_name": "current_script_hash",
+      "section": "Transaction",
+      "input_type": "",
+      "output_type": "u256",
+      "description": "Return the SHA256 hash of the scriptPubKey of the UTXO of the current txin."
+    },
+    {
+      "haskell_name": "CurrentScriptSigHash",
+      "simplicityhl_name": "current_script_sig_hash",
+      "section": "Transaction",
+      "input_type": "",
+      "output_type": "u256",
+      "description": "Return the SHA256 hash of the scriptSig of the current txin.<br><br>SegWit UTXOs enforce scriptSig to be the empty string. In such cases, we return the SHA256 hash of the empty string."
+    },
+    {
+      "haskell_name": "CurrentSequence",
+      "simplicityhl_name": "current_sequence",
+      "section": "Transaction",
+      "input_type": "",
+      "output_type": "u32",
+      "description": "Return the nSequence of the current txin.<br><br>Use this jet to obtain the raw, encoded sequence number.<br>Use `tx_lock_distance` to obtain a relative block height, or `tx_lock_duration` to obtain a relative UNIX timestamp, in a safe manner."
+    },
+    {
+      "haskell_name": "GenesisBlockHash",
+      "simplicityhl_name": "genesis_block_hash",
+      "section": "Transaction",
+      "input_type": "",
+      "output_type": "u256",
+      "description": "Return the SHA256 hash of the genesis block."
+    },
+    {
+      "haskell_name": "InputAmount",
+      "simplicityhl_name": "input_amount",
+      "section": "Transaction",
+      "input_type": "u32",
+      "output_type": "Option<(Asset1, Amount1)>",
+      "description": "Return the asset id and the asset amount at the given input index.<br><br>Return `None` if the input does not exist."
+    },
+    {
+      "haskell_name": "InputAnnexHash",
+      "simplicityhl_name": "input_annex_hash",
+      "section": "Transaction",
+      "input_type": "u32",
+      "output_type": "Option<Option<u256>>",
+      "description": "Return the SHA256 hash of the annex at the given input:<br>- Return `Some(Some(x))` if the input has an annex that hashes to `x`.<br>- Return `Some(None`) if the input has no annex.<br>- Return `None` if the input does not exist."
+    },
+    {
+      "haskell_name": "InputAsset",
+      "simplicityhl_name": "input_asset",
+      "section": "Transaction",
+      "input_type": "u32",
+      "output_type": "Option<Asset1>",
+      "description": "Return the asset id of the input at the given index.<br><br>Return `None` if the input does not exist."
+    },
+    {
+      "haskell_name": "InputPegin",
+      "simplicityhl_name": "input_pegin",
+      "section": "Transaction",
+      "input_type": "u32",
+      "output_type": "Option<Option<u256>>",
+      "description": "Return the parent genesis block hash if the input at the given index is a peg-in.<br><br>- Return `Some(None)` if the input is not a peg-in.<br>- Return `None` if the input does not exist."
+    },
+    {
+      "haskell_name": "InputPrevOutpoint",
+      "simplicityhl_name": "input_prev_outpoint",
+      "section": "Transaction",
+      "input_type": "u32",
+      "output_type": "Option<Outpoint>",
+      "description": "Return the previous outpoint of the input at the given index.<br><br>Return `None` if the input does not exist."
+    },
+    {
+      "haskell_name": "InputScriptHash",
+      "simplicityhl_name": "input_script_hash",
+      "section": "Transaction",
+      "input_type": "u32",
+      "output_type": "Option<u256>",
+      "description": "Return the SHA256 hash of the scriptPubKey of the UTXO of the input at the given index.<br><br>Return `None` if the input does not exist."
+    },
+    {
+      "haskell_name": "InputScriptSigHash",
+      "simplicityhl_name": "input_script_sig_hash",
+      "section": "Transaction",
+      "input_type": "u32",
+      "output_type": "Option<u256>",
+      "description": "Return the SHA256 hash of the scriptSigKey of the input at the given index.<br><br>Return `None` if the input does not exist.<br><br>SegWit UTXOs enforce scriptSig to be the empty string. In such cases, we return the SHA256 hash of the empty string."
+    },
+    {
+      "haskell_name": "InputSequence",
+      "simplicityhl_name": "input_sequence",
+      "section": "Transaction",
+      "input_type": "u32",
+      "output_type": "Option<u32>",
+      "description": "Return the nSequence of the input at the given index.<br><br>Return `None` if the input does not exist."
+    },
+    {
+      "haskell_name": "InternalKey",
+      "simplicityhl_name": "internal_key",
+      "section": "Transaction",
+      "input_type": "",
+      "output_type": "Pubkey",
+      "description": "Return the internal key of the current input.<br><br>We assume that Simplicity can be spent in Taproot outputs only, so there always exists an internal key."
+    },
+    {
+      "haskell_name": "IssuanceAssetAmount",
+      "simplicityhl_name": "issuance_asset_amount",
+      "section": "Transaction",
+      "input_type": "u32",
+      "output_type": "Option<Option<Amount1>>",
+      "description": "Return the possibly confidential amount of the issuance if the input at the given index has an issuance.<br><br>- Return `Some(None)` if the input does not have an issuance.<br>- Return `None` if the input does not exist."
+    },
+    {
+      "haskell_name": "IssuanceAssetProof",
+      "simplicityhl_name": "issuance_asset_proof",
+      "section": "Transaction",
+      "input_type": "u32",
+      "output_type": "Option<u256>",
+      "description": "Return the SHA256 hash of the range proof for the amount of the issuance at the given input index.<br><br>- Return the hash of the empty string if the input does not have an issuance.<br>- Return `None` if the input does not exist."
+    },
+    {
+      "haskell_name": "IssuanceTokenAmount",
+      "simplicityhl_name": "issuance_token_amount",
+      "section": "Transaction",
+      "input_type": "u32",
+      "output_type": "Option<Option<TokenAmount1>>",
+      "description": "Return the possibly confidential amount of the reissuance tokens if the input at the given index has an issuance.<br><br>- Return `Some(Some(Right(0)))` if the input is itself a reissuance.<br>- Return `Some(None)` if the input does not have an issuance.<br>- Return `None` if the input does not exist."
+    },
+    {
+      "haskell_name": "IssuanceTokenProof",
+      "simplicityhl_name": "issuance_token_proof",
+      "section": "Transaction",
+      "input_type": "u32",
+      "output_type": "Option<u256>",
+      "description": "Return the SHA256 hash of the range proof for the amount of the reissuance tokens at the given input index.<br><br>- Return the hash of the empty string if the input does not have an issuance.<br>- Return `None` if the input does not exist."
+    },
+    {
+      "haskell_name": "LockTime",
+      "simplicityhl_name": "lock_time",
+      "section": "Transaction",
+      "input_type": "",
+      "output_type": "Lock",
+      "description": "Return the lock time of the transaction."
+    },
+    {
+      "haskell_name": "NewIssuanceContract",
+      "simplicityhl_name": "new_issuance_contract",
+      "section": "Transaction",
+      "input_type": "u32",
+      "output_type": "Option<Option<u256>>",
+      "description": "Return the contract hash for the new issuance at the given input index.<br><br>- Return `Some(None)` if the input does not have a new issuance.<br>- Return `None` if the input does not exist."
+    },
+    {
+      "haskell_name": "NumInputs",
+      "simplicityhl_name": "num_inputs",
+      "section": "Transaction",
+      "input_type": "",
+      "output_type": "u32",
+      "description": "Return the number of inputs of the transaction."
+    },
+    {
+      "haskell_name": "NumOutputs",
+      "simplicityhl_name": "num_outputs",
+      "section": "Transaction",
+      "input_type": "",
+      "output_type": "u32",
+      "description": "Return the number of outputs of the transaction."
+    },
+    {
+      "haskell_name": "OutputAmount",
+      "simplicityhl_name": "output_amount",
+      "section": "Transaction",
+      "input_type": "u32",
+      "output_type": "Option<(Asset1, Amount1)>",
+      "description": "Return the asset amount of the output at the given index.  <br>Return `None` if the output does not exist."
+    },
+    {
+      "haskell_name": "OutputAsset",
+      "simplicityhl_name": "output_asset",
+      "section": "Transaction",
+      "input_type": "u32",
+      "output_type": "Option<Asset1>",
+      "description": "Return the asset id of the output at the given index.<br><br>Return `None` if the output does not exist."
+    },
+    {
+      "haskell_name": "OutputIsFee",
+      "simplicityhl_name": "output_is_fee",
+      "section": "Transaction",
+      "input_type": "u32",
+      "output_type": "Option<bool>",
+      "description": "Check if the output at the given index is a fee output.<br><br>Return `None` if the output does not exist."
+    },
+    {
+      "haskell_name": "OutputNonce",
+      "simplicityhl_name": "output_nonce",
+      "section": "Transaction",
+      "input_type": "u32",
+      "output_type": "Option<Option<Nonce>>",
+      "description": "Return the nonce of the output at the given index.<br><br>- Return `Some(None)` if the output does not have a nonce.<br>- Return `None` if the output does not exist."
+    },
+    {
+      "haskell_name": "OutputNullDatum",
+      "simplicityhl_name": "output_null_datum",
+      "section": "Transaction",
+      "input_type": "u32, u32",
+      "output_type": "Option<Option<Either<(u2, u256), Either<u1, u4>>>>",
+      "description": "Return the `b`-th entry of a null data (`OP_RETURN`) output at index `a`.<br><br>- Return `Some(Some(Right(Right(x-1))))` if the entry is `OP_x` for `x` in the range 1..=16.<br>- Return `Some(Some(Right(Left(0))))` if the entry is `OP_1NEGATE`.<br>- Return `Some(Some(Right(Left(1))))` if the entry is `OP_RESERVED`.<br>- Return `Some(Some(Left((x, hash))))` if the entry is pushed data. `hash` is the SHA256 hash of the data pushed and `x` indicates how the data was pushed:<br>- `x == 0` means the push was an immediate 0 to 75 bytes.<br>- `x == 1` means the push was an `OP_PUSHDATA1`.<br>- `x == 2` means the push was an `OP_PUSHDATA2`.<br>- `x == 3` means the push was an `OP_PUSHDATA4`.<br>- Return `Some(None)` if the null data has fewer than `b` entries.<br>- Return `None` if the output is not a null data output.<br><br>Use this jet to read peg-out data from an output."
+    },
+    {
+      "haskell_name": "OutputRangeProof",
+      "simplicityhl_name": "output_range_proof",
+      "section": "Transaction",
+      "input_type": "u32",
+      "output_type": "Option<u256>",
+      "description": "Return the SHA256 hash of the range proof of the output at the given index.<br><br>Return `None` if the output does not exist."
+    },
+    {
+      "haskell_name": "OutputScriptHash",
+      "simplicityhl_name": "output_script_hash",
+      "section": "Transaction",
+      "input_type": "u32",
+      "output_type": "Option<u256>",
+      "description": "Return the SHA256 hash of the scriptPubKey of the output at the given index.<br><br>Return `None` if the output does not exist."
+    },
+    {
+      "haskell_name": "OutputSurjectionProof",
+      "simplicityhl_name": "output_surjection_proof",
+      "section": "Transaction",
+      "input_type": "u32",
+      "output_type": "Option<u256>",
+      "description": "Return the SHA256 hash of the surjection proof of the output at the given index.<br><br>Return `None` if the output does not exist."
+    },
+    {
+      "haskell_name": "ReissuanceBlinding",
+      "simplicityhl_name": "reissuance_blinding",
+      "section": "Transaction",
+      "input_type": "u32",
+      "output_type": "Option<Option<ExplicitNonce>>",
+      "description": "Return the blinding factor used for the reissuance at the given input index.<br><br>- Return `Some(None)` if the input does not have a reissuance.<br>- Return `None` if the input does not exist."
+    },
+    {
+      "haskell_name": "ReissuanceEntropy",
+      "simplicityhl_name": "reissuance_entropy",
+      "section": "Transaction",
+      "input_type": "u32",
+      "output_type": "Option<Option<u256>>",
+      "description": "Return the entropy used for the reissuance at the given input index.<br><br>- Return `Some(None)` if the input does not have a reissuance.<br>- Return `None` if the input does not exist."
+    },
+    {
+      "haskell_name": "ScriptCMR",
+      "simplicityhl_name": "script_cmr",
+      "section": "Transaction",
+      "input_type": "",
+      "output_type": "u256",
+      "description": "Return the CMR of the Simplicity program in the current input.<br><br>This is the CMR of the currently executed Simplicity program."
+    },
+    {
+      "haskell_name": "TapleafVersion",
+      "simplicityhl_name": "tapleaf_version",
+      "section": "Transaction",
+      "input_type": "",
+      "output_type": "u8",
+      "description": "Return the tap leaf version of the current input.<br><br>We assume that Simplicity can be spent in Taproot outputs only, so there always exists a tap leaf."
+    },
+    {
+      "haskell_name": "Tappath",
+      "simplicityhl_name": "tappath",
+      "section": "Transaction",
+      "input_type": "u8",
+      "output_type": "Option<u256>",
+      "description": "Return the SHA256 hash of the tap path of the current input.<br><br>We assume that Simplicity can be spent in Taproot outputs only, so there always exists a tap path."
+    },
+    {
+      "haskell_name": "TotalFee",
+      "simplicityhl_name": "total_fee",
+      "section": "Transaction",
+      "input_type": "ExplicitAsset",
+      "output_type": "ExplicitAmount",
+      "description": "Return the total amount of fees paid to the given asset id.<br><br>Return zero for any asset without fees."
+    },
+    {
+      "haskell_name": "TransactionId",
+      "simplicityhl_name": "transaction_id",
+      "section": "Transaction",
+      "input_type": "",
+      "output_type": "u256",
+      "description": "Return the transaction ID."
+    },
+    {
+      "haskell_name": "Version",
+      "simplicityhl_name": "version",
+      "section": "Transaction",
+      "input_type": "",
+      "output_type": "u32",
+      "description": "Return the version number of the transaction."
+    }
+  ]
+}
