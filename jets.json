@@ -606,7 +606,7 @@
       "section": "Multi-bit logic",
       "input_type": "u32",
       "output_type": "u64",
-      "description": "Extend a 16-bit value to a 64-bit value by padding its left with the MSB."
+      "description": "Extend a 32-bit value to a 64-bit value by padding its left with the MSB."
     },
     {
       "haskell_name": "LeftPadHigh1_8",
@@ -662,7 +662,7 @@
       "section": "Multi-bit logic",
       "input_type": "u8",
       "output_type": "u64",
-      "description": "Extend a 1-bit value to a 64-bit value by padding its left with ones."
+      "description": "Extend an 8-bit value to a 64-bit value by padding its left with ones."
     },
     {
       "haskell_name": "LeftPadHigh16_32",
