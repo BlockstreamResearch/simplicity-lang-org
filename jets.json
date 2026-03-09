@@ -3230,7 +3230,8 @@
       "section": "Time locks",
       "input_type": "Distance",
       "output_type": "unit",
-      "description": "Assert that the value returned by `tx_lock_distance` is greater than or equal to the given value.<br><br>## Panics<br>The assertion fails."
+      "description": "**Deprecated; do not use.** Assert that the value returned by `tx_lock_distance` is greater than or equal to the given value.<br><br>## Panics<br>The assertion fails.",
+      "deprecated": true
     },
     {
       "haskell_name": "CheckLockDuration",
@@ -3238,7 +3239,8 @@
       "section": "Time locks",
       "input_type": "Duration",
       "output_type": "unit",
-      "description": "Assert that the value returned by `tx_lock_duration` is greater than or equal to the given value.<br><br>## Panics<br>The assertion fails"
+      "description": "**Deprecated; do not use.** Assert that the value returned by `tx_lock_duration` is greater than or equal to the given value.<br><br>## Panics<br>The assertion fails",
+      "deprecated": true
     },
     {
       "haskell_name": "CheckLockHeight",
@@ -3270,7 +3272,8 @@
       "section": "Time locks",
       "input_type": "",
       "output_type": "Distance",
-      "description": "If `version` returns 2 or greater, then return the greatest valid `Distance` value of any transaction input. Return zeroes otherwise."
+      "description": "**Deprecated; do not use.** If `version` returns 2 or greater, then return the greatest valid `Distance` value of any transaction input. Return zeroes otherwise.",
+      "deprecated": true
     },
     {
       "haskell_name": "TxLockDuration",
@@ -3278,7 +3281,8 @@
       "section": "Time locks",
       "input_type": "",
       "output_type": "Duration",
-      "description": "If `version` returns 2 or greater, then return the greatest valid `Duration` value of any transaction input. Return zeroes otherwise."
+      "description": "**Deprecated; do not use.** If `version` returns 2 or greater, then return the greatest valid `Duration` value of any transaction input. Return zeroes otherwise.",
+      "deprecated": true
     },
     {
       "haskell_name": "TxLockHeight",
