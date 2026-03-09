@@ -3006,7 +3006,7 @@
       "section": "Signature hash modes",
       "input_type": "",
       "output_type": "u256",
-      "description": "Return the SHA256 hash of the concatenation of the following for every input:<br>- If the input is not a pegin, then the byte `0x00`.<br>- If the input is a pegin, then the byte `0x01` followed by the parent chain's genesis hash (32 bytes).<br>- The input's serialized previous transaction id (32 bytes).<br>- The input's previous transaction index in big endian format (4 bytes).<br><br>IMPORTANT: the index is serialized in big endian format rather than little endian format."
+      "description": "Return the SHA256 hash of the concatenation of the following for every input:<br>- If the input is not a pegin, then the byte `0x00`.<br>- If the input is a pegin, then the byte `0x01` followed by the parent chain's genesis hash (32 bytes).<br>- The input's serialized previous transaction ID (32 bytes).<br>- The input's previous transaction index in big endian format (4 bytes).<br><br>IMPORTANT: the index is serialized in big endian format rather than little endian format."
     },
     {
       "haskell_name": "InputScriptSigsHash",
@@ -3030,7 +3030,7 @@
       "section": "Signature hash modes",
       "input_type": "",
       "output_type": "u256",
-      "description": "Return the SHA256 hash of the concatenation of the following for every input:<br>- The input's sequence number in big endian format (4 bytes).<br><br>IMPORTANT, the sequence number is serialized in big endian format rather than little endian format."
+      "description": "Return the SHA256 hash of the concatenation of the following for every input:<br>- The input's sequence number in big endian format (4 bytes).<br><br>IMPORTANT: the sequence number is serialized in big endian format rather than little endian format."
     },
     {
       "haskell_name": "InputUtxoHash",
@@ -3054,7 +3054,7 @@
       "section": "Signature hash modes",
       "input_type": "u32",
       "output_type": "Option<u256>",
-      "description": "Return the SHA256 hash of the following:<br>- If the input is not a pegin, then the byte `0x00`.<br>- If the input is a pegin, then the byte `0x01` followed by the parent chain's genesis hash (32 bytes).<br>- The input's serialized previous transaction id (32 bytes).<br>- The input's previous transaction index in big endian format (4 bytes).<br>- The input's sequence number in big endian format (4 bytes).<br>- If the input has no annex, or isn't a taproot spend, then the byte `0x00`.<br>- If the input has an annex, then the byte `0x01` followed by the SHA256 hash of the annex (32 bytes).<br><br>Return `None` if the input does not exist."
+      "description": "Return the SHA256 hash of the following:<br>- If the input is not a pegin, then the byte `0x00`.<br>- If the input is a pegin, then the byte `0x01` followed by the parent chain's genesis hash (32 bytes).<br>- The input's serialized previous transaction ID (32 bytes).<br>- The input's previous transaction index in big endian format (4 bytes).<br>- The input's sequence number in big endian format (4 bytes).<br>- If the input has no annex, or isn't a taproot spend, then the byte `0x00`.<br>- If the input has an annex, then the byte `0x01` followed by the SHA256 hash of the annex (32 bytes).<br><br>Return `None` if the input does not exist."
     },
     {
       "haskell_name": "InputsHash",
@@ -3078,7 +3078,7 @@
       "section": "Signature hash modes",
       "input_type": "",
       "output_type": "u256",
-      "description": "Return the SHA256 hash of the concatenation of the following for every input:<br>- If the input has no issuance then the byte `0x00`.<br>- If the input is has a new issuance then the byte `0x01` followed by 32 `0x00` bytes and the new issuance's contract hash field (32 bytes).<br>- If the input is has reissuance then the byte `0x01` followed by a serializaiton of the reissuance's blinding nonce field (32 bytes) and the reissuance's entropy field (32 bytes).<br><br>Note that if the issuance is a new issuance then the blinding nonce field is 32 `0x00` bytes and new issuance's contract hash."
+      "description": "Return the SHA256 hash of the concatenation of the following for every input:<br>- If the input has no issuance then the byte `0x00`.<br>- If the input is has a new issuance then the byte `0x01` followed by 32 `0x00` bytes and the new issuance's contract hash field (32 bytes).<br>- If the input is has reissuance then the byte `0x01` followed by a serialization of the reissuance's blinding nonce field (32 bytes) and the reissuance's entropy field (32 bytes).<br><br>Note that if the issuance is a new issuance then the blinding nonce field is 32 `0x00` bytes and new issuance's contract hash."
     },
     {
       "haskell_name": "IssuanceRangeProofsHash",
@@ -3102,7 +3102,7 @@
       "section": "Signature hash modes",
       "input_type": "u32",
       "output_type": "Option<u256>",
-      "description": "Return the SHA256 hash of the following:<br>1. The asset issuance:<br>- If the input has no issuance then two bytes `0x00 0x00`.<br>- If the input is has a new issuance then the byte `0x01` followed by a serialization of the calculated issued asset id (32 bytes) followed by the serialization of the (possibly confidential) issued asset amount (9 bytes or 33 bytes).<br>- If the input is has a reissuance then the byte `0x01` followed by a serialization of the issued asset id<br>(32 bytes), followed by the serialization of the (possibly confidential) issued asset amount (9 bytes or 33 bytes).<br>2. The token issuance:<br>- If the input has no issuance then two bytes `0x00 0x00`.<br>- If the input is has a new issuance then the byte `0x01` followed by a serialization of the calculated issued token id (32 bytes) followed by the serialization of the (possibly confidential) issued token amount (9 bytes or 33 bytes).<br>- If the input is has a reissuance then the byte `0x01` followed by a serialization of the issued token id (32 bytes), followed by the serialization of the explicit 0 amount (i.e `0x01 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00`) (9 bytes).<br>3. The range proofs:<br>- The SHA256 hash of the range proof of the input's issuance asset amount (32 bytes).<br>- The SHA256 hash of the range proof of the input's issuance token amount (32 bytes).<br>4. The blinding entropy:<br>- If the input has no issuance then the byte `0x00`.<br>- If the input is has a new issuance then the byte `0x01` followed by 32 `0x00` bytes and the new issuance's contract hash field (32 bytes).<br>- If the input is has reissuance then the byte `0x01` followed by a serializaiton of the reissuance's blinding nonce field (32 bytes) and the reissuance's entropy field (32 bytes).<br><br>Return `None` if the input does not exist."
+      "description": "Return the SHA256 hash of the following:<br>1. The asset issuance:<br>- If the input has no issuance then two bytes `0x00 0x00`.<br>- If the input is has a new issuance then the byte `0x01` followed by a serialization of the calculated issued asset id (32 bytes) followed by the serialization of the (possibly confidential) issued asset amount (9 bytes or 33 bytes).<br>- If the input is has a reissuance then the byte `0x01` followed by a serialization of the issued asset id<br>(32 bytes), followed by the serialization of the (possibly confidential) issued asset amount (9 bytes or 33 bytes).<br>2. The token issuance:<br>- If the input has no issuance then two bytes `0x00 0x00`.<br>- If the input is has a new issuance then the byte `0x01` followed by a serialization of the calculated issued token id (32 bytes) followed by the serialization of the (possibly confidential) issued token amount (9 bytes or 33 bytes).<br>- If the input is has a reissuance then the byte `0x01` followed by a serialization of the issued token id (32 bytes), followed by the serialization of the explicit 0 amount (i.e `0x01 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00`) (9 bytes).<br>3. The range proofs:<br>- The SHA256 hash of the range proof of the input's issuance asset amount (32 bytes).<br>- The SHA256 hash of the range proof of the input's issuance token amount (32 bytes).<br>4. The blinding entropy:<br>- If the input has no issuance then the byte `0x00`.<br>- If the input is has a new issuance then the byte `0x01` followed by 32 `0x00` bytes and the new issuance's contract hash field (32 bytes).<br>- If the input is has reissuance then the byte `0x01` followed by a serialization of the reissuance's blinding nonce field (32 bytes) and the reissuance's entropy field (32 bytes).<br><br>Return `None` if the input does not exist."
     },
     {
       "haskell_name": "IssuancesHash",
@@ -3126,7 +3126,7 @@
       "section": "Signature hash modes",
       "input_type": "Ctx8, Option<u256>, Outpoint",
       "output_type": "Ctx8",
-      "description": "Continue the SHA256 hash with an optional pegin and an outpoint by appending the following:<br>- If the input is not a pegin, then the byte `0x00`.<br>- If the input is a pegin, then the byte `0x01` followed by the given parent genesis hash (32 bytes).<br>- The input's previous transaction id (32 bytes).<br>- The input's previous transaction index in big endian format (4 bytes)."
+      "description": "Continue the SHA256 hash with an optional pegin and an outpoint by appending the following:<br>- If the input is not a pegin, then the byte `0x00`.<br>- If the input is a pegin, then the byte `0x01` followed by the given parent genesis hash (32 bytes).<br>- The input's previous transaction ID (32 bytes).<br>- The input's previous transaction index in big endian format (4 bytes)."
     },
     {
       "haskell_name": "OutputAmountsHash",
@@ -3386,7 +3386,7 @@
       "section": "Transaction",
       "input_type": "",
       "output_type": "Option<u256>",
-      "description": "Return the `input_annex_hash` at th `current_index`."
+      "description": "Return the `input_annex_hash` at the `current_index`."
     },
     {
       "haskell_name": "CurrentAsset",
@@ -3522,7 +3522,7 @@
       "section": "Transaction",
       "input_type": "u32",
       "output_type": "Option<Option<u256>>",
-      "description": "Return the SHA256 hash of the annex at the given input:<br>- Return `Some(Some(x))` if the input has an annex that hashes to `x`.<br>- Return `Some(None`) if the input has no annex.<br>- Return `None` if the input does not exist."
+      "description": "Return the SHA256 hash of the annex at the given input:<br>- Return `Some(Some(x))` if the input has an annex that hashes to `x`.<br>- Return `Some(None)` if the input has no annex.<br>- Return `None` if the input does not exist."
     },
     {
       "haskell_name": "InputAsset",
