@@ -16,17 +16,17 @@ The implementation plan consists of steps for the full Protocol implementation. 
 
 These are the parameters of the lending contract:
 
-**Borrower** - user with collateral asset A.
-**Lender** - user with loan asset B.
-**Collateral Amount** - pledged by Borrower collateral in asset A.
-**Loan Amount** - amount of asset B tokens borrowed by Borrower from Lender.
-**Lending Term** - moment in the future (UNIX time, block number, etc.) before which Borrower should repay the Loan Amount in asset B to the Lender.
-**Loan Amount** - the amount of the loan asset Borrower would like to borrow.
-**Collateral Amount** - locked by the Borrower, the collateral amount for the Loan Amount.
-**Liquidation** - if the Loan is not repaid after the Lending Term, Lender can claim the collateral.
-**Loan Fee** - fixed fee paid in loan asset B from Borrower to Lender for the Loan after the loan is originated. Can represent interest payment for a fixed-term loan.
-**Origination Fee** - fixed fee paid in collateral asset A from Borrower to Lender for the Loan for loan origination.
-**Protocol Fee (Reserve Factor)** - fee paid in loan asset B to the Protocol Address for the Loan after the loan repayment. The fee is calculated as a percentage of the Loan Fee.
+* **Borrower** - user with collateral asset A.
+* **Lender** - user with loan asset B.
+* **Collateral Amount** - pledged by Borrower collateral in asset A.
+* **Loan Amount** - amount of asset B tokens borrowed by Borrower from Lender.
+* **Lending Term** - moment in the future (UNIX time, block number, etc.) before which Borrower should repay the Loan Amount in asset B to the Lender.
+* **Loan Amount** - the amount of the loan asset Borrower would like to borrow.
+* **Collateral Amount** - locked by the Borrower, the collateral amount for the Loan Amount.
+* **Liquidation** - if the Loan is not repaid after the Lending Term, Lender can claim the collateral.
+* **Loan Fee** - fixed fee paid in loan asset B from Borrower to Lender for the Loan after the loan is originated. Can represent interest payment for a fixed-term loan.
+* **Origination Fee** - fixed fee paid in collateral asset A from Borrower to Lender for the Loan for loan origination.
+* **Protocol Fee (Reserve Factor)** - fee paid in loan asset B to the Protocol Address for the Loan after the loan repayment. The fee is calculated as a percentage of the Loan Fee.
 
 ```mermaid
 flowchart TD
@@ -82,9 +82,9 @@ This contract variant is based upon the contract described in the prior section,
 
 Additional definitions:  
 
-**Price Oracle** - source of constant verified price information of asset A in terms of asset B, signed by a trusted provider. 
-**Third Party Liquidator** - any third party address that can fully repay the loan outstanding at the moment of liquidation and get the Collateral Amount.  
-**Liquidation Protocol Fee** - fee paid to Protocol Address as a percentage (10%, for example) from the Collateral Amount at the liquidation event.
+* **Price Oracle** - source of constant verified price information of asset A in terms of asset B, signed by a trusted provider. 
+* **Third Party Liquidator** - any third party address that can fully repay the loan outstanding at the moment of liquidation and get the Collateral Amount.  
+* **Liquidation Protocol Fee** - fee paid to Protocol Address as a percentage (10%, for example) from the Collateral Amount at the liquidation event.
 
 #### Loan Origination
 
@@ -131,7 +131,8 @@ Liquidation Penalty is also subject to Liquidation Protocol Fee, which goes to t
 This contract variant is based upon the contract described in the prior section, but, instead of a fixed Loan Fee, a fixed Interest Rate is used.
 
 Additional definitions:  
-**Interest Rate** - fixed annual percentage rate (APR), which is a reward for the Lender from the Borrower as an incentive to provide the loan.
+
+* **Interest Rate** - fixed annual percentage rate (APR), which is a reward for the Lender from the Borrower as an incentive to provide the loan.
 
 #### Loan Origination
 
