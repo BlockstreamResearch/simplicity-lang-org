@@ -1022,7 +1022,7 @@
       "section": "Multi-bit logic",
       "input_type": "",
       "output_type": "u8",
-      "description": "Return `u8::MIN`."
+      "description": "Return `u8::MIN` = 0."
     },
     {
       "haskell_name": "Low16",
@@ -1030,7 +1030,7 @@
       "section": "Multi-bit logic",
       "input_type": "",
       "output_type": "u16",
-      "description": "Return `u16::MIN`."
+      "description": "Return `u16::MIN` = 0."
     },
     {
       "haskell_name": "Low32",
@@ -1038,7 +1038,7 @@
       "section": "Multi-bit logic",
       "input_type": "",
       "output_type": "u32",
-      "description": "Return `u32::MIN`."
+      "description": "Return `u32::MIN` = 0."
     },
     {
       "haskell_name": "Low64",
@@ -1046,7 +1046,7 @@
       "section": "Multi-bit logic",
       "input_type": "",
       "output_type": "u64",
-      "description": "Return `u64::MIN`."
+      "description": "Return `u64::MIN` = 0."
     },
     {
       "haskell_name": "Maj1",
