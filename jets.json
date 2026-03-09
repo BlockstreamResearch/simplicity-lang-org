@@ -3354,7 +3354,7 @@
       "section": "Issuance",
       "input_type": "u32",
       "output_type": "Option<Option<u256>>",
-      "description": "Return the issuance entropy of the input at the given index:<br>- Return `Some(Some(x))` if the input has reissuance with entropy `x` or if there is new issuance whose computed entropy is `x`.<br>- Return `Some(Some(x))` if the input has no issuance.<br>- Return `None` if the input does not exist."
+      "description": "Return the issuance entropy of the input at the given index:<br>- Return `Some(Some(x))` if the input has reissuance with entropy `x` or if there is new issuance whose computed entropy is `x`.<br>- Return `Some(None)` if the input has no issuance.<br>- Return `None` if the input does not exist."
     },
     {
       "haskell_name": "IssuanceToken",
