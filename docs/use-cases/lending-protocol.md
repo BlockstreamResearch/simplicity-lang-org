@@ -1,14 +1,14 @@
 # Simplicity Lending Protocol on Liquid Network
 
-Simplicity is a deterministic, statically analyzable smart contract language designed for Bitcoin-like systems, with predictable execution costs and a semantics that lends itself to high assurance reasoning and formal verification. 
+[Simplicity](../glossary.md#simplicity) is a deterministic, statically analyzable smart contract language designed for Bitcoin-like systems, with predictable execution costs and a semantics that lends itself to high assurance reasoning and formal verification. 
 
-This article describes a Simplicity Lending Protocol implemented as Simplicity smart contracts on the Liquid Network. The article focuses on the protocol design, financial logic, and contract decomposition. The Protocol implements on-chain borrowing at interest against collateral, with details agreed and accepted between two parties.
+This article describes a Simplicity Lending Protocol implemented as Simplicity [smart contracts](../glossary.md#smart-contract) on the [Liquid Network](../glossary.md#liquid). The article focuses on the protocol design, financial logic, and contract decomposition. The Protocol implements on-chain borrowing at interest against collateral, with details agreed and accepted between two parties.
 
 The Protocol can be used by any kind of entity, ranging from a financial institution to a private individual.
 
-The protocol handles accounting for a loan involving two different tokens, representing different assets. For illustrative purposes, we use USDT as a loaned asset and LBTC as a collateral asset, but the protocol handles any pair of assets that are tokenized on Liquid.
+The Protocol handles accounting for a loan involving two different tokens, representing different [assets](../glossary.md#asset). For illustrative purposes, we use USDT as a loaned asset and LBTC as a collateral asset, but the protocol handles any pair of assets that are tokenized on Liquid.
 
-The implementation plan consists of steps for the full Protocol implementation, starting from verified lending primitives and further increasing the complexity and functionality of the Protocol.
+The implementation plan consists of steps for the full Protocol implementation. It starts with verified lending primitives and increases the complexity and functionality of the Protocol over time.
 
 ## 1. Simplicity Lending Protocol Roadmap
 
@@ -16,16 +16,16 @@ The implementation plan consists of steps for the full Protocol implementation, 
 
 These are the parameters of the lending contract:
 
-**Borrower** - user with collateral asset A   
-**Lender** - user with loan asset B  
-**Collateral Amount** - pledged by Borrower collateral in asset A  
-**Loan Amount** - amount of asset B tokens borrowed by Borrower from Lender  
-**Lending Term** - moment in the future (UNIX time, block number, etc.) before which Borrower should repay the Loan Amount in asset B to the Lender.  
-**Loan Amount** - the amount of the loan asset Borrower would like to borrow.   
-**Collateral Amount** - locked by the Borrower, the collateral amount for the Loan Amount.  
-**Liquidation** - if the Loan is not repaid after the Lending Term, Lender can claim the collateral.   
-**Loan Fee** - fixed fee paid in loan asset B from Borrower to Lender for the Loan after the loan is originated. Can represent interest payment for a fixed-term loan.  
-**Origination Fee** - fixed fee paid in collateral asset A from Borrower to Lender for the Loan for loan origination.  
+**Borrower** - user with collateral asset A.
+**Lender** - user with loan asset B.
+**Collateral Amount** - pledged by Borrower collateral in asset A.
+**Loan Amount** - amount of asset B tokens borrowed by Borrower from Lender.
+**Lending Term** - moment in the future (UNIX time, block number, etc.) before which Borrower should repay the Loan Amount in asset B to the Lender.
+**Loan Amount** - the amount of the loan asset Borrower would like to borrow.
+**Collateral Amount** - locked by the Borrower, the collateral amount for the Loan Amount.
+**Liquidation** - if the Loan is not repaid after the Lending Term, Lender can claim the collateral.
+**Loan Fee** - fixed fee paid in loan asset B from Borrower to Lender for the Loan after the loan is originated. Can represent interest payment for a fixed-term loan.
+**Origination Fee** - fixed fee paid in collateral asset A from Borrower to Lender for the Loan for loan origination.
 **Protocol Fee (Reserve Factor)** - fee paid in loan asset B to the Protocol Address for the Loan after the loan repayment. The fee is calculated as a percentage of the Loan Fee.
 
 ```mermaid
@@ -81,7 +81,8 @@ If the Borrower did not repay the full Loan Amount before the Lending Term, the 
 This contract variant is based upon the contract described in the prior section, with additional functionality and an additional Liquidation Loan-To-Value (LLTV) parameter.
 
 Additional definitions:  
-**Price Oracle** - source of constant verified price information of asset A in terms of asset B, signed by a trusted provider.  
+
+**Price Oracle** - source of constant verified price information of asset A in terms of asset B, signed by a trusted provider. 
 **Third Party Liquidator** - any third party address that can fully repay the loan outstanding at the moment of liquidation and get the Collateral Amount.  
 **Liquidation Protocol Fee** - fee paid to Protocol Address as a percentage (10%, for example) from the Collateral Amount at the liquidation event.
 
@@ -89,15 +90,13 @@ Additional definitions:
 
 ##### Borrower to Lender
 
-Borrower locks Collateral Amount and the Origination Fee in the transaction. The Borrower also states in the transaction Loan Fee, Lending Term, Origination Fee, Loan Amount he would like to borrow, which should satisfy the following equation:
+Borrower locks Collateral Amount and the Origination Fee in the transaction. The Borrower also states the transaction Loan Fee, Lending Term, Origination Fee, Loan Amount he would like to borrow, which should satisfy the following equation:
 
 $$ \text{Loan Amount} < \text{LLTV} \times \text{Collateral Amount} \times \text{Price Oracle} $$
 
-If the Lender is satisfied with the loan conditions in the offer (Origination Fee, Loan Fee, Protocol Fee, Lending Term, Loan Amount, Collateral Amount), he accepts the offer and sends a transaction with the loan in asset B and receives a fixed Origination Fee.
-
 ##### Lender to Borrower
 
-Lender sends the Loan Amount in a transaction and accepts the conditions of the loan, including Origination Fee, Loan Fee, Protocol Fee, Lending Term, Collateral Amount and LLTV.
+If the Lender is satisfied with the loan conditions in the offer (Origination Fee, Loan Fee, Protocol Fee, Lending Term, Loan Amount, Collateral Amount, and LLTV), he accepts the offer and sends a transaction with the Loan Amount in asset B and receives a fixed Origination Fee.
 
 The Borrower receives the requested Loan Amount in the offer.
 
@@ -105,7 +104,7 @@ The Borrower receives the requested Loan Amount in the offer.
 
 The Borrower should fully repay the Loan Amount plus Loan Fee at any moment before the expiration of the Lending Term. Loan Fee is divided into the Protocol Fee paid to the Protocol Address and the remainder paid to the Lender. After the repayment, Borrower can claim back the full amount of the collateral asset.
 
-During the Lending Term Borrower can choose a partial loan repayment to avoid a Liquidation event.
+During the Lending Term, Borrower can choose a partial loan repayment to avoid a Liquidation event.
 
 #### Liquidation
 
@@ -119,7 +118,7 @@ In this case, Third Party Liquidator receives the Collateral Amount minus the Li
 
 #### Partial Liquidation Invariant
 
-The full collateral liquidation option allows the Lender, after the Lending Term, to liquidate the full amount of collateral even if the loan is significantly repaid. To mitigate this case, a partial liquidation invariant is available, which sets the Liquidation Penalty as a fixed collateral Asset amount obtained by the Lender on top of the recovered loan amount. The rest of the collateral is sent back to the Borrower.
+The full collateral liquidation option allows the Lender, after the Lending Term, to liquidate the full amount of collateral even if the loan is significantly repaid. To mitigate this case and give the Borrower partial credit for partial repayment, a partial liquidation invariant is available. This alternative pays the Lender a pro-rated fraction of the collateral in exchange for the outstanding portion of the loan principal. The contract also sets a fixed Liquidation Penalty as an additional amount of collateral obtained by the Lender as a penalty for incomplete repayment. The rest of the collateral is sent back to the Borrower.
 
 In this case, liquidation after the Lending Term can be initiated by the Lender or the Borrower. The collateral part received by the Borrower is calculated according to the following equation:
 
@@ -132,7 +131,7 @@ Liquidation Penalty is also subject to Liquidation Protocol Fee, which goes to t
 This contract variant is based upon the contract described in the prior section, but, instead of a fixed Loan Fee, a fixed Interest Rate is used.
 
 Additional definitions:  
-**Interest Rate** - fixed annual percentage rate (APR), which is a reward for the Lender from the Borrower to use the loan.
+**Interest Rate** - fixed annual percentage rate (APR), which is a reward for the Lender from the Borrower as an incentive to provide the loan.
 
 #### Loan Origination
 
@@ -158,9 +157,9 @@ During the Lending Term Borrower can choose a partial loan repayment to avoid a 
 
 #### Liquidation
 
-If the Borrower did not repay the full Loan Amount plus the accrued Interest Rate before the Lending Term Lender can claim the full collateral amount for himself. 
+If the Borrower did not repay the full Loan Amount plus the accrued Interest Rate before the Lending Term, Lender can claim the full collateral amount for himself. 
 
-Liquidation at any moment (before or after Lending Term) by the Third Party Liquidator is possible in case if the following equation is true:
+Liquidation at any moment (before or after Lending Term) by the Third Party Liquidator is possible provided that the following equation is true:
 
 $$ \text{Loan Amount Outstanding} + \text{Accrued Interest Rate} > \text{LLTV} \times \text{Collateral Amount} \times \text{Price Oracle} $$
 
@@ -168,7 +167,7 @@ Third Party Liquidator receives the Collateral Amount minus the Liquidation Prot
 
 #### Partial Liquidation Invariant
 
-The full collateral liquidation option allows the Lender, after the Lending Term, to liquidate the full amount of collateral even if the loan is significantly repaid. To mitigate this case, the partial liquidation invariant is available, which sets the Liquidation Penalty as a fixed collateral Asset amount obtained by the Lender on top of the recovered loan amount. The rest of the collateral is sent back to the Borrower.
+The full collateral liquidation option allows the Lender, after the Lending Term, to liquidate the full amount of collateral even if the loan is significantly repaid. To mitigate this case, a partial liquidation mechanism is available. The partial liquidation invariant sets the Liquidation Penalty as a fixed collateral asset amount obtained by the Lender on top of the recovered loan amount. The rest of the collateral is sent back to the Borrower.
 
 In this case, liquidation after the Lending Term can be initiated by the Lender or the Borrower. The collateral part received by Borrower is calculated according to the following equation:
 
@@ -180,7 +179,7 @@ Liquidation Penalty is also subject to Liquidation Protocol Fee, which goes to t
 
 For now, we are finalising the first version of the Protocol with a P2P Simplified Lending Contract solution which will be deployed on the Liquid Network and allow lending USDT against LBTC for a fixed term.
 
-The first lending protocol implementation is carried out by multiple covenants that are constructed continuously by both Borrower and Lender in the following order:
+The first lending protocol implementation is carried out by multiple [covenants](../glossary.md#covenant) that are constructed continuously by both Borrower and Lender in the following order:
 
 ### Creation of Utility NFTs
 
