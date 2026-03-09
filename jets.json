@@ -1062,7 +1062,7 @@
       "section": "Multi-bit logic",
       "input_type": "u8, u8, u8",
       "output_type": "u8",
-      "description": "Bitwise MAJORITY of three 1-bit values. The output bit is false if two or more input bits are false, and true otherwise."
+      "description": "Bitwise MAJORITY of three 8-bit values. The output bit is false if two or more input bits are false, and true otherwise."
     },
     {
       "haskell_name": "Maj16",
@@ -1070,7 +1070,7 @@
       "section": "Multi-bit logic",
       "input_type": "u16, (u16, u16)",
       "output_type": "u16",
-      "description": "Bitwise MAJORITY of three 1-bit values. The output bit is false if two or more input bits are false, and true otherwise."
+      "description": "Bitwise MAJORITY of three 16-bit values. The output bit is false if two or more input bits are false, and true otherwise."
     },
     {
       "haskell_name": "Maj32",
@@ -1078,7 +1078,7 @@
       "section": "Multi-bit logic",
       "input_type": "u32, (u32, u32)",
       "output_type": "u32",
-      "description": "Bitwise MAJORITY of three 1-bit values. The output bit is false if two or more input bits are false, and true otherwise."
+      "description": "Bitwise MAJORITY of three 32-bit values. The output bit is false if two or more input bits are false, and true otherwise."
     },
     {
       "haskell_name": "Maj64",
@@ -1086,7 +1086,7 @@
       "section": "Multi-bit logic",
       "input_type": "u64, (u64, u64)",
       "output_type": "u64",
-      "description": "Bitwise MAJORITY of three 1-bit values. The output bit is false if two or more input bits are false, and true otherwise."
+      "description": "Bitwise MAJORITY of three 64-bit values. The output bit is false if two or more input bits are false, and true otherwise."
     },
     {
       "haskell_name": "Or1",
