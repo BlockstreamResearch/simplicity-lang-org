@@ -2458,7 +2458,7 @@
     },
     {
       "haskell_name": "Sha256Ctx8Add1",
-      "simplicityhl_name": "sha_256_ctx8_add1",
+      "simplicityhl_name": "sha_256_ctx_8_add_1",
       "section": "Hash functions",
       "input_type": "Ctx8, u8",
       "output_type": "Ctx8",
@@ -2466,7 +2466,7 @@
     },
     {
       "haskell_name": "Sha256Ctx8Add2",
-      "simplicityhl_name": "sha_256_ctx8_add2",
+      "simplicityhl_name": "sha_256_ctx_8_add_2",
       "section": "Hash functions",
       "input_type": "Ctx8, u16",
       "output_type": "Ctx8",
@@ -2474,7 +2474,7 @@
     },
     {
       "haskell_name": "Sha256Ctx8Add4",
-      "simplicityhl_name": "sha_256_ctx8_add4",
+      "simplicityhl_name": "sha_256_ctx_8_add_4",
       "section": "Hash functions",
       "input_type": "Ctx8, u32",
       "output_type": "Ctx8",
@@ -2482,7 +2482,7 @@
     },
     {
       "haskell_name": "Sha256Ctx8Add8",
-      "simplicityhl_name": "sha_256_ctx8_add8",
+      "simplicityhl_name": "sha_256_ctx_8_add_8",
       "section": "Hash functions",
       "input_type": "Ctx8, u64",
       "output_type": "Ctx8",
@@ -2490,7 +2490,7 @@
     },
     {
       "haskell_name": "Sha256Ctx8Add16",
-      "simplicityhl_name": "sha_256_ctx8_add16",
+      "simplicityhl_name": "sha_256_ctx_8_add_16",
       "section": "Hash functions",
       "input_type": "Ctx8, u128",
       "output_type": "Ctx8",
@@ -2498,7 +2498,7 @@
     },
     {
       "haskell_name": "Sha256Ctx8Add32",
-      "simplicityhl_name": "sha_256_ctx8_add32",
+      "simplicityhl_name": "sha_256_ctx_8_add_32",
       "section": "Hash functions",
       "input_type": "Ctx8, u256",
       "output_type": "Ctx8",
@@ -2506,7 +2506,7 @@
     },
     {
       "haskell_name": "Sha256Ctx8Add64",
-      "simplicityhl_name": "sha_256_ctx8_add64",
+      "simplicityhl_name": "sha_256_ctx_8_add_64",
       "section": "Hash functions",
       "input_type": "Ctx8, array(u8, 64)",
       "output_type": "Ctx8",
@@ -2514,7 +2514,7 @@
     },
     {
       "haskell_name": "Sha256Ctx8Add128",
-      "simplicityhl_name": "sha_256_ctx8_add128",
+      "simplicityhl_name": "sha_256_ctx_8_add_128",
       "section": "Hash functions",
       "input_type": "Ctx8, array(u8, 128)",
       "output_type": "Ctx8",
@@ -2522,7 +2522,7 @@
     },
     {
       "haskell_name": "Sha256Ctx8Add256",
-      "simplicityhl_name": "sha_256_ctx8_add256",
+      "simplicityhl_name": "sha_256_ctx_8_add_256",
       "section": "Hash functions",
       "input_type": "Ctx8, array(u8, 256)",
       "output_type": "Ctx8",
@@ -2530,7 +2530,7 @@
     },
     {
       "haskell_name": "Sha256Ctx8Add512",
-      "simplicityhl_name": "sha_256_ctx8_add512",
+      "simplicityhl_name": "sha_256_ctx_8_add_512",
       "section": "Hash functions",
       "input_type": "Ctx8, array(u8, 512)",
       "output_type": "Ctx8",
@@ -2538,7 +2538,7 @@
     },
     {
       "haskell_name": "Sha256Ctx8AddBuffer511",
-      "simplicityhl_name": "sha_256_ctx8_add_buffer511",
+      "simplicityhl_name": "sha_256_ctx_8_add_buffer_511",
       "section": "Hash functions",
       "input_type": "Ctx8, [u8; 512]",
       "output_type": "Ctx8",
@@ -2546,7 +2546,7 @@
     },
     {
       "haskell_name": "Sha256Ctx8Finalize",
-      "simplicityhl_name": "sha_256_ctx8_finalize",
+      "simplicityhl_name": "sha_256_ctx_8_finalize",
       "section": "Hash functions",
       "input_type": "Ctx8",
       "output_type": "u256",
@@ -2554,7 +2554,7 @@
     },
     {
       "haskell_name": "Sha256Ctx8Init",
-      "simplicityhl_name": "sha_256_ctx8_init",
+      "simplicityhl_name": "sha_256_ctx_8_init",
       "section": "Hash functions",
       "input_type": "",
       "output_type": "Ctx8",

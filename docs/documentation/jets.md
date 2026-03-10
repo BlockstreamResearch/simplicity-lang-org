@@ -352,19 +352,19 @@ Here is a complete list of the available jets in the Elements Simplicity integra
     | <div style="width:22em">Jet</div> | Description |
     | ----------------------------------- | ----------- |
     | `sha_256_block(u256, u256, u256) -> u256` | Update the given 256-bit midstate by running the SHA256 block compression function, using the given 512-bit block. |
-    | `sha_256_ctx8_add1(Ctx8, u8) -> Ctx8` | Add 1 byte to the SHA256 hash engine. |
-    | `sha_256_ctx8_add2(Ctx8, u16) -> Ctx8` | Add 2 bytes to the SHA256 hash engine. |
-    | `sha_256_ctx8_add4(Ctx8, u32) -> Ctx8` | Add 4 bytes to the SHA256 hash engine. |
-    | `sha_256_ctx8_add8(Ctx8, u64) -> Ctx8` | Add 8 bytes to the SHA256 hash engine. |
-    | `sha_256_ctx8_add16(Ctx8, u128) -> Ctx8` | Add 16 bytes to the SHA256 hash engine. |
-    | `sha_256_ctx8_add32(Ctx8, u256) -> Ctx8` | Add 32 bytes to the SHA256 hash engine. |
-    | `sha_256_ctx8_add64(Ctx8, array(u8, 64)) -> Ctx8` | Add 64 bytes to the SHA256 hash engine. |
-    | `sha_256_ctx8_add128(Ctx8, array(u8, 128)) -> Ctx8` | Add 128 bytes to the SHA256 hash engine. |
-    | `sha_256_ctx8_add256(Ctx8, array(u8, 256)) -> Ctx8` | Add 256 bytes to the SHA256 hash engine. |
-    | `sha_256_ctx8_add512(Ctx8, array(u8, 512)) -> Ctx8` | Add 512 bytes to the SHA256 hash engine. |
-    | `sha_256_ctx8_add_buffer511(Ctx8, [u8; 512]) -> Ctx8` | Add a list of less than 512 bytes to the SHA256 hash engine. |
-    | `sha_256_ctx8_finalize(Ctx8) -> u256` | Produce a hash from the current state of the SHA256 hash engine. |
-    | `sha_256_ctx8_init() -> Ctx8` | Initialize a default SHA256 hash engine. |
+    | `sha_256_ctx_8_add_1(Ctx8, u8) -> Ctx8` | Add 1 byte to the SHA256 hash engine. |
+    | `sha_256_ctx_8_add_2(Ctx8, u16) -> Ctx8` | Add 2 bytes to the SHA256 hash engine. |
+    | `sha_256_ctx_8_add_4(Ctx8, u32) -> Ctx8` | Add 4 bytes to the SHA256 hash engine. |
+    | `sha_256_ctx_8_add_8(Ctx8, u64) -> Ctx8` | Add 8 bytes to the SHA256 hash engine. |
+    | `sha_256_ctx_8_add_16(Ctx8, u128) -> Ctx8` | Add 16 bytes to the SHA256 hash engine. |
+    | `sha_256_ctx_8_add_32(Ctx8, u256) -> Ctx8` | Add 32 bytes to the SHA256 hash engine. |
+    | `sha_256_ctx_8_add_64(Ctx8, array(u8, 64)) -> Ctx8` | Add 64 bytes to the SHA256 hash engine. |
+    | `sha_256_ctx_8_add_128(Ctx8, array(u8, 128)) -> Ctx8` | Add 128 bytes to the SHA256 hash engine. |
+    | `sha_256_ctx_8_add_256(Ctx8, array(u8, 256)) -> Ctx8` | Add 256 bytes to the SHA256 hash engine. |
+    | `sha_256_ctx_8_add_512(Ctx8, array(u8, 512)) -> Ctx8` | Add 512 bytes to the SHA256 hash engine. |
+    | `sha_256_ctx_8_add_buffer_511(Ctx8, [u8; 512]) -> Ctx8` | Add a list of less than 512 bytes to the SHA256 hash engine. |
+    | `sha_256_ctx_8_finalize(Ctx8) -> u256` | Produce a hash from the current state of the SHA256 hash engine. |
+    | `sha_256_ctx_8_init() -> Ctx8` | Initialize a default SHA256 hash engine. |
     | `sha_256_iv() -> u256` | Return the SHA256 initial value. |
 
 ### Elliptic curve functions
