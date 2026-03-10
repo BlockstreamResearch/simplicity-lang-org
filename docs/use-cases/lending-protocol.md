@@ -182,17 +182,15 @@ For now, we are finalising the first version of the Protocol with a P2P Simplifi
 
 The first lending protocol implementation is carried out by multiple [covenants](../glossary.md#covenant) that are constructed continuously by both Borrower and Lender in the following order:
 
-### Creation of Utility NFTs
+### Creation of Utility Tokens
 
-Both Lender's and Borrower's financial interests in the contract are represented by special "one-time" assets (NFTs) that enable the existence of secondary markets where these NFTs can be sold/traded/exchanged. 
+Both Lender's and Borrower's financial interests in the contract are represented by special "one-time" assets ([tokens](../glossary.md#token)) that enable the existence of secondary markets where these tokens can be sold/traded/exchanged.
 
-To ensure the integrity of lending offer parameters across multiple covenants, specialized Parameter NFTs are utilized. These assets act as data carriers by encoding the protocol parameters directly within their amount fields.
+To ensure the integrity of lending offer parameters across multiple covenants, specialized Parameter Tokens are utilized. These assets act as data carriers by encoding the protocol parameters directly within their amount fields.
 
-To enforce lending protocol parameters within Simplicity covenants, the system utilizes "one-time" assets (NFTs). The protocol configuration is encoded directly into the amount field of these assets. 
+**Important:** To ensure compatibility with Liquid/Elements consensus rules, the encoded value must not exceed the maximum allowed supply limit ([`MAX_MONEY`](https://github.com/ElementsProject/rust-elements/blob/f6ffc7800df14b81c0f5ae1c94368a78b99612b9/src/blind.rs#L471)). This effectively restricts the available data space within the token's amount field to 51 bits.
 
-**Important:** To ensure compatibility with Liquid/Elements consensus rules, the encoded value must not exceed the maximum allowed supply limit ([`MAX_MONEY`](https://github.com/ElementsProject/rust-elements/blob/f6ffc7800df14b81c0f5ae1c94368a78b99612b9/src/blind.rs#L471)). This effectively restricts the available data space within the NFT's amount field to 51 bits.
-
-Two distinct NFTs are required to store the current protocol state:
+Two distinct tokens are required to store the current protocol state:
 
 1. `FIRST_PARAMETERS_NFT`: Encodes the `PRINCIPAL_INTEREST_RATE`, `LOAN_DURATION`, `COLLATERAL_DECIMALS_MANTISSA`, and `PRINCIPAL_DECIMALS_MANTISSA`.
 
@@ -224,11 +222,11 @@ After calculating the Utility asset IDs, the "lock collateral" covenant can be c
 
 ### Set up Lending
 
-After the Borrower has constructed a "lock covenant", a Lender can then initiate the lending contract by sending the lending covenant transaction.
+After the Borrower has constructed a "lock collateral" covenant, a Lender can then initiate the loan by sending the lending covenant transaction.
 
 ### Settle Lending
 
-After the lending contract is set up, there are two ways it can be settled. Either the Borrower provides the principal with interest to the Lender and takes collateral back, or the contract expires, and the Lender liquidates the position, claiming the collateral for himself.
+After the lending contract is set up, there are two ways it can be settled. Either the Borrower provides the principal with interest to the Lender and takes the collateral back, or the Lending Term expires, and the Lender liquidates the position, claiming the collateral for himself.
 
 ## 3. Indexing and Discovery Mechanism
 
