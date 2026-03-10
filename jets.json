@@ -3562,7 +3562,7 @@
       "section": "Transaction",
       "input_type": "u32",
       "output_type": "Option<u256>",
-      "description": "Return the SHA256 hash of the scriptSigKey of the input at the given index.\n\nReturn `None` if the input does not exist.\n\nSegWit UTXOs enforce scriptSig to be the empty string. In such cases, we return the SHA256 hash of the empty string."
+      "description": "Return the SHA256 hash of the scriptSig of the input at the given index.\n\nReturn `None` if the input does not exist.\n\nSegWit UTXOs enforce scriptSig to be the empty string. In such cases, we return the SHA256 hash of the empty string."
     },
     {
       "haskell_name": "InputSequence",
