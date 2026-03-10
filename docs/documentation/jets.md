@@ -1,3 +1,4 @@
+<!-- Generated from jets.json by jets.md.py on 2026-03-09 -->
 # Jets reference
 
 Simplicity jets are built-in functions which you can call to efficiently perform various computations, including some related to arithmetic, logic, and cryptography.
@@ -18,9 +19,12 @@ Jets also provide information about the currently proposed transaction, enabling
 
 ## Jet list
 
-Here is a complete list of the available jets in the Elements Simplicity integration available on Liquid Network, their <a href="/simplicityhl-reference/type/">type signatures</a>, and a description of what they do.
+Here is a complete list of the available jets in the Elements Simplicity integration available on Liquid Network, their <a href="../../simplicityhl-reference/type/">type signatures</a>, and a description of what they do.
+
 
 ### Multi-bit logic
+
+
 
 ???+ "Click to hide"
     | <div style="width:22em">Jet</div> | Description |
@@ -39,7 +43,7 @@ Here is a complete list of the available jets in the Elements Simplicity integra
     | `ch_16(u16, (u16, u16)) -> u16` | Bitwise CHOICE of a bit and two 16-bit values. If the bit is true, then take the first value, else take the second value. |
     | `ch_32(u32, (u32, u32)) -> u32` | Bitwise CHOICE of a bit and two 32-bit values. If the bit is true, then take the first value, else take the second value. |
     | `ch_64(u64, (u64, u64)) -> u64` | Bitwise CHOICE of a bit and two 64-bit values. If the bit is true, then take the first value, else take the second value. |
-    | `complement_1(u1) -> u1` | Bitwise NOT of a 1-bit  value. |
+    | `complement_1(u1) -> u1` | Bitwise NOT of a 1-bit value. |
     | `complement_8(u8) -> u8` | Bitwise NOT of an 8-bit value. |
     | `complement_16(u16) -> u16` | Bitwise NOT of a 16-bit value. |
     | `complement_32(u32) -> u32` | Bitwise NOT of a 32-bit value. |
@@ -50,40 +54,40 @@ Here is a complete list of the available jets in the Elements Simplicity integra
     | `eq_32(u32, u32) -> bool` | Check if two 32-bit values are equal. |
     | `eq_64(u64, u64) -> bool` | Check if two 64-bit values are equal. |
     | `eq_256(u256, u256) -> bool` | Check if two 256-bit values are equal. |
-    | `full_left_shift_8_1(u8, u1) -> (u1, u8)` | Helper for left-shifting  bits. The bits are shifted from a 1-bit  value into a 8-bit  value. Return the shifted value and the 1  bit  that was  shifted out. |
-    | `full_left_shift_8_2(u8, u2) -> (u2, u8)` | Helper for left-shifting  bits. The bits are shifted from a 2-bit  value into a 8-bit  value. Return the shifted value and the 2  bits that were shifted out. |
-    | `full_left_shift_8_4(u8, u4) -> (u4, u8)` | Helper for left-shifting  bits. The bits are shifted from a 4-bit  value into a 8-bit  value. Return the shifted value and the 4  bits that were shifted out. |
-    | `full_left_shift_16_1(u16, u1) -> (u1, u16)` | Helper for left-shifting  bits. The bits are shifted from a 1-bit  value into a 16-bit value. Return the shifted value and the 1  bit  that was  shifted out. |
-    | `full_left_shift_16_2(u16, u2) -> (u2, u16)` | Helper for left-shifting  bits. The bits are shifted from a 2-bit  value into a 16-bit value. Return the shifted value and the 2  bits that were shifted out. |
-    | `full_left_shift_16_4(u16, u4) -> (u4, u16)` | Helper for left-shifting  bits. The bits are shifted from a 4-bit  value into a 16-bit value. Return the shifted value and the 4  bits that were shifted out. |
-    | `full_left_shift_16_8(u16, u8) -> (u8, u16)` | Helper for left-shifting  bits. The bits are shifted from a 8-bit  value into a 16-bit value. Return the shifted value and the 8  bits that were shifted out. |
-    | `full_left_shift_32_1(u32, u1) -> (u1, u32)` | Helper for left-shifting  bits. The bits are shifted from a 1-bit  value into a 32-bit value. Return the shifted value and the 1  bit  that was  shifted out. |
-    | `full_left_shift_32_2(u32, u2) -> (u2, u32)` | Helper for left-shifting  bits. The bits are shifted from a 2-bit  value into a 32-bit value. Return the shifted value and the 2  bits that were shifted out. |
-    | `full_left_shift_32_4(u32, u4) -> (u4, u32)` | Helper for left-shifting  bits. The bits are shifted from a 4-bit  value into a 32-bit value. Return the shifted value and the 4  bits that were shifted out. |
-    | `full_left_shift_32_8(u32, u8) -> (u8, u32)` | Helper for left-shifting  bits. The bits are shifted from a 8-bit  value into a 32-bit value. Return the shifted value and the 8  bits that were shifted out. |
-    | `full_left_shift_32_16(u32, u16) -> (u16, u32)` | Helper for left-shifting  bits. The bits are shifted from a 16-bit value into a 32-bit value. Return the shifted value and the 16 bits that were shifted out. |
-    | `full_left_shift_64_1(u64, u1) -> (u1, u64)` | Helper for left-shifting  bits. The bits are shifted from a 1-bit  value into a 64-bit value. Return the shifted value and the 1  bit  that was  shifted out. |
-    | `full_left_shift_64_2(u64, u2) -> (u2, u64)` | Helper for left-shifting  bits. The bits are shifted from a 2-bit  value into a 64-bit value. Return the shifted value and the 2  bits that were shifted out. |
-    | `full_left_shift_64_4(u64, u4) -> (u4, u64)` | Helper for left-shifting  bits. The bits are shifted from a 4-bit  value into a 64-bit value. Return the shifted value and the 4  bits that were shifted out. |
-    | `full_left_shift_64_8(u64, u8) -> (u8, u64)` | Helper for left-shifting  bits. The bits are shifted from a 8-bit  value into a 64-bit value. Return the shifted value and the 8  bits that were shifted out. |
-    | `full_left_shift_64_16(u64, u16) -> (u16, u64)` | Helper for left-shifting  bits. The bits are shifted from a 16-bit value into a 64-bit value. Return the shifted value and the 16 bits that were shifted out. |
-    | `full_left_shift_64_32(u64, u32) -> (u32, u64)` | Helper for left-shifting  bits. The bits are shifted from a 32-bit value into a 64-bit value. Return the shifted value and the 32 bits that were shifted out. |
-    | `full_right_shift_8_1(u1, u8) -> (u8, u1)` | Helper for right-shifting bits. The bits are shifted from a 1-bit  value into a 8-bit  value. Return the shifted value and the 1  bit  that was  shifted out. |
-    | `full_right_shift_8_2(u2, u8) -> (u8, u2)` | Helper for right-shifting bits. The bits are shifted from a 2-bit  value into a 8-bit  value. Return the shifted value and the 2  bits that were shifted out. |
-    | `full_right_shift_8_4(u4, u8) -> (u8, u4)` | Helper for right-shifting bits. The bits are shifted from a 4-bit  value into a 8-bit  value. Return the shifted value and the 4  bits that were shifted out. |
-    | `full_right_shift_16_1(u1, u16) -> (u16, u1)` | Helper for right-shifting bits. The bits are shifted from a 1-bit  value into a 16-bit value. Return the shifted value and the 1  bit  that was  shifted out. |
-    | `full_right_shift_16_2(u2, u16) -> (u16, u2)` | Helper for right-shifting bits. The bits are shifted from a 2-bit  value into a 16-bit value. Return the shifted value and the 2  bits that were shifted out. |
-    | `full_right_shift_16_4(u4, u16) -> (u16, u4)` | Helper for right-shifting bits. The bits are shifted from a 4-bit  value into a 16-bit value. Return the shifted value and the 4  bits that were shifted out. |
-    | `full_right_shift_16_8(u8, u16) -> (u16, u8)` | Helper for right-shifting bits. The bits are shifted from a 8-bit  value into a 16-bit value. Return the shifted value and the 8  bits that were shifted out. |
-    | `full_right_shift_32_1(u1, u32) -> (u32, u1)` | Helper for right-shifting bits. The bits are shifted from a 1-bit  value into a 32-bit value. Return the shifted value and the 1  bit  that was  shifted out. |
-    | `full_right_shift_32_2(u2, u32) -> (u32, u2)` | Helper for right-shifting bits. The bits are shifted from a 2-bit  value into a 32-bit value. Return the shifted value and the 2  bits that were shifted out. |
-    | `full_right_shift_32_4(u4, u32) -> (u32, u4)` | Helper for right-shifting bits. The bits are shifted from a 4-bit  value into a 32-bit value. Return the shifted value and the 4  bits that were shifted out. |
-    | `full_right_shift_32_8(u8, u32) -> (u32, u8)` | Helper for right-shifting bits. The bits are shifted from a 8-bit  value into a 32-bit value. Return the shifted value and the 8  bits that were shifted out. |
+    | `full_left_shift_8_1(u8, u1) -> (u1, u8)` | Helper for left-shifting bits. The bits are shifted from a 1-bit value into an 8-bit value. Return the shifted value and the 1 bit that was shifted out. |
+    | `full_left_shift_8_2(u8, u2) -> (u2, u8)` | Helper for left-shifting bits. The bits are shifted from a 2-bit value into an 8-bit value. Return the shifted value and the 2 bits that were shifted out. |
+    | `full_left_shift_8_4(u8, u4) -> (u4, u8)` | Helper for left-shifting bits. The bits are shifted from a 4-bit value into an 8-bit value. Return the shifted value and the 4 bits that were shifted out. |
+    | `full_left_shift_16_1(u16, u1) -> (u1, u16)` | Helper for left-shifting bits. The bits are shifted from a 1-bit value into a 16-bit value. Return the shifted value and the 1 bit that was shifted out. |
+    | `full_left_shift_16_2(u16, u2) -> (u2, u16)` | Helper for left-shifting bits. The bits are shifted from a 2-bit value into a 16-bit value. Return the shifted value and the 2 bits that were shifted out. |
+    | `full_left_shift_16_4(u16, u4) -> (u4, u16)` | Helper for left-shifting bits. The bits are shifted from a 4-bit value into a 16-bit value. Return the shifted value and the 4 bits that were shifted out. |
+    | `full_left_shift_16_8(u16, u8) -> (u8, u16)` | Helper for left-shifting bits. The bits are shifted from an 8-bit value into a 16-bit value. Return the shifted value and the 8 bits that were shifted out. |
+    | `full_left_shift_32_1(u32, u1) -> (u1, u32)` | Helper for left-shifting bits. The bits are shifted from a 1-bit value into a 32-bit value. Return the shifted value and the 1 bit that was shifted out. |
+    | `full_left_shift_32_2(u32, u2) -> (u2, u32)` | Helper for left-shifting bits. The bits are shifted from a 2-bit value into a 32-bit value. Return the shifted value and the 2 bits that were shifted out. |
+    | `full_left_shift_32_4(u32, u4) -> (u4, u32)` | Helper for left-shifting bits. The bits are shifted from a 4-bit value into a 32-bit value. Return the shifted value and the 4 bits that were shifted out. |
+    | `full_left_shift_32_8(u32, u8) -> (u8, u32)` | Helper for left-shifting bits. The bits are shifted from an 8-bit value into a 32-bit value. Return the shifted value and the 8 bits that were shifted out. |
+    | `full_left_shift_32_16(u32, u16) -> (u16, u32)` | Helper for left-shifting bits. The bits are shifted from a 16-bit value into a 32-bit value. Return the shifted value and the 16 bits that were shifted out. |
+    | `full_left_shift_64_1(u64, u1) -> (u1, u64)` | Helper for left-shifting bits. The bits are shifted from a 1-bit value into a 64-bit value. Return the shifted value and the 1 bit that was shifted out. |
+    | `full_left_shift_64_2(u64, u2) -> (u2, u64)` | Helper for left-shifting bits. The bits are shifted from a 2-bit value into a 64-bit value. Return the shifted value and the 2 bits that were shifted out. |
+    | `full_left_shift_64_4(u64, u4) -> (u4, u64)` | Helper for left-shifting bits. The bits are shifted from a 4-bit value into a 64-bit value. Return the shifted value and the 4 bits that were shifted out. |
+    | `full_left_shift_64_8(u64, u8) -> (u8, u64)` | Helper for left-shifting bits. The bits are shifted from an 8-bit value into a 64-bit value. Return the shifted value and the 8 bits that were shifted out. |
+    | `full_left_shift_64_16(u64, u16) -> (u16, u64)` | Helper for left-shifting bits. The bits are shifted from a 16-bit value into a 64-bit value. Return the shifted value and the 16 bits that were shifted out. |
+    | `full_left_shift_64_32(u64, u32) -> (u32, u64)` | Helper for left-shifting bits. The bits are shifted from a 32-bit value into a 64-bit value. Return the shifted value and the 32 bits that were shifted out. |
+    | `full_right_shift_8_1(u1, u8) -> (u8, u1)` | Helper for right-shifting bits. The bits are shifted from a 1-bit value into an 8-bit value. Return the shifted value and the 1 bit that was shifted out. |
+    | `full_right_shift_8_2(u2, u8) -> (u8, u2)` | Helper for right-shifting bits. The bits are shifted from a 2-bit value into an 8-bit value. Return the shifted value and the 2 bits that were shifted out. |
+    | `full_right_shift_8_4(u4, u8) -> (u8, u4)` | Helper for right-shifting bits. The bits are shifted from a 4-bit value into an 8-bit value. Return the shifted value and the 4 bits that were shifted out. |
+    | `full_right_shift_16_1(u1, u16) -> (u16, u1)` | Helper for right-shifting bits. The bits are shifted from a 1-bit value into a 16-bit value. Return the shifted value and the 1 bit that was shifted out. |
+    | `full_right_shift_16_2(u2, u16) -> (u16, u2)` | Helper for right-shifting bits. The bits are shifted from a 2-bit value into a 16-bit value. Return the shifted value and the 2 bits that were shifted out. |
+    | `full_right_shift_16_4(u4, u16) -> (u16, u4)` | Helper for right-shifting bits. The bits are shifted from a 4-bit value into a 16-bit value. Return the shifted value and the 4 bits that were shifted out. |
+    | `full_right_shift_16_8(u8, u16) -> (u16, u8)` | Helper for right-shifting bits. The bits are shifted from an 8-bit value into a 16-bit value. Return the shifted value and the 8 bits that were shifted out. |
+    | `full_right_shift_32_1(u1, u32) -> (u32, u1)` | Helper for right-shifting bits. The bits are shifted from a 1-bit value into a 32-bit value. Return the shifted value and the 1 bit that was shifted out. |
+    | `full_right_shift_32_2(u2, u32) -> (u32, u2)` | Helper for right-shifting bits. The bits are shifted from a 2-bit value into a 32-bit value. Return the shifted value and the 2 bits that were shifted out. |
+    | `full_right_shift_32_4(u4, u32) -> (u32, u4)` | Helper for right-shifting bits. The bits are shifted from a 4-bit value into a 32-bit value. Return the shifted value and the 4 bits that were shifted out. |
+    | `full_right_shift_32_8(u8, u32) -> (u32, u8)` | Helper for right-shifting bits. The bits are shifted from an 8-bit value into a 32-bit value. Return the shifted value and the 8 bits that were shifted out. |
     | `full_right_shift_32_16(u16, u32) -> (u32, u16)` | Helper for right-shifting bits. The bits are shifted from a 16-bit value into a 32-bit value. Return the shifted value and the 16 bits that were shifted out. |
-    | `full_right_shift_64_1(u1, u64) -> (u64, u1)` | Helper for right-shifting bits. The bits are shifted from a 1-bit  value into a 64-bit value. Return the shifted value and the 1  bit  that was  shifted out. |
-    | `full_right_shift_64_2(u2, u64) -> (u64, u2)` | Helper for right-shifting bits. The bits are shifted from a 2-bit  value into a 64-bit value. Return the shifted value and the 2  bits that were shifted out. |
-    | `full_right_shift_64_4(u4, u64) -> (u64, u4)` | Helper for right-shifting bits. The bits are shifted from a 4-bit  value into a 64-bit value. Return the shifted value and the 4  bits that were shifted out. |
-    | `full_right_shift_64_8(u8, u64) -> (u64, u8)` | Helper for right-shifting bits. The bits are shifted from a 8-bit  value into a 64-bit value. Return the shifted value and the 8  bits that were shifted out. |
+    | `full_right_shift_64_1(u1, u64) -> (u64, u1)` | Helper for right-shifting bits. The bits are shifted from a 1-bit value into a 64-bit value. Return the shifted value and the 1 bit that was shifted out. |
+    | `full_right_shift_64_2(u2, u64) -> (u64, u2)` | Helper for right-shifting bits. The bits are shifted from a 2-bit value into a 64-bit value. Return the shifted value and the 2 bits that were shifted out. |
+    | `full_right_shift_64_4(u4, u64) -> (u64, u4)` | Helper for right-shifting bits. The bits are shifted from a 4-bit value into a 64-bit value. Return the shifted value and the 4 bits that were shifted out. |
+    | `full_right_shift_64_8(u8, u64) -> (u64, u8)` | Helper for right-shifting bits. The bits are shifted from an 8-bit value into a 64-bit value. Return the shifted value and the 8 bits that were shifted out. |
     | `full_right_shift_64_16(u16, u64) -> (u64, u16)` | Helper for right-shifting bits. The bits are shifted from a 16-bit value into a 64-bit value. Return the shifted value and the 16 bits that were shifted out. |
     | `full_right_shift_64_32(u32, u64) -> (u64, u32)` | Helper for right-shifting bits. The bits are shifted from a 32-bit value into a 64-bit value. Return the shifted value and the 32 bits that were shifted out. |
     | `high_1() -> u1` | Return `u1::MAX` = 1. |
@@ -91,30 +95,30 @@ Here is a complete list of the available jets in the Elements Simplicity integra
     | `high_16() -> u16` | Return `u16::MAX`. |
     | `high_32() -> u32` | Return `u32::MAX`. |
     | `high_64() -> u64` | Return `u64::MAX`. |
-    | `left_extend_1_8(u1) -> u8` | Extend a 1-bit  value to an 8-bit value by padding its left with the MSB. |
-    | `left_extend_1_16(u1) -> u16` | Extend a 1-bit  value to a 16-bit value by padding its left with the MSB. |
-    | `left_extend_1_32(u1) -> u32` | Extend a 1-bit  value to a 32-bit value by padding its left with the MSB. |
-    | `left_extend_1_64(u1) -> u64` | Extend a 1-bit  value to a 64-bit value by padding its left with the MSB. |
+    | `left_extend_1_8(u1) -> u8` | Extend a 1-bit value to an 8-bit value by padding its left with the MSB. |
+    | `left_extend_1_16(u1) -> u16` | Extend a 1-bit value to a 16-bit value by padding its left with the MSB. |
+    | `left_extend_1_32(u1) -> u32` | Extend a 1-bit value to a 32-bit value by padding its left with the MSB. |
+    | `left_extend_1_64(u1) -> u64` | Extend a 1-bit value to a 64-bit value by padding its left with the MSB. |
     | `left_extend_8_16(u8) -> u16` | Extend an 8-bit value to a 16-bit value by padding its left with the MSB. |
     | `left_extend_8_32(u8) -> u32` | Extend an 8-bit value to a 32-bit value by padding its left with the MSB. |
     | `left_extend_8_64(u8) -> u64` | Extend an 8-bit value to a 64-bit value by padding its left with the MSB. |
     | `left_extend_16_32(u16) -> u32` | Extend a 16-bit value to a 32-bit value by padding its left with the MSB. |
     | `left_extend_16_64(u16) -> u64` | Extend a 16-bit value to a 64-bit value by padding its left with the MSB. |
-    | `left_extend_32_64(u32) -> u64` | Extend a 16-bit value to a 64-bit value by padding its left with the MSB. |
-    | `left_pad_high_1_8(u1) -> u8` | Extend a 1-bit  value to an 8-bit value by padding its left with ones. |
-    | `left_pad_high_1_16(u1) -> u16` | Extend a 1-bit  value to a 16-bit value by padding its left with ones. |
-    | `left_pad_high_1_32(u1) -> u32` | Extend a 1-bit  value to a 32-bit value by padding its left with ones. |
-    | `left_pad_high_1_64(u1) -> u64` | Extend a 1-bit  value to a 64-bit value by padding its left with ones. |
+    | `left_extend_32_64(u32) -> u64` | Extend a 32-bit value to a 64-bit value by padding its left with the MSB. |
+    | `left_pad_high_1_8(u1) -> u8` | Extend a 1-bit value to an 8-bit value by padding its left with ones. |
+    | `left_pad_high_1_16(u1) -> u16` | Extend a 1-bit value to a 16-bit value by padding its left with ones. |
+    | `left_pad_high_1_32(u1) -> u32` | Extend a 1-bit value to a 32-bit value by padding its left with ones. |
+    | `left_pad_high_1_64(u1) -> u64` | Extend a 1-bit value to a 64-bit value by padding its left with ones. |
     | `left_pad_high_8_16(u8) -> u16` | Extend an 8-bit value to a 16-bit value by padding its left with ones. |
     | `left_pad_high_8_32(u8) -> u32` | Extend an 8-bit value to a 32-bit value by padding its left with ones. |
-    | `left_pad_high_8_64(u8) -> u64` | Extend a 1-bit  value to a 64-bit value by padding its left with ones. |
+    | `left_pad_high_8_64(u8) -> u64` | Extend an 8-bit value to a 64-bit value by padding its left with ones. |
     | `left_pad_high_16_32(u16) -> u32` | Extend a 16-bit value to a 32-bit value by padding its left with ones. |
     | `left_pad_high_16_64(u16) -> u64` | Extend a 16-bit value to a 64-bit value by padding its left with ones. |
     | `left_pad_high_32_64(u32) -> u64` | Extend a 32-bit value to a 64-bit value by padding its left with ones. |
-    | `left_pad_low_1_8(u1) -> u8` | Extend a 1-bit  value to an 8-bit value by padding its left with zeroes. |
-    | `left_pad_low_1_16(u1) -> u16` | Extend a 1-bit  value to a 16-bit value by padding its left with zeroes. |
-    | `left_pad_low_1_32(u1) -> u32` | Extend a 1-bit  value to a 32-bit value by padding its left with zeroes. |
-    | `left_pad_low_1_64(u1) -> u64` | Extend a 1-bit  value to a 64-bit value by padding its left with zeroes. |
+    | `left_pad_low_1_8(u1) -> u8` | Extend a 1-bit value to an 8-bit value by padding its left with zeroes. |
+    | `left_pad_low_1_16(u1) -> u16` | Extend a 1-bit value to a 16-bit value by padding its left with zeroes. |
+    | `left_pad_low_1_32(u1) -> u32` | Extend a 1-bit value to a 32-bit value by padding its left with zeroes. |
+    | `left_pad_low_1_64(u1) -> u64` | Extend a 1-bit value to a 64-bit value by padding its left with zeroes. |
     | `left_pad_low_8_16(u8) -> u16` | Extend an 8-bit value to a 16-bit value by padding its left with zeroes. |
     | `left_pad_low_8_32(u8) -> u32` | Extend an 8-bit value to a 32-bit value by padding its left with zeroes. |
     | `left_pad_low_8_64(u8) -> u64` | Extend an 8-bit value to a 64-bit value by padding its left with zeroes. |
@@ -133,34 +137,34 @@ Here is a complete list of the available jets in the Elements Simplicity integra
     | `left_shift_with_16(u1, u4, u16) -> u16` | Left-shift a 16-bit value by the given amount. Bits are filled with the given bit. |
     | `left_shift_with_32(u1, u8, u32) -> u32` | Left-shift a 32-bit value by the given amount. Bits are filled with the given bit. |
     | `left_shift_with_64(u1, u8, u64) -> u64` | Left-shift a 64-bit value by the given amount. Bits are filled with the given bit. |
-    | `leftmost_8_1(u8) -> u1` | Return the most significant 1  bits of an 8-bit value. |
-    | `leftmost_8_2(u8) -> u2` | Return the most significant 1  bits of an 8-bit value. |
-    | `leftmost_8_4(u8) -> u4` | Return the most significant 1  bits of an 8-bit value. |
-    | `leftmost_16_1(u16) -> u1` | Return the most significant 1  bit  of a 16-bit value. |
-    | `leftmost_16_2(u16) -> u2` | Return the most significant 2  bits of a 16-bit value. |
-    | `leftmost_16_4(u16) -> u4` | Return the most significant 4  bits of a 16-bit value. |
-    | `leftmost_16_8(u16) -> u8` | Return the most significant 8  bits of a 16-bit value. |
-    | `leftmost_32_1(u32) -> u1` | Return the most significant 1  bit  of a 32-bit value. |
-    | `leftmost_32_2(u32) -> u2` | Return the most significant 2  bits of a 32-bit value. |
-    | `leftmost_32_4(u32) -> u4` | Return the most significant 4  bits of a 32-bit value. |
-    | `leftmost_32_8(u32) -> u8` | Return the most significant 8  bits of a 32-bit value. |
+    | `leftmost_8_1(u8) -> u1` | Return the most significant 1 bit of an 8-bit value. |
+    | `leftmost_8_2(u8) -> u2` | Return the most significant 2 bits of an 8-bit value. |
+    | `leftmost_8_4(u8) -> u4` | Return the most significant 4 bits of an 8-bit value. |
+    | `leftmost_16_1(u16) -> u1` | Return the most significant 1 bit of a 16-bit value. |
+    | `leftmost_16_2(u16) -> u2` | Return the most significant 2 bits of a 16-bit value. |
+    | `leftmost_16_4(u16) -> u4` | Return the most significant 4 bits of a 16-bit value. |
+    | `leftmost_16_8(u16) -> u8` | Return the most significant 8 bits of a 16-bit value. |
+    | `leftmost_32_1(u32) -> u1` | Return the most significant 1 bit of a 32-bit value. |
+    | `leftmost_32_2(u32) -> u2` | Return the most significant 2 bits of a 32-bit value. |
+    | `leftmost_32_4(u32) -> u4` | Return the most significant 4 bits of a 32-bit value. |
+    | `leftmost_32_8(u32) -> u8` | Return the most significant 8 bits of a 32-bit value. |
     | `leftmost_32_16(u32) -> u16` | Return the most significant 16 bits of a 32-bit value. |
-    | `leftmost_64_1(u64) -> u1` | Return the most significant 1  bits of a 64-bit value. |
-    | `leftmost_64_2(u64) -> u2` | Return the most significant 2  bits of a 64-bit value. |
-    | `leftmost_64_4(u64) -> u4` | Return the most significant 4  bits of a 64-bit value. |
-    | `leftmost_64_8(u64) -> u8` | Return the most significant 8  bits of a 64-bit value. |
+    | `leftmost_64_1(u64) -> u1` | Return the most significant 1 bit of a 64-bit value. |
+    | `leftmost_64_2(u64) -> u2` | Return the most significant 2 bits of a 64-bit value. |
+    | `leftmost_64_4(u64) -> u4` | Return the most significant 4 bits of a 64-bit value. |
+    | `leftmost_64_8(u64) -> u8` | Return the most significant 8 bits of a 64-bit value. |
     | `leftmost_64_16(u64) -> u16` | Return the most significant 16 bits of a 64-bit value. |
     | `leftmost_64_32(u64) -> u32` | Return the most significant 32 bits of a 64-bit value. |
     | `low_1() -> u1` | Return `u1::MIN` = 0. |
-    | `low_8() -> u8` | Return `u8::MIN`. |
-    | `low_16() -> u16` | Return `u16::MIN`. |
-    | `low_32() -> u32` | Return `u32::MIN`. |
-    | `low_64() -> u64` | Return `u64::MIN`. |
+    | `low_8() -> u8` | Return `u8::MIN` = 0. |
+    | `low_16() -> u16` | Return `u16::MIN` = 0. |
+    | `low_32() -> u32` | Return `u32::MIN` = 0. |
+    | `low_64() -> u64` | Return `u64::MIN` = 0. |
     | `maj_1(u1, u1, u1) -> u1` | Bitwise MAJORITY of three 1-bit values. The output bit is false if two or more input bits are false, and true otherwise. |
-    | `maj_8(u8, u8, u8) -> u8` | Bitwise MAJORITY of three 1-bit values. The output bit is false if two or more input bits are false, and true otherwise. |
-    | `maj_16(u16, (u16, u16)) -> u16` | Bitwise MAJORITY of three 1-bit values. The output bit is false if two or more input bits are false, and true otherwise. |
-    | `maj_32(u32, (u32, u32)) -> u32` | Bitwise MAJORITY of three 1-bit values. The output bit is false if two or more input bits are false, and true otherwise. |
-    | `maj_64(u64, (u64, u64)) -> u64` | Bitwise MAJORITY of three 1-bit values. The output bit is false if two or more input bits are false, and true otherwise. |
+    | `maj_8(u8, u8, u8) -> u8` | Bitwise MAJORITY of three 8-bit values. The output bit is false if two or more input bits are false, and true otherwise. |
+    | `maj_16(u16, (u16, u16)) -> u16` | Bitwise MAJORITY of three 16-bit values. The output bit is false if two or more input bits are false, and true otherwise. |
+    | `maj_32(u32, (u32, u32)) -> u32` | Bitwise MAJORITY of three 32-bit values. The output bit is false if two or more input bits are false, and true otherwise. |
+    | `maj_64(u64, (u64, u64)) -> u64` | Bitwise MAJORITY of three 64-bit values. The output bit is false if two or more input bits are false, and true otherwise. |
     | `or_1(u1, u1) -> u1` | Bitwise OR of two 1-bit values. |
     | `or_8(u8, u8) -> u8` | Bitwise OR of two 8-bit values. |
     | `or_16(u16, u16) -> u16` | Bitwise OR of two 16-bit values. |
@@ -172,20 +176,20 @@ Here is a complete list of the available jets in the Elements Simplicity integra
     | `right_extend_16_32(u16) -> u32` | Extend a 16-bit value to a 32-bit value by padding its right with the MSB. |
     | `right_extend_16_64(u16) -> u64` | Extend a 16-bit value to a 64-bit value by padding its right with the MSB. |
     | `right_extend_32_64(u32) -> u64` | Extend a 16-bit value to a 64-bit value by padding its right with the MSB. |
-    | `right_pad_high_1_8(u1) -> u8` | Extend a 1-bit  value to an 8-bit value by padding its right with ones. |
-    | `right_pad_high_1_16(u1) -> u16` | Extend a 1-bit  value to a 16-bit value by padding its right with ones. |
-    | `right_pad_high_1_32(u1) -> u32` | Extend a 1-bit  value to a 32-bit value by padding its right with ones. |
-    | `right_pad_high_1_64(u1) -> u64` | Extend a 1-bit  value to a 64-bit value by padding its right with ones. |
-    | `right_pad_high_8_16(u8) -> u16` | Extend an 8-bit  value to a 16-bit value by padding its right with ones. |
-    | `right_pad_high_8_32(u8) -> u32` | Extend an 8-bit  value to a 32-bit value by padding its right with ones. |
-    | `right_pad_high_8_64(u8) -> u64` | Extend a 1-bit  value to a 64-bit value by padding its right with ones. |
+    | `right_pad_high_1_8(u1) -> u8` | Extend a 1-bit value to an 8-bit value by padding its right with ones. |
+    | `right_pad_high_1_16(u1) -> u16` | Extend a 1-bit value to a 16-bit value by padding its right with ones. |
+    | `right_pad_high_1_32(u1) -> u32` | Extend a 1-bit value to a 32-bit value by padding its right with ones. |
+    | `right_pad_high_1_64(u1) -> u64` | Extend a 1-bit value to a 64-bit value by padding its right with ones. |
+    | `right_pad_high_8_16(u8) -> u16` | Extend an 8-bit value to a 16-bit value by padding its right with ones. |
+    | `right_pad_high_8_32(u8) -> u32` | Extend an 8-bit value to a 32-bit value by padding its right with ones. |
+    | `right_pad_high_8_64(u8) -> u64` | Extend a 1-bit value to a 64-bit value by padding its right with ones. |
     | `right_pad_high_16_32(u16) -> u32` | Extend a 16-bit value to a 32-bit value by padding its right with ones. |
     | `right_pad_high_16_64(u16) -> u64` | Extend a 16-bit value to a 64-bit value by padding its right with ones. |
     | `right_pad_high_32_64(u32) -> u64` | Extend a 32-bit value to a 64-bit value by padding its right with ones. |
-    | `right_pad_low_1_8(u1) -> u8` | Extend a 1-bit  value to an 8-bit value by padding its right with zeroes. |
-    | `right_pad_low_1_16(u1) -> u16` | Extend a 1-bit  value to a 16-bit value by padding its right with zeroes. |
-    | `right_pad_low_1_32(u1) -> u32` | Extend a 1-bit  value to a 32-bit value by padding its right with zeroes. |
-    | `right_pad_low_1_64(u1) -> u64` | Extend a 1-bit  value to a 64-bit value by padding its right with zeroes. |
+    | `right_pad_low_1_8(u1) -> u8` | Extend a 1-bit value to an 8-bit value by padding its right with zeroes. |
+    | `right_pad_low_1_16(u1) -> u16` | Extend a 1-bit value to a 16-bit value by padding its right with zeroes. |
+    | `right_pad_low_1_32(u1) -> u32` | Extend a 1-bit value to a 32-bit value by padding its right with zeroes. |
+    | `right_pad_low_1_64(u1) -> u64` | Extend a 1-bit value to a 64-bit value by padding its right with zeroes. |
     | `right_pad_low_8_16(u8) -> u16` | Extend an 8-bit value to a 16-bit value by padding its right with zeroes. |
     | `right_pad_low_8_32(u8) -> u32` | Extend an 8-bit value to a 32-bit value by padding its right with zeroes. |
     | `right_pad_low_8_64(u8) -> u64` | Extend an 8-bit value to a 64-bit value by padding its right with zeroes. |
@@ -204,42 +208,44 @@ Here is a complete list of the available jets in the Elements Simplicity integra
     | `right_shift_with_16(u1, u4, u16) -> u16` | Right-shift a 16-bit value by the given amount. Bits are filled with the given bit. |
     | `right_shift_with_32(u1, u8, u32) -> u32` | Right-shift a 32-bit value by the given amount. Bits are filled with the given bit. |
     | `right_shift_with_64(u1, u8, u64) -> u64` | Right-shift a 64-bit value by the given amount. Bits are filled with the given bit. |
-    | `rightmost_8_1(u8) -> u1` | Return the least significant 1  bits of an 8-bit value. |
-    | `rightmost_8_2(u8) -> u2` | Return the least significant 1  bits of an 8-bit value. |
-    | `rightmost_8_4(u8) -> u4` | Return the least significant 1  bits of an 8-bit value. |
-    | `rightmost_16_1(u16) -> u1` | Return the least significant 1  bit  of a 16-bit value. |
-    | `rightmost_16_2(u16) -> u2` | Return the least significant 2  bits of a 16-bit value. |
-    | `rightmost_16_4(u16) -> u4` | Return the least significant 4  bits of a 16-bit value. |
-    | `rightmost_16_8(u16) -> u8` | Return the least significant 8  bits of a 16-bit value. |
-    | `rightmost_32_1(u32) -> u1` | Return the least significant 1  bit  of a 32-bit value. |
-    | `rightmost_32_2(u32) -> u2` | Return the least significant 2  bits of a 32-bit value. |
-    | `rightmost_32_4(u32) -> u4` | Return the least significant 4  bits of a 32-bit value. |
-    | `rightmost_32_8(u32) -> u8` | Return the least significant 8  bits of a 32-bit value. |
+    | `rightmost_8_1(u8) -> u1` | Return the least significant 1 bit of an 8-bit value. |
+    | `rightmost_8_2(u8) -> u2` | Return the least significant 2 bits of an 8-bit value. |
+    | `rightmost_8_4(u8) -> u4` | Return the least significant 4 bits of an 8-bit value. |
+    | `rightmost_16_1(u16) -> u1` | Return the least significant 1 bit of a 16-bit value. |
+    | `rightmost_16_2(u16) -> u2` | Return the least significant 2 bits of a 16-bit value. |
+    | `rightmost_16_4(u16) -> u4` | Return the least significant 4 bits of a 16-bit value. |
+    | `rightmost_16_8(u16) -> u8` | Return the least significant 8 bits of a 16-bit value. |
+    | `rightmost_32_1(u32) -> u1` | Return the least significant 1 bit of a 32-bit value. |
+    | `rightmost_32_2(u32) -> u2` | Return the least significant 2 bits of a 32-bit value. |
+    | `rightmost_32_4(u32) -> u4` | Return the least significant 4 bits of a 32-bit value. |
+    | `rightmost_32_8(u32) -> u8` | Return the least significant 8 bits of a 32-bit value. |
     | `rightmost_32_16(u32) -> u16` | Return the least significant 16 bits of a 32-bit value. |
-    | `rightmost_64_1(u64) -> u1` | Return the least significant 1  bits of a 64-bit value. |
-    | `rightmost_64_2(u64) -> u2` | Return the least significant 2  bits of a 64-bit value. |
-    | `rightmost_64_4(u64) -> u4` | Return the least significant 4  bits of a 64-bit value. |
-    | `rightmost_64_8(u64) -> u8` | Return the least significant 8  bits of a 64-bit value. |
+    | `rightmost_64_1(u64) -> u1` | Return the least significant 1 bit of a 64-bit value. |
+    | `rightmost_64_2(u64) -> u2` | Return the least significant 2 bits of a 64-bit value. |
+    | `rightmost_64_4(u64) -> u4` | Return the least significant 4 bits of a 64-bit value. |
+    | `rightmost_64_8(u64) -> u8` | Return the least significant 8 bits of a 64-bit value. |
     | `rightmost_64_16(u64) -> u16` | Return the least significant 16 bits of a 64-bit value. |
     | `rightmost_64_32(u64) -> u32` | Return the least significant 32 bits of a 64-bit value. |
-    | `some_1(u1) -> bool` | Check if a 1-bit  value is nonzero. |
+    | `some_1(u1) -> bool` | Check if a 1-bit value is nonzero. |
     | `some_8(u8) -> bool` | Check if an 8-bit value is nonzero. |
     | `some_16(u16) -> bool` | Check if a 16-bit value is nonzero. |
     | `some_32(u32) -> bool` | Check if a 32-bit value is nonzero. |
     | `some_64(u64) -> bool` | Check if a 64-bit value is nonzero. |
     | `verify(bool) -> unit` | Assert that a bit is true.<br><br>## Panics<br>The assertion fails. |
-    | `xor_1(u1, u1) -> u1` | Bitwise XOR of two 1-bit  values. |
-    | `xor_8(u8, u8) -> u8` | Bitwise XOR of two 8-bit  values. |
+    | `xor_1(u1, u1) -> u1` | Bitwise XOR of two 1-bit values. |
+    | `xor_8(u8, u8) -> u8` | Bitwise XOR of two 8-bit values. |
     | `xor_16(u16, u16) -> u16` | Bitwise XOR of two 16-bit values. |
     | `xor_32(u32, u32) -> u32` | Bitwise XOR of two 32-bit values. |
     | `xor_64(u64, u64) -> u64` | Bitwise XOR of two 64-bit values. |
-    | `xor_xor_1(u1, u1, u1) -> u1` | Bitwise XOR of three 1-bit  values. |
-    | `xor_xor_8(u8, u8, u8) -> u8` | Bitwise XOR of three 8-bit  values. |
+    | `xor_xor_1(u1, u1, u1) -> u1` | Bitwise XOR of three 1-bit values. |
+    | `xor_xor_8(u8, u8, u8) -> u8` | Bitwise XOR of three 8-bit values. |
     | `xor_xor_16(u16, (u16, u16)) -> u16` | Bitwise XOR of three 16-bit values. |
     | `xor_xor_32(u32, (u32, u32)) -> u32` | Bitwise XOR of three 32-bit values. |
     | `xor_xor_64(u64, (u64, u64)) -> u64` | Bitwise XOR of three 64-bit values. |
 
 ### Arithmetic
+
+
 
 ???+ "Click to hide"
     | <div style="width:22em">Jet</div> | Description |
@@ -325,7 +331,7 @@ Here is a complete list of the available jets in the Elements Simplicity integra
     | `multiply_16(u16, u16) -> u32` | Multiply two integers. The output is a 32-bit integer. |
     | `multiply_32(u32, u32) -> u64` | Multiply two integers. The output is a 64-bit integer. |
     | `multiply_64(u64, u64) -> u128` | Multiply two integers. The output is a 128-bit integer. |
-    | `negate_8(u8) -> (bool, u8)` | Negate the integer (modulo 2⁸)  and return the borrow bit. |
+    | `negate_8(u8) -> (bool, u8)` | Negate the integer (modulo 2⁸) and return the borrow bit. |
     | `negate_16(u16) -> (bool, u16)` | Negate the integer (modulo 2¹⁶) and return the borrow bit. |
     | `negate_32(u32) -> (bool, u32)` | Negate the integer (modulo 2³²) and return the borrow bit. |
     | `negate_64(u64) -> (bool, u64)` | Negate the integer (modulo 2⁶⁴) and return the borrow bit. |
@@ -340,17 +346,19 @@ Here is a complete list of the available jets in the Elements Simplicity integra
 
 ### Hash functions
 
+
+
 ???+ "Click to hide"
     | <div style="width:22em">Jet</div> | Description |
     | ----------------------------------- | ----------- |
     | `sha_256_block(u256, u256, u256) -> u256` | Update the given 256-bit midstate by running the SHA256 block compression function, using the given 512-bit block. |
-    | `sha_256_ctx8_add1(Ctx8, u8) -> Ctx8` | Add 1   byte  to the SHA256 hash engine. |
-    | `sha_256_ctx8_add2(Ctx8, u16) -> Ctx8` | Add 2   bytes to the SHA256 hash engine. |
-    | `sha_256_ctx8_add4(Ctx8, u32) -> Ctx8` | Add 4   bytes to the SHA256 hash engine. |
-    | `sha_256_ctx8_add8(Ctx8, u64) -> Ctx8` | Add 8   bytes to the SHA256 hash engine. |
-    | `sha_256_ctx8_add16(Ctx8, u128) -> Ctx8` | Add 16  bytes to the SHA256 hash engine. |
-    | `sha_256_ctx8_add32(Ctx8, u256) -> Ctx8` | Add 32  bytes to the SHA256 hash engine. |
-    | `sha_256_ctx8_add64(Ctx8, array(u8, 64)) -> Ctx8` | Add 64  bytes to the SHA256 hash engine. |
+    | `sha_256_ctx8_add1(Ctx8, u8) -> Ctx8` | Add 1 byte to the SHA256 hash engine. |
+    | `sha_256_ctx8_add2(Ctx8, u16) -> Ctx8` | Add 2 bytes to the SHA256 hash engine. |
+    | `sha_256_ctx8_add4(Ctx8, u32) -> Ctx8` | Add 4 bytes to the SHA256 hash engine. |
+    | `sha_256_ctx8_add8(Ctx8, u64) -> Ctx8` | Add 8 bytes to the SHA256 hash engine. |
+    | `sha_256_ctx8_add16(Ctx8, u128) -> Ctx8` | Add 16 bytes to the SHA256 hash engine. |
+    | `sha_256_ctx8_add32(Ctx8, u256) -> Ctx8` | Add 32 bytes to the SHA256 hash engine. |
+    | `sha_256_ctx8_add64(Ctx8, array(u8, 64)) -> Ctx8` | Add 64 bytes to the SHA256 hash engine. |
     | `sha_256_ctx8_add128(Ctx8, array(u8, 128)) -> Ctx8` | Add 128 bytes to the SHA256 hash engine. |
     | `sha_256_ctx8_add256(Ctx8, array(u8, 256)) -> Ctx8` | Add 256 bytes to the SHA256 hash engine. |
     | `sha_256_ctx8_add512(Ctx8, array(u8, 512)) -> Ctx8` | Add 512 bytes to the SHA256 hash engine. |
@@ -360,6 +368,8 @@ Here is a complete list of the available jets in the Elements Simplicity integra
     | `sha_256_iv() -> u256` | Return the SHA256 initial value. |
 
 ### Elliptic curve functions
+
+
 
 ???+ "Click to hide"
     | <div style="width:22em">Jet</div> | Description |
@@ -409,6 +419,8 @@ Here is a complete list of the available jets in the Elements Simplicity integra
 
 ### Digital Signatures
 
+
+
 ???+ "Click to hide"
     | <div style="width:22em">Jet</div> | Description |
     | ----------------------------------- | ----------- |
@@ -417,14 +429,18 @@ Here is a complete list of the available jets in the Elements Simplicity integra
 
 ### Bitcoin (without primitives)
 
+
+
 ???+ "Click to hide"
     | <div style="width:22em">Jet</div> | Description |
     | ----------------------------------- | ----------- |
     | `parse_lock(u32) -> Either<Height, Time>` | Parse an integer as a consensus-encoded Bitcoin lock time. |
     | `parse_sequence(u32) -> Option<Either<Distance, Duration>>` | Parse an integer as a consensus-encoded Bitcoin sequence number. |
-    | `tapdata_init() -> Ctx8` | Create a SHA256 context, initialized with a "TapData" tag. |
+    | `tapdata_init() -> Ctx8` | Create a SHA256 context, initialized with a `TapData` tag. |
 
 ### Signature hash modes
+
+
 
 ???+ "Click to hide"
     | <div style="width:22em">Jet</div> | Description |
@@ -432,26 +448,26 @@ Here is a complete list of the available jets in the Elements Simplicity integra
     | `annex_hash(Ctx8, Option<u256>) -> Ctx8` | Continue a SHA256 hash with an optional hash by appending the following:<br>- If there is no hash, then the byte `0x00`.<br>- If there is a hash, then the byte `0x01` followed by the given hash (32 bytes). |
     | `asset_amount_hash(Ctx8, Asset1, Amount1) -> Ctx8` | Continue a SHA256 hash with the serialization of a confidential asset followed by the serialization of a amount. |
     | `build_tapbranch(u256, u256) -> u256` | Return the SHA256 hash of the following:<br>- The hash of the ASCII string `TapBranch/elements` (32 bytes).<br>- The lexicographically smaller of the two inputs (32 bytes).<br>- The hash of the ASCII string `TapBranch/elements` again (32 bytes).<br>- The lexicographically larger of the two inputs (32 bytes).<br><br>This builds a taproot from two branches. |
-    | `build_tapleaf_simplicity(u256) -> u256` | Return the SHA256 hash of the following:<br>- The hash of the ASCII string `TapBranch/elements` (32 bytes).<br>- The hash of the ASCII string `TapBranch/elements` again (32 bytes).<br>- The lexicographically smaller of the two inputs (32 bytes).<br>- The lexicographically larger of the two inputs (32 bytes).<br><br>This builds a taproot from two branches. |
+    | `build_tapleaf_simplicity(u256) -> u256` | Return the SHA256 hash of the following:<br>- The hash of the ASCII string `TapLeaf/elements` (32 bytes).<br>- The hash of the ASCII string `TapLeaf/elements` again (32 bytes).<br>- The Simplicity leaf version `0xbe` (1 byte).<br>- The byte `0x20` (1 byte).<br>- The input CMR (32 bytes).<br><br>This builds a tapleaf hash for a Simplicity program. |
     | `build_taptweak(Pubkey, u256) -> u256` | Implementation of `taproot_tweak_pubkey` from BIP-0341.<br><br>## Panics<br>1. The input x-only public key is off curve or exceeds the field size.<br>2. The internal hash value `t` exceeds the secp256k1 group order.<br>3. The generated tweaked point is infinity, and thus has no valid x-only public key.<br><br>Note that situations 2 and 3 are cryptographically impossible to occur. |
     | `input_amounts_hash() -> u256` | Return the SHA256 hash of the serialization of each input UTXO's asset and amount fields. |
     | `input_annexes_hash() -> u256` | Return the SHA256 hash of the concatenation of the following for every input:<br>- If the input has no annex, or isn't a taproot spend, then the byte `0x00`.<br>- If the input has an annex, then the byte `0x01` followed by the SHA256 hash of the annex (32 bytes). |
-    | `input_outpoints_hash() -> u256` | Return the SHA256 hash of the concatenation of the following for every input:<br>- If the input is not a pegin, then the byte `0x00`.<br>- If the input is a pegin, then the byte `0x01` followed by the parent chain's genesis hash (32 bytes).<br>- The input's serialized previous transaction id (32 bytes).<br>- The input's previous transaction index in big endian format (4 bytes).<br><br>IMPORTANT: the index is serialized in big endian format rather than little endian format. |
+    | `input_outpoints_hash() -> u256` | Return the SHA256 hash of the concatenation of the following for every input:<br>- If the input is not a pegin, then the byte `0x00`.<br>- If the input is a pegin, then the byte `0x01` followed by the parent chain's genesis hash (32 bytes).<br>- The input's serialized previous transaction ID (32 bytes).<br>- The input's previous transaction index in big endian format (4 bytes).<br><br>IMPORTANT: the index is serialized in big endian format rather than little endian format. |
     | `input_script_sigs_hash() -> u256` | Return the SHA256 hash of the concatenation of the SHA256 hash of each input's scriptSig.<br><br>Note that if an input's UTXO uses segwit, then it's scriptSig will necessarily be the empty string. In such cases we still use the SHA256 hash of the empty string. |
     | `input_scripts_hash() -> u256` | Return the SHA256 hash of the concatenation of the SHA256 hash of each input UTXO's scriptPubKey. |
-    | `input_sequences_hash() -> u256` | Return the SHA256 hash of the concatenation of the following for every input:<br>- The input's sequence number in big endian format (4 bytes).<br><br>IMPORTANT, the sequence number is serialized in big endian format rather than little endian format. |
+    | `input_sequences_hash() -> u256` | Return the SHA256 hash of the concatenation of the following for every input:<br>- The input's sequence number in big endian format (4 bytes).<br><br>IMPORTANT: the sequence number is serialized in big endian format rather than little endian format. |
     | `input_utxo_hash(u32) -> Option<u256>` | Return the SHA256 hash of the following:<br>- The serialization of the input UTXO's asset and amount fields.<br>- The SHA256 hash of the input UTXO's scriptPubKey.<br><br>Return `None` if the input does not exist. |
     | `input_utxos_hash() -> u256` | Return the SHA256 hash of the following:<br>- The result of `input_amounts_hash` (32 bytes).<br>- The result of `input_scripts_hash` (32 bytes). |
-    | `input_hash(u32) -> Option<u256>` | Return the SHA256 hash of the following:<br>- If the input is not a pegin, then the byte `0x00`.<br>- If the input is a pegin, then the byte `0x01` followed by the parent chain's genesis hash (32 bytes).<br>- The input's serialized previous transaction id (32 bytes).<br>- The input's previous transaction index in big endian format (4 bytes).<br>- The input's sequence number in big endian format (4 bytes).<br>- If the input has no annex, or isn't a taproot spend, then the byte `0x00`.<br>- If the input has an annex, then the byte `0x01` followed by the SHA256 hash of the annex (32 bytes).<br><br>Return `None` if the input does not exist. |
+    | `input_hash(u32) -> Option<u256>` | Return the SHA256 hash of the following:<br>- If the input is not a pegin, then the byte `0x00`.<br>- If the input is a pegin, then the byte `0x01` followed by the parent chain's genesis hash (32 bytes).<br>- The input's serialized previous transaction ID (32 bytes).<br>- The input's previous transaction index in big endian format (4 bytes).<br>- The input's sequence number in big endian format (4 bytes).<br>- If the input has no annex, or isn't a taproot spend, then the byte `0x00`.<br>- If the input has an annex, then the byte `0x01` followed by the SHA256 hash of the annex (32 bytes).<br><br>Return `None` if the input does not exist. |
     | `inputs_hash() -> u256` | Return the SHA256 hash of the following:<br>- The result of `input_outpoints_hash` (32 bytes).<br>- The result of `input_sequences_hash` (32 bytes).<br>- The result of `input_annexes_hash` (32 bytes). |
-    | `issuance_asset_amounts_hash() -> u256` | Return the SHA256 hash of the concatenation of the following for every input:<br>- If the input has no issuance then two bytes `0x00 0x00`.<br>- If the input is has a new issuance then the byte `0x01` followed by a serialization of the calculated issued asset id (32 bytes) followed by the serialization of the (possibly confidential) issued asset amount (9 bytes or 33 bytes).<br>- If the input is has a reissuance then the byte `0x01` followed by a serialization of the issued asset id<br>(32 bytes), followed by the serialization of the (possibly confidential) issued asset amount (9 bytes or<br>33 bytes).<br><br>IMPORTANT: If there is an issuance but there are no asset issued (i.e. the amount is null) we serialize the value as the explicit 0 amount, (i.e. `0x01 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00`).<br><br>Note, the issuance asset id is serialized in the same format as an explicit asset id would be. |
-    | `issuance_blinding_entropy_hash() -> u256` | Return the SHA256 hash of the concatenation of the following for every input:<br>- If the input has no issuance then the byte `0x00`.<br>- If the input is has a new issuance then the byte `0x01` followed by 32 `0x00` bytes and the new issuance's contract hash field (32 bytes).<br>- If the input is has reissuance then the byte `0x01` followed by a serializaiton of the reissuance's blinding nonce field (32 bytes) and the reissuance's entropy field (32 bytes).<br><br>Note that if the issuance is a new issuance then the blinding nonce field is 32 `0x00` bytes and new issuance's contract hash. |
+    | `issuance_asset_amounts_hash() -> u256` | Return the SHA256 hash of the concatenation of the following for every input:<br>- If the input has no issuance then two bytes `0x00 0x00`.<br>- If the input is has a new issuance then the byte `0x01` followed by a serialization of the calculated issued asset id (32 bytes) followed by the serialization of the (possibly confidential) issued asset amount (9 bytes or 33 bytes).<br>- If the input is has a reissuance then the byte `0x01` followed by a serialization of the issued asset id<br>(32 bytes), followed by the serialization of the (possibly confidential) issued asset amount (9 bytes or 33 bytes).<br><br>IMPORTANT: If there is an issuance but there are no asset issued (i.e. the amount is null) we serialize the value as the explicit 0 amount, (i.e. `0x01 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00`).<br><br>Note, the issuance asset id is serialized in the same format as an explicit asset id would be. |
+    | `issuance_blinding_entropy_hash() -> u256` | Return the SHA256 hash of the concatenation of the following for every input:<br>- If the input has no issuance then the byte `0x00`.<br>- If the input is has a new issuance then the byte `0x01` followed by 32 `0x00` bytes and the new issuance's contract hash field (32 bytes).<br>- If the input is has reissuance then the byte `0x01` followed by a serialization of the reissuance's blinding nonce field (32 bytes) and the reissuance's entropy field (32 bytes).<br><br>Note that if the issuance is a new issuance then the blinding nonce field is 32 `0x00` bytes and new issuance's contract hash. |
     | `issuance_range_proofs_hash() -> u256` | Return the SHA256 hash of the concatenation of the following for every input:<br>- The SHA256 hash of the range proof of the input's issuance asset amount (32 bytes).<br>- The SHA256 hash of the range proof of the input's issuance token amount (32 bytes).<br><br>Note that each the range proof is considered to be the empty string in the case there is no issuance, or if the asset or token amount doesn't exist (i.e is null). The SHA256 hash of the empty string is still used in these cases. |
     | `issuance_token_amounts_hash() -> u256` | Return the SHA256 hash of the concatenation of the following for every input:<br>- If the input has no issuance then two bytes `0x00 0x00`.<br>- If the input is has a new issuance then the byte `0x01` followed by a serialization of the calculated issued token id (32 bytes) followed by the serialization of the (possibly confidential) issued token amount (9 bytes or 33 bytes).<br>- If the input is has a reissuance then the byte `0x01` followed by a serialization of the issued token id<br>(32 bytes), followed by the serialization of the explicit 0 amount (i.e `0x01 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00`) (9 bytes).<br><br>IMPORTANT: If there is an issuance but there are no tokens issued (i.e. the amount is null) we serialize the value as the explicit 0 amount, (i.e. `0x01 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00`).<br><br>Note, the issuance token id is serialized in the same format as an explicit asset id would be. |
-    | `issuance_hash(u32) -> Option<u256>` | Return the SHA256 hash of the following:<br>1. The asset issuance:<br>- If the input has no issuance then two bytes `0x00 0x00`.<br>- If the input is has a new issuance then the byte `0x01` followed by a serialization of the calculated issued asset id (32 bytes) followed by the serialization of the (possibly confidential) issued asset amount (9 bytes or 33 bytes).<br>- If the input is has a reissuance then the byte `0x01` followed by a serialization of the issued asset id<br>(32 bytes), followed by the serialization of the (possibly confidential) issued asset amount (9 bytes or 33 bytes).<br>2. The token issuance:<br>- If the input has no issuance then two bytes `0x00 0x00`.<br>- If the input is has a new issuance then the byte `0x01` followed by a serialization of the calculated issued token id (32 bytes) followed by the serialization of the (possibly confidential) issued token amount (9 bytes or 33 bytes).<br>- If the input is has a reissuance then the byte `0x01` followed by a serialization of the issued token id (32 bytes), followed by the serialization of the explicit 0 amount (i.e `0x01 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00`) (9 bytes).<br>3. The range proofs:<br>- The SHA256 hash of the range proof of the input's issuance asset amount (32 bytes).<br>- The SHA256 hash of the range proof of the input's issuance token amount (32 bytes).<br>4. The blinding entropy:<br>- If the input has no issuance then the byte `0x00`.<br>- If the input is has a new issuance then the byte `0x01` followed by 32 `0x00` bytes and the new issuance's contract hash field (32 bytes).<br>- If the input is has reissuance then the byte `0x01` followed by a serializaiton of the reissuance's blinding nonce field (32 bytes) and the reissuance's entropy field (32 bytes).<br><br>Return `None` if the input does not exist. |
+    | `issuance_hash(u32) -> Option<u256>` | Return the SHA256 hash of the following:<br>1. The asset issuance:<br>- If the input has no issuance then two bytes `0x00 0x00`.<br>- If the input is has a new issuance then the byte `0x01` followed by a serialization of the calculated issued asset id (32 bytes) followed by the serialization of the (possibly confidential) issued asset amount (9 bytes or 33 bytes).<br>- If the input is has a reissuance then the byte `0x01` followed by a serialization of the issued asset id<br>(32 bytes), followed by the serialization of the (possibly confidential) issued asset amount (9 bytes or 33 bytes).<br>2. The token issuance:<br>- If the input has no issuance then two bytes `0x00 0x00`.<br>- If the input is has a new issuance then the byte `0x01` followed by a serialization of the calculated issued token id (32 bytes) followed by the serialization of the (possibly confidential) issued token amount (9 bytes or 33 bytes).<br>- If the input is has a reissuance then the byte `0x01` followed by a serialization of the issued token id (32 bytes), followed by the serialization of the explicit 0 amount (i.e `0x01 0x00 0x00 0x00 0x00 0x00 0x00 0x00 0x00`) (9 bytes).<br>3. The range proofs:<br>- The SHA256 hash of the range proof of the input's issuance asset amount (32 bytes).<br>- The SHA256 hash of the range proof of the input's issuance token amount (32 bytes).<br>4. The blinding entropy:<br>- If the input has no issuance then the byte `0x00`.<br>- If the input is has a new issuance then the byte `0x01` followed by 32 `0x00` bytes and the new issuance's contract hash field (32 bytes).<br>- If the input is has reissuance then the byte `0x01` followed by a serialization of the reissuance's blinding nonce field (32 bytes) and the reissuance's entropy field (32 bytes).<br><br>Return `None` if the input does not exist. |
     | `issuances_hash() -> u256` | Return the SHA256 hash of the following:<br>- The result of `issuance_asset_amounts_hash` (32 bytes).<br>- The result of `issuance_token_amounts_hash` (32 bytes).<br>- The result of `issuance_range_proofs_hash` (32 bytes).<br>- The result of `issuance_blinding_entropy_hash` (32 bytes). |
     | `nonce_hash(Ctx8, Option<Nonce>) -> Ctx8` | Continue the SHA256 hash with the serialization of an optional nonce. |
-    | `outpoint_hash(Ctx8, Option<u256>, Outpoint) -> Ctx8` | Continue the SHA256 hash with an optional pegin and an outpoint by appending the following:<br>- If the input is not a pegin, then the byte `0x00`.<br>- If the input is a pegin, then the byte `0x01` followed by the given parent genesis hash (32 bytes).<br>- The input's previous transaction id (32 bytes).<br>- The input's previous transaction index in big endian format (4 bytes). |
+    | `outpoint_hash(Ctx8, Option<u256>, Outpoint) -> Ctx8` | Continue the SHA256 hash with an optional pegin and an outpoint by appending the following:<br>- If the input is not a pegin, then the byte `0x00`.<br>- If the input is a pegin, then the byte `0x01` followed by the given parent genesis hash (32 bytes).<br>- The input's previous transaction ID (32 bytes).<br>- The input's previous transaction index in big endian format (4 bytes). |
     | `output_amounts_hash() -> u256` | Return the SHA256 hash of the serialization of each output's asset and amount fields. |
     | `output_nonces_hash() -> u256` | Return the SHA256 hash of the serialization of each output's nonce field. |
     | `output_range_proofs_hash() -> u256` | Return the SHA256 hash of the concatenation of the SHA256 hash of each output's range proof.<br><br>Note that if the output's amount is explicit then the range proof is considered the empty string. |
@@ -467,16 +483,20 @@ Here is a complete list of the available jets in the Elements Simplicity integra
 
 ### Time locks
 
+
+
 ???+ "Click to hide"
     | <div style="width:22em">Jet</div> | Description |
     | ----------------------------------- | ----------- |
-    | `check_lock_height(Height) -> unit` | Assert that the value returned by `tx_lock_height`   is greater than or equal to the given value.<br><br>## Panics<br>The assertion fails. |
-    | `check_lock_time(Time) -> unit` | Assert that the value returned by `tx_lock_time`     is greater than or equal to the given value.<br><br>## Panics<br>The assertion fails. |
+    | `check_lock_height(Height) -> unit` | Assert that the value returned by `tx_lock_height` is greater than or equal to the given value.<br><br>## Panics<br>The assertion fails. |
+    | `check_lock_time(Time) -> unit` | Assert that the value returned by `tx_lock_time` is greater than or equal to the given value.<br><br>## Panics<br>The assertion fails. |
     | `tx_is_final() -> bool` | Check if the sequence numbers of all transaction inputs are at their maximum value. |
     | `tx_lock_height() -> Height` | If `tx_is_final` returns false, then try to parse the transaction's lock time as a `Height` value. Return zeroes otherwise. |
     | `tx_lock_time() -> Time` | If `tx_is_final` returns false, then try to parse the transaction's lock time as a `Time` value. Return zeroes otherwise. |
 
 ### Issuance
+
+
 
 ???+ "Click to hide"
     | <div style="width:22em">Jet</div> | Description |
@@ -485,36 +505,38 @@ Here is a complete list of the available jets in the Elements Simplicity integra
     | `calculate_confidential_token(u256) -> ExplicitAsset` | Calculate the reissuance token id from a given entropy value for assets with confidential issued amounts. |
     | `calculate_explicit_token(u256) -> ExplicitAsset` | Calculate the reissuance token id from a given entropy value for assets with explicit issued amounts. |
     | `calculate_issuance_entropy(Outpoint, u256) -> u256` | Calculate the entropy value from a given outpoint and contract hash.<br><br>This entropy value is used to compute issued asset and token IDs. |
-    | `issuance(u32) -> Option<Option<bool>>` | Return the kind of issuance of the input at the given index:<br>- Return `Some(Some(false))` if the input has new issuance.<br>- Return `Some(Some(true))` if the input as reissuance.<br>- Return `Some(None)` if the input has no issuance.<br>- Return `None` if the input does not exist. |
+    | `issuance(u32) -> Option<Option<bool>>` | Return the kind of issuance of the input at the given index:<br>- Return `Some(Some(false))` if the input has new issuance.<br>- Return `Some(Some(true))` if the input has reissuance.<br>- Return `Some(None)` if the input has no issuance.<br>- Return `None` if the input does not exist. |
     | `issuance_asset(u32) -> Option<Option<ExplicitAsset>>` | Return the ID of the issued asset of the input at the given index:<br>- Return `Some(Some(x))` if the input has issuance with asset id `x`.<br>- Return `Some(None)` if the input has no issuance.<br>- Return `None` if the input does not exist. |
-    | `issuance_entropy(u32) -> Option<Option<u256>>` | Return the issuance entropy of the input at the given index:<br>- Return `Some(Some(x))` if the input has reissuance with entropy `x` or if there is new issuance whose computed entropy is `x`.<br>- Return `Some(Some(x))` if the input has no issuance.<br>- Return `None` if the input does not exist. |
+    | `issuance_entropy(u32) -> Option<Option<u256>>` | Return the issuance entropy of the input at the given index:<br>- Return `Some(Some(x))` if the input has reissuance with entropy `x` or if there is new issuance whose computed entropy is `x`.<br>- Return `Some(None)` if the input has no issuance.<br>- Return `None` if the input does not exist. |
     | `issuance_token(u32) -> Option<Option<ExplicitAsset>>` | Return the reissuance token of the input at the given index:<br>- Return `Some(Some(x))` if the input has issuance with the reissuance token ID `x`.<br>- Return `Some(None)` if the input has no issuance.<br>- Return `None` if the input does not exist. |
     | `lbtc_asset() -> u256` | Return the asset for Liquid Bitcoin. |
 
 ### Transaction
 
+
+
 ???+ "Click to hide"
     | <div style="width:22em">Jet</div> | Description |
     | ----------------------------------- | ----------- |
     | `current_amount() -> (Asset1, Amount1)` | Return the `input_amount` at the `current_index`. |
-    | `current_annex_hash() -> Option<u256>` | Return the `input_annex_hash` at th `current_index`. |
+    | `current_annex_hash() -> Option<u256>` | Return the `input_annex_hash` at the `current_index`. |
     | `current_asset() -> Asset1` | Return the `input_asset` at the `current_index`. |
     | `current_index() -> u32` | Return the index of the current txin. |
     | `current_issuance_asset_amount() -> Option<Amount1>` | Return the `issuance_asset_amount` at the `current_index`. |
-    | `current_issuance_asset_proof() -> u256` | Return the `issuance_asset_proof`  at the `current_index`. |
+    | `current_issuance_asset_proof() -> u256` | Return the `issuance_asset_proof` at the `current_index`. |
     | `current_issuance_token_amount() -> Option<TokenAmount1>` | Return the `issuance_token_amount` at the `current_index`. |
-    | `current_issuance_token_proof() -> u256` | Return the `issuance_token_proof`  at the `current_index`. |
+    | `current_issuance_token_proof() -> u256` | Return the `issuance_token_proof` at the `current_index`. |
     | `current_new_issuance_contract() -> Option<u256>` | Return the `new_issuance_contract` at the `current_index`. |
     | `current_pegin() -> Option<u256>` | Return the `input_pegin` at the `current_index`. |
     | `current_prev_outpoint() -> Outpoint` | Return the previous outpoint of the current txin. |
     | `current_reissuance_blinding() -> Option<ExplicitNonce>` | Return the `reissuance_blinding` at the `current_index`. |
-    | `current_reissuance_entropy() -> Option<u256>` | Return the `reissuance_entropy`  at the `current_index`. |
+    | `current_reissuance_entropy() -> Option<u256>` | Return the `reissuance_entropy` at the `current_index`. |
     | `current_script_hash() -> u256` | Return the SHA256 hash of the scriptPubKey of the UTXO of the current txin. |
     | `current_script_sig_hash() -> u256` | Return the SHA256 hash of the scriptSig of the current txin.<br><br>SegWit UTXOs enforce scriptSig to be the empty string. In such cases, we return the SHA256 hash of the empty string. |
     | `current_sequence() -> u32` | Return the nSequence of the current txin.<br><br>Use this jet to obtain the raw, encoded sequence number.<br>Use `tx_lock_distance` to obtain a relative block height, or `tx_lock_duration` to obtain a relative UNIX timestamp, in a safe manner. |
     | `genesis_block_hash() -> u256` | Return the SHA256 hash of the genesis block. |
     | `input_amount(u32) -> Option<(Asset1, Amount1)>` | Return the asset id and the asset amount at the given input index.<br><br>Return `None` if the input does not exist. |
-    | `input_annex_hash(u32) -> Option<Option<u256>>` | Return the SHA256 hash of the annex at the given input:<br>- Return `Some(Some(x))` if the input has an annex that hashes to `x`.<br>- Return `Some(None`) if the input has no annex.<br>- Return `None` if the input does not exist. |
+    | `input_annex_hash(u32) -> Option<Option<u256>>` | Return the SHA256 hash of the annex at the given input:<br>- Return `Some(Some(x))` if the input has an annex that hashes to `x`.<br>- Return `Some(None)` if the input has no annex.<br>- Return `None` if the input does not exist. |
     | `input_asset(u32) -> Option<Asset1>` | Return the asset id of the input at the given index.<br><br>Return `None` if the input does not exist. |
     | `input_pegin(u32) -> Option<Option<u256>>` | Return the parent genesis block hash if the input at the given index is a peg-in.<br><br>- Return `Some(None)` if the input is not a peg-in.<br>- Return `None` if the input does not exist. |
     | `input_prev_outpoint(u32) -> Option<Outpoint>` | Return the previous outpoint of the input at the given index.<br><br>Return `None` if the input does not exist. |
@@ -530,7 +552,7 @@ Here is a complete list of the available jets in the Elements Simplicity integra
     | `new_issuance_contract(u32) -> Option<Option<u256>>` | Return the contract hash for the new issuance at the given input index.<br><br>- Return `Some(None)` if the input does not have a new issuance.<br>- Return `None` if the input does not exist. |
     | `num_inputs() -> u32` | Return the number of inputs of the transaction. |
     | `num_outputs() -> u32` | Return the number of outputs of the transaction. |
-    | `output_amount(u32) -> Option<(Asset1, Amount1)>` | Return the asset amount of the output at the given index.  <br>Return `None` if the output does not exist. |
+    | `output_amount(u32) -> Option<(Asset1, Amount1)>` | Return the asset amount of the output at the given index.<br>Return `None` if the output does not exist. |
     | `output_asset(u32) -> Option<Asset1>` | Return the asset id of the output at the given index.<br><br>Return `None` if the output does not exist. |
     | `output_is_fee(u32) -> Option<bool>` | Check if the output at the given index is a fee output.<br><br>Return `None` if the output does not exist. |
     | `output_nonce(u32) -> Option<Option<Nonce>>` | Return the nonce of the output at the given index.<br><br>- Return `Some(None)` if the output does not have a nonce.<br>- Return `None` if the output does not exist. |
