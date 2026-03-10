@@ -3498,7 +3498,7 @@
       "section": "Transaction",
       "input_type": "",
       "output_type": "u32",
-      "description": "Return the nSequence of the current txin.\n\nUse this jet to obtain the raw, encoded sequence number.\nUse `tx_lock_distance` to obtain a relative block height, or `tx_lock_duration` to obtain a relative UNIX timestamp, in a safe manner."
+      "description": "Return the nSequence of the current txin.\n\nUse this jet to obtain the raw, encoded sequence number."
     },
     {
       "haskell_name": "GenesisBlockHash",
