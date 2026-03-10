@@ -4,7 +4,7 @@ This is the static site generator for https://docs.simplicity-lang.org. We aim t
 
 The site is built on [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/) which includes some [nice formatting options](https://squidfunk.github.io/mkdocs-material/reference/).
 
-Realtime preview of documentation changes (preferable inside a Python3 virtualenv):
+Realtime preview of documentation changes (preferably inside a Python3 virtualenv):
 ```bash
 # Install dependencies
 pip install -r requirements.txt
