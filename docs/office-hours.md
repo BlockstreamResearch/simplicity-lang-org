@@ -31,3 +31,4 @@ You can also see all public Simplicity-related events in the public calendar:
 * <a href="https://youtu.be/X0TJAnBFSsc">February 17, 2026</a>
 * <a href="https://youtu.be/kJnRKI2NuN0">February 24, 2026</a>
 * <a href="https://youtu.be/2Rgn4-JIgqU">March 3, 2026</a>
+* <a href="https://youtu.be/fnOuWNYFBQg">March 10, 2026</a>
