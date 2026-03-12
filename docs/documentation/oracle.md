@@ -140,4 +140,4 @@ SHA256 and BIP0340 should generally be used because they're most compatible with
 
 If an oracle completely ceases to operate, it might be impossible to resolve contracts that rely on that oracle's statements. So, many forms of contract that rely on oracles can benefit from a timeout mechanism as a fail-safe. The smart contract can provide a timeout path so that, after a significant period of time has passed after the contract should have been resolved, unclaimed funds can be claimed as a refund by their original senders, or to some predesignated beneficiary.
 
-With this precaution in place, if a relevant oracle statement is never produced, funds are not locked inside the contract permanently. Without it, a risk exists of getting into a situation where nobody can authorize the release of the funds.
+With this precaution in place, if a relevant oracle statement is never produced, funds are not locked inside the contract permanently.
