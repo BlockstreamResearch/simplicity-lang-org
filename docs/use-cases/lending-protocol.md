@@ -10,9 +10,9 @@ The Protocol handles accounting for a loan involving two different tokens, repre
 
 The implementation plan consists of steps for the full Protocol implementation. It starts with verified lending primitives and increases the complexity and functionality of the Protocol over time.
 
-## 1. Simplicity Lending Protocol Roadmap
+## Simplicity Lending Protocol Roadmap
 
-### 1.1. P2P Simplified Lending Contract
+### P2P Simplified Lending Contract
 
 These are the parameters of the lending contract:
 
@@ -76,7 +76,7 @@ The Borrower should fully repay the loan plus the Loan Fee at any moment before 
 
 If the Borrower did not repay the full Loan Amount before the Lending Term, the Lender can claim the full collateral amount. 
 
-### 1.2. P2P Lending Contract with Mock Price Oracle and Partial Loan Repayment
+### P2P Lending Contract with Mock Price Oracle and Partial Loan Repayment
 
 This contract variant is based upon the contract described in the prior section, with additional functionality and an additional Liquidation Loan-To-Value (LLTV) parameter.
 
@@ -126,7 +126,7 @@ $$ \text{Borrower Collateral Payment} = \text{Collateral Amount} - \frac{\text{L
 
 Liquidation Penalty is also subject to Liquidation Protocol Fee, which goes to the Protocol Address.
 
-### 1.3. P2P Lending Contract with Integrated Interest Rate
+### P2P Lending Contract with Integrated Interest Rate
 
 This contract variant is based upon the contract described in the prior section, but, instead of a fixed Loan Fee, a fixed Interest Rate is used.
 
@@ -176,7 +176,7 @@ $$ \text{Borrower Collateral Payment} = \text{Collateral Amount} - \frac{\text{L
 
 Liquidation Penalty is also subject to Liquidation Protocol Fee, which goes to the Protocol Address.
 
-## 2. First Lending Protocol Implementation
+## First Lending Protocol Implementation
 
 For now, we are finalising the first version of the Protocol with a P2P Simplified Lending Contract solution which will be deployed on the Liquid Network and allow lending USDT against LBTC for a fixed term.
 
@@ -228,7 +228,7 @@ After the Borrower has constructed a "lock collateral" covenant, a Lender can th
 
 After the lending contract is set up, there are two ways it can be settled. Either the Borrower provides the principal with interest to the Lender and takes the collateral back, or the Lending Term expires, and the Lender liquidates the position, claiming the collateral for himself.
 
-## 3. Indexing and Discovery Mechanism
+## Indexing and Discovery Mechanism
 
 The indexing mechanism is a critical component of the protocol's UX. To make the lending workflow functional, Lenders must be able to view all active loan offers from Borrowers. Simultaneously, Borrowers require real-time updates on the status of their offers to monitor repayment deadlines and obligations. The following indexing strategy is used to aggregate and display this data.
 
