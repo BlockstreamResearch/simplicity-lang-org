@@ -44,6 +44,10 @@ If you’re unsure it belongs here, it probably does. Submit the PR.
 
 * Prefer [Mermaid](https://github.blog/developer-skills/github/include-diagrams-markdown-files-mermaid/) diagrams/flowcharts.
 
+### Dependencies
+
+Avoid assuming a particular operating system or environment.
+
 ### Audiences
 
 Consider various audiences' perspectives:
