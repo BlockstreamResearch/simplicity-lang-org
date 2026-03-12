@@ -99,7 +99,12 @@ In addition to financial applications like prediction markets and options contra
 
 When a contract needs access to information kept in a database in order to make a decision, oracle mechanisms help work around [the fact that Simplicity contracts can't directly access off-chain data](../../documentation/execution-model).
 
-For example, suppose you're creating an application which is only allowed to send withdrawals to explicitly pre-approved addresses. But the list of such addresses may live in a database, not on the blockchain. An internal oracle can help by (1) performing a database lookup, (2) combining the results with a current timestamp, and (3) digitally signing the results. If a specific address is approved for withdrawals, that oracle statement confirms this fact in a format that can then be provided to the smart contract. If it's not, the oracle statement won't be issued and the transaction won't be completed.
+For example, suppose you're creating an application which is only allowed to send withdrawals to explicitly pre-approved addresses. But the list of such addresses may live in a database, not on the blockchain. An internal oracle can help by 
+1.  performing a database lookup,
+2.  combining the results with a current timestamp and,
+3.  digitally signing the results.
+
+If a specific address is approved for withdrawals, that oracle statement confirms this fact in a format that can then be provided to the smart contract. If it's not, the oracle statement won't be issued and the transaction won't be completed.
 
 Any kind of business may find this useful for adding back-end business logic to a smart contract application (in exchange for imposing dependencies on transactions). It may be especially relevant to regulated entities building regulated financial products and services, where the creators may want to apply additional off-chain criteria for approval of some on-chain actions.
 
