@@ -181,12 +181,14 @@ The first argument is a JSON string consisting of a list of *outpoints*, each a 
 
 where each `<txid>` is a txid in hex form and each `<index>` is an integer index.
 
-The second argument is a JSON string consisting of a list of JSON objects mapping *destination addresses to amounts*, where each destination address is an on-chain address and each amount is a floating-point value. One of the JSON objects can also optionally contain a mapping from the string `fee` to an amount, indicating payment of a fee.
+The second argument is a JSON string consisting of a list of JSON objects mapping *destination addresses to assets and amounts*, where each destination address is an on-chain address and each amount is a floating-point value. The assets are specified as 64-character hexadecimal values (Liquid asset IDs). One of the JSON objects can also optionally contain a mapping from the string `fee` to an amount, indicating payment of a fee.
 
 ```json
 [
   {
-    "<addr>": <amt>
+    "address": "<addr>",
+    "asset": "<assetid>",
+    "amount": <amt>
   },
   {
     "fee": <feeamt>
@@ -194,7 +196,9 @@ The second argument is a JSON string consisting of a list of JSON objects mappin
 ]
 ```
 
-where `<addr>` is a destination address, `<amt>` is a floating-point amount, and `<feeamt>` is a floating-point amount.
+where `<addr>` is a destination address, `<assetid>` is a hexadecimal Liquid asset ID, `<amt>` is a floating-point amount, and `<feeamt>` is a floating-point amount.
+
+If the asset is not specified, it is assumed by default to be the asset corresponding to Liquid Bitcoin (LBTC). Network fees are currently always automatically paid in LBTC.
 
 The output of the command is a JSON object whose attribute `pset` contains the new PSET in base64 format.
 
