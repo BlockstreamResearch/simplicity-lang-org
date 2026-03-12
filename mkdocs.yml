@@ -153,6 +153,8 @@ nav:
       - Example contracts (basic): https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples
       - Example contracts (advanced): https://github.com/BlockstreamResearch/simplicity-contracts
       - Tools and Projects: getting-started/projects.md
+      - State Management: documentation/state.md
+      - Oracles: documentation/oracle.md
 #      - SimplicityHL: getting-started/simplicityhl.md
       - Web IDE: getting-started/web-ide.md
 #      - CLI Guide: getting-started/cli.md
@@ -168,7 +170,7 @@ nav:
 #  - SimplicityHL Reference:
       - simplicityhl-reference/index.md
       - Jets Reference: documentation/jets.md
-      - State Management: documentation/state.md
+      - Toolchain Reference: documentation/toolchain.md
       - Environment: simplicityhl-reference/environment.md
       - Translation: simplicityhl-reference/translation.md
       - Whitepaper: https://blockstream.com/simplicity.pdf
