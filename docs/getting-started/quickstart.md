@@ -145,7 +145,7 @@ Now run this command to generate a transaction that spends the assets you sent t
 Replace `<TXID>` with the txid value from the Explorer. The address `tex1q9hgs7pj8etd92rw5qz3dymvujffxzylmj6a28h` is a sample wallet address that we created to receive tLBTC funds from this process.
 
 ```bash
-cargo run generate-p2pk-spending-transaction --utxo <TXID>:0 --to-address tex1q9hgs7pj8etd92rw5qz3dymvujffxzylmj6a28h --send-sats 99900 --fee-sats 100
+cargo run spend-from-p2pk-contract --utxo <TXID>:0 --to-address tex1q9hgs7pj8etd92rw5qz3dymvujffxzylmj6a28h --send-sats 99900 --fee-sats 100
 ```
 
 You'll see output describing steps in the creation of the spending transaction. This transaction proves to the contract that you're entitled to spend the funds it controls.
