@@ -12,11 +12,9 @@ Examples we've developed ourselves include
 
 ## Simplicity projects built by other companies
 
-[Resolvr](https://resolvr.io/) has created [Astrolabe](https://docs.simplicity-lang.org/news/2026/02/20/video-resolvr-astrolabe-demo/), a Simplicity-based reinsurance investment platform, and [Deadcat](https://github.com/Resolvr-io/deadcat), a Simplicity-based prediction market.
-
-[SideSwap](https://sideswap.io/) has [launched](https://sideswap.io/news/sideswap-press-release/) [Swaption](https://swaption.io/), a Simplicity-based noncustodial binary options marketplace.
-
-[StarkWare](https://starkware.co/) has used Simplicity to [implement a STARK verifier](https://starkware.co/blog/building-starks-in-simplicity/).
+* [Resolvr](https://resolvr.io/) has created [Astrolabe](https://docs.simplicity-lang.org/news/2026/02/20/video-resolvr-astrolabe-demo/), a Simplicity-based reinsurance investment platform, and [Deadcat](https://github.com/Resolvr-io/deadcat), a Simplicity-based prediction market.
+* [SideSwap](https://sideswap.io/) has [launched](https://sideswap.io/news/sideswap-press-release/) [Swaption](https://swaption.io/), a Simplicity-based noncustodial binary options marketplace.
+* [StarkWare](https://starkware.co/) has used Simplicity to [implement a STARK verifier](https://starkware.co/blog/building-starks-in-simplicity/).
 
 ## Other examples and ideas
 
