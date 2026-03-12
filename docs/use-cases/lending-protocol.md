@@ -10,6 +10,8 @@ The Protocol handles accounting for a loan involving two different tokens, repre
 
 The implementation plan consists of steps for the full Protocol implementation. It starts with verified lending primitives and increases the complexity and functionality of the Protocol over time.
 
+The existing implementation can be found at [https://github.com/BlockstreamResearch/simplicity-lending](https://github.com/BlockstreamResearch/simplicity-lending).
+
 ## Simplicity Lending Protocol Roadmap
 
 ### P2P Simplified Lending Contract
