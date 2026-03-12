@@ -20,7 +20,7 @@ Examples we've developed ourselves include
 
 ## Other examples and ideas
 
-Check out the [SimplicityHL examples](https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples) for other introductory smart contract examples including vault and covenant features.
+Check out the [SimplicityHL examples](https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples) for other introductory smart contract examples, including [vault](../glossary.md#vault) and [covenant](../glossary.md#covenant) mechanisms.
 
 In addition to options, lending, insurance, and prediction markets, we've envisioned that Simplicity will be used for
 

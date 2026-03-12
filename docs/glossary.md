@@ -227,6 +227,11 @@ Claiming assets from a Simplicity contract is done by creating a new transaction
 UTXOs are also one means of storing state information directly on the blockchain, by encoding the relevant information within some UTXO parameter.
 Once a particular UTXO has successfully been spent (used as the input of a new transaction recorded on the blockchain), it is no longer considered a UTXO, because it is no longer available to be spent by other transactions.
 
+## Vault
+A [smart contract](./glossary.md#smart-contract) that deliberately adds delays or additional conditions to the process of withdrawing [assets](./glossary.md#asset). A vault will enforce a delayed or multi-stage withdrawal process, often by requiring a series of [transactions](./glossary.md#transaction), not just one, before assets can move. It may also provide a means for an authorized party to cancel the withdrawal during the delay period.
+
+Simplicity provides [introspection](./glossary.md#introspection) tools that make it easy to create vaults that enforce multi-stage withdrawal rules directly on-chain.
+
 ## Weight
 A measure of the quantity of resources consumed by a proposed [transaction](./glossary.md#transaction) as a means of determining the [fee](./glossary.md#fee) that must be paid to miners. Roughly equivalent to the transaction's size when encoded on the wire.
 
