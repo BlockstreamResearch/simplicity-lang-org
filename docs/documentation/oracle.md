@@ -85,7 +85,7 @@ jet::bip_0340_verify((oracle_pubkey, overall_hash), witness::oracle_signature);
 
 Note that the program recomputes the SHA256 hash of the asserted data values, then checks that the provided oracle signature is a valid signature for that hash. If a party tried to submit a false or modified oracle statement, the oracle's signature wouldn't verify correctly.
 
-The program can then use the validated `witness::oracle_price` value for other logic (for example, calculating a liquidation threshold or a pro-rated refund amount in our [Lending Protocol](../../use-cases/lending-protocol), or determining whether it exceeded a threshold for the conditions of a prediction contract).
+The program can then use the validated `witness::oracle_price` value for other logic (for example, calculating a liquidation threshold or a pro-rated refund amount in the [Simplicity Lending Protocol](../../use-cases/lending-protocol), or determining whether it exceeded a threshold for the conditions of a prediction contract).
 
 A contract can also allow for multiple oracles by accepting any of several different public keys as trusted, providing a different verification path for each key.
 

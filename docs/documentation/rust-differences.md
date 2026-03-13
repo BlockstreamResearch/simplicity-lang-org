@@ -1,6 +1,6 @@
 # Differences between Rust and SimplicityHL
 
-We've emphasized that SimplicityHL syntax is directly based on Rust and should be familiar to Rust programmers. Here, we describe some differences between the two languages, ways that SimplicityHL is *not* the same as Rust.
+SimplicityHL syntax is directly based on Rust and should be familiar to Rust programmers. This document describes some differences between the two languages, ways that SimplicityHL is *not* the same as Rust.
 
 * **No mutable variables**: All SimplicityHL variables are immutable. There is no way to declare a variable as mutable or to change its value after it's been declared. However, variables can be *shadowed* (redefining the same name within a single scope).
 

@@ -93,7 +93,7 @@ The <a href="https://github.com/Blockstream/lwk">Liquid Wallet Kit</a> SDK libra
 
 ## Types
 
-Above, we alluded to how the basic types used in `.wit` files are mainly unsigned integers, always indicating the bit width of the integer (`u1`, `u2`, `u4`, `u8`, `u16`, `u32`, `u64`, `u128`, `u256`). Integer constants are provided in base 10 (like `"1729"`) or hexadecimal with a leading `0x` (like `"0xcafe1234"`).
+As noted above, the basic types used in `.wit` files are mainly unsigned integers, always indicating the bit width of the integer (`u1`, `u2`, `u4`, `u8`, `u16`, `u32`, `u64`, `u128`, `u256`). Integer constants are provided in base 10 (like `"1729"`) or hexadecimal with a leading `0x` (like `"0xcafe1234"`).
 
 ??? "Expand for `u16` example"
     ```json

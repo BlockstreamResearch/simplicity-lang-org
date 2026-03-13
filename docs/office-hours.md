@@ -7,7 +7,7 @@ Use this call to
 * ask all of your questions at any technical level
 * pass along feature requests and feedback
 
-This call will be held on Tuesdays at 8:00 <a href="https://www.timeanddate.com/time/zone/usa/san-francisco">PST (UTC-8)</a> and will typically last one hour. We may occasionally skip it due to U.S. holidays or other events. These Office Hours calls are routinely recorded and published (see below).
+This call will be held on Tuesdays at 8:00 <a href="https://www.timeanddate.com/time/zone/usa/san-francisco">PST (UTC-8)</a> and will typically last one hour. It is occasionally cancelled due to U.S. holidays or other events. These Office Hours calls are routinely recorded and published (see below).
 
 Join the Office Hours <a href="https://blockstream.zoom.us/meetings/88644041325/invitations?signature=dJy8_It_Jw4vvrneVaGN-NBXh-kRJJs8XxCMQilw8O0">using this Zoom link</a>.
 

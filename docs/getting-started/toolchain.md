@@ -1,6 +1,6 @@
 # SimplicityHL Toolchain
 
-Our basic developer tools for SimplicityHL are
+The basic developer tools for SimplicityHL are
 
 * `simc`, the SimplicityHL compiler (<a href="https://github.com/BlockstreamResearch/SimplicityHL/">GitHub project</a>)
 * `hal-simplicity`, an all-purpose Simplicity utility that can do various tasks related to programs and transactions (<a href="https://github.com/BlockstreamResearch/hal-simplicity/">GitHub project</a>)
@@ -17,7 +17,7 @@ That's it! With these tools installed, you can complete our <a href="/getting-st
 
 ## VSCode extension
 
-If you're expecting to develop SimplicityHL contracts with Visual Studio Code, you can also install our extension to provide syntax highlighting and other developer features.
+If you're expecting to develop SimplicityHL contracts with Visual Studio Code, you can also install Blockstream's VSCode extension to provide syntax highlighting and other developer features.
 
 * Open Extensions View: Click the Extensions icon in the left sidebar.
 * Search: In the search field, type `SimplicityHL`.

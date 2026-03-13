@@ -6,7 +6,7 @@ This document will describe the context in which Simplicity programs run, and wh
 
 ## What Simplicity programs are used for
 
-The basic task of every Simplicity program is to *consider a proposed blockchain transaction* and determine whether to *approve or disapprove* that transaction. More complex financial logic can be built out of one or more Simplicity programs working together to manage assets and their disposition across multiple related transactions. Together, we can call the logic and rules governing a set of related blockchain transactions a [smart contract](../glossary.md#smart-contract).
+The basic task of every Simplicity program is to *consider a proposed blockchain transaction* and determine whether to *approve or disapprove* that transaction. More complex financial logic can be built out of one or more Simplicity programs working together to manage assets and their disposition across multiple related transactions. Together, the logic and rules governing a set of related blockchain transactions can be called a [smart contract](../glossary.md#smart-contract).
 
 Designing a smart contract with Simplicity thus includes representing its logic as a series of on-chain transactions, and describing the rules that govern exactly when each transaction is permitted to occur.
 
@@ -53,7 +53,7 @@ In this model, the client software proposes actions, while the Simplicity progra
 
 For development purposes, you can also run a Simplicity program locally with `hal-simplicity simplicity pset run` after building a [PSET](../glossary.md#pset) representing the overall transaction within which the program will run. This simulates the Simplicity logic that a node would follow, although nodes can also reject transactions for various other reasons, such as if the input UTXO has already been spent, if sufficient fees are not paid with the transaction, or if spending conditions applicable to some other referenced UTXO are not satisfied.
 
-At the end of this document, we present several examples of applications of SimplicityHL and describe how the contracts they implement must be "driven" by some kind of end-user software generating and submitting appropriate transactions.
+Below, this document presents several examples of applications of SimplicityHL and describe how the contracts they implement must be "driven" by some kind of end-user software generating and submitting appropriate transactions.
 
 ## Distinctive features of Simplicity and its environment
 
@@ -77,13 +77,13 @@ In general, anything that doesn't have to happen on-chain should be handled outs
 
 ## Examples
 
-Below, we discuss the functionality of three kinds of contracts in order to illustrate how Simplicity programs can make decisions in order to determine whether to approve proposed transactions.
+The functionality of three kinds of contracts is examined below in order to illustrate how Simplicity programs can make decisions in order to determine whether to approve proposed transactions.
 
 These examples do not use introspection features, so they don't demonstrate Simplicity's ability to constrain outputs' destinations. Introspection would also provide an alternative way to implement the refund path in the `htlc` contract (constraining the refund payment to be sent to the address of the original sender of an asset, by asserting that an input address and output address match); this version instead hardcodes a key that can be used to authorize refunds, sent to any chosen address.
 
 ### p2ms
 
-This program, `p2ms.simf`, is taken from the SimplicityHL examples collection. Our <a href="/getting-started/quickstart">quickstart</a> guide provides a recipe for making a Liquid Testnet transaction using this program.
+This program, `p2ms.simf`, is taken from the SimplicityHL examples collection. The <a href="/getting-started/quickstart">quickstart</a> guide provides a recipe for making a Liquid Testnet transaction using this program.
 
 ```rust
 /*

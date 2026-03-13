@@ -142,7 +142,7 @@ Open the <a target="_blank" href="https://blockstream.info/liquidtestnet/">Liqui
 
 Now run this command to generate a transaction that spends the assets you sent to your contract (less a network fee of 100 sats).
 
-Replace `<TXID>` with the txid value from the Explorer. The address `tex1q9hgs7pj8etd92rw5qz3dymvujffxzylmj6a28h` is a sample wallet address that we created to receive tLBTC funds from this process.
+Replace `<TXID>` with the txid value from the Explorer. The address `tex1q9hgs7pj8etd92rw5qz3dymvujffxzylmj6a28h` is a sample wallet address created to receive tLBTC funds from this process.
 
 ```bash
 cargo run spend-from-p2pk-contract --utxo <TXID>:0 --to-address tex1q9hgs7pj8etd92rw5qz3dymvujffxzylmj6a28h --send-sats 99900 --fee-sats 100
@@ -211,7 +211,7 @@ Now submit this transaction to the mempool. Open the <a target="_blank" href="ht
     curl -X POST "https://blockstream.info/liquidtestnet/api/tx" -d "$RAW_TX"
     ```
 
-    The output of this should be a new transaction ID, indicating that our transaction has been accepted and our Simplicity contract has approved spending its input!
+    The output of this should be a new transaction ID, indicating that the transaction has been accepted and the Simplicity contract has approved spending its input!
 
 ??? "Alternative using `--broadcast`"
     If you simply add the option `--broadcast` to the `cargo run` command in step 5, the newly-created transaction will be submitted to the Liquid Testnet automatically. The Rust program will tell you the txid of your submitted transaction.

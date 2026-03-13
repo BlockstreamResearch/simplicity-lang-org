@@ -63,7 +63,7 @@ Resources intentionally paid to miners as part of a [transaction](./glossary.md#
 A software tool that provides various pieces of Simplicity-related functionality, including those needed to build Simplicity-related [transaction](./glossary.md#transaction)s.
 
 ## Height
-(Also "block height".) The number of blocks that currently exist on a specific blockchain, or that existed as of a [transaction](./glossary.md#transaction) of interest. Since blockchains normally add blocks at a predictable rate, the height can be used as a measurement of the current date and time, providing one mechanism for [contract](./glossary.md#contract)s to refer to and enforce conditions related to the dates before or after which certain events may or must occur. For example, Liquid mainnet block height 3634700 occurred at 2025-11-21 02:23:10 UTC, and Liquid adds blocks at a rate of 1 per minute, so we can refer to the date 2026-05-01 by adding about 232000 minutes to this height, giving height 3866700 as a reference to a time a little later in the morning on that date.
+(Also "block height".) The number of blocks that currently exist on a specific blockchain, or that existed as of a [transaction](./glossary.md#transaction) of interest. Since blockchains normally add blocks at a predictable rate, the height can be used as a measurement of the current date and time, providing one mechanism for [contract](./glossary.md#contract)s to refer to and enforce conditions related to the dates before or after which certain events may or must occur. For example, Liquid mainnet block height 3634700 occurred at 2025-11-21 02:23:10 UTC, and Liquid adds blocks at a rate of 1 per minute, so the date 2026-05-01 can be indicated by adding about 232000 minutes to this height, giving height 3866700 as a reference to a time a little later in the morning on that date.
 
 ## Input
 In Bitcoin or Elements, a funding source that contributes [asset](./glossary.md#asset)s to a particular [transaction](./glossary.md#transaction).
@@ -87,7 +87,7 @@ The list of jets and their specific behaviors is fixed at the time of integratio
 A specific [Elements](./glossary.md#elements)-based network, the <a href="https://liquid.net/">Liquid Network</a>, that is the first blockchain to have native support for Simplicity. Most Simplicity examples as of 2026 assume that a program is running on the Liquid mainnet or Liquid testnet, although other integrations are planned.
 
 ## Merkle tree
-A cryptographic mechanism for representing a potentially large amount of data concisely in a way that ensures that none of the data can be changed (a “commitment”). The Merkle tree also allows that data to be revealed selectively, so that some portions can be disclosed and verified, while continuing to hide other portions. A Merkle tree is represented by its root, which is a single cryptographic hash that commits to every object in the tree.
+A cryptographic mechanism for representing a potentially large amount of data concisely in a way that ensures that none of the data can be changed (a "commitment"). The Merkle tree also allows that data to be revealed selectively, so that some portions can be disclosed and verified, while continuing to hide other portions. A Merkle tree is represented by its root, which is a single cryptographic hash that commits to every object in the tree.
 
 A Merkle tree is used in creating an [address](./glossary.md#address) for a Simplicity program, as well as in enabling [pruning](./glossary.md#pruning) of that program when it is run. See also [CMR](./glossary.md#cmr) (the root of a Merkle tree describing a specific Simplicity program).
 
@@ -115,7 +115,7 @@ Relying on an oracle creates some risks, both that the oracle may appear to issu
 
 ## Output
 
-In Bitcoin or [Elements](./glossary.md#elements), a funding destination that receives a quantity of an [asset](./glossary.md#asset) from a particular [transaction](./glossary.md#transaction) and that specifies an associated future condition for subsequent transfer (or “redemption”) of that asset. The conditions associated with an output are ultimately enforced by the logic of [Bitcoin Script](./glossary.md#bitcoin-script) or [Simplicity](./glossary.md#simplicity) programs.
+In Bitcoin or [Elements](./glossary.md#elements), a funding destination that receives a quantity of an [asset](./glossary.md#asset) from a particular [transaction](./glossary.md#transaction) and that specifies an associated future condition for subsequent transfer (or "redemption") of that asset. The conditions associated with an output are ultimately enforced by the logic of [Bitcoin Script](./glossary.md#bitcoin-script) or [Simplicity](./glossary.md#simplicity) programs.
 
 An unspent output is a [UTXO](./glossary.md#utxo).
 
@@ -181,7 +181,7 @@ A mechanism by which computer code directly specifies and determines the conditi
 
 See also <a href="https://en.wikipedia.org/wiki/Smart_contract">smart contract</a> on Wikipedia.
 
-Some sources may use “smart contract” to refer to the overall combination of technologies and protocols that govern or realize a particular commercial relationship or interaction, of which an individual Simplicity program might be only one component. In general, there might be several related Simplicity programs that form part of an overall smart contract system or arrangement.
+Some sources may use "smart contract" to refer to the overall combination of technologies and protocols that govern or realize a particular commercial relationship or interaction, of which an individual Simplicity program might be only one component. In general, there might be several related Simplicity programs that form part of an overall smart contract system or arrangement.
 
 ## Token
 An [asset](./glossary.md#asset) on a blockchain which represents a specific right, claim, or ability, often due to agreement by particular organizations to accept it for a specific purpose, or references in [smart contract](./glossary.md#smart-contract)s that cause its possession or transfer to have a specific effect. (Sometimes, a monetary or financial asset whose ownership is tracked on a blockchain, such as a virtual currency.)
@@ -191,7 +191,7 @@ A payment or proposed payment on a blockchain that confirms the transfer of cert
 
 On Bitcoin and Liquid, transactions consist of a set of inputs, each with independent spending conditions, along with a set of outputs. The assets from the set of inputs are reassigned to the set of outputs according to the transaction specification.
 
-If any input is controlled by a [Simplicity](./glossary.md#simplicity) program which enforces the logic of a [smart contract](./glossary.md#smart-contract) and includes [witness](./glossary.md#witness) data, we may refer to this as a "Simplicity transaction".
+If any input is controlled by a [Simplicity](./glossary.md#simplicity) program which enforces the logic of a [smart contract](./glossary.md#smart-contract) and includes [witness](./glossary.md#witness) data, the transaction may be referred to as a "Simplicity transaction".
 
 Simplicity transactions are validated by full [node](./glossary.md#node)s according to consensus rules that are extended to include details of Simplicity and its integration into a particular blockchain. The full nodes must run a pruned Simplicity program when it is proposed for inclusion in a block in order to confirm both that the referenced program has proper authority to approve the transaction, and that it actually does approve it.
 
@@ -200,7 +200,7 @@ In computer science, Turing completeness is a phenomenon where a very large numb
 
 Some programming languages, including [Bitcoin Script](./glossary.md#bitcoin-script) and [Simplicity](./glossary.md#simplicity), are intentionally not Turing complete; they are simpler and intentionally cannot perform certain computations, including those that under some circumstances never complete. Bitcoin Script and Simplicity programs, by contrast, are mathematically guaranteed to finish running within a finite (in fact, predictable) amount of time.
 
-By giving up some amount of expressive power, Simplicity also improves predictability of a program’s behavior. Unlike Turing-complete languages, Simplicity programs can conceivably have aspects of their behavior automatically analyzed in a way that is always valid for every input. We also ensure that Simplicity programs never “get stuck” and fail to decide on an answer for whether a transaction is approved.
+By giving up some amount of expressive power, Simplicity also improves predictability of a program’s behavior. Unlike Turing-complete languages, Simplicity programs can conceivably have aspects of their behavior automatically analyzed in a way that is always valid for every input. Simplicity programs can never "get stuck" and fail to decide on an answer for whether a transaction is approved.
 
 This means that Simplicity does not include loops or recursion, and SimplicityHL cannot perform an unbounded loop (such as a while loop, as in other programming languages). SimplicityHL provides bounded looping mechanisms: if a program contains a loop, the maximum number of loop iterations must be known in advance, and the built-in `for_while` function can only repeat a given loop up to 65535 times.
 
