@@ -2,34 +2,54 @@
 
 We've emphasized that SimplicityHL syntax is directly based on Rust and should be familiar to Rust programmers. Here, we describe some differences between the two languages, ways that SimplicityHL is *not* the same as Rust.
 
-* **No mutable variables**: All SimplicityHL variables are immutable. There is no way to declare a variable as mutable or to change its value after it's been declared.
+* **No mutable variables**: All SimplicityHL variables are immutable. There is no way to declare a variable as mutable or to change its value after it's been declared. However, variables can be *shadowed* (redefining the same name within a single scope).
+
+Allowed:
+
+```rust
+let ctx: Ctx8 = jet::sha_256_ctx_8_init();
+let ctx: Ctx8 = jet::sha_256_ctx_8_add_1(ctx, 0x68);
+let ctx: Ctx8 = jet::sha_256_ctx_8_add_4(ctx, 0x656c6c6f);
+let hash: u256 = jet::sha_256_ctx_8_finalize(ctx);
+assert!(jet::eq_256(hash, 0x2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824));
+```
+
+Not useful:
+
+```rust
+// This function does not do what the developer may have expected. It does not modify x.
+fn increment(x: u8){
+    let (carry, x2): (bool, u8) = jet::increment_8(x);
+    let x: u8 = x2;
+}
+```
 
 * **No infix and unary operators**: Currently, SimplicityHL does not support common infix and unary operators such as `!=`, `==`, `<=`, `>=`, `+`, `-`, `*`, `/`, `&`, `|`, `^`, `!`, and others that are found in Rust and in other languages whose syntax descends from C's. Instead, each of these operations requires an explicit call to an appropriate <a href="/documentation/jets">jet</a> to perform the comparison. (It may be possible for a future version of the SimplicityHL compiler to support these notations as syntactic sugar for the corresponding jet calls.) For example, code that might look like
 
 ```rust
-  if (counter3 != threshold) {
-      assert!(0);
-  }
+if (counter3 != threshold) {
+    assert!(0);
+}
 ```
 
 in other languages is written in current versions of SimplicityHL as
 
 ```rust
-  assert!(jet::eq_8(counter3, threshold));
+assert!(jet::eq_8(counter3, threshold));
 ```
 
 Code that might look like
 
 ```rust
-   let x: u8 = 17;
-   let y: u8 = x + 1;
+let x: u8 = 17;
+let y: u8 = x + 1;
 ```
 
 in Rust is written in current SimplicityHL as
 
 ```rust
-   let x: u8 = 17;
-   let (carry, y): (bool, u8) = jet::add_8(x, 1);
+let x: u8 = 17;
+let (carry, y): (bool, u8) = jet::add_8(x, 1);
 ```
 
 (as the `add_8` jet returns an explicit carry flag indicating whether the addition caused an integer overflow; the carry flag value is required to be assigned somewhere).
