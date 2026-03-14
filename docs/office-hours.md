@@ -17,7 +17,7 @@ You can also see all public Simplicity-related events in the public calendar:
 
 ## Upcoming topics
 
-* March 17, 2026: **Infix operators demo** SimplicityHL will be updated with concise syntax like `a < b` as an optional alternative to `jet::lt_32(a, b)`. You can use it to write smart contracts that are shorter, cleaner, and easier for you and your colleagues to read. Come see a [preview of this work](https://github.com/BlockstreamResearch/SimplicityHL/pull/232).
+* March 17, 2026: **Infix operators demo** SimplicityHL will be updated with concise syntax like `a < b` as an optional alternative to `jet::lt_32(a, b)`. You can use it to write more readable smart contract code that your colleagues will understand at a glance. Come see a [preview of this work](https://github.com/BlockstreamResearch/SimplicityHL/pull/232).
 * March 24, 2026: **Prediction market contract demo** Resolvr is [developing a Simplicity-based prediction market contract](https://github.com/Resolvr-io/deadcat). Come see a demo of this project and learn about a new application area for Simplicity.
 
 ## Prior Office Hours session recordings
