@@ -15,17 +15,22 @@ You can also see all public Simplicity-related events in the public calendar:
 
 <iframe src="https://calendar.google.com/calendar/embed?src=c_a8d5df2e5a7d4a7cc8c8f46fb54f95fb4861458c6c17f3794079ab8a559c01b0%40group.calendar.google.com&ctz=America%2FLos_Angeles" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
 
+## Upcoming topics
+
+* March 17, 2026: **Infix operators demo** SimplicityHL will be updated with concise syntax like `a < b` as an optional alternative to `jet::lt_32(a, b)`. You can use it to write smart contracts that are shorter, cleaner, and easier for you and your colleagues to read. Come see a [preview of this work](https://github.com/BlockstreamResearch/SimplicityHL/pull/232).
+* March 24, 2026: **Prediction market contract demo** Resolvr is [developing a Simplicity-based prediction market contract](https://github.com/Resolvr-io/deadcat). Come see a demo of this project and learn about a new application area for Simplicity.
+
 ## Prior Office Hours session recordings
 
 * <a href="https://youtu.be/Yiiv2UICOPM">November 25, 2025</a>
 * <a href="https://youtu.be/c6Uis6VwANU">December 2, 2025</a>
 * <a href="https://youtu.be/oEJ1syVf7lg">December 9, 2025</a>
 * <a href="https://youtu.be/HpvkMzm8GDc">December 16, 2025</a>
-* <a href="https://youtu.be/ry2wQelP8Kc">December 23, 2025</a>
+* <a href="https://youtu.be/ry2wQelP8Kc">December 23, 2025</a> ([state management](../documentation/state) demo)
 * <a href="https://youtu.be/hCgBdQNPc9c">January 6, 2026</a>
 * <a href="https://youtu.be/wknEBcV3HeE">January 13, 2026</a>
 * <a href="https://youtu.be/OSa0zMaqGnM">January 20, 2026</a>
-* <a href="https://youtu.be/4c8bvD6oomw">January 27, 2026</a> (<a href="https://github.com/Blockstream/simplicity-dex">Simplicity DEX / options contract demo</a>)
+* <a href="https://youtu.be/4c8bvD6oomw">January 27, 2026</a> ([Simplicity DEX / options contract](https://github.com/Blockstream/simplicity-dex/) demo</a>)
 * <a href="https://youtu.be/lSZeMYx0bnQ">February 3, 2026</a>
 * <a href="https://youtu.be/HqDn6-cGcO8">February 10, 2026</a>
 * <a href="https://youtu.be/X0TJAnBFSsc">February 17, 2026</a>
