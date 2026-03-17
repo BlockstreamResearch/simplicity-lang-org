@@ -1621,7 +1621,7 @@
       "simplicityhl_name": "verify",
       "section": "Multi-bit logic",
       "input_type": "bool",
-      "output_type": "unit",
+      "output_type": "()",
       "description": "Assert that a bit is true.\n\n## Panics\nThe assertion fails."
     },
     {
@@ -2508,7 +2508,7 @@
       "haskell_name": "Sha256Ctx8Add64",
       "simplicityhl_name": "sha_256_ctx_8_add_64",
       "section": "Hash functions",
-      "input_type": "Ctx8, array(u8, 64)",
+      "input_type": "Ctx8, [u8; 64]",
       "output_type": "Ctx8",
       "description": "Add 64 bytes to the SHA256 hash engine."
     },
@@ -2516,7 +2516,7 @@
       "haskell_name": "Sha256Ctx8Add128",
       "simplicityhl_name": "sha_256_ctx_8_add_128",
       "section": "Hash functions",
-      "input_type": "Ctx8, array(u8, 128)",
+      "input_type": "Ctx8, [u8; 128]",
       "output_type": "Ctx8",
       "description": "Add 128 bytes to the SHA256 hash engine."
     },
@@ -2524,7 +2524,7 @@
       "haskell_name": "Sha256Ctx8Add256",
       "simplicityhl_name": "sha_256_ctx_8_add_256",
       "section": "Hash functions",
-      "input_type": "Ctx8, array(u8, 256)",
+      "input_type": "Ctx8, [u8; 256]",
       "output_type": "Ctx8",
       "description": "Add 256 bytes to the SHA256 hash engine."
     },
@@ -2532,7 +2532,7 @@
       "haskell_name": "Sha256Ctx8Add512",
       "simplicityhl_name": "sha_256_ctx_8_add_512",
       "section": "Hash functions",
-      "input_type": "Ctx8, array(u8, 512)",
+      "input_type": "Ctx8, [u8; 512]",
       "output_type": "Ctx8",
       "description": "Add 512 bytes to the SHA256 hash engine."
     },
@@ -2540,7 +2540,7 @@
       "haskell_name": "Sha256Ctx8AddBuffer511",
       "simplicityhl_name": "sha_256_ctx_8_add_buffer_511",
       "section": "Hash functions",
-      "input_type": "Ctx8, [u8; 512]",
+      "input_type": "Ctx8, List<u8, 512>",
       "output_type": "Ctx8",
       "description": "Add a list of less than 512 bytes to the SHA256 hash engine."
     },
@@ -2805,7 +2805,7 @@
       "simplicityhl_name": "linear_verify_1",
       "section": "Elliptic curve functions",
       "input_type": "((Scalar, Ge), Scalar), Ge",
-      "output_type": "unit",
+      "output_type": "()",
       "description": "Assert that a point `b` is equal to the linear combination `a.0 * a.1 + a.2 * g`, where `g` is the generator point.\n\n## Panics\nThe assertion fails."
     },
     {
@@ -2813,7 +2813,7 @@
       "simplicityhl_name": "point_verify_1",
       "section": "Elliptic curve functions",
       "input_type": "((Scalar, Point), Scalar), Point",
-      "output_type": "unit",
+      "output_type": "()",
       "description": "Assert that a point `b` is equal to the linear combination `a.0 * a.1 + a.2 * g`, where `g` is the generator point.\n\n## Panics\n- The assertion fails.\n- Fails if the points cannot be decompressed."
     },
     {
@@ -2909,7 +2909,7 @@
       "simplicityhl_name": "bip_0340_verify",
       "section": "Digital Signatures",
       "input_type": "(Pubkey, Message), Signature",
-      "output_type": "unit",
+      "output_type": "()",
       "description": "Assert that a Schnorr signature matches a public key and message.\n\n## Panics\nThe assertion fails."
     },
     {
@@ -2917,7 +2917,7 @@
       "simplicityhl_name": "check_sig_verify",
       "section": "Digital Signatures",
       "input_type": "(Pubkey, Message64), Signature",
-      "output_type": "unit",
+      "output_type": "()",
       "description": "Assert that a Schnorr signature matches a public key and message, using a custom sighash mode.\n\n## Panics\nThe assertion fails.\n\n## Safety\nThis jet should not be used directly."
     },
     {
@@ -2925,7 +2925,7 @@
       "simplicityhl_name": "parse_lock",
       "section": "Bitcoin (without primitives)",
       "input_type": "u32",
-      "output_type": "Either<Height, Time>",
+      "output_type": "Either<Height,Time>",
       "description": "Parse an integer as a consensus-encoded Bitcoin lock time."
     },
     {
@@ -2933,7 +2933,7 @@
       "simplicityhl_name": "parse_sequence",
       "section": "Bitcoin (without primitives)",
       "input_type": "u32",
-      "output_type": "Option<Either<Distance, Duration>>",
+      "output_type": "Option<Either<Distance,Duration>>",
       "description": "Parse an integer as a consensus-encoded Bitcoin sequence number."
     },
     {
@@ -3229,7 +3229,7 @@
       "simplicityhl_name": "check_lock_distance",
       "section": "Time locks",
       "input_type": "Distance",
-      "output_type": "unit",
+      "output_type": "()",
       "description": "**Deprecated; do not use.** Assert that the value returned by `tx_lock_distance` is greater than or equal to the given value.\n\n## Panics\nThe assertion fails.",
       "deprecated": true
     },
@@ -3238,7 +3238,7 @@
       "simplicityhl_name": "check_lock_duration",
       "section": "Time locks",
       "input_type": "Duration",
-      "output_type": "unit",
+      "output_type": "()",
       "description": "**Deprecated; do not use.** Assert that the value returned by `tx_lock_duration` is greater than or equal to the given value.\n\n## Panics\nThe assertion fails",
       "deprecated": true
     },
@@ -3247,7 +3247,7 @@
       "simplicityhl_name": "check_lock_height",
       "section": "Time locks",
       "input_type": "Height",
-      "output_type": "unit",
+      "output_type": "()",
       "description": "Assert that the value returned by `tx_lock_height` is greater than or equal to the given value.\n\n## Panics\nThe assertion fails."
     },
     {
@@ -3255,7 +3255,7 @@
       "simplicityhl_name": "check_lock_time",
       "section": "Time locks",
       "input_type": "Time",
-      "output_type": "unit",
+      "output_type": "()",
       "description": "Assert that the value returned by `tx_lock_time` is greater than or equal to the given value.\n\n## Panics\nThe assertion fails."
     },
     {
@@ -3681,7 +3681,7 @@
       "simplicityhl_name": "output_null_datum",
       "section": "Transaction",
       "input_type": "u32, u32",
-      "output_type": "Option<Option<Either<(u2, u256), Either<u1, u4>>>>",
+      "output_type": "Option<Option<Either<(u2, u256),Either<u1,u4>>>>",
       "description": "Return the `b`-th entry of a null data (`OP_RETURN`) output at index `a`.\n\n- Return `Some(Some(Right(Right(x-1))))` if the entry is `OP_x` for `x` in the range 1..=16.\n- Return `Some(Some(Right(Left(0))))` if the entry is `OP_1NEGATE`.\n- Return `Some(Some(Right(Left(1))))` if the entry is `OP_RESERVED`.\n- Return `Some(Some(Left((x, hash))))` if the entry is pushed data. `hash` is the SHA256 hash of the data pushed and `x` indicates how the data was pushed:\n- `x == 0` means the push was an immediate 0 to 75 bytes.\n- `x == 1` means the push was an `OP_PUSHDATA1`.\n- `x == 2` means the push was an `OP_PUSHDATA2`.\n- `x == 3` means the push was an `OP_PUSHDATA4`.\n- Return `Some(None)` if the null data has fewer than `b` entries.\n- Return `None` if the output is not a null data output.\n\nUse this jet to read peg-out data from an output."
     },
     {
