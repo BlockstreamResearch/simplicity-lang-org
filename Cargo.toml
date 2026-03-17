@@ -1,0 +1,21 @@
+[package]
+name = "simplicityhl-docs"
+version = "0.1.0"
+description = "Documentation for SimplicityHL language."
+include= ["jets.json"]
+edition = "2021"
+rust-version = "1.79.0"
+
+[dependencies]
+clap = { version = "4.5.61",  features = ["derive"]}
+serde = { version = "1.0.188", features = ["derive"]}
+serde_json = { version = "1.0.105"}
+simplicityhl = "0.4.1"
+
+[lib]
+path = "./docs_crate/lib.rs"
+
+[[bin]]
+name = "simplicityhl-docs-bin"
+path = "./docs_crate/main.rs"
+
