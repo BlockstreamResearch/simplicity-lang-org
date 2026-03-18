@@ -17,9 +17,9 @@ You can also see all public Simplicity-related events in the public calendar:
 
 ## Upcoming topics
 
-* March 17, 2026: **Infix operators demo** SimplicityHL will be updated with concise syntax like `a < b` as an optional alternative to `jet::lt_32(a, b)`. You can use it to write more readable smart contract code that your colleagues will understand at a glance. Come get a sneak peak at [this upcoming language feature](https://github.com/BlockstreamResearch/SimplicityHL/pull/232).
-* March 24, 2026: **Prediction market contract demo** Resolvr is [developing a Simplicity-based prediction market contract](https://github.com/Resolvr-io/deadcat). Come see a demo of this project and learn about a new application area for Simplicity.
-* March 31, 2026: **Automated market maker (AMM) contract demo** 0ceanSlim is [developing a Simplicity-based AMM contract](https://github.com/0ceanSlim/anchor). Come see a demo of this project and learn about a new application area for Simplicity.
+* March 24, 2026: **Prediction market contract demo** Resolvr is [developing a Simplicity-based prediction market contract](https://github.com/Resolvr-io/deadcat). Come see a demo and learn about a new application area for Simplicity.
+* March 31, 2026: **Automated market maker (AMM) contract demo** 0ceanSlim is [developing a Simplicity-based AMM contract](https://github.com/0ceanSlim/anchor). Come see a demo and learn about a new application area for Simplicity.
+* April 7, 2026: **Simplex demo** [https://github.com/BlockstreamResearch/smplx](Simplex) is a new orchestration tool for Simplicity projects. Come see a demo and learn how you can manage and test your Simplicity projects with Simplex.
 
 ## Prior Office Hours session recordings
 
@@ -31,10 +31,11 @@ You can also see all public Simplicity-related events in the public calendar:
 * <a href="https://youtu.be/hCgBdQNPc9c">January 6, 2026</a>
 * <a href="https://youtu.be/wknEBcV3HeE">January 13, 2026</a>
 * <a href="https://youtu.be/OSa0zMaqGnM">January 20, 2026</a>
-* <a href="https://youtu.be/4c8bvD6oomw">January 27, 2026</a> ([Simplicity DEX / options contract](https://github.com/Blockstream/simplicity-dex/) demo</a>)
+* <a href="https://youtu.be/4c8bvD6oomw">January 27, 2026</a> ([Simplicity DEX / options contract](https://github.com/Blockstream/simplicity-dex/) demo)
 * <a href="https://youtu.be/lSZeMYx0bnQ">February 3, 2026</a>
 * <a href="https://youtu.be/HqDn6-cGcO8">February 10, 2026</a>
 * <a href="https://youtu.be/X0TJAnBFSsc">February 17, 2026</a>
 * <a href="https://youtu.be/kJnRKI2NuN0">February 24, 2026</a>
 * <a href="https://youtu.be/2Rgn4-JIgqU">March 3, 2026</a>
 * <a href="https://youtu.be/fnOuWNYFBQg">March 10, 2026</a>
+* <a href="https://youtu.be/BL7WDlutjts">March 17, 2026</a> ([infix operators](https://github.com/BlockstreamResearch/SimplicityHL/pull/232) demo)
