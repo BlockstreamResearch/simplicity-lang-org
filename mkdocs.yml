@@ -148,6 +148,7 @@ nav:
       # Simplicity for...
       - How Simplicity Works: documentation/how-simplicity-works.md
       - Join our Weekly Office Hours: office-hours.md
+      - Simplicity Telegram group: https://t.me/simplicity_community
   - Understand:
       - Execution Model: documentation/execution-model.md
       - Witnesses in SimplicityHL Development: documentation/witness.md
