@@ -53,4 +53,4 @@ Prototypes of several real financial applications on Simplicity are being specif
 
 ## Simplicity development framework
 
-[A new tool called `simplex`](https://github.com/BlockstreamResearch/simplex), somewhat akin to `cargo` or `go`, will provide package management, development workflow, and test orchestration features. This integrated build system tool will provide a test framework support unit and integration tests, including running integration tests against a regtest environment to simulate the effects of multiple related transactions.
+[A new tool called `Simplex`](https://github.com/BlockstreamResearch/smplx), somewhat akin to `cargo` or `go`, provides package management, development workflow, and test orchestration features. This integrated build system tool is under ongoing development and will provide a test framework support unit and integration tests, including running integration tests against a regtest environment to simulate the effects of multiple related transactions.
