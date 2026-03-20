@@ -75,7 +75,7 @@ Tuples are always finite in length.
 
 [Arrays work just like in Rust](https://doc.rust-lang.org/std/primitive.array.html).
 
-The empty array `[]` is basically useless, but I included it for completeness.
+The empty array `[]` is basically useless, but is included for completeness.
 
 Arrays `[a0, …, aN]` work like in pretty much any other programming language.
 Each array type `[A; N]` defines an element type `A` and a length `N`.

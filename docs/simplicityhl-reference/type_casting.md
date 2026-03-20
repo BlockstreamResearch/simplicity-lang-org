@@ -2,7 +2,6 @@
 
 A SimplicityHL type can be cast into another SimplicityHL type if both types share the same structure.
 The structure of a type has to do with how the type is implemented on the Simplicity "processor".
-I will spare you the boring details.
 
 Below is a table of types that can be cast into each other.
 
