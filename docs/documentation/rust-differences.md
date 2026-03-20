@@ -61,3 +61,5 @@ let (carry, y): (bool, u8) = jet::add_8(x, 1);
 * **No run-time I/O or interactivity**: Simplicity's execution model allows a witness to be provided at runtime as a form of input to the program. There is no provision for interacting with users or services, or for reading other data from elsewhere, during the program's execution. A Simplicity program is also expected to provide a yes-or-no answer about whether to approve a proposed blockchain transaction, optionally on the basis of data optionally supplied via a witness. The program is not able to give other answers, output, or side effects. Thus, there are no functions to perform any form of file, network, or terminal I/O.
 
 * **Simpler type system**: SimplicityHL's type system is much simpler than Rust's. It isn't possible to declare traits or implementations of traits.
+
+* **Simpler `match` expression**: The [`match` expression](../../simplicityhl-reference/match_expression/) in SimplicityHL is more limited than Rust's.
