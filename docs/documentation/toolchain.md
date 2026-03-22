@@ -54,20 +54,23 @@ Install with: `cargo install simplicityhl`
 ```
 Compile the given SimplicityHL program and print the resulting Simplicity base64 string.
 
-Usage: simc [OPTIONS] <PROGRAM_FILE> [WITNESS_FILE]
+Usage: simc [OPTIONS] <PROGRAM_FILE>
 
 Arguments:
   <PROGRAM_FILE>  SimplicityHL program file to build
-  [WITNESS_FILE]  File containing the witness data
 
 Options:
-      --debug  Include debug symbols in the output
-      --json   Output in JSON
+  -w, --wit <WITNESS_FILE>     File containing the witness data
+  -a, --args <ARGUMENTS_FILE>  File containing the arguments data
+      --debug                  Include debug symbols in the output
+      --json                   Output in JSON
+      --abi                    Additional ABI .simf contract types
+  -h, --help                   Print help
 ```
 
-The compiled program, and optionally the serialized witness file, are printed in base64 format on the standard output together with section headers. The base64 form of the program is a representation of its low-level Simplicity code, and could be considered the "binary".
+The compiled program, its corresponding [Commitment Merkle Root](../glossary.md#cmr), and optionally the serialized witness file when it is provided with `-w`, are printed in base64 format on the standard output, with text labels identifying each output item. The base64 form of the program is a representation of its low-level Simplicity code, and could be considered the "binary".
 
-If the option `--json` is provided, produce JSON output instead. The JSON object fields `program` and `witness` contain the base64-encoded compiled program and base64-encoded serialized witness, respectively.
+If the option `--json` is provided, produce JSON output instead. The JSON object fields `program` and `witness` contain the base64-encoded compiled program and base64-encoded serialized witness, respectively. Using `--json` is recommended whenever the output of `simc` will be parsed by other programs or scripts.
 
 The compiled program is needed in order to derive addresses and parameters at commit-time (that is, when sending assets *to* the contract). The witness is additionally needed in order to derive addresses and parameters at redeem-time (that is, when spending assets *from* the contract). A [covenant](../glossary.md#covenant) is used in both ways at once, as it may be both the origin and the destination of assets inside the same transaction.
 
