@@ -23,17 +23,15 @@ Values of type `bool` are truth values, which are either `true` or `false`.
 | `u32`  | 32-bit integer  | `0`, `1`, …, `4294967295`                              |
 | `u64`  | 64-bit integer  | `0`, `1`, …, `18446744073709551615`                    |
 | `u128` | 128-bit integer | `0`, `1`, …, `340282366920938463463374607431768211455` |
-| `u256` | 256-bit integer | `0`, `1`, …, 2<sup>256</sup> - 1[^u256max]             |
+| `u256` | 256-bit integer | `0`, `1`, …, 2<sup>256</sup> - 1                       |
 
 Unsigned integers range from 1 bit to 256 bits.
 [`u8`](https://doc.rust-lang.org/std/primitive.u8.html) to [`u128`](https://doc.rust-lang.org/std/primitive.u128.html) are also supported in Rust.
 `u1`, `u2`, `u4` and `u256` are new to SimplicityHL.
-Integer values can be written in decimal notation `123456`, binary notation[^bin] `0b10101010` or hexadecimal notation[^hex] `0xdeadbeef`.
+Integer values can be written in decimal notation `123456`, binary notation `0b10101010` or hexadecimal notation `0xdeadbeef`. The number of bits or hex digits (for binary or hex notation) must correspond to the bit width of the type.
 There are no signed integers.
 
-[^u256max]: The maximal value of type `u256` is `115792089237316195423570985008687907853269984665640564039457584007913129639935`.
-[^bin]: The number of bits must be equal to the bit width of the type.
-[^hex]: The number of hex digits must correspond to the bit width of the type.
+The maximal `u256` value is `115792089237316195423570985008687907853269984665640564039457584007913129639935`.
 
 ## Tuple Types
 
