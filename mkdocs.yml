@@ -173,6 +173,7 @@ nav:
       - simplicityhl-reference/index.md
       - Jets Reference: documentation/jets.md
       - Toolchain Reference: documentation/toolchain.md
+      - Operator Notations: simplicityhl-reference/operators.md
       - Environment: simplicityhl-reference/environment.md
       - Translation: simplicityhl-reference/translation.md
       - Whitepaper: https://blockstream.com/simplicity.pdf

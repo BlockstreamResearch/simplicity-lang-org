@@ -24,21 +24,7 @@ fn increment(x: u8){
 }
 ```
 
-* **No infix and unary operators**: Currently, SimplicityHL does not support common infix and unary operators such as `!=`, `==`, `<=`, `>=`, `+`, `-`, `*`, `/`, `&`, `|`, `^`, `!`, and others that are found in Rust and in other languages whose syntax descends from C's. Instead, each of these operations requires an explicit call to an appropriate <a href="/documentation/jets">jet</a> to perform the comparison. (It may be possible for a future version of the SimplicityHL compiler to support these notations as syntactic sugar for the corresponding jet calls.) For example, code that might look like
-
-```rust
-if (counter3 != threshold) {
-    assert!(0);
-}
-```
-
-in other languages is written in current versions of SimplicityHL as
-
-```rust
-assert!(jet::eq_8(counter3, threshold));
-```
-
-Code that might look like
+* **No arithmetic operators**: Currently, SimplicityHL does not support the common arithmetic operators `+`, `-`, `*`, `/`, and `%` due to issues related to safe handling of arithmetic overflow and underflow conditions. Instead, each of these operations requires an explicit call to an appropriate [jet](../jets.md) to perform the comparison. (It may be possible for a future version of the SimplicityHL compiler to support these operator notations.) For example, code that might look like
 
 ```rust
 let x: u8 = 17;
@@ -52,7 +38,9 @@ let x: u8 = 17;
 let (carry, y): (bool, u8) = jet::add_8(x, 1);
 ```
 
-(as the `add_8` jet returns an explicit carry flag indicating whether the addition caused an integer overflow; the carry flag value is required to be assigned somewhere).
+since the `add_8` jet returns an explicit carry flag indicating whether the addition caused an integer overflow.
+
+[Other operators](../simplicityhl-reference/operators.md) are available since SimplicityHL *nnnn*. These include Boolean (`&&`, `||`, `!`) and bitwise (`&`, `|`, `~`, `^`) logic operators, as well as integer comparison operators (`<`, `<=`, `==`, `>=`, `>`, `!=`).
 
 * **No unbounded loops or recursion**: Simplicity is intentionally not Turing-complete, and SimplicityHL accordingly does not have a `while` loop or a `for` loop in its native syntax. Nor is a function permitted to call itself recursively. For bounded loops, there is a built-in function called `for_while` which can execute a code block up to a specified maximum number of times (limited to 65536 iterations per `for_while` loop). SimplicityHL also offers `fold` and `array_fold` functions to help with some tasks that could traditionally be performed with iteration or recursion in other languages.
 
