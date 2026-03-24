@@ -17,7 +17,6 @@ You can also see all public Simplicity-related events in the public calendar:
 
 ## Upcoming topics
 
-* March 24, 2026: **Prediction market contract demo** Resolvr is [developing a Simplicity-based prediction market contract](https://github.com/Resolvr-io/deadcat). Come see a demo and learn about a new application area for Simplicity.
 * March 31, 2026: **Automated market maker (AMM) contract demo** 0ceanSlim is [developing a Simplicity-based AMM contract](https://github.com/0ceanSlim/anchor). Come see a demo and learn about a new application area for Simplicity.
 * April 7, 2026: **Simplex demo** [Simplex](https://github.com/BlockstreamResearch/smplx) is a new orchestration tool for Simplicity projects. Come see a demo and learn how you can manage and test your Simplicity projects with Simplex.
 
@@ -39,3 +38,4 @@ You can also see all public Simplicity-related events in the public calendar:
 * <a href="https://youtu.be/2Rgn4-JIgqU">March 3, 2026</a>
 * <a href="https://youtu.be/fnOuWNYFBQg">March 10, 2026</a>
 * <a href="https://youtu.be/BL7WDlutjts">March 17, 2026</a> ([infix operators](https://github.com/BlockstreamResearch/SimplicityHL/pull/232) demo)
+* <a href="https://youtu.be/1j7uj4kLsvw">March 24, 2026</a> (SimplicityHL modules/includes demo; [prediction market contract](https://github.com/Resolvr-io/deadcat) demo)
