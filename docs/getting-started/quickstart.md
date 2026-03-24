@@ -194,12 +194,15 @@ You'll see output describing steps in the creation of the spending transaction. 
 
 ### 6. Submit the transaction to the Liquid testnet
 
-Now submit this transaction to the mempool. Open the <a target="_blank" href="https://blockstream.info/liquidtestnet/tx/push">the "broadcast raw transaction" page</a> and paste the transaction hex data from the prior step.
+Now run the prior command again with `--broadcast` to submit the transaction to the mempool for inclusion on the blockchain.
 
-??? "Alternative using `--broadcast`"
-    If you simply add the option `--broadcast` to the `cargo run` command in step 5, the newly-created transaction will be submitted to the Liquid testnet automatically. The Rust program will tell you the txid of your submitted transaction.
+```bash
+cargo run spend-from-p2pk-contract --utxo <TXID>:0 --to-address tex1q9hgs7pj8etd92rw5qz3dymvujffxzylmj6a28h --send-sats 99900 --fee-sats 100 --broadcast
+```
 
-View your successful transaction <a href="https://blockstream.info/liquidtestnet/">on the Explorer</a>.
+(Again, `<TXID>` here should be replaced with the transaction ID from step 4.)
+
+You can view your successful transaction <a href="https://blockstream.info/liquidtestnet/">on the Explorer</a>.
 
 ### Congratulations
 
