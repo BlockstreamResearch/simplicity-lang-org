@@ -192,7 +192,7 @@ You'll see output describing steps in the creation of the spending transaction. 
     020000000....
     ```
 
-### 6. Submit the transaction to the Liquid Testnet
+### 6. Submit the transaction to the Liquid testnet
 
 Now submit this transaction to the mempool. Open the <a target="_blank" href="https://blockstream.info/liquidtestnet/tx/push">the "broadcast raw transaction" page</a> and paste the transaction hex data from the prior step.
 
