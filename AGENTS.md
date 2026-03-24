@@ -6,7 +6,7 @@ This repository uses Markdown for documentation, which is rendered using [Materi
 
 If you add a completely new Markdown file on the site, you'll usually need to link it into an appropriate place within the menu structure (the `nav` section) in `mkdocs.yml` in order for site visitors to find it.
 
-**Please see the `CONTRIBUTING.md` file at top-level for various important content guidance. Please follow this file's instructions carefully where applicable.**
+**Please see the `CONTRIBUTING.md` file at top-level for various important content guidance. Please follow this file's instructions carefully where applicable.** You can use these instructions to write your own documentation or to edit or propose edits to improve existing documentation.
 
 As an AI agent, you don't have to invoke any form of deployment or rendering pipeline. The deployment of the site is handled automatically elsewhere.
 
