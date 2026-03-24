@@ -1,6 +1,6 @@
 # SimplicityHL Quickstart
 
-This is a quickstart document to help you perform your first [transaction](../glossary.md#transaction) on [Liquid](../glossary.md#liquid) Testnet using a [Simplicity](../glossary.md#simplicity) [contract](../glossary.md#contract) with a Rust environment.
+This is a quickstart document to help you perform your first [transaction](../glossary.md#transaction) on [Liquid](../glossary.md#liquid) testnet using a [Simplicity](../glossary.md#simplicity) [contract](../glossary.md#contract) with a Rust environment.
 
 <a href="https://rust-lang.org/tools/install/">Make sure you have Rust installed.</a>
 
@@ -38,7 +38,7 @@ fn main() {
 This contract has a spot for a public key ("`param::PUBLIC_KEY`") of the person authorized to spend the contract's funds.
 
 ??? "Using your own wallet instead"
-    If you prefer, you can generate a Liquid Testnet wallet of your own and send the tLBTC from the contract to your own wallet instead. You can do this by installing `elementsd` and `elements-cli` and then generating a local wallet with `elements-cli`. Alternatively, you can install a wallet application with Liquid Network support like the <a href="https://blockstream.com/app/">Blockstream App</a>. In the latter case, you'll need to create a Liquid Testnet wallet and account. You must provide an [unconfidential](../glossary.md#unconfidential) [address](../glossary.md#address) as the destination address here, not a [confidential](../glossary.md#confidential) address. The command `hal-simplicity address inspect` can derive the unconfidential equivalent of a confidential address if required.
+    If you prefer, you can generate a Liquid testnet wallet of your own and send the tLBTC from the contract to your own wallet instead. You can do this by installing `elementsd` and `elements-cli` and then generating a local wallet with `elements-cli`. Alternatively, you can install a wallet application with Liquid Network support like the <a href="https://blockstream.com/app/">Blockstream App</a>. In the latter case, you'll need to create a Liquid testnet wallet and account. You must provide an [unconfidential](../glossary.md#unconfidential) [address](../glossary.md#address) as the destination address here, not a [confidential](../glossary.md#confidential) address. The command `hal-simplicity address inspect` can derive the unconfidential equivalent of a confidential address if required.
 
 ### 2. Create a random seed for a public and private keypair
 
@@ -84,7 +84,7 @@ The output will look something like this:
 
 ```
 # Deriving keypair from seed.
-# Deriving Liquid Testnet address.
+# Deriving Liquid testnet address.
 # Compiling SimplicityHL program source_simf/p2pk.simf.
 
 SimplicityHL source code:
@@ -107,20 +107,20 @@ Parameter arguments (compile-time):
         const PUBLIC_KEY: u256 = 0x7c37...;
     }
 
-Contract's Liquid Testnet address: tex1...
+Contract's Liquid testnet address: tex1...
 ```
 
 The address derived at the bottom, beginning with `tex1...`, can be used to transfer coins to the contract.
 
 ```mermaid
 flowchart LR
-    A[Liquid Testnet Faucet] -- Funding transaction --> B[P2PK Smart Contract];
+    A[Liquid testnet Faucet] -- Funding transaction --> B[P2PK Smart Contract];
     B -- Spending transaction --> C[Wallet];
 ```
 
-### 4. Fund the contract on Liquid Testnet
+### 4. Fund the contract on Liquid testnet
 
-Use the Liquid Testnet Faucet to send some tLBTC (representing Bitcoin on [Liquid](../glossary.md#liquid) Testnet) to this contract. Open the <a target="_blank" href="https://liquidtestnet.com/faucet">Liquid Testnet Faucet</a> page in your web browser. Paste the `tex1...` address from step 3 into the first "address" field and click Submit.
+Use the Liquid testnet Faucet to send some tLBTC (representing Bitcoin on [Liquid](../glossary.md#liquid) testnet) to this contract. Open the <a target="_blank" href="https://liquidtestnet.com/faucet">Liquid testnet faucet</a> page in your web browser. Paste the `tex1...` address from step 3 into the first "address" field and click Submit.
 
 ??? "Alternative using `curl`"
     You can do this via `curl` on your command line, substituting your contract address. For example:
@@ -136,7 +136,7 @@ This funds the contract with 100000 sats of tLBTC. Now that the contract control
 
 ### 5. Find the Faucet transaction on the blockchain
 
-Open the <a target="_blank" href="https://blockstream.info/liquidtestnet/">Liquid Testnet Explorer</a> in your browser. Paste the contract's address (the `tex1...` address from earlier) to find the transaction from the Faucet. Copy its transaction ID to use as the [UTXO](../glossary.md#utxo) value in the following step.
+Open the <a target="_blank" href="https://blockstream.info/liquidtestnet/">Liquid testnet Explorer</a> in your browser. Paste the contract's address (the `tex1...` address from earlier) to find the transaction from the Faucet. Copy its transaction ID to use as the [UTXO](../glossary.md#utxo) value in the following step.
 
 ### 6. Create a transaction that spends the tLBTC
 
@@ -151,7 +151,7 @@ cargo run spend-from-p2pk-contract --utxo <TXID>:0 --to-address tex1q9hgs7pj8etd
 You'll see output describing steps in the creation of the spending transaction. This transaction proves to the contract that you're entitled to spend the funds it controls.
 
 ??? "What's happening here?"
-    This command creates a new Liquid Testnet transaction whose [input](../glossary.md#input) comes from the prior contract-funding transaction and whose [output](../glossary.md#output), less a fee, goes to the specified destination address.
+    This command creates a new Liquid testnet transaction whose [input](../glossary.md#input) comes from the prior contract-funding transaction and whose [output](../glossary.md#output), less a fee, goes to the specified destination address.
 
     The Rust program handles various steps in this process.
 
@@ -200,7 +200,7 @@ You'll see output describing steps in the creation of the spending transaction. 
     020000000....
     ```
 
-### 7. Submit the transaction to the Liquid Testnet
+### 7. Submit the transaction to the Liquid testnet
 
 Now submit this transaction to the mempool. Open the <a target="_blank" href="https://blockstream.info/liquidtestnet/tx/push">the "broadcast raw transaction" page</a> and paste the transaction hex data from the prior step.
 
@@ -214,7 +214,7 @@ Now submit this transaction to the mempool. Open the <a target="_blank" href="ht
     The output of this should be a new transaction ID, indicating that the transaction has been accepted and the Simplicity contract has approved spending its input!
 
 ??? "Alternative using `--broadcast`"
-    If you simply add the option `--broadcast` to the `cargo run` command in step 5, the newly-created transaction will be submitted to the Liquid Testnet automatically. The Rust program will tell you the txid of your submitted transaction.
+    If you simply add the option `--broadcast` to the `cargo run` command in step 5, the newly-created transaction will be submitted to the Liquid testnet automatically. The Rust program will tell you the txid of your submitted transaction.
 
 View your successful transaction <a href="https://blockstream.info/liquidtestnet/">on the Explorer</a>.
 
