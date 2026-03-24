@@ -114,35 +114,27 @@ The address derived at the bottom, beginning with `tex1...`, can be used to tran
 
 ```mermaid
 flowchart LR
-    A[Liquid testnet Faucet] -- Funding transaction --> B[P2PK Smart Contract];
+    A[Liquid testnet faucet] -- Funding transaction --> B[P2PK Smart Contract];
     B -- Spending transaction --> C[Wallet];
 ```
 
 ### 4. Fund the contract on Liquid testnet
 
-Use the Liquid testnet Faucet to send some tLBTC (representing Bitcoin on [Liquid](../glossary.md#liquid) testnet) to this contract. Open the <a target="_blank" href="https://liquidtestnet.com/faucet">Liquid testnet faucet</a> page in your web browser. Paste the `tex1...` address from step 3 into the first "address" field and click Submit.
+Use the Liquid testnet faucet to send some tLBTC (representing Bitcoin on [Liquid](../glossary.md#liquid) testnet) to this contract. Provide the address from the previous step.
 
-??? "Alternative using `curl`"
-    You can do this via `curl` on your command line, substituting your contract address. For example:
-
-    ```bash
-    CONTRACT_ADDRESS=tex1pm6g0d2yjp5u0hacruyn8cfjtchzsq0kwnw485rk8d6jkqzrltkrsa0w4ee
-    curl "https://liquidtestnet.com/faucet?address=$CONTRACT_ADDRESS&action=lbtc"
-    ```
-
-    However, the output is HTML and not easily parsed on the command line. Look in the output for a line ending with "with transaction" followed by a hexadecimal string (which looks something like `3a0c1aa913358937ce6a71ba4bd12933c9b4ccdb7907d418ded72143b499eab1`). Use the actual hexadecimal string that appears in the output of your `curl` command as the UTXO in the following step.
+```bash
+cargo run p2pk fund-from-faucet --address tex1...
+```
 
 This funds the contract with 100000 sats of tLBTC. Now that the contract controls these coins, its logic decides if and when this value may be spent.
 
-### 5. Find the Faucet transaction on the blockchain
+You'll see a transaction ID in the output reflecting the transaction that sent the coins from the faucet to the contract. This will be used in the next step in claiming the coins from the contract.
 
-Open the <a target="_blank" href="https://blockstream.info/liquidtestnet/">Liquid testnet Explorer</a> in your browser. Paste the contract's address (the `tex1...` address from earlier) to find the transaction from the Faucet. Copy its transaction ID to use as the [UTXO](../glossary.md#utxo) value in the following step.
-
-### 6. Create a transaction that spends the tLBTC
+### 5. Create a transaction that spends the tLBTC
 
 Now run this command to generate a transaction that spends the assets you sent to your contract (less a network fee of 100 sats).
 
-Replace `<TXID>` with the txid value from the Explorer. The address `tex1q9hgs7pj8etd92rw5qz3dymvujffxzylmj6a28h` is a sample wallet address created to receive tLBTC funds from this process.
+Replace `<TXID>` with the transaction ID value from the prior step. The address `tex1q9hgs7pj8etd92rw5qz3dymvujffxzylmj6a28h` is a sample wallet address created to receive tLBTC funds from this process.
 
 ```bash
 cargo run spend-from-p2pk-contract --utxo <TXID>:0 --to-address tex1q9hgs7pj8etd92rw5qz3dymvujffxzylmj6a28h --send-sats 99900 --fee-sats 100
@@ -200,18 +192,9 @@ You'll see output describing steps in the creation of the spending transaction. 
     020000000....
     ```
 
-### 7. Submit the transaction to the Liquid testnet
+### 6. Submit the transaction to the Liquid Testnet
 
 Now submit this transaction to the mempool. Open the <a target="_blank" href="https://blockstream.info/liquidtestnet/tx/push">the "broadcast raw transaction" page</a> and paste the transaction hex data from the prior step.
-
-??? "Alternative using `curl`"
-    If you put your raw transaction data into an environment variable called `RAW_TX`, you can submit it via `curl`:
-
-    ```bash
-    curl -X POST "https://blockstream.info/liquidtestnet/api/tx" -d "$RAW_TX"
-    ```
-
-    The output of this should be a new transaction ID, indicating that the transaction has been accepted and the Simplicity contract has approved spending its input!
 
 ??? "Alternative using `--broadcast`"
     If you simply add the option `--broadcast` to the `cargo run` command in step 5, the newly-created transaction will be submitted to the Liquid testnet automatically. The Rust program will tell you the txid of your submitted transaction.
@@ -223,7 +206,7 @@ View your successful transaction <a href="https://blockstream.info/liquidtestnet
 You've just compiled a smart contract, sent assets to it on a public blockchain, and then satisfied the contract, allowing you to spend those assets.
 
 ??? "See more technical details"
-    Both of the `cargo run` commands above support a `-v` option for verbose output, which includes more technical details about the cryptographic parameters that were calculated by the Rust code. For example, this will display the [CMR](../glossary.md#cmr) and compiled program.
+    The `cargo run` commands above support a `-v` option for verbose output, which includes more technical details about the cryptographic parameters that were calculated by the Rust code. For example, this will display the [CMR](../glossary.md#cmr) and compiled program.
 
 #### Next steps
 
