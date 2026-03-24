@@ -114,7 +114,7 @@ The address derived at the bottom, beginning with `tex1...`, can be used to tran
 
 ```mermaid
 flowchart LR
-    A[Liquid testnet faucet] -- Funding transaction --> B[P2PK Smart Contract];
+    A[Liquid testnet faucet] -- Funding transaction --> B[P2PK smart contract];
     B -- Spending transaction --> C[Wallet];
 ```
 
