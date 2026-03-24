@@ -107,7 +107,7 @@ The <a href="execution-model">execution environment of a Simplicity program</a> 
 
 Still, complex contracts will often need to enforce multiple related transactions and "remember" facts and details over time. For example, they may need to record the existence or size of a debt, or record whether a certain action has already been taken. How can they do so in Simplicity's transaction-based architecture, without being able to save or load anything corresponding to files or database entries?
 
-Our recommended mechanism uses **cryptographic commitments**. These incorporate the state reference into the on-chain address of a copy of the Simplicity program itself, which the program can confirm by [introspection](../glossary.md#introspection) when it is run.
+The recommended mechanism uses **cryptographic commitments**. These incorporate the state reference into the on-chain address of a copy of the Simplicity program itself, which the program can confirm by [introspection](../glossary.md#introspection) when it is run.
 
 Effectively, this method generates an address for a program in a way that inherently incorporates a cryptographic reference to specific state; when that program is run, it can confirm that the state it was given via a [witness](../glossary.md#witness) matches the state that it expects to have according to its own address. It can immediately reject any proposed transactions that attempt to delete or tamper with the state.
 
