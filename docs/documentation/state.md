@@ -265,7 +265,7 @@ This example contract, `third_time.simf`, uses the state management mechanism de
         check_sig(sig);
 
         // Assert that the count from the provided state is already at least 2.
-        let (state1, state2, state3, count): (u64, u64, u64, u64) = <u256>::into(state_data);
+        let (_, _, _, count): (u64, u64, u64, u64) = <u256>::into(state_data);
         assert!(jet::le_64(2, count));
     }
 
