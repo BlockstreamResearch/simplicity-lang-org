@@ -64,7 +64,7 @@ This witness provides `witness::ALICE_SIG` and `witness::BOB_SIG`, representing 
 
 SHA-256 hash outputs, which are ubiquitous in the Bitcoin ecosystem, can normally be represented with a `u256` value. For more information on data types that can be used in `.wit` files, see the section on types below.
 
-A future version of `simc` may be able to automatically generate an associated `.wit` file from a `.simf` source file by using the variable names and type annotations present in the source code. Currently, `.wit` files need to be written manually. You can use the details above to create them or follow examples of witness files corresponding to <a href="https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples">sample contracts in `SimplicityHL/examples`</a>.
+Currently, `.wit` files need to be written manually. You can use the details above to create them or follow examples of witness files corresponding to <a href="https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples">sample contracts in `SimplicityHL/examples`</a>.
 
 ## Compiling (serializing) `.wit` files with `simc`
 
@@ -85,9 +85,11 @@ The base64 value beginning `+6WeUroy...` is the complete serialized witness, inc
 
 In other development contexts, witness data doesn't necessarily need to be written to disk as part of a `.wit` file. The `rust-simplicity` library can be used to build a witness based on a Rust data structure containing the relevant values. If you're developing your Simplicity contract inside a Rust project and interacting with the contract (by creating transactions) from Rust code, you can easily write Rust functions to generate an appropriate witness and bypass the `.wit` file process entirely.
 
+The syntax and data types described in the current document may be relevant even if you are building a witness in a different environment or with different tools.
+
 Several instances of this pattern can be found in <a href="https://github.com/BlockstreamResearch/simplicity-contracts/tree/main/crates/contracts/src">the examples in the `simplicity-contracts` repository</a>. Each contract there is accompanied by a `build_witness.rs` file defining what the witness consumed by that contract should look like. The details of each are different according to the structure of the required witness, but each ends with a definition like `pub fn build_x_witness()` to complete the witness-building process.
 
-Currently, these other tools often use syntax closely related to that in a `.wit` file, so the syntax and data types described in the current document may be relevant even if you are building a witness in a different environment or with different tools.
+<a href="https://github.com/BlockstreamResearch/smplx">Simplex</a> now includes basic Rust artifact generation. This includes automatically creating Rust witness generation code on the basis of an input `.simf` file.
 
 The <a href="https://github.com/Blockstream/lwk">Liquid Wallet Kit</a> SDK library ("`lwk`") is currently (January 2026) adding Simplicity support. This will also provide equivalent functionality for building Simplicity witnesses in various supported programming languages, again without explicitly creating a `.wit` file. For example, it will be possible to use `lwk` to create a witness from Rust, Python, or JavaScript. This document will be updated with more information once this integration is complete.
 
