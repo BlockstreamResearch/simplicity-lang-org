@@ -137,7 +137,7 @@ Now run this command to generate a transaction that spends the assets you sent t
 Replace `<TXID>` with the transaction ID value from the prior step. The address `tex1q9hgs7pj8etd92rw5qz3dymvujffxzylmj6a28h` is a sample wallet address created to receive tLBTC funds from this process.
 
 ```bash
-cargo run spend-from-p2pk-contract --utxo <TXID>:0 --to-address tex1q9hgs7pj8etd92rw5qz3dymvujffxzylmj6a28h --send-sats 99900 --fee-sats 100
+cargo run p2pk spend-from-p2pk-contract --utxo <TXID>:0 --to-address tex1q9hgs7pj8etd92rw5qz3dymvujffxzylmj6a28h --send-sats 99900 --fee-sats 100
 ```
 
 You'll see output describing steps in the creation of the spending transaction. This transaction proves to the contract that you're entitled to spend the funds it controls.
@@ -197,7 +197,7 @@ You'll see output describing steps in the creation of the spending transaction. 
 Now run the prior command again with `--broadcast` to submit the transaction to the mempool for inclusion on the blockchain.
 
 ```bash
-cargo run spend-from-p2pk-contract --utxo <TXID>:0 --to-address tex1q9hgs7pj8etd92rw5qz3dymvujffxzylmj6a28h --send-sats 99900 --fee-sats 100 --broadcast
+cargo run p2pk spend-from-p2pk-contract --utxo <TXID>:0 --to-address tex1q9hgs7pj8etd92rw5qz3dymvujffxzylmj6a28h --send-sats 99900 --fee-sats 100 --broadcast
 ```
 
 (Again, `<TXID>` here should be replaced with the transaction ID from step 4.)
