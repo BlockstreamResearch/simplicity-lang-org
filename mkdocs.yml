@@ -145,9 +145,9 @@ hooks:
 nav:
   - Get Started:
       - Quickstart: getting-started/quickstart.md
-      - Simplicity for Bitcoin Developers: getting-started/welcome-bitcoin.md
-      - Simplicity for EVM Developers: getting-started/welcome-evm.md
-      - Simplicity for Finance: getting-started/welcome-finance.md
+      - Welcome, Bitcoin Developers: getting-started/welcome-bitcoin.md
+      - Welcome, EVM Developers: getting-started/welcome-evm.md
+      - Welcome, Finance Professionals: getting-started/welcome-finance.md
       - How Simplicity Works: documentation/how-simplicity-works.md
       - Join our Weekly Office Hours: office-hours.md
       - Simplicity Telegram group: https://t.me/simplicity_community
