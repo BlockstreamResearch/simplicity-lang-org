@@ -159,6 +159,7 @@ nav:
       - Tools and Projects: getting-started/projects.md
       - State Management: documentation/state.md
       - Oracles: documentation/oracle.md
+      - Timelocks: documentation/timelocks.md
 #      - SimplicityHL: getting-started/simplicityhl.md
       - Web IDE: getting-started/web-ide.md
 #      - CLI Guide: getting-started/cli.md
