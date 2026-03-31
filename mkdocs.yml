@@ -175,8 +175,6 @@ nav:
       - simplicityhl-reference/index.md
       - Jets Reference: documentation/jets.md
       - Toolchain Reference: documentation/toolchain.md
-      - Environment: simplicityhl-reference/environment.md
-      - Translation: simplicityhl-reference/translation.md
       - Whitepaper: https://blockstream.com/simplicity.pdf
       - Technical Report: https://raw.githubusercontent.com/ElementsProject/simplicity/pdf/Simplicity-TR.pdf
       - Contribute: resources/contribute.md
@@ -189,6 +187,8 @@ nav:
           - Functions: simplicityhl-reference/function.md
           - Programs: simplicityhl-reference/program.md
           - Context: simplicityhl-reference/context.md
+          - Environment: simplicityhl-reference/environment.md
+          - Translation: simplicityhl-reference/translation.md
   - Use Cases:
       - use-cases/index.md
       - Simplicity DEX: use-cases/simplicity-dex.md
