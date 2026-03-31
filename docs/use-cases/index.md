@@ -10,11 +10,12 @@ Examples we've developed ourselves include
 * [Simplicity Lending Protocol](./lending-protocol/) for collateralized lending ([implementation](https://github.com/BlockstreamResearch/simplicity-lending))
 * [SHRINCS Simplicity verifier](https://github.com/BlockstreamResearch/shrincs-simplicity-verifier), our project for [Simplicity-based postquantum signature verification](https://blog.blockstream.com/blockstream-research-demonstrates-quantum-resistant-transaction-signing-on-liquid-using-simplicity-smart-contracts/) on Liquid 
 
-## Simplicity projects built by other companies
+## Simplicity projects built by others
 
 * [Resolvr](https://resolvr.io/) has created [Astrolabe](https://docs.simplicity-lang.org/news/2026/02/20/video-resolvr-astrolabe-demo/), a Simplicity-based reinsurance investment platform, and [Deadcat](https://github.com/Resolvr-io/deadcat), a Simplicity-based prediction market.
 * [SideSwap](https://sideswap.io/) has [launched](https://sideswap.io/news/sideswap-press-release/) [Swaption](https://swaption.io/), a Simplicity-based noncustodial binary options marketplace.
 * [StarkWare](https://starkware.co/) has used Simplicity to [implement a STARK verifier](https://starkware.co/blog/building-starks-in-simplicity/).
+* [OceanSlim](https://github.com/0ceanslim) has created [anchor](https://github.com/0ceanSlim/anchor), a constant-product automated-market maker (AMM).
 
 ## Other examples and ideas
 
