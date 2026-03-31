@@ -177,12 +177,25 @@ hal-simplicity simplicity pset create '[ { "txid": "'"$INPUT_TX"'", "vout": 0, "
 ```
 -->
 
+## Creating appropriate transactions
+
+Transactions that consume UTXOs with timelock conditions must be constructed appropriately to assert the appropriate timelock. The necessary properties can be set as follows:
+
+| Kind | Type name | Transaction property |
+| ---- | --- | --- |
+| Absolute blocks | `Height` | `nSequence` = `0xfffffffe`<br>`nLockTime` < 500000000<br> `nLockTime` equal to desired `Height` |
+| Absolute time | `Time` | `nSequence` = `0xfffffffe`<br>`nLockTime` >= 500000000<br>`nLockTime` equal to desired `Time` |
+| Relative blocks | `Distance` | `nSequence` < `0x10000`<br>`nSequence` equal to desired `Distance` (`0` to `0xffff`) |
+| Relative time | `Duration` | `nSequence` = `0x00400000` + desired `Duration` (`0` to `0xffff`) |
+
+Additional details about the meanings of individual bits in these fields may be found in the Bitcoin or Elements documentation. As noted above, transaction-building tools and APIs may simply refer to the fields as `sequence` and `locktime`.
+
 ## No maximum time constraints
 
 Because of the *monotonicity* property of Bitcoin and related blockchain systems, there is no way to directly express a requirement that a transaction occur *before* a certain block height and not after. These systems enforce a rule that a specific transaction that was valid at some point remains valid at all times in the future. Although you can write SimplicityHL code that asserts that a lock distance is *smaller than* rather than *larger than* a specific numerical value, the person creating the transaction can simply assert a small `sequence` value which will be accepted as valid by the blockchain consensus.
 
 **Architecturally, timelocks in SimplicityHL contracts can only be usefully used to enforce minimum times, not maximum times, when transactions can occur.**
 
-For example, if a contract was funded with an specific input at block height 5000, and the contract asserts that the relative `Distance` when spending that input should be *less than* 100, a transaction spending that input while asserting `sequence` equal to 50 will still be valid when committed at block height 10000, as the criteria 50<10000-5000 (required by the nodes enforcing blockchain consensus rules in the transaction sequence) and 50<100 (for the contract's own logic) are both true. Asserting the `lock_distance` is small requires the use of a correspondingly small `sequence` value, but this does *not* imply that the resulting transaction is necessarily committed to the blockchain within a short time after the inputs it consumes.
+For example, if a contract was funded with an specific input at block height 5000, and the contract asserts that the relative `Distance` when spending that input should be *less than* 100, a transaction spending that input while asserting `sequence` equal to 50 will still be valid when committed at block height 10000, as the criteria 50<10000-5000 (required by the nodes enforcing blockchain consensus rules in the transaction sequence) and 50<100 (for the contract's own logic) are both true. Asserting the lock distance is small requires the use of a correspondingly small `sequence` value, but this does *not* imply that the resulting transaction is necessarily committed to the blockchain within a short time after the inputs it consumes.
 
 An effective "maximum time" might be achieved by having another contract branch that allows funds to be transferred elsewhere (one common pattern is that they can be refunded to their senders, for example). This requires some party to proactively create a transaction to take advantage of this option. The usual pattern for a timeout option is to say that, after a certain minimum time, assets transferred to the contract may be transferred back to their senders. If this option is used, other transactions then cannot occur after that time, because the contract no longer holds those assets.
