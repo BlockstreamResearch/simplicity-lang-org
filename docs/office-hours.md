@@ -18,7 +18,7 @@ You can also see all public Simplicity-related events in the public calendar:
 ## Upcoming topics
 
 * April 7, 2026: **Simplex demo** [Simplex](https://github.com/BlockstreamResearch/smplx) is a new orchestration tool for Simplicity projects. Come see a demo and learn how you can manage and test your Simplicity projects with Simplex.
-* April 14, 2026: **Lending contract demo** *Anticipated demo related to [simplicity-lending](https://github.com/BlockstreamResearch/simplicity-lending); details to follow.**
+* April 14, 2026: **Lending contract demo** *Anticipated demo related to [simplicity-lending](https://github.com/BlockstreamResearch/simplicity-lending); details to follow.*
 
 ## Prior Office Hours session recordings
 
