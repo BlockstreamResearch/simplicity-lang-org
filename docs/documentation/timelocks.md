@@ -17,7 +17,7 @@ Time can be expressed in terms of *blocks* on the blockchain. A blockchain consi
 
     For example, [Liquid block 3800000](https://liquid.network/block/59d271b0df9808eb59e686be30bf0e3c3faf121a72dbd751e90df7bcaed90533) was created at 12:08:10 UTC on March 16, 2026.
 
-Time can also be expressed in terms of *real time*. In Simplicity, an absolute timelock measured in real time is called a `Time`, while a relative timelock measured in blocks is called a `Duration`.
+Time can also be expressed in terms of *real time*. In Simplicity, an absolute timelock measured in real time is called a `Time`, while a relative timelock measured in real time is called a `Duration`.
 
 !!! note "Absolute time scale"
     In both Bitcoin and Liquid, **the *real time* scale for absolute timelock measurement is [*Unix time*](https://en.wikipedia.org/wiki/Unix_time)** (seconds since January 1, 1970).
@@ -61,7 +61,7 @@ Thus, Simplicity logic checks "is my timelock rule satisfied by this transaction
 
     * If you set `sequence` to 50, the timelock enforcement code will fail because the `sequence` value is smaller than required.
 
-    * If you set `sequence` to 150, the timelock condition *succeeds*. However, if you *submit* this transaction to the Liquid Network blockchain less than 150 minutes after the input transaction, the <glossary:node> to which you submitted it will reject it with a `non-BIP68-final` (meaning that it's still too early for the proposed transaction to be valid).
+    * If you set `sequence` to 150, the timelock condition *succeeds*. However, if you *submit* this transaction to the Liquid Network blockchain less than 150 minutes after the input transaction, the [node](../glossary.md#node) to which you submitted it will reject it with a `non-BIP68-final` (meaning that it's still too early for the proposed transaction to be valid).
 
     * If you set `sequence` to 150 and submit the transaction at least 150 minutes after the input transaction, the transaction should be valid and accepted on the blockchain (at least as far as the timelock condition is concerned!).
 
@@ -74,7 +74,7 @@ Thus, Simplicity logic checks "is my timelock rule satisfied by this transaction
 
 Enforcing an absolute timelock in SimplicityHL uses the jets `check_lock_height` (for absolute block height) or `check_lock_time` (for absolute Unix time).
 
-`check_lock_height(Height)`: Assert that the transaction's locktime is a block height strictly greater than or equal to the provided value. Such a transaction cannot be included on the blockchain prior to that block height.
+`check_lock_height(Height)`: Assert that the transaction's locktime is a block height greater than or equal to the provided value. Such a transaction cannot be included on the blockchain prior to that block height.
 
 `check_lock_time(Time)`: Assert that the transaction's locktime is a Unix timestamp strictly greater than or equal to the provided value. Such a transaction cannot be included on the blockchain prior to that timestamp.
 
@@ -130,7 +130,7 @@ fn enforce_relative_duration(min_duration: Duration) {
     match parsed_seq {
         // Failure condition
         None => assert!(false),
-        // This is either a distance or a duration, but only a distance is
+        // This is either a distance or a duration, but only a duration is
         // acceptable here.
         Some(actual_data: Either<Distance, Duration>) => match actual_data {
             // A distance is not acceptable in this context.
@@ -196,6 +196,6 @@ Because of the *monotonicity* property of Bitcoin and related blockchain systems
 
 **Architecturally, timelocks in SimplicityHL contracts can only be usefully used to enforce minimum times, not maximum times, when transactions can occur.**
 
-For example, if a contract was funded with an specific input at block height 5000, and the contract asserts that the relative `Distance` when spending that input should be *less than* 100, a transaction spending that input while asserting `sequence` equal to 50 will still be valid when committed at block height 10000, as the criteria 50<10000-5000 (required by the nodes enforcing blockchain consensus rules in the transaction sequence) and 50<100 (for the contract's own logic) are both true. Asserting the lock distance is small requires the use of a correspondingly small `sequence` value, but this does *not* imply that the resulting transaction is necessarily committed to the blockchain within a short time after the inputs it consumes.
+For example, if a contract was funded with a specific input at block height 5000, and the contract asserts that the relative `Distance` when spending that input should be *less than* 100, a transaction spending that input while asserting `sequence` equal to 50 will still be valid when committed at block height 10000, as the criteria 50<10000-5000 (required by the nodes enforcing blockchain consensus rules in the transaction sequence) and 50<100 (for the contract's own logic) are both true. Asserting the lock distance is small requires the use of a correspondingly small `sequence` value, but this does *not* imply that the resulting transaction is necessarily committed to the blockchain within a short time after the inputs it consumes.
 
 An effective "maximum time" might be achieved by having another contract branch that allows funds to be transferred elsewhere (one common pattern is that they can be refunded to their senders, for example). This requires some party to proactively create a transaction to take advantage of this option. The usual pattern for a timeout option is to say that, after a certain minimum time, assets transferred to the contract may be transferred back to their senders. If this option is used, other transactions then cannot occur after that time, because the contract no longer holds those assets.
