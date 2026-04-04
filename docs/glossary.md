@@ -183,6 +183,13 @@ See also <a href="https://en.wikipedia.org/wiki/Smart_contract">smart contract</
 
 Some sources may use "smart contract" to refer to the overall combination of technologies and protocols that govern or realize a particular commercial relationship or interaction, of which an individual Simplicity program might be only one component. In general, there might be several related Simplicity programs that form part of an overall smart contract system or arrangement.
 
+## Timelock
+A spending condition for a [UTXO](./glossary.md#utxo) that only permits certain transfers after a specified time. For example, a timelock condition can restrict an asset so it can't be transferred for a specified number of seconds or a specified number of blocks.
+
+Timelocks can be used to implement "maturity" for claims so that they can be exercised only after a specified date. They're also used as part of a timeout-and-refund pattern, so that assets can eventually be refunded if a contract does not complete. They also appear as part of many [vault](./glossary.md#vault) designs.
+
+In Simplicity, timelock conditions are enforced by calling appropriate [jets](./glossary.md#jet) to check timelock assertions in a proposed [transaction](./glossary.md#transaction). The logic of a timelock can be combined with other conditions, for example to allow one key to authorize transfers immediately, but require a delay when authorizing them with another key.
+
 ## Token
 An [asset](./glossary.md#asset) on a blockchain which represents a specific right, claim, or ability, often due to agreement by particular organizations to accept it for a specific purpose, or references in [smart contract](./glossary.md#smart-contract)s that cause its possession or transfer to have a specific effect. (Sometimes, a monetary or financial asset whose ownership is tracked on a blockchain, such as a virtual currency.)
 
