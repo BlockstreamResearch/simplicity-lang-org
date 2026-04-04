@@ -91,7 +91,7 @@ This function enforces a relative distance timelock by calling a combination of 
 ```rust
 fn enforce_relative_distance(min_distance: Distance) {
     // Assert that the current input is spent in a transaction that can
-    // only appear a distance of at least d blocks after the input's
+    // only appear a distance of at least min_distance blocks after the input's
     // UTXO. Panic otherwise.
 
     // Transaction version must be at least 2.
