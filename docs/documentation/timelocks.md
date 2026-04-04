@@ -146,41 +146,6 @@ fn enforce_relative_duration(min_duration: Duration) {
 
 For real-time-based timelocks, Bitcoin and Elements use a rule called [Median Time Past](https://github.com/bitcoin/bips/blob/master/bip-0113.mediawiki) when determining the effective current time. This rule induces an extra delay (six minutes for Liquid Network, or about one hour for Bitcoin) for the validity of a transaction that using a real-time-based timelock.
 
-<!--
-These are hal-simplicity commands that implement the example in the note above. As hal-simplicity is not so widely used for building transactions, these examples may confuse users more than enlighten them.
-It would be great to make a kind of sandbox for experimenting with timelock behavior.
-
-Now consider several different transactions created with different parameter values.  (You may need to scroll to the right to see the entire command line in each `hal-simplicity` command below.) For each example, the associated comment indicates whether the transaction will succeed or fail, and why.
-
-```
-hal-simplicity simplicity pset create '[ { "txid": "'"$INPUT_TX"'", "vout": 0 } ]' '[ { "'"$OUTPUT_ADDR"'": 0.00099900 }, { "fee": 0.00000100 } ]'
-# [...]
-# This transaction ultimately fails because sequence is assumed to be 0
-# when not explicitly specified. The check_lock_distance jet will always
-# fail as a result.
-
-hal-simplicity simplicity pset create '[ { "txid": "'"$INPUT_TX"'", "vout": 0, "sequence": 50 } ]' '[ { "'"$OUTPUT_ADDR"'": 0.00099900 }, { "fee": 0.00000100 } ]'
-# [...]
-# By its sequence value, this transaction would be valid for mempool submission
-# once 50 blocks have been confirmed following the input transaction. However,
-# the sequence value 50 is less than 100, so the check_lock_distance jet will
-# again always fail because the asserted sequence value is too low.
-
-hal-simplicity simplicity pset create '[ { "txid": "'"$INPUT_TX"'", "vout": 0, "sequence": 150 } ]' '[ { "'"$OUTPUT_ADDR"'": 0.00099900 }, { "fee": 0.00000100 } ]'
-# [...]
-# By its sequence value, this transaction would be valid for mempool
-# submission once 150 blocks have been confirmed following the input
-# transaction. If it is submitted to a Liquid Network node before that,
-# the node will reject it with the error "non-BIP68-final".
-#
-# If it is submitted after that, the check_lock_distance jet will
-# succeed and the transaction as a whole will be valid. The transaction
-# can be successfully added to the blockchain. (On Liquid, the block
-# time is one minute, so the 150-block delay is complete 150 minutes after
-# the input transaction.)
-```
--->
-
 ## Creating appropriate transactions
 
 Transactions that consume UTXOs with timelock conditions must be constructed appropriately to assert the appropriate timelock. The necessary properties can be set as follows:
