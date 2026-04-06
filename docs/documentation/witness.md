@@ -1,6 +1,12 @@
 # Witnesses in SimplicityHL development
 
-The [execution model](../execution-model) for Simplicity [contract](../glossary.md#contract)s allows the user who is proposing a [transaction](../glossary.md#transaction) to provide input values to the contract. The meaning of these inputs is specific to an individual contract, but in general they help the contract to confirm that the proposed transaction is authorized according to the contract's rules. This is necessary because anyone can propose transactions to spend assets at any time, so a contract needs a clear way to distinguish which transactions are appropriate and which aren't.
+This document describes *witnesses*, which are transaction-time input data for a Simplicity contract provided by the user proposing the transaction. A witness explains what the user wants the contract to do, and convinces the contract that this action is authorized.
+
+When you interact with a Simplicity [contract](../glossary.md#contract) on the blockchain, you'll need to build and attach witness data for each [transaction](../glossary.md#transaction).
+
+## Witness overview
+
+The [execution model](../execution-model) for Simplicity [contract](../glossary.md#contract)s allows the user who is proposing a [transaction](../glossary.md#transaction) to provide input values to the contract. Each contract expects different inputs, but in general they help confirm that the proposed transaction is authorized according to the contract's rules. This is necessary because anyone can propose transactions to spend assets at any time, so a contract needs a clear way to distinguish which transactions are appropriate and which aren't.
 
 One can think of a Simplicity program as a function that deterministically answers "yes" or "no" to each proposed transaction. The input data for this function will be the specific transaction details, together with some user-supplied inputs which are collectively known as a *witness*. The form of the expected witness is determined in advance by the Simplicity program, just as any function definition determines what kind of input that function expects.
 
@@ -22,7 +28,7 @@ The rest of this document provides details about the means of creating witnesses
 
 The [simc](../glossary.md#simc) compiler is able to compile (in this context, "serialize") a witness using a contract-specific text file called a `.wit` file. The output is a base64 string which can then be provided to other tools like `hal-simplicity pset finalize` to be incorporated into a complete transaction.
 
-The `.wit` file is formatted as a JSON file. Each top-level entry in the file has a *name* which has two elements: `value` and `type`. The entry name is used in the SimplicityHL program as a variable name to refer to this specific entry. The `value` and `type` are both strings containing Rust-like code for the data value and data type annotation for the entry. For example,
+The `.wit` file is a JSON file. Each top-level entry in the file has a *name* which has two elements: `value` and `type`. The entry name is used in the SimplicityHL program as a variable name to refer to this specific entry. The `value` and `type` are both strings containing Rust-like code for the data value and data type annotation for the entry. For example,
 
 ```json
 {
@@ -34,14 +40,14 @@ The `.wit` file is formatted as a JSON file. Each top-level entry in the file ha
         "value": "3",
         "type": "u8"
     },
-    "yep_or_nope": {
+    "yes_or_no": {
         "value": "false",
         "type": "bool"
     }
 }
 ```
 
-This witness provides two separate integer values, available to a SimplicityHL program as `witness::amount` and `witness::x`, and a boolean value available as `witness::yep_or_nope`. The witness file indicates that `witness::amount` is a 32-bit integer (`u32`) equal to `100`, while `witness::x` is an 8-bit integer (`u8`) equal to `3`, and `witness:yep_or_nope` is a boolean (`bool`) equal to `false`.
+This witness provides two separate integer values, available to a SimplicityHL program as `witness::amount` and `witness::x`, and a boolean value available as `witness::yes_or_no`. The witness file indicates that `witness::amount` is a 32-bit integer (`u32`) equal to `100`, while `witness::x` is an 8-bit integer (`u8`) equal to `3`, and `witness:yes_or_no` is a boolean (`bool`) equal to `false`.
 
 Note that even numeric values are represented as JSON strings within the `.wit` file (`"value": "100"`, not `"value": 100`).
 
@@ -83,15 +89,13 @@ The base64 value beginning `+6WeUroy...` is the complete serialized witness, inc
 
 ## Other tools for building witness data
 
-In other development contexts, witness data doesn't necessarily need to be written to disk as part of a `.wit` file. The `rust-simplicity` library can be used to build a witness based on a Rust data structure containing the relevant values. If you're developing your Simplicity contract inside a Rust project and interacting with the contract (by creating transactions) from Rust code, you can easily write Rust functions to generate an appropriate witness and bypass the `.wit` file process entirely.
+Witness data doesn't necessarily need to be written to disk in a `.wit` file. It may be assembled in memory by a client application that's interacting with an on-chain contract. (The syntax and data types described in the current document may be relevant even if you are building a witness in a different environment or with different tools.)
 
-The syntax and data types described in the current document may be relevant even if you are building a witness in a different environment or with different tools.
+For example, if you're developing in Rust, you can build a witness based on a Rust data structure containing the relevant values. You can write Rust functions to generate an appropriate witness and bypass the `.wit` file process entirely. <a href="https://github.com/BlockstreamResearch/smplx">Simplex</a> now includes basic Rust artifact generation, automatically creating Rust witness generation code on the basis of an input `.simf` file.
 
 Several instances of this pattern can be found in <a href="https://github.com/BlockstreamResearch/simplicity-contracts/tree/main/crates/contracts/src">the examples in the `simplicity-contracts` repository</a>. Each contract there is accompanied by a `build_witness.rs` file defining what the witness consumed by that contract should look like. The details of each are different according to the structure of the required witness, but each ends with a definition like `pub fn build_x_witness()` to complete the witness-building process.
 
-<a href="https://github.com/BlockstreamResearch/smplx">Simplex</a> now includes basic Rust artifact generation. This includes automatically creating Rust witness generation code on the basis of an input `.simf` file.
-
-The <a href="https://github.com/Blockstream/lwk">Liquid Wallet Kit</a> SDK library ("`lwk`") is currently (January 2026) adding Simplicity support. This will also provide equivalent functionality for building Simplicity witnesses in various supported programming languages, again without explicitly creating a `.wit` file. For example, it will be possible to use `lwk` to create a witness from Rust, Python, or JavaScript. This document will be updated with more information once this integration is complete.
+The <a href="https://github.com/Blockstream/lwk">Liquid Wallet Kit</a> SDK library ("`lwk`") is currently (April 2026) adding Simplicity support. This will also provide equivalent functionality for building Simplicity witnesses in various supported programming languages, again without explicitly creating a `.wit` file. For example, it will be possible to use `lwk` to create a witness from Rust, Python, or JavaScript. This document will be updated with more information once this integration is complete.
 
 ## Types
 
@@ -225,36 +229,6 @@ Some more complex type system features that can be used in creating witnesses in
 
 ### More built-in types
 
-Other built-in SimplicityHL types and alias types may also be used in witnesses, including `Pubkey` for [public key](../glossary.md#public-key)s, `Distance` for timelock distances, and various others, but there's usually less frequent reason to use these compared to integers and signatures. The complete list of available built-in type aliases and their type definitions is <a href="https://github.com/BlockstreamResearch/SimplicityHL/blob/master/src/types.rs#L815">available in the SimplicityHL source code</a>, but you should generally only use these when passing them as parameters to a specific jet that expects them. These types' names are always capitalized in SimplicityHL code, like `Signature`, `Pubkey`, `Distance`, `Duration`.
+Although integers and signatures are most commonly used, other [built-in SimplicityHL types](../../simplicityhl-reference/type) and [alias types](../../simplicityhl-reference/type_alias) may also be used in witnesses, including `Pubkey` for [public key](../glossary.md#public-key)s, `Distance` for [timelock](../glossary.md#timelock) distances, and various others. You can use these for clarity when passing them as parameters to a specific jet that expects them. These types' names are always capitalized in SimplicityHL code, like `Signature`, `Pubkey`, `Distance`, `Duration`.
 
-The type signatures of the <a href="https://github.com/BlockstreamResearch/SimplicityHL/blob/c412dfc684a47c9f430195c20d5a906294b27575/src/jet.rs#L32">inputs</a> and <a href="https://github.com/BlockstreamResearch/SimplicityHL/blob/c412dfc684a47c9f430195c20d5a906294b27575/src/jet.rs#L533">outputs</a> to each jet are specified in the jet implementation and will be provided as an integral part of the jet documentation.
-
-<!-- The complete list of builtin type aliases as of 2026-01-28 is
-
-* Ctx8
-* Pubkey
-* Message
-* Message64
-* Signature
-* Scalar
-* Fe
-* Ge
-* Gej
-* Point
-* Height
-* Time
-* Distance
-* Duration
-* Lock
-* Outpoint
-* Confidential1
-* ExplicitAsset
-* Asset1
-* ExplicitAmount
-* Amount1
-* ExplicitNonce
-* Nonce
-* TokenAmount1
-
-but some of these are impossible to explain without the context of the individual jet that consumes them, which is often very technical and not relevant to most contract development.
--->
+The type signatures of the inputs and outputs to each jet are included in [the jet documentation](../jets).
