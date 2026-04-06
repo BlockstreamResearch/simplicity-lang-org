@@ -213,6 +213,14 @@ You've just compiled a smart contract, sent assets to it on a public blockchain,
 
 #### Next steps
 
+??? note "Using VSCode?"
+    If you're expecting to develop SimplicityHL contracts with Visual Studio Code, you can also install Blockstream's VSCode extension to provide syntax highlighting and other developer features.
+
+    * Open Extensions View: Click the Extensions icon in the left sidebar.
+    * Search: In the search field, type `SimplicityHL`.
+    * Install: Click the Install button for the extension provided by Blockstream.
+
+* See our welcome pages for [Bitcoin](../welcome-bitcoin), [Solidity / EVM](../welcome-evm), and [finance](../welcome-finance) audiences.
 * Check out <a href="https://github.com/BlockstreamResearch/simplicity-contracts">more complex example contracts</a> with similar demos.
 * See <a href="https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples">simple contract source code</a> that demonstrates SimplicityHL language syntax and features.
 * Read <a href="https://docs.simplicity-lang.org/documentation/execution-model/">SimplicityHL language documentation</a> to learn more about how to write smart contracts.
