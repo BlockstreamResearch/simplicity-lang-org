@@ -84,7 +84,8 @@ Enforcing an absolute timelock in SimplicityHL uses the jets `check_lock_height`
 
 A relative timelock is calculated based on the time when a particular UTXO was included in a block.
 
-The Simplicity jets that directly enforce relative timelocks have been deprecated due to an implementation error. However, a workaround is available.
+!!! warning "Deprecated jets"
+    The Simplicity jets that directly enforce relative timelocks have been deprecated due to an implementation error. However, a workaround is available. This document describes the workaround, not the deprecated jets.
 
 This function enforces a relative distance timelock by calling a combination of related jets.
 
@@ -166,7 +167,10 @@ Transactions that consume UTXOs with timelock conditions must be constructed app
 
 ## No maximum time constraints
 
-In some smart contracts, one might be tempted to use timelock jets to require a transaction to happen *before* a certain time rather than *after*. However, this is not supported. **Architecturally, timelocks in Simplicity contracts can only be usefully used to enforce minimum times, not maximum times, when transactions can occur.**
+!!! warning "Timelocks enforce minimum transaction times, not maximum times"
+    In some smart contracts, one might be tempted to use timelock jets to require a transaction to happen *before* a certain time rather than *after*. However, this is not supported. **Architecturally, timelocks in Simplicity contracts can only be usefully used to enforce minimum times, not maximum times, when transactions can occur.**
+
+    This section further discusses this limitation.
 
 Because of the *monotonicity* property of Bitcoin and related blockchain systems, there is no way to directly express a requirement that a transaction occur *before* a certain block height and not after. These systems enforce a rule that a specific transaction that was valid at some point remains valid at all times in the future. Although you can write SimplicityHL code that asserts that a lock distance is *smaller than* rather than *larger than* a specific numerical value, the person creating the transaction can simply assert a small `sequence` value which will be accepted as valid by the blockchain consensus.
 
