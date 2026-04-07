@@ -17,7 +17,6 @@ You can also see all public Simplicity-related events in the public calendar:
 
 ## Upcoming topics
 
-* April 7, 2026: **Simplex demo** [Simplex](https://github.com/BlockstreamResearch/smplx) is a new orchestration tool for Simplicity projects. Come see a demo and learn how you can manage and test your Simplicity projects with Simplex.
 * April 14, 2026: **Lending contract demo** Come see a demo of the [simplicity-lending](https://github.com/BlockstreamResearch/simplicity-lending) contract developed by our colleagues and learn about on-chain collateralized lending applications with Simplicity.
 
 ## Prior Office Hours session recordings
@@ -40,3 +39,4 @@ You can also see all public Simplicity-related events in the public calendar:
 * <a href="https://youtu.be/BL7WDlutjts">March 17, 2026</a> ([infix operators](https://github.com/BlockstreamResearch/SimplicityHL/pull/232) demo)
 * <a href="https://youtu.be/1j7uj4kLsvw">March 24, 2026</a> (SimplicityHL modules/includes demo; [prediction market contract](https://github.com/Resolvr-io/deadcat) demo)
 * <a href="https://youtu.be/BixsjpS4x6s">March 31, 2026</a> ([AMM contract](https://github.com/0ceanSlim/anchor) demo)
+* <a href="https://youtu.be/-pW-hI9Hy8k">April 7, 2026</a> ([Simplex](https://github.com/BlockstreamResearch/smplx) demo)
