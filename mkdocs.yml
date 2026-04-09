@@ -185,7 +185,8 @@ nav:
           - Type Casting: simplicityhl-reference/type_casting.md
           - Let Statements: simplicityhl-reference/let_statement.md
           - Match Expression: simplicityhl-reference/match_expression.md
-          - Functions: simplicityhl-reference/function.md
+          - Built-in Functions: simplicityhl-reference/builtin.md
+          - Defining Functions: simplicityhl-reference/function.md
           - Programs: simplicityhl-reference/program.md
           - Context: simplicityhl-reference/context.md
           - Environment: simplicityhl-reference/environment.md
