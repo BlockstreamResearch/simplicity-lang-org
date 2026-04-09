@@ -9,7 +9,7 @@ Jet calls are currently used in SimplicityHL to perform many operations, such as
 
 * For example, in SimplicityHL, you check whether two integers are equal with a call to a jet such as `jet::eq_32`.
 
-Some jets allow a Simplicity program to refuse a proposed transaction by performing a mandatory assertion (these jets' return type is `unit` below). The "panic" or failure effect produced by these jets is the *only* way to decline a transaction, so every program will need to call one or more of these jets directly or indirectly.
+Some jets allow a Simplicity program to refuse a proposed transaction by performing a mandatory assertion (these jets' return type is `()` below). The "panic" or failure effect produced by these jets is the *only* way to decline a transaction, so every program will need to call one or more of these jets directly or indirectly.
 
 * For example, `jet::bip_0340_verify` checks a digital signature and refuses the transaction if the signature cannot be verified.
 
@@ -597,4 +597,4 @@ The list of jets is fixed when Simplicity is integrated with a specific blockcha
 
 Calling jets, where available, makes your Simplicity program smaller and faster.
 
-A few jets <a href="https://delvingbitcoin.org/t/delving-simplicity-part-two-side-effects/2091">provide behaviors that could not be achieved directly with low-level Simplicity combinators alone</a>, such as transaction introspection. Jets that can fail (those whose return type is `unit`) are the expected and only way for a Simplicity program to disapprove a proposed transaction.
+A few jets <a href="https://delvingbitcoin.org/t/delving-simplicity-part-two-side-effects/2091">provide behaviors that could not be achieved directly with low-level Simplicity combinators alone</a>, such as transaction introspection. Jets that can fail (those whose return type is `()`) are the expected and only way for a Simplicity program to disapprove a proposed transaction.
