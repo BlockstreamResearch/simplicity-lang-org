@@ -183,6 +183,13 @@ See also <a href="https://en.wikipedia.org/wiki/Smart_contract">smart contract</
 
 Some sources may use "smart contract" to refer to the overall combination of technologies and protocols that govern or realize a particular commercial relationship or interaction, of which an individual Simplicity program might be only one component. In general, there might be several related Simplicity programs that form part of an overall smart contract system or arrangement.
 
+## Taproot
+A Bitcoin and Elements feature where the overall structure of the conditions for spending a [UTXO](./glossary.md#utxo) are represented as a [Merkle tree](./glossary.md#merkle-tree). (This tree is also known as a "taptree" and its leaves as "tapleaves.")
+
+On-chain Simplicity [programs](./glossary.md#program) are represented within such a tree, which ultimately derives an address to which [assets](./glossary.md#asset) can be sent. Among other effects, this results in the presence of the [internal key](./glossary.md#internal-key).
+
+The details of Simplicity programs' Taproot representations also play a critical role in [state management](../documentation/state/). In the recommended approach, a cryptographic hash representing the current state of a smart contract instance is stored in a Taproot leaf alongside the associate Simplicity program's Taproot leaf. This provides a means of cryptographically verifying [witness](./glossary.md#witness) assertions about what the contract's state should be. Because of the use of cryptographic hashes to commit to the content of the whole tree, changing any part of the Taproot structure, including any part of the program code or its stored state, results in a completely different derived address.
+
 ## Timelock
 A spending condition for a [UTXO](./glossary.md#utxo) that only permits certain transfers after a specified time. For example, a timelock condition can restrict an asset so it can't be transferred for a specified number of seconds or a specified number of blocks.
 
