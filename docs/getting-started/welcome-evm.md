@@ -13,7 +13,7 @@ We know security is your top concern. Simplicity is fundamentally architected wi
 ## Where to go from here:
 
 * **Perform a live transaction:** Try our [quickstart tutorial](../quickstart/) to make your first Simplicity transaction in minutes.
-* **Get introduced to Simplicity from the EVM perspective**: Map your knowledge to our environment by reading our dedicated, detailed [Introduction to Simplicity for EVM Developers](../../documentation/simplicity-for-evm-developers), including frequently asked questions and a video presentation on the architectural differences.
+* **Get introduced to Simplicity from the EVM perspective**: Map your knowledge to our environment by reading our dedicated, detailed [Introduction to Simplicity for EVM Developers](../documentation/simplicity-for-evm-developers), including frequently asked questions and a video presentation on the architectural differences.
 * **See it in action:** Explore what's possible with [Simplicity use cases and demos](../../use-cases/), including how complex financial applications are built natively on-chain.
 * **Shift your mental model:** Dive into the [UTXO execution model](../../documentation/execution-model) that structures Simplicity contracts and within which they execute on the blockchain. Understand how Simplicity enforces financial logic and spending conditions without global state or account balances.
 * **Master state management:** Learn how to pass data from one transaction to another using [covenants and state management](../../documentation/state), the UTXO equivalent to updating contract storage.
