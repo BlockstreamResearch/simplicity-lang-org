@@ -17,7 +17,6 @@ You can also see all public Simplicity-related events in the public calendar:
 
 ## Upcoming topics
 
-* April 14, 2026: **Lending contract demo** Come see a demo of the [simplicity-lending](https://github.com/BlockstreamResearch/simplicity-lending) contract developed by our colleagues and learn about on-chain collateralized lending applications with Simplicity.
 * April 21, 2026: **Call is canceled** and will resume on April 28.
 
 ## Prior Office Hours session recordings
@@ -41,3 +40,4 @@ You can also see all public Simplicity-related events in the public calendar:
 * <a href="https://youtu.be/1j7uj4kLsvw">March 24, 2026</a> (SimplicityHL modules/includes demo; [prediction market contract](https://github.com/Resolvr-io/deadcat) demo)
 * <a href="https://youtu.be/BixsjpS4x6s">March 31, 2026</a> ([AMM contract](https://github.com/0ceanSlim/anchor) demo)
 * <a href="https://youtu.be/-pW-hI9Hy8k">April 7, 2026</a> ([Simplex](https://github.com/BlockstreamResearch/smplx) demo)
+* <a href="https://youtu.be/Vq7GGTfIr1s">April 14, 2026</a> ([Lending contract](https://github.com/BlockstreamResearch/simplicity-lending) demo)
