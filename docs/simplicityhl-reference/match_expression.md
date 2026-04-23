@@ -58,18 +58,17 @@ let map_either: u32 = match Left(1337) {
 };
 ```
 
-Match expressions don't support further pattern matching, in contrast to Rust.
+Since SimplicityHL 0.5.0, the match expression also supports further pattern matching, similar to Rust.
 
 ```rust
 let unwrap_or_default: u32 = match Some((4, 2)) {
     None => 0,
-    // this doesn't compile
     Some((y, z): (u16, u16)) => <(u16, u16)>::into((y, z)),
 };
 ```
 
-However, the match arm can contain code that performs the deconstruction.
-For example, the tuple `x` of type `(u16, u16)` can be deconstructed into two integers `y` and `z` of type `u16`.
+This is more concise than including code to perform the deconstruction inside the match arm.
+For example, the code above is a more concise alternative to this version that subsequently deconstructes the tuple `x` of type `(u16, u16)` into two integers `y` and `z` of type `u16`.
 
 ```rust
 let unwrap_or_default: u32 = match Some((4, 2)) {
@@ -93,3 +92,9 @@ let unwrap_or_default: u32 = match Some(Left(42)) {
     },
 };
 ```
+
+## Only two branches per `match`
+
+Differently from Rust, the `match` expression only allows two match arms (branches) per `match`.
+For example, it is currently not possible to match `Left(Left(x: u8))`, `Left(Right(x: u8)`, `Right(Left(x: u8))`, and `Right(Right(x: u8))` as arms of a single `match` expression.
+Matching these four possibilities instead requires two nested `match` expressions.
