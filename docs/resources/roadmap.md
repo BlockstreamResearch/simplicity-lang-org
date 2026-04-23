@@ -37,7 +37,7 @@ Integrations of Simplicity with <a href="https://blockstream.com/amp/">AMP</a> a
 
 ## Documentation updates
 
-In addition to documentation on features mentioned above, significant new and updated documentation is in preparation, including material on timelocks and on avoiding pitfalls in smart contract design.
+In addition to documentation on features mentioned above, significant new and updated documentation is in preparation, including material on design patterns and avoiding pitfalls in smart contract design.
 
 ## Simplicity Unchained
 
