@@ -74,10 +74,10 @@ Currently, `.wit` files need to be written manually. You can use the details abo
 
 ## Compiling (serializing) `.wit` files with `simc`
 
-As noted above, `simc` can produce a serialized base64 form of a `.wit` file to incorporate into a transaction. It does this automatically when run with two arguments (program source code and witness file):
+As noted above, `simc` can produce a serialized base64 form of a `.wit` file to incorporate into a transaction. The witness file is specified with the `-w` option to `simc`.
 
 ```bash
-$ simc p2ms.simf p2ms.wit
+$ simc p2ms.simf -w p2ms.wit
 Program:
 5lk2l5vmZ++dy7rFWgYpXOhwsHApv82y3OKNlZ8oFbFvgXmARacYEf5RB7X1tMEVAbpXAfNhcd45LjO88p6usCblccJ7lBgtPyYRQDJLGGIJJonwvxOqRTamOQiwbfM2EMA+InecBt8gyCoWRAoQY4oNggUIOOQKE2AACEGGHIMMFgFpHxOQKEGHG4AccgwVJ4CBOKD8JNwsUH1HCrYwEJFB+NQQDaBwIfhWmNBCBQgwzMAMAKwCD8UGCo/FYIBuC4IAwDxcBxkBxuQKDcam5BnGHHG5CHGHCxC1gOAIFBuQh+SRxhxxx+ShxhxwsgtoDiFAoTYAQIQKDcmjjcnBRm2ggDjpIoA5GA1gcBA4jA4zA5cgcvwOYMkUAclgcxY=
 Witness:
@@ -85,7 +85,7 @@ Witness:
 
 ```
 
-The base64 value beginning `+6WeUroy...` is the complete serialized witness, incorporating all of the input values from `p2ms.wit`. By including both the program source code <a href="https://github.com/BlockstreamResearch/SimplicityHL/blob/master/examples/p2ms.simf">`p2ms.simf`</a> and the witness file <a href="https://github.com/BlockstreamResearch/SimplicityHL/blob/master/examples/p2ms.wit">`p2ms.wit`</a>, you allow the compiler to double-check that the required values were included. The [Quickstart tutorial](/getting-started/quickstart/) on this site also demonstrates this process, eventually attaching the witness to the transaction via `hal-simplicity` immediately before finalizing and submitting the transaction.
+The base64 value beginning `+6WeUroy...` is the complete serialized witness, incorporating all of the input values from `p2ms.wit`. By including both the program source code <a href="https://github.com/BlockstreamResearch/SimplicityHL/blob/master/examples/p2ms.simf">`p2ms.simf`</a> and the witness file <a href="https://github.com/BlockstreamResearch/SimplicityHL/blob/master/examples/p2ms.wit">`p2ms.wit`</a>, you allow the compiler to double-check that the required values were included. The [bash quickstart tutorial](/getting-started/bash-quickstart/) on this site also demonstrates this process, eventually attaching the witness to the transaction via `hal-simplicity` immediately before finalizing and submitting the transaction.
 
 ## Other tools for building witness data
 

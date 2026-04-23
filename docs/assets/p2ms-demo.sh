@@ -262,8 +262,8 @@ pause
 # with a witness when claiming assets from the contract, as we do here.
 # Those would usually be done by different people on different occasions.
 echo "Recompiling Simplicity program with attached populated witness file..."
-echo simc "$PROGRAM_SOURCE" "$TMPDIR"/witness.wit
-simc "$PROGRAM_SOURCE" "$TMPDIR"/witness.wit | tee "$TMPDIR"/compiled-with-witness
+echo simc "$PROGRAM_SOURCE" -w "$TMPDIR"/witness.wit
+simc "$PROGRAM_SOURCE" -w "$TMPDIR"/witness.wit | tee "$TMPDIR"/compiled-with-witness
 
 # Maybe simc should also output structured data like JSON!
 PROGRAM=$(cat "$TMPDIR"/compiled-with-witness | sed '1d; 3,$d')

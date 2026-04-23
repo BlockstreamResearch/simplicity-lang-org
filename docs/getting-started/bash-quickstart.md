@@ -197,13 +197,13 @@ Copy the hexadecimal value that appears as `signature` in the output. Edit the `
 We're going to run `simc` again to obtain a version of our updated [witness](../glossary.md#witness) file suitable for publication on the blockchain. (This represents the *input* to our contract as the contract is being run in the context of this transaction. The presence of both Alice's and Charlie's valid signatures on this transaction will convince our contract logic to approve the transaction.)
 
 ```bash
-simc $PROGRAM_SOURCE $TMPDIR/p2ms.wit
+simc $PROGRAM_SOURCE -w $TMPDIR/p2ms.wit
 ```
 
 Now there is an additional line of output representing the witness data. We want to store this into a shell variable too so that we can include it as part of our overall transaction. Once again, the data we need is on the final line of output of `simc`:
 
 ```bash
-WITNESS=$(simc $PROGRAM_SOURCE $TMPDIR/p2ms.wit | tail -1)
+WITNESS=$(simc $PROGRAM_SOURCE -w $TMPDIR/p2ms.wit | tail -1)
 ```
 
 ### Step 8: Finalize and extract the raw transaction

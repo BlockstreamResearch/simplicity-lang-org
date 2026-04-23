@@ -165,13 +165,13 @@ Copy the hexadecimal value that appears as `signature` in the output. Edit the `
 We're going to run `simc` again to obtain a version of our updated [witness](../glossary.md#witness) file suitable for publication on the blockchain. (This represents the *input* to our contract as the contract is being run in the context of this transaction. The presence of the valid signature on this transaction will convince our contract logic to approve the transaction.)
 
 ```bash
-simc example.simf example.wit
+simc example.simf -w example.wit
 ```
 
 Now we see an additional line of output representing the witness data. We'll store this into a shell variable too so that we can include it as part of our overall transaction. The data we need is the fourth line of output above, or the `witness` property in `simc`'s JSON output:
 
 ```bash
-WITNESS=$(simc --json example.simf example.wit | jq -r .witness)
+WITNESS=$(simc --json example.simf -w example.wit | jq -r .witness)
 ```
 
 ### Step 8: Finalize and extract the raw transaction
