@@ -86,6 +86,8 @@ Arrays are always of finite length.
 
 ## List Types
 
+**SimplicityHL List types work differently from what you might expect from other languages. Please see their details and limitations below.** Notably, a List type must be declared with a length that is an exact power of two, and the List can never hold the full number of items indicated by its declared length.
+
 | Type                      | Description         | Values                                               |
 |---------------------------|---------------------|------------------------------------------------------|
 | `List<A, 2>`              | <2-list             | `list![]`, `list![a1]`                               |
