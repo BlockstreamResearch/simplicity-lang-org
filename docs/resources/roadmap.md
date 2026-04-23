@@ -19,6 +19,10 @@ Simplicity programs can track persistent state via cryptographic commitments. Th
 
 Documention and sample contracts demonstrating this are forthcoming. Library code is also under development to support maintaining arbitrary quantities of state information (with selective revelation and efficient updates) via a Merkle tree.
 
+## Standard library
+
+A standard library for SimplicityHL is [under development](https://github.com/BlockstreamResearch/simplicityhl-std).
+
 ## Developer tool improvements
 
 Improvements are planned to various developer tools, including the existing <a href="https://github.com/distributed-lab/simplicityhl-lsp">language server</a> for VSCode integration, the `hal-simplicity` command-line tool, and the <a href="https://ide.simplicity-lang.org/">Web IDE</a>. Enhancements to the web IDE contributed by the open source community will also be adopted.
@@ -54,3 +58,7 @@ Prototypes of several real financial applications on Simplicity are being specif
 ## Simplicity development framework
 
 [A new tool called `Simplex`](https://github.com/BlockstreamResearch/smplx), somewhat akin to `cargo` or `go`, provides package management, development workflow, and test orchestration features. This integrated build system tool is under ongoing development and will provide a test framework support unit and integration tests, including running integration tests against a regtest environment to simulate the effects of multiple related transactions.
+
+## Wallet connect standard
+
+A standard for connecting Simplicity clients to external wallet applications is under development and expected to be released by June 2026.
