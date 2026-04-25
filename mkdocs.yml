@@ -161,7 +161,7 @@ nav:
       - Oracles: documentation/oracle.md
       - Timelocks: documentation/timelocks.md
 #      - SimplicityHL: getting-started/simplicityhl.md
-      - Web IDE: getting-started/web-ide.md
+      - Codespace: https://github.com/Blockstream/simplicity-codespace
 #      - CLI Guide: getting-started/cli.md
 #      - Rust: getting-started/rust.md
 #      - Haskell: getting-started/haskell.md
