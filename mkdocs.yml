@@ -151,6 +151,7 @@ nav:
       - How Simplicity Works: documentation/how-simplicity-works.md
       - Join our Weekly Office Hours: office-hours.md
       - Simplicity Telegram group: https://t.me/simplicity_community
+      - Codespace: https://github.com/Blockstream/simplicity-codespace
   - Understand:
       - Execution Model: documentation/execution-model.md
       - Witnesses in SimplicityHL Development: documentation/witness.md
@@ -161,7 +162,6 @@ nav:
       - Oracles: documentation/oracle.md
       - Timelocks: documentation/timelocks.md
 #      - SimplicityHL: getting-started/simplicityhl.md
-      - Codespace: https://github.com/Blockstream/simplicity-codespace
 #      - CLI Guide: getting-started/cli.md
 #      - Rust: getting-started/rust.md
 #      - Haskell: getting-started/haskell.md
