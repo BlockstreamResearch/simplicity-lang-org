@@ -55,6 +55,14 @@ A [covenant](../glossary.md#covenant) transaction, in which assets controlled by
 
 If an application needs signatures from an existing wallet, a [PSET](../glossary.md#pset) representing a redeem transaction can be built by Simplicity-aware software, and external software can produce an appropriate signature over the proposed PSET transaction. These signatures can be inserted into the [witness](../glossary.md#witness) witness data.
 
-## Wallet connect mechanisms
+## Wallet connection mechanisms
 
-An official wallet connect standard (e.g., via WebSockets) is currently in development to connect external wallets with Simplicity clients. We expect to release this standard in June 2026.
+An official wallet connection recommendation is currently in development to connect external wallets with Simplicity clients. We expect to release documentation for this mechanism in June 2026.
+
+Work on this mechanism is built on top of the Bitcoin ecosystem's existing [WalletConnect protocol](https://walletconnect.com/), including a facility for pairing an external wallet with a web application via WebSockets. This permits an existing wallet, with minimal changes, to provide signatures for transactions with Simplicity smart contracts.
+
+In this model, the web application (which is developed with LWK targeting WASM) provides the main user interface for a given smart contract, including visualizing contract state and initiating actions with the contract, but users' digital assets can be held in an existent external application or device.
+
+The interface is general in order to enable interoperability with any third-party wallet that supports the appropriate wallet connect extensions. However, if the wallet does not provide UI support for a specific contract, the web application must be trusted to accurately represent the meaning and effects of the contract state and requested signatures.
+
+A proof of concept of this mechanism is available in the [lending contract demo](https://demolending.distributedlab.com/). As of April 2026, lightly customized versions of Blockstream Jade and the Blockstream App can pair with this demo and authorize lending contract transactions on Liquid Testnet, in both lender and borrower roles.
