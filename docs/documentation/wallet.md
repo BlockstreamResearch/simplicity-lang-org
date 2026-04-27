@@ -66,3 +66,5 @@ In this model, the web application (which is developed with LWK targeting WASM) 
 The interface is general in order to enable interoperability with any third-party wallet that supports the appropriate wallet connect extensions. However, if the wallet does not provide UI support for a specific contract, the web application must be trusted to accurately represent the meaning and effects of the contract state and requested signatures.
 
 A proof of concept of this mechanism is available in the [lending contract demo](https://demolending.distributedlab.com/). As of April 2026, lightly customized versions of Blockstream Jade and the Blockstream App can pair with this demo and authorize lending contract transactions on Liquid Testnet, in both lender and borrower roles.
+
+In this proof of concept, the web app generates a QR code which an external wallet can scan to create a paired session. The web app and wallet then exchange JSON stanzas within this session to request and provide digital signatures needed to perform transactions with the contract.
