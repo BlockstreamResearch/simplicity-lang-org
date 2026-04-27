@@ -15,6 +15,10 @@ You can also see all public Simplicity-related events in the public calendar:
 
 <iframe src="https://calendar.google.com/calendar/embed?src=c_a8d5df2e5a7d4a7cc8c8f46fb54f95fb4861458c6c17f3794079ab8a559c01b0%40group.calendar.google.com&ctz=America%2FLos_Angeles" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
 
+## Upcoming topics
+
+* April 28, 2026: [Simplicity codespace](https://github.com/Blockstream/simplicity-codespace) demo. See how to run Simplicity demos, and real development work, inside your browser or other environments including VSCode.
+
 ## Prior Office Hours session recordings
 
 * <a href="https://youtu.be/Yiiv2UICOPM">November 25, 2025</a>
