@@ -148,7 +148,6 @@ nav:
       - Welcome, Bitcoin Developers: getting-started/welcome-bitcoin.md
       - Welcome, EVM Developers: getting-started/welcome-evm.md
       - Welcome, Finance Professionals: getting-started/welcome-finance.md
-      - How Simplicity Works: documentation/how-simplicity-works.md
       - Join our Weekly Office Hours: office-hours.md
       - Simplicity Telegram group: https://t.me/simplicity_community
       - Codespace: https://github.com/Blockstream/simplicity-codespace
@@ -157,7 +156,6 @@ nav:
       - Witnesses in SimplicityHL Development: documentation/witness.md
       - Example contracts (basic): https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples
       - Example contracts (advanced): https://github.com/BlockstreamResearch/simplicity-contracts
-      - Tools and Projects: getting-started/projects.md
       - State Management: documentation/state.md
       - Oracles: documentation/oracle.md
       - Timelocks: documentation/timelocks.md
