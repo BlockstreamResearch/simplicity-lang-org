@@ -38,3 +38,4 @@ You can also see all public Simplicity-related events in the public calendar:
 * <a href="https://youtu.be/-pW-hI9Hy8k">April 7, 2026</a> ([Simplex](https://github.com/BlockstreamResearch/smplx) demo)
 * <a href="https://youtu.be/Vq7GGTfIr1s">April 14, 2026</a> ([Lending contract](https://github.com/BlockstreamResearch/simplicity-lending) demo)
 * <a href="https://youtu.be/pX-trCHS9dk">April 28, 2026</a> ([Simplicity codespace](https://github.com/Blockstream/simplicity-codespace) demo)
+* <a href="https://youtu.be/kL8mtxCZOvw">May 5, 2026</a>
