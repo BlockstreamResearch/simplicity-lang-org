@@ -10,7 +10,7 @@ These are open source projects in the Simplicity ecosystem.
 | [SimplicityHL](https://github.com/BlockstreamResearch/SimplicityHL) | SimplicityHL high-level programming language compiler. |
 | [simplicity](https://github.com/BlockstreamResearch/simplicity) | Low-level Simplicity language interpreter and blockchain integrations. |
 | [rust-simplicity](https://github.com/BlockstreamResearch/rust-simplicity) | Simplicity Rust application development libraries. |
-| [smplx](https://github.com/BlockstreamResearch/smplx) | Simplex SDK / orchestration (for generating Rust projects to interact with Simplicity contracts, dependency management, and associated test suites) |
+| [smplx](https://github.com/BlockstreamResearch/smplx) | Simplex SDK / orchestration (for generating Rust projects to interact with Simplicity contracts, dependency management, and associated test suites). |
 | [hal-simplicity](https://github.com/BlockstreamResearch/hal-simplicity) | CLI to build, inspect, analyze programs and transactions. |
 | [simplicityhl-std](https://github.com/BlockstreamResearch/simplicityhl-std) | SimplicityHL standard library. |
 | [simplicity-demo](https://github.com/BlockstreamResearch/simplicity-demo) | Quickstart P2PK demo using Rust. |
