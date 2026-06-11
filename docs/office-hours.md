@@ -42,3 +42,4 @@ You can also see all public Simplicity-related events in the public calendar:
 * <a href="https://youtu.be/9NlkMdIHeTQ">May 12, 2026</a>
 * <a href="https://youtu.be/cvC5l482so4">May 26, 2026</a> (Mosaik hackathon project demo)
 * <a href="https://youtu.be/Fk---lRV4us">June 2, 2026</a>
+* <a href="https://youtu.be/tdNlrBcwCaQ">June 9, 2026</a>
