@@ -176,7 +176,7 @@ nav:
       - Toolchain Reference: documentation/toolchain.md
       - Whitepaper: https://blockstream.com/simplicity.pdf
       - Technical Report: https://raw.githubusercontent.com/ElementsProject/simplicity/pdf/Simplicity-TR.pdf
-      - Contribute: resources/contribute.md
+      - Projects: resources/projects.md
       - SimplicityHL Reference:
           - Types and Values: simplicityhl-reference/type.md
           - Type Aliases: simplicityhl-reference/type_alias.md
