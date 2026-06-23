@@ -44,3 +44,4 @@ You can also see all public Simplicity-related events in the public calendar:
 * <a href="https://youtu.be/Fk---lRV4us">June 2, 2026</a>
 * <a href="https://youtu.be/tdNlrBcwCaQ">June 9, 2026</a>
 * <a href="https://youtu.be/i7ls_AQboG0">June 16, 2026</a>
+* <a href="https://youtu.be/TswqFCD5z00">June 23, 2026</a> (Compose demo, part 1)
