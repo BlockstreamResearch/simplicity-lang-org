@@ -8,7 +8,8 @@ life insurance, payments, lending, options, tokenization, and many other on-chai
 At the same time, an open ecosystem also introduces malicious websites and misleading interfaces.
 
 In an open ecosystem, we cannot prevent malicious protocols from appearing
-because we do not control the ecosystem.
+because we do not control the ecosystem. Someone can always create a contract and misrepresent its
+nature or effects, or even present a malicious contract to a counterparty.
 What we can do is make our best effort to help the user understand what is going on before they sign and pay.
 
 This document is built around a simple motto:
