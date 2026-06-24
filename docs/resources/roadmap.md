@@ -59,6 +59,6 @@ Prototypes of several real financial applications on Simplicity are being specif
 
 [A new tool called `Simplex`](https://github.com/BlockstreamResearch/smplx), somewhat akin to `cargo` or `go`, provides package management, development workflow, and test orchestration features. This integrated build system tool is under ongoing development and will provide a test framework support unit and integration tests, including running integration tests against a regtest environment to simulate the effects of multiple related transactions.
 
-## Wallet connect standard
+## Ecosystem
 
-A standard for connecting Simplicity clients to external wallet applications is under development and expected to be released by June 2026.
+Tools and standards for building financial applications to interact with Simplicity contracts, as well as for connecting existing wallet apps to contract flows, are in development. See "[Road to Ecosystem](../../documentation/road-to-ecosystem)" for an overview of the requirements for safely connecting wallets.
