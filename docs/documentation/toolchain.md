@@ -23,6 +23,10 @@ The SimplicityHL toolchain consists of the command-line tools `simc` (the Simpli
     high-level languages other than Rust, facilitating an analogous
     workflow for those languages.
 
+!!! note "Try these tools in the Simplicity Codespace"
+
+    You can try out these tools interactively in the [Simplicity Codespace](https://github.com/Blockstream/simplicity-codespace).
+
 ## Typical workflow
 
 **As noted above, most SimplicityHL developers will use a different workflow using other tools.**
@@ -45,7 +49,7 @@ The most basic workflow for on-chain transactions with the command-line toolchai
 6. convert the PSET to a serialized transaction with `hal-simplicity simplicity pset extract`
 7. submit the resulting transaction on the blockchain
 
-You can see a complete worked example of the actions above, both commit-time and redeem-time, in the old [bash quickstart](../../getting-started/bash-quickstart), which is no longer suggested for most beginning users.
+You can see a complete worked example of the actions above, both commit-time and redeem-time, in the old [bash quickstart](../../getting-started/bash-quickstart), which is no longer suggested for most beginning users. There are also several demonstrations in the Simplicity Codespace, linked in the note above, which demonstrate both actions using `simc` and `hal-simplicity`.
 
 ## simc
 
