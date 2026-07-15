@@ -47,3 +47,4 @@ You can also see all public Simplicity-related events in the public calendar:
 * <a href="https://youtu.be/TswqFCD5z00">June 23, 2026</a> (txmanifest demo, part 1)
 * <a href="https://youtu.be/TqZJlpFGbZ0">June 30, 2026</a> (txmanifest demo, part 2)
 * <a href="https://youtu.be/A3c3-nGSGzM">July 7, 2026</a>
+* <a href="https://youtu.be/N3jxQdHpBkg">July 14, 2026</a> (Resolvr [Apogee wallet](https://apogee.resolvr.io/) demo)
