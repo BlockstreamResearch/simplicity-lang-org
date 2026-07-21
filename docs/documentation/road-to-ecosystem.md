@@ -22,9 +22,11 @@ We can think about the motto as the root of a Merkle tree. The root is simple an
 
 ```mermaid
 flowchart TD
+    classDef leftAlign text-align:left;
+
     %% Main vertical flow nodes
-    Protocols["<b>Third-party protocols</b><br/>Payments | Saving | Lending | Options | DEX<br/>Insurance | Bridges | Tokenization | Other contracts"]
-    TxFlow["<b>Transaction flow</b><br/>1. Web-to-wallet communication<br/>2. Transaction construction<br/>&nbsp;&nbsp;&nbsp;↳ Wallet ABI<br/>&nbsp;&nbsp;&nbsp;↳ wallet-owned coin selection<br/>3. Transaction interpretation<br/>&nbsp;&nbsp;&nbsp;↳ clear signing<br/>4. User approval<br/>5. Signing<br/>6. Broadcast"]
+    Protocols["<b>Third-party protocols</b><br/>• Payments<br/>• Saving<br/>• Lending<br/>• Options<br/>• DEX<br/>• Insurance<br/>• Bridges<br/>• Tokenization<br/>• Other contracts"]:::leftAlign
+    TxFlow["<b>Transaction flow</b><br/>1. Web-to-wallet communication<br/>2. Transaction construction<br/>&nbsp;&nbsp;&nbsp;↳ Wallet ABI<br/>&nbsp;&nbsp;&nbsp;↳ wallet-owned coin selection<br/>3. Transaction interpretation<br/>&nbsp;&nbsp;&nbsp;↳ clear signing<br/>4. User approval<br/>5. Signing<br/>6. Broadcast"]:::leftAlign
 
     %% Subgraph forcing Left-to-Right rendering for the sentence
     subgraph Horizontal_Sentence [" "]
@@ -39,14 +41,14 @@ flowchart TD
     Core -- "am paying" --- TxFlow
 
     %% Attach the collapsed sub-trees below the horizontal nodes
-    W_Features["<b>Wallet Functions</b><br/>• Displays balances<br/>• Sends / receives funds<br/>• Syncs with blockchain<br/>• Keeps funds secure<br/>• Decides if safe to sign"]
-    W_Priv["<b>Owns private state</b><br/>• UTXOs<br/>• balances<br/>• blinding keys<br/>• signing keys"]
+    W_Features["<b>Wallet Functions</b><br/>• Displays balances<br/>• Sends / receives funds<br/>• Syncs with blockchain<br/>• Keeps funds secure<br/>• Decides if safe to sign"]:::leftAlign
+    W_Priv["<b>Owns private state</b><br/>• UTXOs<br/>• balances<br/>• blinding keys<br/>• signing keys"]:::leftAlign
 
     Wallet --> W_Features
     Wallet --> W_Priv
 
-    E_Clear["<b>Clear signing</b><br/>• Parses transaction<br/>• Interprets inputs / outputs<br/>• Validates assets / amounts<br/>• Explains fees<br/>• Explains protocol metadata<br/>• Explains Simplicity covenants<br/>• Rejects what it cannot understand"]
-    E_UI["<b>User interface</b><br/>• Shows what will happen<br/>• Shows what user gives<br/>• Shows what user receives<br/>• Shows why transaction is needed"]
+    E_Clear["<b>Clear signing</b><br/>• Parses transaction<br/>• Interprets inputs / outputs<br/>• Validates assets / amounts<br/>• Explains fees<br/>• Explains protocol metadata<br/>• Explains Simplicity covenants<br/>• Rejects what it cannot understand"]:::leftAlign
+    E_UI["<b>User interface</b><br/>• Shows what will happen<br/>• Shows what user gives<br/>• Shows what user receives<br/>• Shows why transaction is needed"]:::leftAlign
 
     Explanation --> E_Clear
     Explanation --> E_UI
@@ -82,14 +84,12 @@ A wallet has two responsibilities at the same time:
 
 This creates the first major branch of the ecosystem:
 
-```text
-Wallet
-├── Syncs with the blockchain
-├── Keeps funds secure
-├── Owns wallet-private state
-├── Signs transactions
-└── Explains transactions before signing
-```
+* Wallet
+    * Syncs with the blockchain
+    * Keeps funds secure
+    * Owns wallet-private state
+    * Signs transactions
+    * Explains transactions before signing
 
 ## Understanding What Is Being Signed
 
@@ -120,20 +120,18 @@ When the wallet can interpret everything, it should perform checks and validatio
 matches what the user intended. For example, the wallet should display asset details correctly,
 show the amounts involved, explain fees, identify the protocol, and describe what the user is receiving in exchange.
 
-```text
-Clear signing
-├── Explain transaction from a third party
-├── Parse transaction structure
-├── Interpret inputs
-├── Interpret outputs
-├── Identify assets
-├── Verify amounts
-├── Explain fees
-├── Explain protocol-specific metadata
-├── Explain Simplicity covenant behavior
-├── Check that the request matches user intent
-└── Sign only if the transaction is understandable
-```
+* Clear signing
+    * Explain transaction from a third party
+    * Parse transaction structure
+    * Interpret inputs
+    * Interpret outputs
+    * Identify assets
+    * Verify amounts
+    * Explain fees
+    * Explain protocol-specific metadata
+    * Explain Simplicity covenant behavior
+    * Check that the request matches user intent
+    * Sign only if the transaction is understandable
 
 This becomes especially important for Simplicity contracts.
 
@@ -143,17 +141,15 @@ The wallet needs additional structure to explain what the covenant means, what t
 
 Therefore, clear signing has another branch:
 
-```text
-Clear signing
-└── Explain the transaction to the best of the wallet's ability
-    ├── What is being spent?
-    ├── What is being received?
-    ├── What asset is involved?
-    ├── What covenant controls this transaction?
-    ├── What protocol does this belong to?
-    ├── What conditions will exist after signing?
-    └── What risks or unknowns remain?
-```
+* Clear signing
+    * Explain the transaction to the best of the wallet's ability
+        * What is being spent?
+        * What is being received?
+        * What asset is involved?
+        * What covenant controls this transaction?
+        * What protocol does this belong to?
+        * What conditions will exist after signing?
+        * What risks or unknowns remain?
 
 The motivation is simple: the user should understand, without reasonable doubt, that the action being performed is the action they intended.
 
@@ -173,16 +169,14 @@ A follow-up profile for Liquid clear signing is expected to define how wallets s
 
 Together, these standards describe different parts of the same tree:
 
-```text
-Web application
-├── Communicates with wallet
-│   └── Liquid Wallet RPC Profile
-├── Asks wallet to construct or complete a transaction
-│   └── Wallet ABI Transaction Creation Protocol
-├── Provides metadata for interpretation
-│   └── Liquid Clear Signing Profile
-└── Receives a signed transaction only after user approval
-```
+* Web application
+    * Communicates with wallet
+        * Liquid Wallet RPC Profile
+    * Asks wallet to construct or complete a transaction
+        * Wallet ABI Transaction Creation Protocol
+    * Provides metadata for interpretation
+        * Liquid Clear Signing Profile
+    * Receives a signed transaction only after user approval
 
 The important point is that these are not separate ideas. They are different layers of one user-safety model.
 
@@ -203,18 +197,16 @@ The user is paying for something: a good, a service, a position in a protocol, a
 
 Examples include:
 
-```text
-Third-party protocols
-├── Payments
-├── Saving strategies
-├── Life insurance
-├── Lending
-├── Options
-├── DEX protocols
-├── Bridges
-├── Tokenization
-└── Other on-chain applications
-```
+* Third-party protocols
+    * Payments
+    * Saving strategies
+    * Life insurance
+    * Lending
+    * Options
+    * DEX protocols
+    * Bridges
+    * Tokenization
+    * Other on-chain applications
 
 These protocols are outside the wallet.
 The wallet does not need to implement every protocol internally, and it should not be expected to understand every website by default.
@@ -223,15 +215,13 @@ However, the wallet must still understand enough to protect the user before sign
 
 That is the central tension of the ecosystem:
 
-```text
-Open ecosystem
-├── Many protocols
-├── Many websites
-├── Many contract types
-├── Many assets
-└── One wallet responsibility:
-    └── explain the transaction before signing
-```
+* Open ecosystem
+    * Many protocols
+    * Many websites
+    * Many contract types
+    * Many assets
+    * One wallet responsibility:
+        * explain the transaction before signing
 
 The ecosystem becomes useful only if applications can innovate without waiting for every wallet to hard-code their protocol.
 But the ecosystem becomes safe only if wallets can reject unknown, ambiguous, or misleading signing requests.
@@ -248,17 +238,15 @@ The wallet needs to receive that request, evaluate it, and show the user what is
 
 By definition, this requires an open API that allows the connection to be established.
 
-```text
-Third-party protocol
-└── Transport layer
-    ├── Establishes a connection with the wallet
-    ├── Requests wallet capabilities
-    ├── Sends protocol requests
-    ├── Sends transaction-construction requests
-    ├── Sends signing requests
-    ├── Receives wallet responses
-    └── Preserves user privacy as much as possible
-```
+* Third-party protocol
+    * Transport layer
+        * Establishes a connection with the wallet
+        * Requests wallet capabilities
+        * Sends protocol requests
+        * Sends transaction-construction requests
+        * Sends signing requests
+        * Receives wallet responses
+        * Preserves user privacy as much as possible
 
 Liquid adds an important complication: confidentiality.
 
@@ -275,15 +263,13 @@ In this model, the application does not need to know everything about the wallet
 Instead, the application tells the wallet what kind of transaction is needed,
 and the wallet constructs or completes the transaction using its own private state.
 
-```text
-Wallet ABI
-├── Application describes intent
-├── Wallet keeps private state private
-├── Wallet performs coin selection
-├── Wallet constructs or completes the transaction
-├── Wallet prepares the signing view
-└── Clear signing explains the result to the user
-```
+* Wallet ABI
+    * Application describes intent
+    * Wallet keeps private state private
+    * Wallet performs coin selection
+    * Wallet constructs or completes the transaction
+    * Wallet prepares the signing view
+    * Clear signing explains the result to the user
 
 This is the preferred model when confidentiality matters.
 
@@ -302,13 +288,11 @@ For Liquid, the corresponding work is the [Liquid Wallet RPC Profile](https://gi
 
 The Liquid profile needs to account for Liquid-specific details:
 
-```text
-Liquid Wallet RPC Profile
-├── Liquid accounts
-├── user-approved balances
-├── user-approved UTXOs
-└── descriptor-change events
-```
+* Liquid Wallet RPC Profile
+    * Liquid accounts
+    * user-approved balances
+    * user-approved UTXOs
+    * descriptor-change events
 
 This approach is useful when the user chooses interoperability and convenience over maximum confidentiality.
 
@@ -325,22 +309,16 @@ The Liquid Wallet RPC Profile lets the website request wallet information when t
 
 But clear signing is what ties everything back to the motto.
 
-```text
-Transport layer
-└── delivers the request
-
-Wallet ABI / RPC profile
-└── structures the request
-
-Clear signing
-└── explains the request
-
-Wallet UI
-└── asks the user for approval
-
-User
-└── understands for what they are paying
-```
+* Transport layer
+    * delivers the request
+* Wallet ABI / RPC profile
+    * structures the request
+* Clear signing
+    * explains the request
+* Wallet UI
+    * asks the user for approval
+* User
+    * understands for what they are paying
 
 Without clear signing, the ecosystem becomes unsafe.
 The user may technically approve a transaction, but they do not know what they approved.
