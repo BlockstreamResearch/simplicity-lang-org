@@ -25,7 +25,7 @@ A standard library for SimplicityHL is [under development](https://github.com/Bl
 
 ## Developer tool improvements
 
-Improvements are planned to various developer tools, including the existing <a href="https://github.com/distributed-lab/simplicityhl-lsp">language server</a> for VSCode integration, the `hal-simplicity` command-line tool, and the <a href="https://ide.simplicity-lang.org/">Web IDE</a>. Enhancements to the web IDE contributed by the open source community will also be adopted.
+Improvements are planned to various developer tools, including the existing <a href="https://github.com/distributed-lab/simplicityhl-lsp">language server</a> for VSCode integration, and the `hal-simplicity` command-line tool.
 
 ## Type-based SimplicityHL
 
