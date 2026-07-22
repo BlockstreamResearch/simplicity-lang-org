@@ -46,15 +46,7 @@ Process:
 
 ## Simplicity is low-level. Do I write contracts directly in it?
 
-Not usually. There are higher-level options:
-
-| Tool | Description |
-|------|-------------|
-| **SimplicityHL** | Rust-like syntax compiling to Simplicity |
-| **Web IDE** | Try SimplicityHL examples in the browser |
-| **Haskell Implementation** | Build Simplicity expressions in a tagless-final style |
-
-The future vision is that there are multiple high-level languages which all compile down to Simplicity + proofs.
+Not usually. Developers ordinarily write in high-level SimplicityHL, which compiles down to Simplicity.
 
 ## What are Jets, and how do they make programs efficient?
 
