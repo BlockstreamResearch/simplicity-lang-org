@@ -4,6 +4,9 @@ This is a quickstart document to help you perform your first [transaction](../gl
 
 <a href="https://rust-lang.org/tools/install/">Make sure you have Rust installed.</a>
 
+??? note "Want to try it online with no download?"
+    You can also try an equivalent quickstart (and other Simplicity exercises and demos) online in your browser using the [Simplicity Codespace](https://github.com/Blockstream/simplicity-codespace).
+
 <!-- (There is also a <a href="bash-quickstart">`bash` version</a> of the quickstart available, which may be helpful for readers who are more familiar with `bash` than with Rust.) -->
 
 ## Demo walkthrough
