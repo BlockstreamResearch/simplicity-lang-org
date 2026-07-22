@@ -151,50 +151,49 @@ nav:
       - Join our Weekly Office Hours: office-hours.md
       - Simplicity Telegram group: https://t.me/simplicity_community
       - Codespace: https://github.com/Blockstream/simplicity-codespace
-  - Understand:
-      - Execution Model: documentation/execution-model.md
-      - Witnesses in SimplicityHL Development: documentation/witness.md
-      - Example contracts (basic): https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples
-      - Example contracts (advanced): https://github.com/BlockstreamResearch/simplicity-contracts
-      - State Management: documentation/state.md
-      - Oracles: documentation/oracle.md
-      - Timelocks: documentation/timelocks.md
-#      - SimplicityHL: getting-started/simplicityhl.md
-#      - CLI Guide: getting-started/cli.md
-#      - Rust: getting-started/rust.md
-#      - Haskell: getting-started/haskell.md
-  - Documentation:
-      - Simplicity for EVM developers: documentation/simplicity-for-evm-developers.md
-      - Simplicity Compared: documentation/simplicity-compared.md
-      - Differences from Rust: documentation/rust-differences.md
-      - FAQ: resources/faq.md
-      - Glossary: glossary.md
-#  - SimplicityHL Reference:
-      - simplicityhl-reference/index.md
-      - Jets Reference: documentation/jets.md
-      - Toolchain Reference: documentation/toolchain.md
-      - Whitepaper: https://blockstream.com/simplicity.pdf
-      - Technical Report: https://raw.githubusercontent.com/ElementsProject/simplicity/pdf/Simplicity-TR.pdf
-      - Projects: resources/projects.md
-      - Roadmap:
-        - resources/roadmap.md
-        - Ecosystem/Wallet Connect Roadmap: documentation/road-to-ecosystem.md
-      - SimplicityHL Reference:
+  - Learn:
+      - Core Concepts:
+          - Execution Model: documentation/execution-model.md
+          - Covenants & State Management: documentation/state.md
+          - Oracles: documentation/oracle.md
+          - Timelocks: documentation/timelocks.md
+      - App Development:
+          - Ecosystem & Wallet Integration: documentation/wallet.md
+      - Examples & Use Cases:
+          - Use Cases Overview: use-cases/index.md
+          - Example Contracts (Basic): https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples
+          - Example Contracts (Advanced): https://github.com/BlockstreamResearch/simplicity-contracts
+          - Simplicity DEX: use-cases/simplicity-dex.md
+          - Lending Protocol: use-cases/lending-protocol.md
+  - Reference:
+      - Language Syntax:
+          - Introduction: simplicityhl-reference/index.md
           - Types and Values: simplicityhl-reference/type.md
           - Type Aliases: simplicityhl-reference/type_alias.md
           - Type Casting: simplicityhl-reference/type_casting.md
           - Let Statements: simplicityhl-reference/let_statement.md
           - Match Expression: simplicityhl-reference/match_expression.md
-          - Built-in Functions: simplicityhl-reference/builtin.md
           - Defining Functions: simplicityhl-reference/function.md
           - Programs: simplicityhl-reference/program.md
+      - Libraries & Tooling:
+          - Built-in Functions: simplicityhl-reference/builtin.md
+          - Jets Reference: documentation/jets.md
+          - Witnesses: documentation/witness.md
+          - Toolchain Reference: documentation/toolchain.md
+      - Formal Semantics:
           - Context: simplicityhl-reference/context.md
           - Environment: simplicityhl-reference/environment.md
           - Translation: simplicityhl-reference/translation.md
-  - Use Cases:
-      - use-cases/index.md
-      - Simplicity DEX: use-cases/simplicity-dex.md
-      - Lending Protocol: use-cases/lending-protocol.md
-  - News:
-       - news/
+  - Resources:
+      - FAQ: resources/faq.md
+      - Glossary: glossary.md
+      - Simplicity for EVM Developers: documentation/simplicity-for-evm-developers.md
+      - Differences from Rust: documentation/rust-differences.md
+      - Simplicity Compared: documentation/simplicity-compared.md
+      - Roadmap:
+          - Roadmap Overview: resources/roadmap.md
+          - Ecosystem/Wallet Connect Roadmap: documentation/road-to-ecosystem.md
+      - Projects: resources/projects.md
+      - Whitepaper: https://blockstream.com/simplicity.pdf
+      - Technical Report: https://raw.githubusercontent.com/ElementsProject/simplicity/pdf/Simplicity-TR.pdf
   - Community: https://community.simplicity-lang.org/
