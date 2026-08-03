@@ -1,0 +1,34 @@
+[package]
+name = "simplicity-runner"
+version = "0.1.0"
+edition = "2021"
+publish = false
+description = "wasm-bindgen surface over SimplicityHL, so docs pages can compile and run snippets in the browser."
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+# The published release, so builds need neither a git clone nor a local checkout.
+# `Cargo.lock` is committed, which is what actually pins the build: readers see snippets
+# compiled by exactly the compiler recorded there. Bump deliberately, then run
+# `cargo test` to confirm every snippet still behaves as written.
+#
+# Note 0.7.0 does NOT carry `TemplateProgram::compile_function` / `execute_function` —
+# those live on the `feat/compile-function-only` branch. Graded exercises ("call this
+# function with these inputs") will need them, so that work has to be released upstream,
+# or this dependency has to move to a git revision, before exercises can be built.
+simplicityhl = { version = "0.7.0", default-features = false }
+
+wasm-bindgen = "0.2"
+serde = { version = "1", features = ["derive"] }
+serde-wasm-bindgen = "0.6"
+console_error_panic_hook = "0.1"
+
+# SimplicityHL pulls getrandom in transitively; the js backend is required for wasm.
+getrandom = { version = "0.2", features = ["js"] }
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1

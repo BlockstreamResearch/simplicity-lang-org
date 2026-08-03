@@ -1,0 +1,328 @@
+/*
+ * Runnable snippet styling.
+ *
+ * Built entirely on Material's CSS custom properties rather than a CodeMirror theme, so
+ * snippets follow the reader's light/dark choice with no extra JavaScript and no second
+ * palette to keep in sync. In particular the `.rn-hl-*` classes at the bottom are the
+ * targets of the CodeMirror highlight style declared in `js/runnable.ts`, mapped onto
+ * the same `--md-code-hl-*` variables Material uses for static code blocks — so an
+ * editable snippet is coloured exactly like the prose around it.
+ */
+
+/*
+ * `width`, `max-width` and `text-align` are corrections, not decoration: Material
+ * styles bare `figure`/`figcaption` for centred images — `width: fit-content` would
+ * shrink the snippet to its longest line, and `text-align: center` would centre every
+ * line of code inside it.
+ */
+.md-typeset .rn {
+  margin: 1.5em 0;
+  width: auto;
+  max-width: none;
+  text-align: left;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0.2rem;
+  overflow: hidden;
+  background: var(--md-code-bg-color);
+}
+
+.md-typeset .rn-title {
+  margin: 0;
+  max-width: none;
+  padding: 0.5em 0.8em;
+  font-size: 0.75em;
+  font-style: normal;
+  font-weight: 700;
+  text-align: left;
+  color: var(--md-default-fg-color--light);
+  background: var(--md-default-fg-color--lightest);
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+}
+
+/*
+ * The `[hidden]` guards below are load-bearing: a class selector setting `display`
+ * outranks the user-agent `[hidden] { display: none }` rule, so without them the
+ * fallback textarea stays visible after CodeMirror mounts and the reader sees the
+ * snippet twice.
+ */
+.md-typeset .rn [hidden] {
+  display: none !important;
+}
+
+/* Transaction bar, shown only on `tx` snippets. */
+.md-typeset .rn-txbar {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  flex-wrap: wrap;
+  padding: 0.55em 0.8em;
+  background: var(--md-default-bg-color);
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.md-typeset .rn-txfield {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  font-size: 0.7em;
+  color: var(--md-default-fg-color--light);
+}
+
+.md-typeset .rn-txfield input,
+.md-typeset .rn-txfield select {
+  font-family: var(--md-code-font-family, monospace);
+  font-size: 1em;
+  padding: 0.2em 0.4em;
+  color: var(--md-default-fg-color);
+  background: var(--md-code-bg-color);
+  border: 1px solid var(--md-default-fg-color--lighter);
+  border-radius: 0.1rem;
+}
+
+/* A txid is 64 hex characters; give it room but let it shrink on narrow screens. */
+.md-typeset .rn-txfield input {
+  width: min(34em, 100%);
+  flex: 1 1 16em;
+  min-width: 0;
+}
+
+.md-typeset .rn-txfield select:disabled {
+  opacity: 0.55;
+}
+
+.md-typeset .rn-txstatus {
+  font-size: 0.7em;
+  color: var(--md-default-fg-color--light);
+}
+
+.md-typeset .rn-txstatus--ok {
+  color: var(--rn-color-ok);
+}
+
+.md-typeset .rn-txstatus--error {
+  color: var(--rn-color-error);
+}
+
+/* The no-JS fallback. Looks like a code block; replaced by CodeMirror on mount. */
+.md-typeset .rn-fallback {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.77em 1.18em;
+  border: 0;
+  resize: none;
+  font-family: var(--md-code-font-family, monospace);
+  font-size: 0.85em;
+  line-height: 1.4;
+  color: var(--md-code-fg-color);
+  background: transparent;
+}
+
+.md-typeset .rn-editor .cm-editor {
+  font-family: var(--md-code-font-family, monospace);
+  font-size: 0.85em;
+  color: var(--md-code-fg-color);
+  background: transparent;
+}
+
+.md-typeset .rn-editor .cm-editor.cm-focused {
+  /* CodeMirror's default focus ring clashes with Material's; use the accent instead. */
+  outline: 2px solid var(--md-accent-fg-color);
+  outline-offset: -2px;
+}
+
+.md-typeset .rn-editor .cm-gutters {
+  background: transparent;
+  border-right: 1px solid var(--md-default-fg-color--lightest);
+  color: var(--md-default-fg-color--lighter);
+}
+
+.md-typeset .rn-editor .cm-activeLine,
+.md-typeset .rn-editor .cm-activeLineGutter {
+  background: var(--md-default-fg-color--lightest);
+}
+
+.md-typeset .rn-editor .cm-content {
+  caret-color: var(--md-default-fg-color);
+}
+
+.md-typeset .rn-editor .cm-selectionBackground,
+.md-typeset .rn-editor .cm-content ::selection {
+  background: var(--md-accent-fg-color--transparent);
+}
+
+/* Inline diagnostics. CodeMirror's defaults are tuned for a white page. */
+.md-typeset .rn-editor .cm-tooltip {
+  color: var(--md-default-fg-color);
+  background: var(--md-default-bg-color);
+  border: 1px solid var(--md-default-fg-color--lighter);
+}
+
+.md-typeset .rn-editor .cm-diagnostic {
+  font-family: var(--md-code-font-family, monospace);
+  padding: 0.3em 0.6em;
+}
+
+.md-typeset .rn-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  flex-wrap: wrap;
+  padding: 0.5em 0.8em;
+  border-top: 1px solid var(--md-default-fg-color--lightest);
+  background: var(--md-default-bg-color);
+}
+
+.md-typeset .rn-button {
+  padding: 0.25em 0.9em;
+  font: inherit;
+  font-size: 0.75em;
+  font-weight: 700;
+  color: var(--md-default-fg-color);
+  background: var(--md-default-fg-color--lightest);
+  border: 1px solid var(--md-default-fg-color--lighter);
+  border-radius: 0.1rem;
+  cursor: pointer;
+}
+
+.md-typeset .rn-button:hover:not(:disabled) {
+  background: var(--md-default-fg-color--lighter);
+}
+
+.md-typeset .rn-button:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+/*
+ * The accent is orange in both schemes, so the label is dark in both — Material's
+ * `--md-primary-bg-color` would be white here and fails contrast against it.
+ */
+.md-typeset .rn-button--run {
+  color: rgba(0, 0, 0, 0.87);
+  background: var(--md-accent-fg-color);
+  border-color: var(--md-accent-fg-color);
+}
+
+.md-typeset .rn-button--run:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+
+.md-typeset .rn-hint {
+  margin-left: auto;
+  font-size: 0.7em;
+  color: var(--md-default-fg-color--light);
+}
+
+.md-typeset .rn-output {
+  padding: 0.6em 0.8em;
+  border-top: 1px solid var(--md-default-fg-color--lightest);
+  font-family: var(--md-code-font-family, monospace);
+  font-size: 0.8em;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+
+.md-typeset .rn-status {
+  font-weight: 700;
+}
+
+.md-typeset .rn-status--ok {
+  color: var(--rn-color-ok);
+}
+
+.md-typeset .rn-status--error {
+  color: var(--rn-color-error);
+}
+
+.md-typeset .rn-line--debug {
+  color: var(--rn-color-debug);
+}
+
+.md-typeset .rn-line--warning {
+  color: var(--rn-color-warning);
+}
+
+.md-typeset .rn-cmr {
+  margin-top: 0.35em;
+  font-size: 0.9em;
+  color: var(--md-default-fg-color--light);
+  word-break: break-all;
+}
+
+@media screen and (max-width: 44.9375em) {
+  .md-typeset .rn-hint {
+    /* On narrow screens the keyboard hint is both wrong (no Ctrl key) and in the way. */
+    display: none;
+  }
+}
+
+/*
+ * Status colours. Material has no semantic success/error variable, so these are
+ * declared once per scheme rather than sprinkled through the rules above.
+ */
+:root,
+[data-md-color-scheme="default"] {
+  --rn-color-ok: #1a7f37;
+  --rn-color-error: #cf222e;
+  --rn-color-warning: #9a6700;
+  --rn-color-debug: #0969da;
+}
+
+[data-md-color-scheme="slate"] {
+  --rn-color-ok: #4ade80;
+  --rn-color-error: #f87171;
+  --rn-color-warning: #fb923c;
+  --rn-color-debug: #60a5fa;
+}
+
+/*
+ * Syntax colours for the editor, mapped onto Material's own code-highlight palette.
+ * `js/runnable.ts` asks CodeMirror to emit these class names instead of inline styles
+ * precisely so this mapping can live here and flip with the palette for free.
+ */
+.md-typeset .rn-editor .rn-hl-keyword {
+  color: var(--md-code-hl-keyword-color);
+}
+
+.md-typeset .rn-editor .rn-hl-string {
+  color: var(--md-code-hl-string-color);
+}
+
+.md-typeset .rn-editor .rn-hl-number {
+  color: var(--md-code-hl-number-color);
+}
+
+.md-typeset .rn-editor .rn-hl-comment {
+  color: var(--md-code-hl-comment-color);
+  font-style: italic;
+}
+
+.md-typeset .rn-editor .rn-hl-function {
+  color: var(--md-code-hl-function-color);
+}
+
+.md-typeset .rn-editor .rn-hl-type {
+  color: var(--md-code-hl-special-color);
+}
+
+.md-typeset .rn-editor .rn-hl-operator {
+  color: var(--md-code-hl-operator-color);
+}
+
+.md-typeset .rn-editor .rn-hl-punctuation {
+  color: var(--md-code-hl-punctuation-color);
+}
+
+.md-typeset .rn-editor .rn-hl-name {
+  color: var(--md-code-hl-name-color);
+}
+
+.md-typeset .rn-editor .rn-hl-constant {
+  color: var(--md-code-hl-constant-color);
+}
+
+.md-typeset .rn-editor .rn-hl-invalid {
+  color: var(--rn-color-error);
+}
