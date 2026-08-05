@@ -50,3 +50,4 @@ You can also see all public Simplicity-related events in the public calendar:
 * <a href="https://youtu.be/N3jxQdHpBkg">July 14, 2026</a> (Resolvr [Apogee wallet](https://apogee.resolvr.io/) demo)
 * <a href="https://youtu.be/BKz6gQjMfrw">July 21, 2026</a>
 * <a href="https://youtu.be/AhH_t1fPbxY">July 28, 2026</a> (wallet integration workshop)
+* <a href="https://youtu.be/FVko8j3HA0I">August 4, 2026</a>
