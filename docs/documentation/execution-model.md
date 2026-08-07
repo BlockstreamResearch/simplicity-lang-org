@@ -38,7 +38,7 @@ The [witness](../glossary.md#witness) supplied as part of the transaction by its
 
 * choices among different options or contract features (for example, which of several possible actions the transaction is requesting to take)
 * values of specific parameters (for example, an amount)
-* asserted state from parties' prior interactions with the contract (see <a href="state">State Management in SimplicityHL</a> for more details)
+* asserted state from parties' prior interactions with the contract (see [State Management in SimplicityHL](./state) for more details)
 * digital signatures from parties approving the contract or confirming other relevant statements (for example, a party's signatures approving the exercise of some ability under the contract, or an oracle's signature asserting the truth of some off-chain fact such as a market price or whether a specific event has occurred)
 
 The [Witnesses in SimplicityHL development](./witness) document talks about the practical mechanics of creating the witness.
@@ -63,7 +63,7 @@ Below, this document presents several examples of applications of SimplicityHL a
 
 ## Distinctive features of Simplicity and its environment
 
-Simplicity is a deterministic functional programming environment. Simplicity programs <a href="https://delvingbitcoin.org/t/delving-simplicity-part-two-side-effects/2091">don't have access to any form of I/O or network access</a>. They can't display a user interface, read or write files, or call network APIs. In fact, they don't even have direct access to the data of the blockchains with which they are integrated. However, Simplicity does provide programs with the ability to *introspect* the currently-proposed transaction in order to find out details related to input and output asset types, amounts, and addresses. For example, a program can use [introspection](../glossary.md#introspection) to require that an asset is sent back to a copy of that same program; it does so by approving only transactions where an output with exactly the same program code receives the asset that was spent in the program's input.
+Simplicity is a deterministic functional programming environment. Simplicity programs [don't have access to any form of I/O or network access](https://delvingbitcoin.org/t/delving-simplicity-part-two-side-effects/2091). They can't display a user interface, read or write files, or call network APIs. In fact, they don't even have direct access to the data of the blockchains with which they are integrated. However, Simplicity does provide programs with the ability to *introspect* the currently-proposed transaction in order to find out details related to input and output asset types, amounts, and addresses. For example, a program can use [introspection](../glossary.md#introspection) to require that an asset is sent back to a copy of that same program; it does so by approving only transactions where an output with exactly the same program code receives the asset that was spent in the program's input.
 
 Whenever a user proposes a transaction that would spend (consume as input) an existing UTXO to which a Simplicity program is attached, the proposed transaction makes a claim that the Simplicity program authorizes that UTXO to be spent in the indicated context. Nodes then check this claim by running the program. Most, though not all, programs will check cryptographic information derived from the attached witness data, such as whether one or more digital signatures included there are valid.
 
@@ -89,7 +89,7 @@ These examples do not use introspection features, so they don't demonstrate Simp
 
 ### p2ms
 
-This program, `p2ms.simf`, is taken from the SimplicityHL examples collection. The <a href="/getting-started/quickstart">quickstart</a> guide provides a recipe for making a Liquid Testnet transaction using this program.
+This program, `p2ms.simf`, is taken from the SimplicityHL examples collection. The [quickstart](/getting-started/quickstart) guide provides a recipe for making a Liquid Testnet transaction using this program.
 
 ```rust
 /*
