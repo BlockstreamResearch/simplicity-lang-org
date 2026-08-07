@@ -45,7 +45,7 @@ If you'd like to run your own Liquid Network node, you can do so with a local in
 
 ## About transaction-building for interacting with Simplicity contracts
 
-Sending an [asset](../glossary.md#asset) to a Simplicity [smart contract](../glossary.md#smartcontract) requires calculating the appropriate on-chain address for the contract, possibly including a [state commitment](./state.md) representing the contract's new state. This is called a *commit* transaction.
+Sending an [asset](../glossary.md#asset) to a Simplicity [smart contract](../glossary.md#smart-contract) requires calculating the appropriate on-chain address for the contract, possibly including a [state commitment](./state.md) representing the contract's new state. This is called a *commit* transaction.
 
 Determining the appropriate address for a commit transaction may involve moderately complex logic, including [Taproot](../glossary.md#taproot) details (creating a P2TR address where the Simplicity program and state are committed in the Taptree). If the contract does not require updated state commitments, the address of a particular instance of a particular contract will not change from transaction to transaction, and so can be hard-coded or provided by an external tool. The overall form of the commit transaction simply looks like any other P2TR transaction; Simplicity-specific transaction-building logic may not be required.
 
