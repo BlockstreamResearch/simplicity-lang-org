@@ -48,7 +48,7 @@ A covenant is a condition or behavior in a [contract](./glossary.md#contract) re
 A blockchain software system derived from Bitcoin and developed primarily by Blockstream. Elements allows the creation of Bitcoin-like blockchains with enhanced functionality. It is the software architecture underlying the [Liquid](./glossary.md#liquid) Network.
 
 ## Elements Script
-An extension of [Bitcoin Script](./glossary.md#bitcoin-script) which includes several new opcodes for 64-bit arithmetic and transaction introspection (covenants). See <a href="https://github.com/ElementsProject/elements/blob/master/doc/tapscript_opcodes.md">tapscript_opcodes.md</a> in the Elements source tree. Still not Turing complete or as expressive as Simplicity. (Also just "Script", when it is clear or irrelevant whether Bitcoin or Elements Script is meant.)
+An extension of [Bitcoin Script](./glossary.md#bitcoin-script) which includes several new opcodes for 64-bit arithmetic and transaction introspection (covenants). See <a href="https://github.com/ElementsProject/elements/blob/master/doc/tapscript_opcodes.md">tapscript_opcodes.md</a> in the Elements source tree. Still not [Turing complete](./glossary.md#turing-complete) or as expressive as Simplicity. (Also just "Script", when it is clear or irrelevant whether Bitcoin or Elements Script is meant.)
 
 ## elements-cli
 The standard command line user interface for creating and querying blocks, transactions, and other objects within a network based on [Elements](./glossary.md#elements), including the [Liquid](./glossary.md#liquid) Network.
