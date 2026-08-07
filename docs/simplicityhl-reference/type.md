@@ -199,7 +199,7 @@ enum A {
 
 In this declaration, `A::C` wraps another object of type `T`, while `A::E` wraps another object of type `U`.
 
-Enum types are intended for use in matching witness values with the `match` statement, so that one of a list of pre-specificed actions or choices can be selected easily. By wrapping other values where needed, the additional values appropriate to a specific action or choice can also be provided in the witness.
+Enum types are intended for use in matching witness values with the `match` statement, so that one of a list of pre-specified actions or choices can be selected easily. By wrapping other values where needed, the additional values appropriate to a specific action or choice can also be provided in the witness.
 
 | Type           | Values (pursuant to declaration of a specific Enum)    |
 |----------------|--------------------------------------------------------|
