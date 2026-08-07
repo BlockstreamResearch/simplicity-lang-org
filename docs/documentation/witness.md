@@ -47,6 +47,32 @@ The `.wit` file is a JSON file. Each top-level entry in the file has a *name* wh
 }
 ```
 
+???+ Note "Optional type declarations"
+    Since SimplicityHL 0.7.0, writing the data type explicitly in the witness file (via the paired `"value"` and `"type"` fields) is *optional*. If a witness provides a bare value with no type declaration, the SimplicityHL compiler will attempt to determine the value's type from the context in which that value is used or passed within a SimplicityHL program. Specifying a `"type"` field explicitly in the witness can still be helpful in order to catch errors, such as avoiding accidentally exchanging the values of two parameters.
+
+    When omitting type annotations, the value of a variable should be given directly at the top level of the `.wit` file:
+
+    ```json
+    {
+        "amount": "100",
+        "x": "3",
+        "yes_or_no": "false"
+    }
+    ```
+
+    It is allowable to mix some values with type annotations and some without:
+
+    ```json
+    {
+        "amount": "100",
+        "x": "3",
+        "yes_or_no": {
+            "value": "false",
+            "type": "bool"
+        }
+    }
+    ```
+
 This witness provides two separate integer values, available to a SimplicityHL program as `witness::amount` and `witness::x`, and a boolean value available as `witness::yes_or_no`. The witness file indicates that `witness::amount` is a 32-bit integer (`u32`) equal to `100`, while `witness::x` is an 8-bit integer (`u8`) equal to `3`, and `witness:yes_or_no` is a boolean (`bool`) equal to `false`.
 
 Note that even numeric values are represented as JSON strings within the `.wit` file (`"value": "100"`, not `"value": 100`).

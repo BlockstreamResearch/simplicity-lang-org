@@ -93,8 +93,33 @@ let unwrap_or_default: u32 = match Some(Left(42)) {
 };
 ```
 
+## Enum matching
+
+Since SimplicityHL 0.7.0 (compiling with `-Z enums`), you can match on all values of an `enum` type.
+This is useful for *actions* at the top level of a contract's `main()` function. Matching an `enum` lets a witness choose from among several predefined actions.
+
+```rust
+enum Action {
+    Inherit(Signature),
+    ColdSpend(Signature),
+    HotSpend(Signature),
+}
+
+// ...
+
+match witness::ACTION {
+    Action::Inherit(sig: Signature) => inherit_spend(sig),
+    Action::ColdSpend(sig: Signature) => cold_spend(sig),
+    Action::HotSpend(sig: Signature) => refresh_spend(sig),
+}
+```
+
+In this example, `witness::ACTION` is an object of type `Action` (with the explicit value either `Inherit(sig)`, `ColdSpend(sig)`, or `HotSpend(sig)`). The SimplicityHL program uses this value to learn which action the proposed transaction is attempting to take, and call the appropriate function to validate the conditions for that action.
+
 ## Only two branches per `match`
 
-Differently from Rust, the `match` expression only allows two match arms (branches) per `match`.
+Differently from Rust, the `match` expression only allows two match arms (branches) per `match` (except for `enum` types).
 For example, it is currently not possible to match `Left(Left(x: u8))`, `Left(Right(x: u8)`, `Right(Left(x: u8))`, and `Right(Right(x: u8))` as arms of a single `match` expression.
 Matching these four possibilities instead requires two nested `match` expressions.
+
+This limitation does not apply to the `enum` matching described above. A `match` on an `enum` type should contain exactly one branch for each declared value of that `enum` type, regardless of how many values the `enum` type can take on.
