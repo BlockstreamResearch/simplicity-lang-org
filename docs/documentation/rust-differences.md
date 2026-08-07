@@ -63,3 +63,5 @@ let (carry, y): (bool, u8) = jet::add_8(x, 1);
 * **Simpler type system**: SimplicityHL's type system is much simpler than Rust's. It isn't possible to declare traits or implementations of traits.
 
 * **Simpler `match` expression**: The [`match` expression](../../simplicityhl-reference/match_expression/) in SimplicityHL is more limited than Rust's.
+
+* **Simpler module import notation**: The [module import syntax](../../simplicityhl-reference/modules/) in SimplicityHL is more limited than Rust's. For example, you cannot use `*` as a wildcard to import multiple functions at once.
