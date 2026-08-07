@@ -184,7 +184,7 @@ enum A {
 }
 ```
 
-This declaration allows the type `A` to take on any of four listed values, called `A::B`, `A::C`, `A::D`, and `A::E`. The declaration stanza belongs at the top-level of the program, outside of any executable code block.
+This declaration allows the type `A` to take on any of four listed values, called `A::B`, `A::C`, `A::D`, and `A::E`. The declaration stanza belongs at the top level of the program, outside of any executable code block.
 
 Enum type values can also wrap objects of other types, when this is appropriately declared in the initial enum declaration. The `Enum` instances then contain inner variables of the specified types.
 
