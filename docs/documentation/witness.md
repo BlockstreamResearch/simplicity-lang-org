@@ -148,7 +148,11 @@ enum Action {
     Claim(u64, u64),
 }
 
-let user_choice: Action = witness::ACTION;
+fn main() {
+    // ...
+    let user_choice: Action = witness::ACTION;
+    // ...
+}
 ```
 
 In this example, `Update` is a simple name, while `Claim` is a compound variant that wraps two additional values.
