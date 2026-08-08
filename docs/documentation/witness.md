@@ -22,7 +22,7 @@ The witness is directly attached to the transaction and forms a part of it; if t
 
 In an end-user application, witness data will typically be built by wallet or app software that understands how to interact with a certain contract on the user's behalf. During the contract development process, developers might build it manually.
 
-The rest of this document provides details about the means of creating witnesses and about the kinds of data that can be included inside them. Please note that this document is discussing "inputs" informally in the typical software development sense of <a href="https://en.wikipedia.org/wiki/Parameter_(computer_programming)">data provided to a function or program</a>, not the blockchain-specific sense of the specific [UTXO](../glossary.md#utxo)s consumed by a transaction (which will also be details relevant to many contracts' logic).
+The rest of this document provides details about the means of creating witnesses and about the kinds of data that can be included inside them. Please note that this document is discussing "inputs" informally in the typical software development sense of [data provided to a function or program](https://en.wikipedia.org/wiki/Parameter_(computer_programming)), not the blockchain-specific sense of the specific [UTXO](../glossary.md#utxo)s consumed by a transaction (which will also be details relevant to many contracts' logic).
 
 ## Command-line development with `.wit` files
 
