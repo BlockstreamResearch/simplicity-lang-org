@@ -174,7 +174,7 @@ In this example, `Update` is a simple name, while `Claim` is a compound variant 
 ```
 
 !!! warning
-    Type declarations for `enum` values are forbidden inside `.wit` files. They *must* be bare value strings, and their types *must* be inferred by the compiler.
+    Type annotations for `enum` values are forbidden inside `.wit` files. They *must* be bare value strings, and their types *must* be inferred by the compiler.
 
 ### Compound types
 
