@@ -28,233 +28,220 @@ The rest of this document provides details about the means of creating witnesses
 
 The [simc](../glossary.md#simc) compiler is able to compile (in this context, "serialize") a witness using a contract-specific text file called a `.wit` file. The output is a base64 string which can then be provided to other tools like `hal-simplicity pset finalize` to be incorporated into a complete transaction.
 
-The `.wit` file is a JSON file. Each top-level entry in the file has a *name* which has two elements: `value` and `type`. The entry name is used in the SimplicityHL program as a variable name to refer to this specific entry. The `value` and `type` are both strings containing Rust-like code for the data value and data type annotation for the entry. For example,
+A `.wit` file is a JSON file consisting of key-value string pairs. Each entry name corresponds to a variable name expected by the SimplicityHL program, and the string value contains the Rust-like data representation:
 
 ```json
 {
-    "amount": {
-        "value": "100",
-        "type": "u32"
-    },
-    "x": {
-        "value": "3",
-        "type": "u8"
-    },
-    "yes_or_no": {
-        "value": "false",
-        "type": "bool"
-    }
+    "amount": "100",
+    "x": "3",
+    "yes_or_no": "false"
 }
 ```
 
-???+ Note "Optional type declarations"
-    Since SimplicityHL 0.7.0, writing the data type explicitly in the witness file (via the paired `"value"` and `"type"` fields) is *optional*. If a witness provides a bare value with no type declaration, the SimplicityHL compiler will attempt to determine the value's type from the context in which that value is used or passed within a SimplicityHL program. Specifying a `"type"` field explicitly in the witness can still be helpful in order to catch errors, such as avoiding accidentally exchanging the values of two parameters.
+This witness provides two integer values, available to a SimplicityHL program as `witness::amount` and `witness::x`, and a boolean value available as `witness::yes_or_no`. The `simc` compiler infers the required type for each entry automatically from the program source code.
 
-    When omitting type annotations, the value of a variable should be given directly at the top level of the `.wit` file:
+Note that all values, including numbers and booleans, are represented as JSON strings within the `.wit` file (`"100"`, not `100`; `"false"`, not `false`).
 
-    ```json
-    {
-        "amount": "100",
-        "x": "3",
-        "yes_or_no": "false"
-    }
-    ```
-
-    It is allowable to mix some values with type annotations and some without:
+!!! note "Explicit type annotations (optional)"
+    By default, `simc` infers types directly from your contract logic. If you want to explicitly declare or enforce a type for primitive values, tuples, arrays, alias types, or sum types in your `.wit` file, you can use an explicit type annotation syntax, providing a JSON object with `"type"` and `"value"` fields:
 
     ```json
     {
-        "amount": "100",
-        "x": "3",
-        "yes_or_no": {
-            "value": "false",
-            "type": "bool"
+        "amount": {
+            "value": "100",
+            "type": "u32"
+        },
+        "when": {
+            "value": "50",
+            "type": "Distance"
         }
     }
     ```
 
-This witness provides two separate integer values, available to a SimplicityHL program as `witness::amount` and `witness::x`, and a boolean value available as `witness::yes_or_no`. The witness file indicates that `witness::amount` is a 32-bit integer (`u32`) equal to `100`, while `witness::x` is an 8-bit integer (`u8`) equal to `3`, and `witness:yes_or_no` is a boolean (`bool`) equal to `false`.
+    (Note: Custom `enum` types defined in your program **cannot** use explicit type annotations in a witness file; they must always be provided as bare variant strings.)
 
-Note that even numeric values are represented as JSON strings within the `.wit` file (`"value": "100"`, not `"value": 100`).
-
-An important type very frequently used in witnesses is `Signature`, which represents a <a href="https://en.bitcoin.it/wiki/BIP_0340">BIP 0340-style digital signature</a>, the main kind of signature used in Simplicity programs.
+An important type very frequently used in witnesses is `Signature`, which represents a [BIP 0340-style digital signature](https://en.bitcoin.it/wiki/BIP_0340), the main kind of signature used in Simplicity programs.
 
 ```json
 {
-    "ALICE_SIG": {
-        "value": "0x16f0f70b1aa9afaf1ee656a038d896c0b6199e33d5c2328fe5d7cc3f1b67af269ac6352f3486e552e966f62f7bcb75dbfa872920be00adb1c3a35d2f307f189c",
-        "type": "Signature"
-    },
-    "BOB_SIG": {
-        "value": "0xcaa328e73c3a1c5bba7e606f5fdd9c993eba361c2cfb9beb3cc62f192b4d348913446d9f79ebbee8d15b83872db3903ad1b8ee2cc3cdc78c8d2f289ab7f1e8f0",
-        "type": "Signature"
-    }
+    "ALICE_SIG": "0x16f0f70b1aa9afaf1ee656a038d896c0b6199e33d5c2328fe5d7cc3f1b67af269ac6352f3486e552e966f62f7bcb75dbfa872920be00adb1c3a35d2f307f189c",
+    "BOB_SIG": "0xcaa328e73c3a1c5bba7e606f5fdd9c993eba361c2cfb9beb3cc62f192b4d348913446d9f79ebbee8d15b83872db3903ad1b8ee2cc3cdc78c8d2f289ab7f1e8f0"
 }
 ```
 
-This witness provides `witness::ALICE_SIG` and `witness::BOB_SIG`, representing two BIP 0340 signatures from two parties who are approving a proposed transaction. A SimplicityHL program will be able to use the `jet::bip_0340_verify()` [jet](../glossary.md#jet) in order to verify a signature over a specific provided `u256` value (or over a calculated SHA-256 hash output, or over `jet::sig_all_hash()`, which obtains the [sighash](../glossary.md#sighash) for the currently proposed transaction itself when parties are signing to authorize the transaction directly).
+This witness provides `witness::ALICE_SIG` and `witness::BOB_SIG`, representing two BIP-0340 signatures from two parties approving a transaction. A SimplicityHL program can use `jet::bip_0340_verify()` to verify a signature over a provided `u256` value or over transaction details (a [sighash](../glossary.md#sighash)).
 
-SHA-256 hash outputs, which are ubiquitous in the Bitcoin ecosystem, can normally be represented with a `u256` value. For more information on data types that can be used in `.wit` files, see the section on types below.
+If you need hard-code a specific BIP-0340 public key in your contract or pass it in a witness, you can provide it as type `Pubkey`.
 
-Currently, `.wit` files need to be written manually. You can use the details above to create them or follow examples of witness files corresponding to <a href="https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples">sample contracts in `SimplicityHL/examples`</a>.
+`.wit` files may be written manually during the contract development process or generated by wallet software or an SDK. You can find examples corresponding to sample contracts in [`SimplicityHL/examples`](https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples).
 
 ## Compiling (serializing) `.wit` files with `simc`
 
-As noted above, `simc` can produce a serialized base64 form of a `.wit` file to incorporate into a transaction. The witness file is specified with the `-w` option to `simc`.
+`simc` produces a serialized base64 form of a `.wit` file to incorporate into a transaction. The witness file is specified with the `-w` option:
 
 ```bash
-$ simc p2ms.simf -w p2ms.wit
-Program:
-5lk2l5vmZ++dy7rFWgYpXOhwsHApv82y3OKNlZ8oFbFvgXmARacYEf5RB7X1tMEVAbpXAfNhcd45LjO88p6usCblccJ7lBgtPyYRQDJLGGIJJonwvxOqRTamOQiwbfM2EMA+InecBt8gyCoWRAoQY4oNggUIOOQKE2AACEGGHIMMFgFpHxOQKEGHG4AccgwVJ4CBOKD8JNwsUH1HCrYwEJFB+NQQDaBwIfhWmNBCBQgwzMAMAKwCD8UGCo/FYIBuC4IAwDxcBxkBxuQKDcam5BnGHHG5CHGHCxC1gOAIFBuQh+SRxhxxx+ShxhxwsgtoDiFAoTYAQIQKDcmjjcnBRm2ggDjpIoA5GA1gcBA4jA4zA5cgcvwOYMkUAclgcxY=
-Witness:
-+6WeUroyP8LKsSWJSZJX0XnFrMVODj5+L4RU4Bt2LWaeB93Pae1y5RHQUy0aWutmZutdEkTC6wIPvZCTFYvXt6U7fVasUVyOV5x8EOUdWjMv3vE6nglrfHOYEWbFuEU+qn+mp/FBWf+/e7qOOitBu0dmDQhILf5I14DoxcrM/XEg
-
+$ simc --json p2ms.simf -w p2ms.wit
+{"program": "5lk2l5vmZ++dy7rFWgYpXOhwsHApv82y3OKNlZ8oFbFvgXmARacYEf5RB7X1tMEVAbpXAfNhcd45LjO88p6usCblccJ7lBgtPyYRQDJLGGIJJonwvxOqRTamOQiwbfM2EMA+InecBt8gyCoWRAoQY4oNggUIOOQKE2AACEGGHIMMFgFpHxOQKEGHG4AccgwVJ4CBOKD8JNwsUH1HCrYwEJFB+NQQDaBwIfhWmNBCBQgwzMAMAKwCD8UGCo/FYIBuC4IAwDxcBxkBxuQKDcam5BnGHHG5CHGHCxC1gOAIFBuQh+SRxhxxx+ShxhxwsgtoDiFAoTYAQIQKDcmjjcnBRm2ggDjpIoA5GA1gcBA4jA4zA5cgcvwOYMkUAclgcxY=", "witness": "+6WeUroyP8LKsSWJSZJX0XnFrMVODj5+L4RU4Bt2LWaeB93Pae1y5RHQUy0aWutmZutdEkTC6wIPvZCTFYvXt6U7fVasUVyOV5x8EOUdWjMv3vE6nglrfHOYEWbFuEU+qn+mp/FBWf+/e7qOOitBu0dmDQhILf5I14DoxcrM/XEg", ...}
 ```
 
-The base64 value beginning `+6WeUroy...` is the complete serialized witness, incorporating all of the input values from `p2ms.wit`. By including both the program source code <a href="https://github.com/BlockstreamResearch/SimplicityHL/blob/master/examples/p2ms.simf">`p2ms.simf`</a> and the witness file <a href="https://github.com/BlockstreamResearch/SimplicityHL/blob/master/examples/p2ms.wit">`p2ms.wit`</a>, you allow the compiler to double-check that the required values were included. The [bash quickstart tutorial](/getting-started/bash-quickstart/) on this site also demonstrates this process, eventually attaching the witness to the transaction via `hal-simplicity` immediately before finalizing and submitting the transaction.
+By including both the program source code `p2ms.simf` and the witness file `p2ms.wit`, the compiler automatically verifies that all required witness values are present and match their expected types.
 
 ## Other tools for building witness data
 
-Witness data doesn't necessarily need to be written to disk in a `.wit` file. It may be assembled in memory by a client application that's interacting with an on-chain contract. (The syntax and data types described in the current document may be relevant even if you are building a witness in a different environment or with different tools.)
+Witness data doesn't necessarily need to be written to disk as a `.wit` file; it can be assembled in memory by client applications.
 
-For example, if you're developing in Rust, you can build a witness based on a Rust data structure containing the relevant values. You can write Rust functions to generate an appropriate witness and bypass the `.wit` file process entirely. <a href="https://github.com/BlockstreamResearch/smplx">Simplex</a> now includes basic Rust artifact generation, automatically creating Rust witness generation code on the basis of an input `.simf` file.
+* **Rust Integration:** Developers using Rust can build witness structures directly. Tools like [Simplex](https://github.com/BlockstreamResearch/smplx) generate native Rust witness-building code directly from `.simf` files. Explicit witness-building examples are also available in [`simplicity-contracts`](https://github.com/BlockstreamResearch/simplicity-contracts/tree/main/crates/contracts/src).
 
-Several instances of this pattern can be found in <a href="https://github.com/BlockstreamResearch/simplicity-contracts/tree/main/crates/contracts/src">the examples in the `simplicity-contracts` repository</a>. Each contract there is accompanied by a `build_witness.rs` file defining what the witness consumed by that contract should look like. The details of each are different according to the structure of the required witness, but each ends with a definition like `pub fn build_x_witness()` to complete the witness-building process.
+* **Liquid Wallet Kit (LWK):** The [Liquid Wallet Kit](https://github.com/Blockstream/lwk) SDK ("`lwk`") allows building witnesses in Python, JavaScript, and Rust without creating intermediate `.wit` files.
 
-The <a href="https://github.com/Blockstream/lwk">Liquid Wallet Kit</a> SDK library ("`lwk`") is currently (April 2026) adding Simplicity support. This will also provide equivalent functionality for building Simplicity witnesses in various supported programming languages, again without explicitly creating a `.wit` file. For example, it will be possible to use `lwk` to create a witness from Rust, Python, or JavaScript. This document will be updated with more information once this integration is complete.
+## Types and Formatting
 
-## Types
+The compiler infers expected types directly from your SimplicityHL contract logic. The sections below describe how to format `.wit` string values for specific data literals.
 
-As noted above, the basic types used in `.wit` files are mainly unsigned integers, always indicating the bit width of the integer (`u1`, `u2`, `u4`, `u8`, `u16`, `u32`, `u64`, `u128`, `u256`). Integer constants are provided in base 10 (like `"1729"`) or hexadecimal with a leading `0x` (like `"0xcafe1234"`).
+### Primitive types
 
-??? "Expand for `u16` example"
-    ```json
-    {
-        "QUANTITY": {
-            "value": "5",
-            "type": "u16"
-        }
-    }
-    ```
+Primitive types include unsigned integers (`u1`, `u2`, `u4`, `u8`, `u16`, `u32`, `u64`, `u128`, `u256`) and booleans (`bool`). Integers can be provided in base 10 or hexadecimal (`0x` prefix).
 
-The `bool` type is also available for boolean values (constants `"true"` and `"false"`).
+**Contract expectation (`contract.simf`):**
 
-??? "Expand for `bool` example"
-    ```json
-    {
-        "YES_OR_NO": {
-            "value": "true",
-            "type": "bool"
-        }
-    }
-    ```
+```rust
+let quantity: u16 = witness::QUANTITY;
+let is_valid: bool = witness::YES_OR_NO;
+```
 
-Some aliases are built-in to refer to values that are expected to be passed to specific jets. The most-used example of this is `Signature`, noted above, which is a more specific way of referring to a `u256` value when that value represents a <a href="https://en.bitcoin.it/wiki/BIP_0340">BIP 0340-style digital signature</a>.
+**Witness file (`witness.wit`):**
 
-??? "Expand for `Signature` example"
-    ```json
-    {
-        "ALICE_SIGNATURE": {
-            "value": "0x7eef1115a87adc14ff7d99aea2e9501bc27f6dcc05e4720de1212732158fd94ab82f219b8f54bc07c761b38cbbafee5bd0697481ac96b819768559e31e06fe40",
-            "type": "Signature"
-        }
-    }
-    ```
+```json
+{
+    "QUANTITY": "5",
+    "YES_OR_NO": "true"
+}
+```
 
-Several other jet-specific types are available, and are briefly discussed in the next section; you normally don't need to use these at all unless you're calling their specific associated jets.
+Some alias types like `Signature` and `Pubkey` are also written as scalar strings:
 
-Some more complex type system features that can be used in creating witnesses include tuples, arrays, `Option<>`, and `Either<>`.
+**Contract expectation (`contract.simf`):**
 
-* Tuples, defined as `(T1, T2, T3, ...)` where `T1`, `T2`, `T3`, etc., are types, provide a way to combine pairs or triples or larger sequences of possibly-unlike values into a single value, which can then be unwrapped inside a program. 
+```rust
+let sig: Signature = witness::ALICE_SIGNATURE;
+```
 
-??? "Expand for example of tuple of `bool` and `u16`"
-    ```json
-    {
-        "mypair": {
-            "value": "(true, 376)",
-            "type": "(bool, u16)"
-        }
-    }
-    ```
+**Witness file (`witness.wit`):**
 
-    This pair could be accessed in a SimplicityHL program like
+```json
+{
+    "ALICE_SIGNATURE": "0x7eef1115a87adc14ff7d99aea2e9501bc27f6dcc05e4720de1212732158fd94ab82f219b8f54bc07c761b38cbbafee5bd0697481ac96b819768559e31e06fe40"
+}
+```
 
-    ```rust
-    let (yes_or_no, x): (bool, u16) = witness::mypair;
-    ```
+### Named enumeration types
 
-* Arrays, defined as `[T; n]` where `T` is a type and `n` is an integer, provide a way to provide multiple values of the same type under the same name. These values can then be accessed by numeric index. `[u32; 16]` is an example type signature for an array of 16 `u32` values.
+Enumeration (`enum`) types declared in your `.simf` contract represent explicit, named choices. In the `.wit` file, an enum choice is passed directly as a string matching the variant name.
 
-??? "Expand for example of array of `Signature`s"
-    ```json
-    {
-        "FOUR_SIGS": {
-            "value": "[0x8a3584f8f0e20430055a5556c2024d473a89dc45c46f1b5ae1833dbbc2f91796079bde85b565d0852e781566b25279f7d032fec81ed47d2c0226595aba1eb3f4, 0xf74b3ca574647f8595624b129324afa2f38b598a9c1c7cfc5f08a9c036ec5acd3c0fbb9ed3dae5ca23a0a65a34b5d6cccdd6ba248985d6041f7b21262b17af6f, 0xdf5dc2e239d42bca8b38502c242a790c777293d4cab7446aac1eae818f030913ef7440b79b5f104853b0b32aa71dd806c5b48f18e6fc4c336baf3c222932e6f3, 0x29dbeab5628ae472bce3e08728ead1997ef789d4f04b5be39cc08b362dc229f553fd353f8a0acffdfbddd471d15a0dda3b306842416ff246bc07462e5667eb89]",
-            "type": "[Signature; 4]"
-        }
-    }
-    ```
+Enum values can be *unit variants* (simple names) or *compound variants* that carry path-specific argument data.
 
-    The first of these signatures could be accessed in a SimplicityHL program as `witness::FOUR_SIGS[0]`, the second as `witness::FOUR_SIGS[1]`, and so on.
+**Contract expectation (`contract.simf`):**
 
-* Option types, defined as `Option<T>` where `T` is a type, provide a way to make an item *optional* in the witness file, so that a given transaction can either include that item or not. `Option<u32>` is an example type signature for a `u32` value that can either be provided or not. If it's provided, its value would appear in the witness as `"Some(12345)"`; if it's omitted it would appear as `"None"`. The SimplicityHL program can use the `match` statement to determine whether or not the optional value was provided in the witness. The <a href="https://github.com/BlockstreamResearch/SimplicityHL/blob/master/examples/escrow_with_delay.simf">`escrow_with_delay.simf`</a> sample contract shows an example using `Option<>` and `match` to provide two out of the three values within an array.
+```rust
+enum Action {
+    Update,
+    Claim(u64, u64),
+}
 
-??? "Expand for example of two optional `Signatures`, one provided and one absent"
-    ```json
-    {
-        "MAYBE_ALICE_SIG": {
-            "value": "Some(0x27fe61d4e263cb2732da0b9dcd8ed27f400a40d7959901fae7ccdda896373c0fa2ecfda7168f4a200ffa5d52d7b4463453aad9c95a3ba65bccd788a8e72eb07e)",
-            "type": "Option<Signature>"
-        },
-        "MAYBE_BOB_SIG": {
-            "value": "None",
-            "type": "Option<Signature>"
-        }
-    }
-    ```
+let user_choice: Action = witness::ACTION;
+```
 
-    A SimplicityHL program would access each of these values with a `match` statement having two branches (one for the `Some()` case and one for the `None` case).
+In this example, `Update` is a simple name, while `Claim` is a compound variant that wraps two additional values.
 
-* Variant (or "sum") types, defined as `Either<L, R>` where `L` and `R` are types, provide a way to make a *choice* in the witness file, so that a given transaction can include the data associated with one action or another action. **This is the most common way for a contract to expose multiple alternative actions for parties to choose between.** A SimplicityHL program can determine which of the two is present in a particular proposed transaction, using the `match` keyword in SimplicityHL; thus, the party constructing the witness can choose what "form" of the witness to provide in order to trigger the desired action. For contracts that offer more than two alternatives, multiple levels of `Either<>`, and of corresponding `match` statements, can be nested. The <a href="https://github.com/BlockstreamResearch/SimplicityHL/blob/master/examples/htlc.simf">`htlc.simf`</a> sample contract shows an example using `Either<>` and `match` to let a transaction `COMPLETE` or `CANCEL` the proposed transaction, while <a href="https://github.com/BlockstreamResearch/SimplicityHL/blob/master/examples/escrow_with_delay.simf">`escrow_with_delay.simf`</a> similarly lets the transaction either `TRANSFER` or `TIMEOUT`. In each case, the value appears in the `.wit` file as `"Left(...)"` if the first (left) alternative is chosen and as `"Right(...)"` if the second (right) alternative is chosen.
+**Witness file choosing `Update` (`witness.wit`):**
 
-??? "Expand for examples"
-    This example is used in <a href="https://github.com/BlockstreamResearch/SimplicityHL/blob/master/examples/presigned_vault.simf">`presigned_vault.simf`</a> to allow exactly one of two different signatures to be provided (while indicating *which* signature was provided, and where different code paths are triggered depending on which one was given).
+```json
+{
+    "ACTION": "Update"
+}
+```
 
-    ```json
-    {
-        "HOT_OR_COLD": {
-            "value": "Left(0xedb6865094260f8558728233aae017dd0969a2afe5f08c282e1ab659bf2462684c99a64a2a57246358a0d632671778d016e6df7381293dd5bb9f0999d38640d4)",
-            "type": "Either<Signature, Signature>"
-        }
-    }
-    ```
+**Witness file choosing `Claim` with parameters (`witness.wit`):**
 
-    Note again that the SimplicityHL program consuming this learns which of the two signatures was provided, using a `match`. The two types could also be very different, reflecting different information requirements for two different code paths:
+```json
+{
+    "ACTION": "Claim(17041427052385644731, 18305655359241496139)"
+}
+```
 
-    ```json
-    {
-        "SIGNATURE_OR_PUBKEY_AND_AMOUNT": {
-            "value": "Left(0xaac12e03b2d00fcbfd5c586f1b863adc7ea37654417d4edfd8d2737a20e691e1727907883a7739726e36568fba600218be50a2369bca3d246f726febd07e52c8)",
-            "type": "Either<Signature, (Pubkey, u32)>"
-        }
-    }
-    ```
+!!! warning
+    Type declarations for `enum` values are forbidden inside `.wit` files. They *must* be bare value strings, and their types *must* be inferred by the compiler.
 
-    or
+### Compound types
 
-    ```json
-    {
-        "SIGNATURE_OR_PUBKEY_AND_AMOUNT": {
-            "value": "Right((0xd7a2a84507129b63908bc38d27bb96fa3a55536ad3b025b95205c4a8e92c9bd2, 52119))",
-            "type": "Either<Signature, (Pubkey, u32)>"
-        }
-    }
-    ```
+Tuples and arrays group multiple values into a single witness item.
 
-    Notice that the first of these witnesses provides only a `Signature`, while the second provides only a `(Pubkey, u32)` tuple.
+* **Tuples `(T1, T2, ...)`:** Formatted as comma-separated values inside parentheses `(...)`.
+* **Arrays `[T; n]`:** Formatted as comma-separated values inside square brackets `[...]`.
+
+**Contract expectation (`contract.simf`):**
+
+```rust
+let mypair: (bool, u16) = witness::MYPAIR;
+let four_sigs: [Signature; 4] = witness::FOUR_SIGS;
+```
+
+**Witness file (`witness.wit`):**
+
+```json
+{
+    "MYPAIR": "(true, 376)",
+    "FOUR_SIGS": "[0x8a3584f8..., 0xf74b3ca5..., 0xdf5dc2e2..., 0x29dbeab5...]"
+}
+```
+
+Values inside tuples and arrays can be accessed in SimplicityHL via tuple destructuring (`let (a, b): (bool, u16) = witness::mypair;`) or array indexing (`witness::FOUR_SIGS[0]`).
+
+### Tagged sum types
+
+Tagged sum types express conditional data structures that are unwrapped inside the contract using `match` statements (which explicitly handle both possibilities) or `unwrap` macros (which assert that a specific expected version is present).
+
+* **Option Types (`Option<T>`):** Represent optional witness data. Formatted as `"Some(...)"` or `"None"`.
+* **Either Types (`Either<L, R>`):** Represent structural two-way choices. Formatted as `"Left(...)"` or `"Right(...)"`.
+
+#### Example: `Option<T>`
+
+**Contract expectation (`contract.simf`):**
+
+```rust
+let alice_sig: Option<Signature> = witness::MAYBE_ALICE_SIG;
+let bob_sig: Option<Signature> = witness::MAYBE_BOB_SIG;
+```
+
+(The signatures' actual presence or absence could be handled later on in the contract with `match alice_sig` and `match bob_sig` statements.)
+
+**Witness file (`witness.wit`):**
+
+```json
+{
+    "MAYBE_ALICE_SIG": "Some(0x27fe61d4e263cb2732da0b9dcd8ed27f400a40d7959901fae7ccdda896373c0fa2ecfda7168f4a200ffa5d52d7b4463453aad9c95a3ba65bccd788a8e72eb07e)",
+    "MAYBE_BOB_SIG": "None"
+}
+```
+
+#### Example: `Either<L, R>`
+
+While custom `enum` types are generally preferred for named contract actions, `Either` remains useful for generic structural branching.
+
+**Contract expectation (`contract.simf`):**
+
+```rust
+let auth: Either<Signature, (Pubkey, u32)> = witness::SIGNATURE_OR_PUBKEY_AND_AMOUNT;
+```
+
+**Witness file taking the `Right` path (`witness.wit`):**
+
+```json
+{
+    "SIGNATURE_OR_PUBKEY_AND_AMOUNT": "Right((0xd7a2a84507129b63908bc38d27bb96fa3a55536ad3b025b95205c4a8e92c9bd2, 52119))"
+}
+```
 
 ### More built-in types
 
-Although integers and signatures are most commonly used, other [built-in SimplicityHL types](../../simplicityhl-reference/type) and [alias types](../../simplicityhl-reference/type_alias) may also be used in witnesses, including `Pubkey` for [public key](../glossary.md#public-key)s, `Distance` for [timelock](../glossary.md#timelock) distances, and various others. You can use these for clarity when passing them as parameters to a specific jet that expects them. These types' names are always capitalized in SimplicityHL code, like `Signature`, `Pubkey`, `Distance`, `Duration`.
-
-The type signatures of the inputs and outputs to each jet are included in [the jet documentation](../jets).
+Domain-specific [alias types](../../simplicityhl-reference/type_alias) are available for clarity, including, among others, `Pubkey`, `Signature`, and the four [timelock](../glossary.md#timelock) types `Distance`, `Duration`, `Height`, and `Time`. These names are capitalized in SimplicityHL signatures, and their parameter requirements are detailed in [the jet documentation](../jets).
