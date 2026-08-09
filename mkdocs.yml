@@ -90,14 +90,19 @@ markdown_extensions:
   - tables:
   - def_list:
 
+hooks:
+  - hooks/runnable.py
 extra_css:
   - stylesheets/extra.css
 
+  - stylesheets/runnable.css
 extra_javascript:
   - javascript/mathjax.js
   - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
     #  - https://polyfill.io/v3/polyfill.min.js?features=es6
     #  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+  - path: javascripts/runnable.js
+    type: module
 extra:
   generator: false
   social:
@@ -184,6 +189,10 @@ nav:
           - Context: simplicityhl-reference/context.md
           - Environment: simplicityhl-reference/environment.md
           - Translation: simplicityhl-reference/translation.md
+      - Runnable tutorial example:
+        - tutorial/index.md
+        - Your first program: tutorial/your-first-program.md
+        - Reading data from an input: tutorial/reading-transaction-data.md
   - Resources:
       - FAQ: resources/faq.md
       - Glossary: glossary.md

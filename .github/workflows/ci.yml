@@ -3,22 +3,45 @@ name: ci
 on:
   push:
     branches:
-      - master 
+      - master
       - main
+  # Runnable snippets are executed on every PR, so one that stops compiling is caught
+  # before it reaches the site rather than after.
+  pull_request:
 
 permissions:
   contents: read  # Adjusted from 'write'
   pages: write    # Added
   id-token: write # Added
 
-# Used to avoid concurrency issues
-concurrency:
-  group: github-pages
-  cancel-in-progress: false
-
 jobs:
-  deploy:
+  # Executes every `simplicityhl,run` fence under docs/ and checks it behaves as its
+  # `expect=` flag claims. See crates/simplicity-runner/README.md.
+  snippets:
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # Ubuntu runners ship a rustup toolchain, so nothing to install for a host build.
+      - uses: actions/cache@v4
+        with:
+          key: cargo-${{ hashFiles('crates/simplicity-runner/Cargo.lock') }}
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            crates/simplicity-runner/target
+          restore-keys: |
+            cargo-
+      - run: cargo test --manifest-path crates/simplicity-runner/Cargo.toml
+
+  deploy:
+    # A page whose snippet no longer compiles must not reach the site.
+    needs: snippets
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    # Serialise deploys only; PR runs are free to overlap.
+    concurrency:
+      group: github-pages
+      cancel-in-progress: false
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }} # Retrieved from deploy-pages action
@@ -26,10 +49,32 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      # --- the compiler readers run in their browser --------------------------------
+      # Built here rather than committed, so no 2 MB binary accumulates in git history.
+      # It must land in docs/wasm/pkg/ before mkdocs runs, since mkdocs copies docs/
+      # verbatim into the site.
+      - run: rustup target add wasm32-unknown-unknown
+      - uses: actions/cache@v4
+        with:
+          key: cargo-wasm-${{ hashFiles('crates/simplicity-runner/Cargo.lock') }}
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            crates/simplicity-runner/target
+          restore-keys: |
+            cargo-wasm-
+      - run: curl -sSf https://rustwasm.github.io/wasm-pack/installer/init.sh | sh
+      - run: wasm-pack build crates/simplicity-runner --target web --out-dir ../../docs/wasm/pkg --release
+      # wasm-pack also emits npm packaging and type declarations; only the loader and the
+      # binary are served, and the rest would otherwise be published with the site.
+      - run: rm -f docs/wasm/pkg/{.gitignore,package.json,README.md,*.d.ts}
+
+      # --- the site ------------------------------------------------------------------
       - uses: actions/setup-python@v5
         with:
           python-version: 3.x
-      - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV 
+      - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
       - uses: actions/cache@v4
         with:
           key: mkdocs-material-${{ env.cache_id }}
@@ -38,6 +83,9 @@ jobs:
             mkdocs-material-
       - run: pip install -r requirements.txt
       - run: mkdocs build                      # Adjusted from 'mkdocs gh-deploy'
+      # Fail loudly if the compiler is missing rather than deploying a site whose every
+      # Run button 404s.
+      - run: test -s site/wasm/pkg/simplicity_runner_bg.wasm
       - uses: actions/configure-pages@v5       # Added
       - uses: actions/upload-pages-artifact@v3 # Added
         with:

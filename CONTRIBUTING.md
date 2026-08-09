@@ -49,6 +49,45 @@ Avoid assuming a particular operating system or environment.
 
 If an example needs setup or relies on a tool, include it (or link to it).
 
+### Runnable examples
+
+Add `,run` to a `simplicityhl` fence and the reader can edit and execute it in the
+browser. Works on any page, including inside admonitions and collapsible blocks.
+
+````markdown
+```simplicityhl,run title="A program that succeeds"
+fn main() {
+    assert!(jet::eq_32(2, 2));
+}
+```
+````
+
+Flags, comma- or space-separated, in any order:
+
+| Flag | Effect |
+| --- | --- |
+| `run` | required — without it the fence stays a plain code block |
+| `title="…"` | caption above the editor |
+| `readonly` | show **Run** but forbid editing |
+| `tx` | run against a real Liquid testnet transaction, so introspection jets return true values. Adds a txid field and an input selector |
+| `txid="…"` | the transaction to prepopulate for a `tx` snippet |
+| `input=N` | preselect input `N` in a `tx` snippet's selector |
+| `expect=compile-error` | this snippet is meant not to compile |
+| `expect=run-error` | this snippet is meant to compile and then fail |
+
+Every runnable snippet is executed by `npm run test:snippets`, which fails the build if one
+stops behaving as its `expect` says. CI runs it on every PR. A deliberately broken example
+is fine — that is what `expect=` is for — but say so in the prose too.
+
+To try snippets locally you need the compiler, which is a gitignored build artifact rather
+than a checked-in binary. Once per clone:
+
+```bash
+npm run build:wasm     # needs Rust + wasm-pack; see crates/simplicity-runner/README.md
+```
+
+Without it the page renders fine and only **Run** fails, so prose-only edits need nothing.
+
 ### Audiences
 
 Consider various audiences' perspectives:
