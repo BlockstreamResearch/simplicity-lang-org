@@ -7,7 +7,7 @@ Here is a complete list of the available library functions, their <a href="../..
 
 Some library functions can fail or panic. This allows a Simplicity program to refuse a proposed transaction by performing a mandatory assertion; these functions' return type is `()` below. The failure or panic effect produced by these functions, or the corresponding behavior of jets, is ultimately the *only* way to decline a transaction.
 
-For more built-in SimplicityHL functions, see the [jets reference](../documentation/jets).
+For more built-in SimplicityHL functions, see the [jets reference](../jets).
 
 ## Asserts
 
