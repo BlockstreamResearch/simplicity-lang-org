@@ -9,8 +9,8 @@ import json
 import re
 import sys
 
-preamble = """<!-- Generated from {} by jets.md.py on {} -->
-# Jets reference
+preamble = """# Jets reference
+<!-- Generated from {} by jets.md.py on {} -->
 
 Simplicity jets are built-in functions which you can call to efficiently perform various computations, including some related to arithmetic, logic, and cryptography.
 
