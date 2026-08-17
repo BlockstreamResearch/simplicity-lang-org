@@ -27,6 +27,14 @@ The SimplicityHL toolchain consists of the command-line tools `simc` (the Simpli
 
     You can try out these tools interactively in the [Simplicity Codespace](https://github.com/Blockstream/simplicity-codespace).
 
+!!! note "VSCode users"
+
+    If you're expecting to develop SimplicityHL contracts with Visual Studio Code, you can also install Blockstream's VSCode extension to provide syntax highlighting and other developer features.
+
+    * Open Extensions View: Click the Extensions icon in the left sidebar.
+    * Search: In the search field, type `SimplicityHL`.
+    * Install: Click the Install button for the extension provided by Blockstream.
+
 ## Typical workflow
 
 **As noted above, most SimplicityHL developers will use a different workflow using other tools.**
@@ -70,6 +78,7 @@ Options:
       --json                   Output in JSON
       --abi                    Additional ABI .simf contract types
   -h, --help                   Print help
+  -Z, --unstable-feature <FEATURE>  Enable unstable features.
 ```
 
 The compiled program, its corresponding [Commitment Merkle Root](../glossary.md#cmr), and optionally the serialized witness file when it is provided with `-w`, are printed in base64 format on the standard output, with text labels identifying each output item. The base64 form of the program is a representation of its low-level Simplicity code, and could be considered the "binary".
