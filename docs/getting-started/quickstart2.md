@@ -2,7 +2,7 @@
 
 This is a quickstart document to help you perform your first [transaction](../glossary.md#transaction) on [Liquid](../glossary.md#liquid) Testnet using a [Simplicity](../glossary.md#simplicity) [contract](../glossary.md#contract).
 
-Before beginning this tutorial, please <a href="/getting-started/toolchain">make sure you have installed the toolchain applications</a> (`simc` and `hal-simplicity`).
+Before beginning this tutorial, please <a href="/documentation/toolchain">make sure you have installed the toolchain applications</a> (`simc` and `hal-simplicity`).
 
 Now that you have the tools ready to go, we have a *demo walkthrough* below.  The demo walkthrough takes you through a transaction with a Simplicity contract on the Liquid Testnet, explaining the individual steps one by one and inviting you to run them yourself on the command line. At the end, we also have a *demo script* that you can use to run these same steps automatically. Both of these require `jq` and `curl` (for parsing JSON data and connecting to Liquid Testnet API endpoints).
 

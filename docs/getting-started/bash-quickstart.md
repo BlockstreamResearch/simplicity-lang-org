@@ -4,7 +4,7 @@
 
 This is a bash-based quickstart document to help you perform your first [transaction](../glossary.md#transaction) on [Liquid](../glossary.md#liquid) Testnet using a [Simplicity](../glossary.md#simplicity) [contract](../glossary.md#contract).
 
-Before beginning this tutorial, please <a href="/getting-started/toolchain">make sure you have installed the toolchain applications</a> (`simc` and `hal-simplicity`).
+Before beginning this tutorial, please <a href="/documentation/toolchain">make sure you have installed the toolchain applications</a> (`simc` and `hal-simplicity`).
 
 We also need to check out a copy of the `SimplicityHL` repository in
 order to have copies of the example smart contracts from that repository.
