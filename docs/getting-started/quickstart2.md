@@ -88,7 +88,7 @@ We'll use the Liquid Testnet Faucet to send some tLBTC (a test [asset](../glossa
 
     However, the output is HTML and not easily parsed on the command line. You need to Look in the output for a line ending with "with transaction" followed by a hexadecimal string (which looks something like 3a0c1aa913358937ce6a71ba4bd12933c9b4ccdb7907d418ded72143b499eab1). Use the actual hexadecimal string that appears in the output of your `curl` command. Save it into the shell variable `FAUCET_TRANSACTION`.
 
-Once this transaction occurs, the Liquid Testnet blockchain will include a transaction that funded the contract (allowing the contract's logic to control if and when this test asset may be spent). The output will include a line reading `Sent 10000 sats to address [your address] with transaction [txid].`; copy the txid value and save it into the shell variable `FAUCET_TRANSACTION`.
+Once this transaction occurs, the Liquid Testnet blockchain will include a transaction that funded the contract (allowing the contract's logic to control if and when this test asset may be spent). The output will include a line reading `Sent 100000 sats to address [your address] with transaction [txid].`; copy the txid value and save it into the shell variable `FAUCET_TRANSACTION`.
 
 ```bash
 FAUCET_TRANSACTION=[insert your transaction ID from the Faucet here]

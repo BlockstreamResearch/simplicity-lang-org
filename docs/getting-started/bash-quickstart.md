@@ -211,7 +211,7 @@ WITNESS=$(simc $PROGRAM_SOURCE -w $TMPDIR/p2ms.wit | tail -1)
 Two more `hal-simplicity` commands will transform our [PSET](../glossary.md#pset) and [witness](../glossary.md#witness) data into a [transaction](../glossary.md#transaction) suitable for submission to the Liquid Testnet blockchain.
 
 ```bash
-PSET3=$(hal-simplicity simplicity pset finalize "$PSET2" 0 "$PROGRAM" "$WITNESS" | jq -r .pset)
+PSET3=$(hal-simplicity simplicity pset finalize "$PSET2" 0 "$COMPILED_PROGRAM" "$WITNESS" | jq -r .pset)
 RAW_TX=$(hal-simplicity simplicity pset extract "$PSET3" | jq -r)
 ```
 

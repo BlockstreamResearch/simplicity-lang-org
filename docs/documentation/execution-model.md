@@ -53,7 +53,7 @@ To interact with a Simplicity contract, end-user software (such as wallets or sp
 
 * Generating transactions: Constructing and submitting on-chain transactions required to trigger specific contract functions.
 * State tracking: Monitoring on-chain data to determine which actions are valid, and, if necessary, reminding the contract of the relevant state.
-* User interface: Providing an interface to explains the current state to the user and allows the user to make choices (like a "refund" versus "spend" action) by translating those choices into transactions.
+* User interface: Providing an interface to explain the current state to the user and allows the user to make choices (like a "refund" versus "spend" action) by translating those choices into transactions.
 
 In this model, the client software proposes actions, while the Simplicity program judges and confirms whether those actions are actually permissible under the contract rules. Therefore, the client software must know enough about these rules and the contract state to propose transactions that will be accepted.
 

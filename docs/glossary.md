@@ -34,7 +34,7 @@ Sometimes used interchangeably with "program". Often, a specific instance of Sim
 The broader concept of a [smart contract](./glossary.md#smart-contract) might in turn refer either narrowly to a specific Simplicity program or broadly to a whole set of interactions and relationships realized through code, of which that Simplicity program could be only one component. In this view a smart contract as a whole potentially includes several Simplicity programs, possibly as well as other related technical arrangements.
 
 ## Cost
-In Simplicity blockchain integrations, a metric for the computational resources used in verifying a [transaction](./glossary.md#transaction) that invokes a Simplicity [contract](./glossary.md#contract). Cost is a measurement of CPU usage (to avoid multidimensional optimization problems, the other major resource, memory, is simply capped at a fixed value). Cost is converted to a minimimum weight that a transaction input must carry, which is then paid for via transaction [fee](./glossary.md#fee)s. See "[weight](./glossary.md#weight)" for more information.
+In Simplicity blockchain integrations, a metric for the computational resources used in verifying a [transaction](./glossary.md#transaction) that invokes a Simplicity [contract](./glossary.md#contract). Cost is a measurement of CPU usage (to avoid multidimensional optimization problems, the other major resource, memory, is simply capped at a fixed value). Cost is converted to a minimum weight that a transaction input must carry, which is then paid for via transaction [fee](./glossary.md#fee)s. See "[weight](./glossary.md#weight)" for more information.
 
 ## Covenant
 A covenant is a condition or behavior in a [contract](./glossary.md#contract) related to restrictions on the [output](./glossary.md#output) destination to which an [asset](./glossary.md#asset) may be transferred.  Covenants allow a contract to enforce various rules that form useful building blocks for higher-level mechanisms and guarantees about contract behavior. Simplicity supports highly general covenant mechanisms by means of its [introspection](./glossary.md#introspection) features. For example, covenants in Simplicity can enforce...
@@ -81,7 +81,7 @@ In Simplicity, the ability for a [contract](./glossary.md#contract) to examine t
 ## Jet
 An optimized native-code implementation of a Simplicity expression, such as arithmetic, logic, bit manipulations, or cryptographic operations. Jets are faster and therefore have a lower [cost](./glossary.md#cost) than their equivalent Simplicity code. Validating nodes are assumed to be executing the optimized code rather than their Simplicity specification, justifying this cost reduction.
 
-The list of jets and their specific behaviors is fixed at the time of integration of Simplicity into a particular blockchain.  In the [Elements](./glossary.md#elements) integration, there are 471 jets.
+The list of jets and their specific behaviors is fixed at the time of integration of Simplicity into a particular blockchain.  In the [Elements](./glossary.md#elements) integration, there are 469 jets.
 
 ## Liquid
 A specific [Elements](./glossary.md#elements)-based network, the <a href="https://liquid.net/">Liquid Network</a>, that is the first blockchain to have native support for Simplicity. Most Simplicity examples as of 2026 assume that a program is running on the Liquid mainnet or Liquid testnet, although other integrations are planned.
@@ -177,7 +177,7 @@ A high-level programming language with a Rust-like syntax that was created in co
 An alternative [SimplicityHL](./glossary.md#simplicityhl) compiler maintained by Starkware.
 
 ## Smart contract
-A mechanism by which computer code directly specifies and determines the conditions for disposition of [asset](./glossary.md#asset)s (particularly tokenized assets on a blockchain). Analogized to a contract in the legal sense because it may represent an understanding and agremeent between parties that governs a part of their future behavior or the results of that behavior. Unlike a traditional offline contract, the smart contract is not drafted in natural language and is not interpreted or enforced by human beings.
+A mechanism by which computer code directly specifies and determines the conditions for disposition of [asset](./glossary.md#asset)s (particularly tokenized assets on a blockchain). Analogized to a contract in the legal sense because it may represent an understanding and agreement between parties that governs a part of their future behavior or the results of that behavior. Unlike a traditional offline contract, the smart contract is not drafted in natural language and is not interpreted or enforced by human beings.
 
 See also <a href="https://en.wikipedia.org/wiki/Smart_contract">smart contract</a> on Wikipedia.
 

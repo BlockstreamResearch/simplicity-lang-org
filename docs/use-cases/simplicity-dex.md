@@ -6,7 +6,7 @@ Even though we call it a DEX, at its core there is no exchange of Token A for To
 
 The protocol that we have built facilitates *only* the exchange of "Grantor Tokens" plus a premium in USD for LBTC tokens. Support for other variations will be added in the future.
 
-The existing code uses Nostr to publicize the existence of contracts and allow a party to locate a counterparty. This document focuses mainly on the financial logic of the contract rather than the technical mechanisms for representating the contract on Nostr and Liquid.
+The existing code uses Nostr to publicize the existence of contracts and allow a party to locate a counterparty. This document focuses mainly on the financial logic of the contract rather than the technical mechanisms for representing the contract on Nostr and Liquid.
 
 ## Core definitions
 
