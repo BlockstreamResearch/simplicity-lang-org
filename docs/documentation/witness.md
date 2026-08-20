@@ -161,7 +161,7 @@ In this example, `Update` is a simple name, while `Claim` is a compound variant 
 
 ```json
 {
-    "ACTION": "Update"
+    "ACTION": "Action::Update"
 }
 ```
 
@@ -169,7 +169,7 @@ In this example, `Update` is a simple name, while `Claim` is a compound variant 
 
 ```json
 {
-    "ACTION": "Claim(17041427052385644731, 18305655359241496139)"
+    "ACTION": "Action::Claim(17041427052385644731, 18305655359241496139)"
 }
 ```
 
