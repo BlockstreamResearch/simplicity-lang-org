@@ -54,7 +54,7 @@ let (carry, y): (bool, u8) = jet::add_8(x, 1);
 
 (as the `add_8` jet returns an explicit carry flag indicating whether the addition caused an integer overflow; the carry flag value is required to be assigned somewhere).
 
-* **No unbounded loops or recursion**: Simplicity is intentionally not Turing-complete, and SimplicityHL accordingly does not have a `while` loop or a `for` loop in its native syntax. Nor is a function permitted to call itself recursively. For bounded loops, there is a built-in function called `for_while` which can execute a code block up to a specified maximum number of times (limited to 65535 iterations per `for_while` loop). SimplicityHL also offers `fold` and `array_fold` functions to help with some tasks that could traditionally be performed with iteration or recursion in other languages.
+* **No unbounded loops or recursion**: Simplicity is intentionally not Turing-complete, and SimplicityHL accordingly does not have a `while` loop or a `for` loop in its native syntax. Nor is a function permitted to call itself recursively. For bounded loops, there is a built-in function called `for_while` which can execute a code block up to a specified maximum number of times (limited to 65536 iterations per `for_while` loop). SimplicityHL also offers `fold` and `array_fold` functions to help with some tasks that could traditionally be performed with iteration or recursion in other languages.
 
 * **No `if` statement**: SimplicityHL does not include an `if` statement. Conditional branching is performed with the `match` keyword (sometimes by `match`ing on a boolean value returned from a jet or function, or on the constructor of a value passed in a witness input).
 

@@ -216,7 +216,7 @@ Some programming languages, including [Bitcoin Script](./glossary.md#bitcoin-scr
 
 By giving up some amount of expressive power, Simplicity also improves predictability of a program’s behavior. Unlike Turing-complete languages, Simplicity programs can conceivably have aspects of their behavior automatically analyzed in a way that is always valid for every input. Simplicity programs can never "get stuck" and fail to decide on an answer for whether a transaction is approved.
 
-This means that Simplicity does not include loops or recursion, and SimplicityHL cannot perform an unbounded loop (such as a while loop, as in other programming languages). SimplicityHL provides bounded looping mechanisms: if a program contains a loop, the maximum number of loop iterations must be known in advance, and the built-in `for_while` function can only repeat a given loop up to 65535 times.
+This means that Simplicity does not include loops or recursion, and SimplicityHL cannot perform an unbounded loop (such as a while loop, as in other programming languages). SimplicityHL provides bounded looping mechanisms: if a program contains a loop, the maximum number of loop iterations must be known in advance, and the built-in `for_while` function can only repeat a given loop up to 65536 times.
 
 These limitations aid the analysis of the correctness of Simplicity and SimplicityHL programs’ behavior, while still permitting the implementation of complex and useful smart contract functionality.
 
