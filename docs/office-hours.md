@@ -53,3 +53,4 @@ You can see all public Simplicity-related events in the calendar:
 * <a href="https://youtu.be/FVko8j3HA0I">August 4, 2026</a>
 * <a href="https://youtu.be/QijqdTNAnZQ">August 11, 2026</a> (enum types demo; Apogee lending contract integration demo)
 * <a href="https://youtu.be/KbIEdYQv6n0">August 18, 2026</a> (complete Apogee lending contract integration demo)
+* <a href="https://youtu.be/gtvtogI1V6Y">August 25, 2026</a>
