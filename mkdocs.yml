@@ -178,6 +178,7 @@ nav:
       - Libraries & Tooling:
           - Built-in Functions: simplicityhl-reference/builtin.md
           - Jets Reference: documentation/jets.md
+          - Standard Library Reference: documentation/stdlib.md
           - Witnesses: documentation/witness.md
           - Toolchain Reference: documentation/toolchain.md
       - Formal Semantics:
