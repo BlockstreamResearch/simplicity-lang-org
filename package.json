@@ -1,0 +1,27 @@
+{
+  "name": "simplicity-lang-org-runnable",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Build scripts for the runnable-snippet engine. The docs site itself is MkDocs. docs/javascripts/runnable.js is committed so CI needs no Node; docs/wasm/pkg/ is gitignored and rebuilt by CI, so no 2 MB binary lands in git history.",
+  "scripts": {
+    "build": "esbuild js/runnable.ts --bundle --format=esm --target=es2020 --minify --legal-comments=none --outfile=docs/javascripts/runnable.js",
+    "watch": "npm run build -- --watch",
+    "typecheck": "tsc --noEmit",
+    "build:wasm": "wasm-pack build crates/simplicity-runner --target web --out-dir ../../docs/wasm/pkg --release && node -e \"['.gitignore','package.json','README.md','simplicity_runner.d.ts','simplicity_runner_bg.wasm.d.ts'].forEach(f=>require('fs').rmSync('docs/wasm/pkg/'+f,{force:true}))\"",
+    "test:snippets": "cargo test --manifest-path crates/simplicity-runner/Cargo.toml"
+  },
+  "dependencies": {
+    "@codemirror/commands": "^6.10.4",
+    "@codemirror/lang-rust": "^6.0.2",
+    "@codemirror/language": "^6.11.4",
+    "@codemirror/lint": "^6.9.7",
+    "@codemirror/state": "^6.7.1",
+    "@codemirror/view": "^6.43.7",
+    "@lezer/highlight": "^1.2.1"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "typescript": "^5.7.0"
+  }
+}
