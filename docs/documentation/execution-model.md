@@ -41,7 +41,7 @@ The [witness](../glossary.md#witness) supplied as part of the transaction by its
 * asserted state from parties' prior interactions with the contract (see [State Management in SimplicityHL](./state) for more details)
 * digital signatures from parties approving the contract or confirming other relevant statements (for example, a party's signatures approving the exercise of some ability under the contract, or an oracle's signature asserting the truth of some off-chain fact such as a market price or whether a specific event has occurred)
 
-The [Witnesses in SimplicityHL development](./witness) document talks about the practical mechanics of creating the witness.
+The [Witnesses in SimplicityHL development](./witness) document explains the concept in more detail; the [`.wit` file reference](./witness-format) talks about the practical mechanics of creating one.
 
 Because Simplicity is formally specified and fully deterministic, every node that examines that transaction will come to exactly the same conclusion about what the result of running the Simplicity program was, without ambiguity.
 

@@ -155,6 +155,7 @@ nav:
       - Core Concepts:
           - Execution Model: documentation/execution-model.md
           - Covenants & State Management: documentation/state.md
+          - Witnesses: documentation/witness.md
           - Oracles: documentation/oracle.md
           - Timelocks: documentation/timelocks.md
       - App Development:
@@ -179,7 +180,7 @@ nav:
           - Built-in Functions: simplicityhl-reference/builtin.md
           - Jets Reference: documentation/jets.md
           - Standard Library Reference: documentation/stdlib.md
-          - Witnesses: documentation/witness.md
+          - .wit File Reference: documentation/witness-format.md
           - Toolchain Reference: documentation/toolchain.md
       - Formal Semantics:
           - Context: simplicityhl-reference/context.md
