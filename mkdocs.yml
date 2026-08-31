@@ -145,10 +145,10 @@ hooks:
 nav:
   - Get Started:
       - Quickstart: getting-started/quickstart.md
-      - Welcome, Bitcoin Developers: getting-started/welcome-bitcoin.md
-      - Welcome, EVM Developers: getting-started/welcome-evm.md
-      - Welcome, Finance Professionals: getting-started/welcome-finance.md
-      - Join our Weekly Office Hours: office-hours.md
+      - Intro for Bitcoin Developers: getting-started/welcome-bitcoin.md
+      - Intro for EVM Developers: getting-started/welcome-evm.md
+      - Intro for Finance Professionals: getting-started/welcome-finance.md
+      - Weekly Office Hours call: office-hours.md
       - Simplicity Telegram group: https://t.me/simplicity_community
       - Codespace: https://github.com/Blockstream/simplicity-codespace
   - Learn:
