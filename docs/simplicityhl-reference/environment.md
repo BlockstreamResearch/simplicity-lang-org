@@ -4,7 +4,7 @@ An environment Ξ maps variable names to Simplicity expressions.
 
 All expressions inside an environment share the same source type A. We say the environment is "from type A".
 
-```
+```text
 Ξ =
 [ foo ↦ unit:      (𝟚^32? × 2^32) → 𝟙
 , bar ↦ take iden: (𝟚^32? × 𝟚^32) → 𝟚^32?

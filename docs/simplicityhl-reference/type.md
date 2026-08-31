@@ -175,7 +175,7 @@ Enum types are available since SimplicityHL 0.7.0 (compiling with `-Z enums`).
 
 Enum types are declared with a stanza like
 
-```
+```rust
 enum A {
     B,
     C,
@@ -188,7 +188,7 @@ This declaration allows the type `A` to take on any of four listed values, calle
 
 Enum type values can also wrap objects of other types, when this is appropriately declared in the initial enum declaration. The `Enum` instances then contain inner variables of the specified types.
 
-```
+```rust
 enum A {
     B,
     C(T),
