@@ -9,7 +9,7 @@ Use this call to
 
 This call will be held on Tuesdays at 8:00 <a href="https://www.timeanddate.com/time/zone/usa/san-francisco">PDT (UTC-7)</a> and will typically last one hour. It is occasionally cancelled due to U.S. holidays or other events. These Office Hours calls are routinely recorded and published (see below).
 
-**Join the Office Hours using the Google Meet link in the calendar below.**
+**Join the Office Hours using Google Meet: <a href="https://meet.google.com/mhx-danz-bwp">https://meet.google.com/mhx-danz-bwp</a> (or use the link in the calendar below).**
 
 You can see all public Simplicity-related events in the calendar:
 
