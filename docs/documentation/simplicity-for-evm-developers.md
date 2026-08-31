@@ -43,10 +43,10 @@ Unlike Bitcoin Script, which is limited by design and lacks expressiveness for c
 
 No, Simplicity is intentionally Turing-incomplete. This is a crucial design choice that sets it apart from languages like EVM. The reason for this is to enable static analysis.
 
-Why Turing-incompleteness is a feature in Simplicity:
+Turing-incompleteness as a deliberate part of Simplicity's design:
 
 * Predictable Resource Costs: It allows you to determine how much any Simplicity program will cost to run before you stake your money on it. This prevents programs from consuming excessive memory or computation time, safeguarding against denial-of-service attacks. This contrasts with Ethereum's "out of gas" issues, where pre-paid fees can be lost if a program runs out of gas unexpectedly.  
-* Guaranteed Termination: By disallowing unbounded loops and recursion, Simplicity ensures that all programs terminate. Bounded loops are achieved by unrolling the loop, with sub-expression sharing preventing unreasonable impacts on program size.  
+* Guaranteed Termination: Without unbounded loops and recursion, all programs are guaranteed to terminate. Bounded loops are achieved by unrolling the loop, with sub-expression sharing preventing unreasonable impacts on program size.  
 * Enhanced Verifiability: The lack of Turing completeness contributes to the language's simplicity and analyzability, making it amenable to formal reasoning.
 
 ### How does Simplicity handle state, or does it have a global state like Ethereum?
