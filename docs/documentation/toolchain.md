@@ -63,7 +63,7 @@ You can see a complete worked example of the actions above, both commit-time and
 
 Install with: `cargo install simplicityhl`
 
-```
+```text
 Compile the given SimplicityHL program and print the resulting Simplicity base64 string.
 
 Usage: simc [OPTIONS] <PROGRAM_FILE>
@@ -101,7 +101,7 @@ Some additional information and sample invocations appears in the [`hal-simplici
 
 ### hal-simplicity simplicity info
 
-```
+```text
 Parse a base64-encoded Simplicity program and decode it
 
 USAGE:
@@ -154,7 +154,7 @@ The output is a JSON object which contains some of the following fields (most of
 
 This tool is used in the redemption phase to create a transaction capable of claiming existing on-chain assets from [UTXOs](../glossary.md#utxo) that are controlled by a specified Simplicity program. The transaction is created in [PSET](../glossary.md#pset) format by sequentially attaching multiple forms of required information to a skeleton transaction.
 
-```
+```text
 manipulate PSETs for spending from Simplicity programs
 
 USAGE:
@@ -256,7 +256,7 @@ This command serializes a PSET in a hexadecimal form suitable for submission to 
 
 Generate (or validate) signatures over Simplicity transactions using a private key.
 
-```
+```text
     hal-simplicity simplicity sighash [FLAGS] [OPTIONS] <tx> <input-index> <cmr> [--] [control-block]
 
 FLAGS:
