@@ -2,7 +2,7 @@
 
 Simplex is a development framework and orchestration tool for SimplicityHL smart contracts. It assumes a Rust development environment, and helps you create applications and tools in Rust to interact with the underlying contract.
 
-Simplex facilitates creating and running realistic smart contract integration tests, providing a straightforward way to define and run a suite of such tests in Rust. It automatically runs tests against a local instance of `elementsd`, creating a customizable Liquid Network-like environment for test transactions. Thus, tests can be run without broadcasting transactions publicly on Liquid testnet.
+Simplex facilitates creating and running realistic smart contract integration tests, providing a straightforward way to define and run a suite of such tests in Rust. It automatically runs tests against a local instance of `elementsd`, creating a customizable [Liquid Network](../glossary.md#liquid)-like environment for test transactions. Thus, tests can be run without broadcasting transactions publicly on Liquid testnet.
 
 A Simplex project's `Simplex.toml` file (automatically created by `simplex init`, as described below) configures the details of this test environment.
 
@@ -23,7 +23,7 @@ When Simplex is installed with `simplexup`, you can rerun `simplexup` at any tim
 
 Run `simplex init` at the top-level directory of the project. This is ordinarily the same as the top-level directory of the associated Rust project (where the `Cargo.toml` file is found).
 
-This step will add a complete starter project in place: `Cargo.toml` (already depending on `smplx-std`), `Simplex.toml`, `src/lib.rs` to let Rust code reference generated artifacts, and starter contracts and tests.
+This step will add a complete starter project in place: `Cargo.toml` (already depending on `smplx-std`), `Simplex.toml`, `src/lib.rs` to let Rust code reference generated [artifacts](../glossary.md#artifacts), and starter contracts and tests.
 
 Add or replace SimplicityHL source files in `simf/` as you go so Simplex can find them.
 
@@ -31,7 +31,7 @@ Add or replace SimplicityHL source files in `simf/` as you go so Simplex can fin
 
 Run `simplex build` at the top-level directory of the project.
 
-This process analyzes the SimplicityHL source code in `simf/` and creates corresponding Rust library files in `src/artifacts`, suitable for including from other Rust code. These library files define functions to build witnesses and blockchain transactions to drive the individual SimplicityHL contract(s) within the Simplex project.
+This process analyzes the SimplicityHL source code in `simf/` and creates corresponding Rust library files in `src/artifacts`, suitable for including from other Rust code. These library files define functions to build [witnesses](../glossary.md#witness) and blockchain [transactions](../glossary.md#transaction) to drive the individual SimplicityHL contract(s) within the Simplex project.
 
 Whenever the SimplicityHL source code changes, re-run `simplex build` to regenerate the artifacts and keep them in sync with the contract's expectations.
 
