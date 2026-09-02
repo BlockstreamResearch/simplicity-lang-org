@@ -55,10 +55,6 @@ Tools and examples are being created for integrating other data sources into Sim
 
 Prototypes of several real financial applications on Simplicity are being specified and implemented. Work in progress on some of these is available in [the `simplicity-contracts` repository on GitHub](https://github.com/BlockstreamResearch/simplicity-contracts).
 
-## Simplicity development framework
-
-[A new tool called `Simplex`](https://github.com/BlockstreamResearch/smplx), somewhat akin to `cargo` or `go`, provides package management, development workflow, and test orchestration features. This integrated build system tool is under ongoing development and will provide a test framework support unit and integration tests, including running integration tests against a regtest environment to simulate the effects of multiple related transactions.
-
 ## Ecosystem
 
 Tools and standards for building financial applications to interact with Simplicity contracts, as well as for connecting existing wallet apps to contract flows, are in development. See "[Road to Ecosystem](../../documentation/road-to-ecosystem)" for an overview of the requirements for safely connecting wallets.
