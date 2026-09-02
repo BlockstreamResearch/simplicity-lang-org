@@ -54,10 +54,33 @@ write instead.
     branch."
   - Prefer: "the redeem-time witness (the data supplied at spend time) proves the
     branch."
-- **No filler affirmations or paragraph-opener tics.** Don't open a paragraph with "So,",
-  "Now,", "Let's dive in," or "Let's explore," and don't add intensifiers whose only job
-  is tone ("genuinely," "truly," "That's a big deal"). If the sentence works without it,
-  drop it.
+- **No filler affirmations, paragraph-opener tics, or hedges.** Don't open a paragraph
+  with "So,", "Now,", "Additionally,", "Furthermore,", "Moreover,", "Let's dive in," or
+  "Let's explore," and don't add intensifiers or hedges whose only job is tone
+  ("genuinely," "truly," "That's a big deal," "It's worth noting," "Of course"). If the
+  sentence works without it, drop it.
+- **No negative parallelism.** Don't pair a construction with its own negation for
+  rhetorical balance ("not only X, but also Y"). This is a cousin of the antithesis
+  pattern above; state the point directly.
+  - Avoid: "The jet not only speeds up execution, but also reduces the on-chain
+    footprint."
+  - Prefer: "The jet speeds up execution and reduces the on-chain footprint."
+- **No present-participle tails.** Don't close a sentence with a dangling "-ing" clause
+  that restates the consequence of what was just said ("..., enabling developers to...",
+  "..., ensuring that..."). State the consequence as its own sentence, or drop it if it's
+  redundant.
+  - Avoid: "The type system tracks widths at compile time, ensuring that overflow is
+    caught before deployment."
+  - Prefer: "The type system tracks widths at compile time. Overflow is caught before
+    deployment."
+- **No bold-label bullet lists in explanatory prose.** A bulleted list where every item
+  opens with a **bold label:** followed by a sentence is the most recognizable
+  generated-docs pattern. It's fine in genuinely reference-shaped lists (parameter
+  tables, glossary-style lookups); in explanatory prose, write sentences or paragraphs
+  instead.
+  - Avoid: "- **Pruning:** removes unused branches. - **Jets:** speed up execution."
+  - Prefer: "Pruning removes unused branches from the published program. Jets speed up
+    execution of common operations."
 
 These are deliberately mechanical and checkable rather than a general tone instruction,
 because "sound professional" doesn't reliably suppress this pattern: naming the
