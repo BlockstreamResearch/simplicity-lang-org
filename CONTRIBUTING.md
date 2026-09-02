@@ -60,7 +60,7 @@ If an example needs setup or relies on a tool, include it (or link to it).
 
 ### Audiences
 
-Consider various audiences' perspectives:
+Consider various audiences' perspectives and help them find what they need to accomplish their tasks:
 
 **Bitcoin Developer**
 
