@@ -150,7 +150,6 @@ nav:
       - Intro for Finance Professionals: getting-started/welcome-finance.md
       - Weekly Office Hours call: office-hours.md
       - Simplicity Telegram group: https://t.me/simplicity_community
-      - Codespace: https://github.com/Blockstream/simplicity-codespace
   - Learn:
       - Core Concepts:
           - Execution Model: documentation/execution-model.md
@@ -192,6 +191,7 @@ nav:
       - Simplicity for EVM Developers: documentation/simplicity-for-evm-developers.md
       - Differences from Rust: documentation/rust-differences.md
       - Simplicity Compared: documentation/simplicity-compared.md
+      - Codespace (run examples online): https://github.com/Blockstream/simplicity-codespace
       - Roadmap:
           - Roadmap Overview: resources/roadmap.md
           - Ecosystem/Wallet Connect Roadmap: documentation/road-to-ecosystem.md
