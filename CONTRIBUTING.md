@@ -37,11 +37,20 @@ If you’re unsure it belongs here, it probably does. Submit the PR.
 * Use lists, tables, and callouts for scan‑ability.
 * Prefer [Mermaid](https://github.blog/developer-skills/github/include-diagrams-markdown-files-mermaid/) diagrams/flowcharts.
 * You can use [other Material for MkDocs features and extensions](https://squidfunk.github.io/mkdocs-material/reference/) for tables, math, etc. Follow their recommended configuration, syntax, and approach wherever possible.
+* Link the descriptive noun or verb ("see the [redeem-time witness](...)"), never bare "click here" or "here" as link text.
+* Numbers: spell out ten and under (one, five, ten); use digits for 11 and above. Use digits throughout for technical instructions (step counts, parameter values, byte sizes) regardless of magnitude.
+* Version numbers: no `v` prefix. Write `0.3.0`, not `v0.3.0`. Inline availability notes as `(0.3.0+)`.
+* Punctuation goes outside closing quotation marks: `the function returns "unit"`, not `the function returns "unit."` In code-adjacent prose this keeps punctuation from being misread as part of a quoted identifier, command, or literal.
 
 ### Examples
 
 * Keep examples **minimal** and **correct**.
 * Prefer full, copy‑pasteable blocks over fragments.
+* State the version an example was tested against when behavior could plausibly differ across versions (e.g., "tested with SimplicityHL 0.3.0").
+
+### Errors
+
+* If a command, function, or compilation step can fail, document the specific error messages or codes it can produce, alongside their cause and fix. Readers often search the exact error text before reading the surrounding prose.
 
 ### Dependencies
 

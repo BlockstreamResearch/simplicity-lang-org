@@ -47,7 +47,18 @@ write instead.
   anything that isn't actually unique to Simplicity (e.g., hash-preimage checks exist in
   Solidity too). Prefer honest fit-based framing: describe what the code does and who it
   is for, rather than implying another platform can't do it.
+- **No em dashes.** Restructure the sentence instead: use a period, colon, or
+  parentheses. Em dashes are a persistent generated-prose tell; check for them before
+  finishing any edit to `docs/**/*.md`.
+  - Avoid: "the redeem-time witness — the data supplied at spend time — proves the
+    branch."
+  - Prefer: "the redeem-time witness (the data supplied at spend time) proves the
+    branch."
+- **No filler affirmations or paragraph-opener tics.** Don't open a paragraph with "So,",
+  "Now,", "Let's dive in," or "Let's explore," and don't add intensifiers whose only job
+  is tone ("genuinely," "truly," "That's a big deal"). If the sentence works without it,
+  drop it.
 
 These are deliberately mechanical and checkable rather than a general tone instruction,
-because "sound professional" doesn't reliably suppress this pattern — naming the
+because "sound professional" doesn't reliably suppress this pattern: naming the
 specific rhetorical moves does.
