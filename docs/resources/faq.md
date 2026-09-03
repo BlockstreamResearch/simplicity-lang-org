@@ -50,7 +50,7 @@ Not usually. Developers ordinarily write in high-level SimplicityHL, which compi
 
 ## What are Jets, and how do they make programs efficient?
 
-A [Simplicity jet](../documentation/jets-explained.md) is a pre-defined, optimized function that replaces an equivalent Simplicity expression to speed up execution without changing its meaning.
+A [Simplicity jet](../documentation/jets.md) is a pre-defined, optimized function that replaces an equivalent Simplicity expression to speed up execution without changing its meaning.
 
 Benefits:
 
