@@ -2,9 +2,9 @@
 
 The underlying code for this project is found in <a href="https://github.com/Blockstream/simplicity-dex">https://github.com/Blockstream/simplicity-dex</a> (other relevant repository links appear below).
 
-Even though we call it a DEX, at its core there is no exchange of Token A for Token B in the traditional sense. The Simplicity DEX is a **structured product marketplace** that enables users to create and trade options contracts on-chain on the Liquid Network. We can also use similar techniques to create a means for advertising and performing direct, immediate exchange of pairs of assets in a decentralized way without an intermediary, but that functionality is planned for future development.
+Despite the name, there is no exchange of Token A for Token B in the traditional sense at the core of the Simplicity DEX. It is a **structured product marketplace** that enables users to create and trade options contracts on-chain on the Liquid Network. Similar techniques can extend it to advertise and perform direct, immediate exchange of pairs of assets in a decentralized way without an intermediary; that functionality is planned for future development.
 
-The protocol that we have built facilitates *only* the exchange of "Grantor Tokens" plus a premium in USD for LBTC tokens. Support for other variations will be added in the future.
+The current protocol facilitates *only* the exchange of "Grantor Tokens" plus a premium in USD for LBTC tokens. Support for other variations will be added in the future.
 
 The existing code uses Nostr to publicize the existence of contracts and allow a party to locate a counterparty. This document focuses mainly on the financial logic of the contract rather than the technical mechanisms for representing the contract on Nostr and Liquid.
 
@@ -20,7 +20,7 @@ The existing code uses Nostr to publicize the existence of contracts and allow a
 
 ## Implementation
 
-The protocol that we have implemented is a variation of a Call Option. The premium to the taker is paid during the exchange of LBTC and collateral tokens (i.e., Grantor Token).
+The implemented protocol is a variation of a Call Option. The premium to the taker is paid during the exchange of LBTC and collateral tokens (i.e., Grantor Token).
 
 ### Participants
 
@@ -71,13 +71,13 @@ The maker deposits their newly minted Grantor Token along with premium (e.g., US
 
 ### Key Design Properties
 
-This contract design avoids the need for a price oracle. Instead we simply rely on the Option Token holder's (i.e., the maker's) natural incentives to choose the appropriate outcome. The taker is required to get the lesser-valued asset of the two, after the expiration date. The choices the maker can make can only improve the taker's outcome. The maker could incorrectly exercise or not exercise their option, which will cause the taker to end up with the more-valuable asset, or the maker could incorrectly exercise their option early, allowing the taker to get access to their funds prior to the expiration date, or both.
+This contract design avoids the need for a price oracle, relying instead on the Option Token holder's (i.e., the maker's) natural incentives to choose the appropriate outcome. The taker is required to get the lesser-valued asset of the two, after the expiration date. The choices the maker can make can only improve the taker's outcome. The maker could incorrectly exercise or not exercise their option, which will cause the taker to end up with the more-valuable asset, or the maker could incorrectly exercise their option early, allowing the taker to get access to their funds prior to the expiration date, or both.
 
 *It is the responsibility of the maker to optimize their handling of the options* in order to extract the most value for themselves. Any other outcome can only benefit the taker.
 
-By avoiding the price oracle, we also automatically handle the case where the maker defaults. In this case, the taker gets the USDt collateral, regardless of the LBTC price.
+Avoiding the price oracle also automatically handles the case where the maker defaults: the taker gets the USDt collateral, regardless of the LBTC price.
 
-Our options design includes extra features that go beyond the basic specification. In particular, our Grantor and Option Tokens are real tradable assets, and both can be resold. This is particularly useful for the maker in the case that they are in default (i.e., does not have sufficient funds to exercise the option), but otherwise the option is in-the-money. In such a case, the maker can sell their Option Token to someone else who does have sufficient funds to exercise the option.
+The options design includes extra features beyond the basic specification. In particular, the Grantor and Option Tokens are real tradable assets, and both can be resold. This is particularly useful when the maker is in default (i.e., lacks sufficient funds to exercise the option) but the option is otherwise in-the-money: the maker can sell their Option Token to someone else who does have sufficient funds to exercise it.
 
 The design also allows for more than one pair of Grantor/Option Tokens to be generated. For example, the maker can generate 10 token pairs along with 10 Collateral Covenant UTXOs, each holding one tenth of the total collateral. This enables partially filling the order. These sets of Option Tokens and Grantor Tokens are fungible and tradeable. Unfilled orders (i.e., when not all the Grantor Tokens are sold) can be used, along with the same number of Option Tokens, to cancel unused Collateral Covenants and recover the funds immediately.
 
