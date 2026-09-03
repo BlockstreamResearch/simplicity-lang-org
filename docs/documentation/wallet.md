@@ -2,12 +2,7 @@
 
 A Simplicity contract enforces financial logic through on-chain transactions, but it is only one piece of a complete financial application. By itself, a contract lacks a user interface or discovery mechanism. To make a Simplicity contract useful, other software, such as a dedicated native app, a web app, or a wallet taught to interact with the contract, needs to be provided.
 
-These supporting applications need to handle integration tasks such as
-
-* **Discovery and validation**: finding active instances of a contract on the blockchain and validating that they have the intended or desired functionality
-* **State and actions**: determining the current contract state and the actions a user can take
-* **Transaction building**: creating transactions that send or claim assets, or that update a contract's state
-* **User interface**: representing the above information in a meaningful way for an end user
+These supporting applications need to handle integration tasks such as finding active instances of a contract on the blockchain and validating that they have the intended or desired functionality, determining the current contract state and the actions a user can take, creating transactions that send or claim assets or that update a contract's state, and representing this information in a meaningful way for an end user.
 
 Because Simplicity and Elements are open source, developers have the flexibility to create tools that facilitate these actions in a variety of development environments.
 
@@ -15,11 +10,11 @@ Because Simplicity and Elements are open source, developers have the flexibility
 
 ### Command line
 
-We have [command-line tools for developing, testing, and exploration](../toolchain/) (`simc` and `hal-simplicity`).
+[Command-line tools for developing, testing, and exploration](../toolchain/) (`simc` and `hal-simplicity`) are available.
 
 ### SimplicityHL, rust-simplicity, and Simplex
 
-Our recommended development environment for building production applications that directly interact with Simplicity contracts is based on Rust. Three projects are most relevant to Rust developers.
+The recommended development environment for building production applications that directly interact with Simplicity contracts is based on Rust. Three projects are most relevant to Rust developers.
 
 * The [SimplicityHL](https://github.com/BlockstreamResearch/SimplicityHL) project includes a Rust library that lets you compile SimplicityHL to low-level Simplicity from inside a Rust program. The compilation logic is the same as in the `simc` compiler, but doesn't require a command-line invocation.
 
@@ -57,7 +52,7 @@ If an application needs signatures from an existing wallet, a [PSET](../glossary
 
 ## Wallet connection mechanisms
 
-An official wallet connection recommendation is currently in development to connect external wallets with Simplicity clients. We expect to release documentation for this mechanism in June 2026.
+An official wallet connection recommendation is currently in development to connect external wallets with Simplicity clients.
 
 Work on this mechanism is built on top of the Bitcoin ecosystem's existing [WalletConnect protocol](https://walletconnect.com/), including a facility for pairing an external wallet with a web application via WebSockets. This permits an existing wallet, with minimal changes, to provide signatures for transactions with Simplicity smart contracts.
 
@@ -65,6 +60,4 @@ In this model, the web application (which is developed with LWK targeting WASM) 
 
 The interface is general in order to enable interoperability with any third-party wallet that supports the appropriate wallet connect extensions. However, if the wallet does not provide UI support for a specific contract, the web application must be trusted to accurately represent the meaning and effects of the contract state and requested signatures.
 
-A proof of concept of this mechanism is available in the [lending contract demo](https://demolending.distributedlab.com/). As of April 2026, lightly customized versions of Blockstream Jade and the Blockstream App can pair with this demo and authorize lending contract transactions on Liquid Testnet, in both lender and borrower roles.
-
-In this proof of concept, the web app generates a QR code which an external wallet can scan to create a paired session. The web app and wallet then exchange JSON stanzas within this session to request and provide digital signatures needed to perform transactions with the contract.
+A proof of concept of some wallet connect mechanisms is available in the [lending contract demo](https://lending.dev.blockstream.com/). Lightly-customized versions of Blockstream Jade, the Blockstream App, and other wallet applications can pair with this demo and authorize lending contract transactions on Liquid Testnet, in both lender and borrower roles.
