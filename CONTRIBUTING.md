@@ -86,4 +86,6 @@ Consider various audiences' perspectives and help them find what they need to ac
 
 **Key questions**: What is conceptually possible with this technology? How do I design a financial application in terms of covenant-managed assets and transactions?
 
+If a user is completely new to SimplicityHL and encountering it through the first time, that user's successful use of this site would lead to actually running a Quickstart tutorial, or opening up the Simplicity Codespace, to experience deploying Simplicity contracts and making real transactions with them.
+
 **Thanks for making the Simplicity docs better.**
