@@ -57,7 +57,7 @@ The most basic workflow for on-chain transactions with the command-line toolchai
 6. convert the PSET to a serialized transaction with `hal-simplicity simplicity pset extract`
 7. submit the resulting transaction on the blockchain
 
-You can see a complete worked example of the actions above, both commit-time and redeem-time, in the old [bash quickstart](../../getting-started/bash-quickstart), which is no longer suggested for most beginning users. There are also several demonstrations in the Simplicity Codespace, linked in the note above, which demonstrate both actions using `simc` and `hal-simplicity`.
+You can see a complete worked example of the actions above, both commit-time and redeem-time, in the old [bash quickstart](../getting-started/bash-quickstart.md), which is no longer suggested for most beginning users. There are also several demonstrations in the Simplicity Codespace, linked in the note above, which demonstrate both actions using `simc` and `hal-simplicity`.
 
 ## simc
 
@@ -93,7 +93,7 @@ Install with: `cargo install hal-simplicity`
 
 `hal-simplicity` is based on [`hal-elements`](https://github.com/ElementsProject/hal-elements) and also includes the subcommands from `hal-elements`. A future release may merge both tools into one.
 
-The `hal-simplicity` subcommands that differ from `hal-elements` are `hal-simplicity simplicity info`, `hal-simplicity simplicity pset`, and `hal-simplicity-simplicity sighash`.
+The `hal-simplicity` subcommands that differ from `hal-elements` are `hal-simplicity simplicity info`, `hal-simplicity simplicity pset`, and `hal-simplicity simplicity sighash`.
 
 These are used, respectively, for constructing *on-chain addresses*, *transactions*, and *signatures* for use with Simplicity programs.
 
@@ -122,7 +122,7 @@ ARGS:
     [witness]    a hex encoding of all the witness data for the program
 ```
 
-The optional state commitment via `-s` is noteworthy here, as it is needed to derive an address reflecting a commitment to contract [state](../state) information. Without `-s`, no state commitment is included.
+The optional state commitment via `-s` is noteworthy here, as it is needed to derive an address reflecting a commitment to contract [state](state.md) information. Without `-s`, no state commitment is included.
 
 The output is a JSON object which contains some of the following fields (most of them only in case a witness was provided):
 
@@ -214,7 +214,7 @@ The second argument is a JSON string consisting of a list of JSON objects mappin
 
 where `<addr>` is a destination address, `<assetid>` is a hexadecimal Liquid asset ID, `<amt>` is a floating-point amount, and `<feeamt>` is a floating-point amount.
 
-If the asset is not specified, it is assumed by default to be the asset corresponding to Liquid Bitcoin (LBTC). Network fees are currently always automatically paid in LBTC.
+If the asset is not specified, it is assumed by default to be the asset corresponding to Liquid bitcoin (LBTC). Network fees are currently always automatically paid in LBTC.
 
 The output of the command is a JSON object whose attribute `pset` contains the new PSET in base64 format.
 
@@ -287,7 +287,7 @@ In signing applications, the basic syntax is
 
 `hal-simplicity simplicity sighash <pset> <index> <cmr> -x <privkey>`
 
-where `<pset>` is the base64-encoded PSET containing the transaction to be signed, `<index>` is the numeric input index, `<cmr>` is the CMR of the Simplicity program that controls the UTXO, and `privkey` is the hex-encoded private key with which the signature should be made.
+where `<pset>` is the base64-encoded PSET containing the transaction to be signed, `<index>` is the numeric input index, `<cmr>` is the [CMR](../glossary.md#cmr) of the Simplicity program that controls the UTXO, and `privkey` is the hex-encoded private key with which the signature should be made.
 
 The output is a JSON object containing signature details, in which the `signature` attribute contains a signature suitable for inclusion in a Simplicity program's witness data. Note that the version of the signature used in a `.wit` must begin with `0x` before the hexadecimal signature.
 
