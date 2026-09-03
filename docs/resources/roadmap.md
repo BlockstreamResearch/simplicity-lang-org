@@ -15,9 +15,9 @@ SimplicityHL continues to gain additional notation and convenience features. The
 
 ## State management
 
-Simplicity programs can track persistent state via cryptographic commitments. This provides proper support for general covenants that need to keep track of arbitrary history as users interact with them over time. (You can see a brief demonstration of this approach in the <a href="https://youtu.be/ry2wQelP8Kc">December 23, 2025 Office Hours session</a>.) 
+Simplicity programs can track persistent state via cryptographic commitments. This provides proper support for general [covenants](../glossary.md#covenant) that need to keep track of arbitrary history as users interact with them over time. (You can see a brief demonstration of this approach in the <a href="https://youtu.be/ry2wQelP8Kc">December 23, 2025 Office Hours session</a>.)
 
-Documention and sample contracts demonstrating this are forthcoming. Library code is also under development to support maintaining arbitrary quantities of state information (with selective revelation and efficient updates) via a Merkle tree.
+Documention and sample contracts demonstrating this are forthcoming. Library code is also under development to support maintaining arbitrary quantities of state information (with selective revelation and efficient updates) via a [Merkle tree](../glossary.md#merkle-tree).
 
 ## Standard library
 
@@ -45,7 +45,7 @@ In addition to documentation on features mentioned above, significant new and up
 
 ## Simplicity Unchained
 
-For blockchains where a native Simplicity integration isn't present, like the Bitcoin Mainnet, an oracle-based Simplicity interpreter called Simplicity Unchained will offer Simplicity scripting support. The oracle can make statements confirming when contract conditions (expressed in Simplicity programs) have been met and thereby approve transactions permitted by those conditions. This indirectly brings the power and determinism of Simplicity scripting to other chains.
+For blockchains where a native Simplicity integration isn't present, like the Bitcoin Mainnet, an [oracle](../glossary.md#oracle)-based Simplicity interpreter called Simplicity Unchained will offer Simplicity scripting support. The oracle can make statements confirming when contract conditions (expressed in Simplicity programs) have been met and thereby approve transactions permitted by those conditions. This indirectly brings the power and determinism of Simplicity scripting to other chains.
 
 ## Oracle tools
 
