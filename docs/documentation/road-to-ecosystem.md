@@ -3,14 +3,14 @@
 Wide adoption of the Simplicity language in the Liquid ecosystem means that a variety of protocols
 can be built without requiring every wallet to be directly integrated with every protocol.
 
-There could be genuinely useful protocols that enable better saving strategies,
+There could be useful protocols that enable better saving strategies,
 life insurance, payments, lending, options, tokenization, and many other on-chain financial applications.
 At the same time, an open ecosystem also introduces malicious websites and misleading interfaces.
 
-In an open ecosystem, we cannot prevent malicious protocols from appearing
-because we do not control the ecosystem. Someone can always create a contract and misrepresent its
+In an open ecosystem, malicious protocols cannot be prevented from appearing,
+because no single party controls the ecosystem. Someone can always create a contract and misrepresent its
 nature or effects, or even present a malicious contract to a counterparty.
-What we can do is make our best effort to help the user understand what is going on before they sign and pay.
+The best available approach is to help the user understand what is going on before they sign and pay.
 
 This document is built around a simple motto:
 
@@ -18,7 +18,7 @@ This document is built around a simple motto:
 
 ## The Tree
 
-We can think about the motto as the root of a Merkle tree. The root is simple and user-facing. The leaves are technical details.
+The motto can be thought of as the root of a Merkle tree. The root is simple and user-facing. The leaves are technical details.
 
 ```mermaid
 flowchart TD
@@ -62,8 +62,7 @@ flowchart TD
     style Horizontal_Sentence fill:none,stroke:none,color:none;
 ```
 
-The goal is not to define the full tree once and forever.
-The goal is to grow the tree over time.
+The tree grows over time rather than being fixed once and for all.
 
 ## Wallets
 
@@ -135,7 +134,7 @@ show the amounts involved, explain fees, identify the protocol, and describe wha
 
 This becomes especially important for Simplicity contracts.
 
-Simplicity covenants are complex. That is powerful, but it also makes wallet display much harder.
+Simplicity covenants are complex, which makes wallet display much harder.
 A transaction locked behind a Simplicity covenant can encode behavior that is not obvious from the transaction shape alone.
 The wallet needs additional structure to explain what the covenant means, what the user is allowed to do, and what the user is committing to.
 
@@ -178,7 +177,7 @@ Together, these standards describe different parts of the same tree:
         * Liquid Clear Signing Profile
     * Receives a signed transaction only after user approval
 
-The important point is that these are not separate ideas. They are different layers of one user-safety model.
+These standards are not separate ideas; they are different layers of one user-safety model.
 
 The application wants the user to participate in a protocol.
 The wallet wants to protect the user.
@@ -233,7 +232,7 @@ For third-party protocols to work, websites and wallets need a way to communicat
 This is the transport layer.
 
 A protocol website needs to ask the wallet for some action:
-connect an account, construct a transaction, sign a PSET, sign a message, or send funds.
+connect an account, construct a transaction, sign a [PSET](../glossary.md#pset), sign a message, or send funds.
 The wallet needs to receive that request, evaluate it, and show the user what is happening.
 
 By definition, this requires an open API that allows the connection to be established.
@@ -252,7 +251,7 @@ Liquid adds an important complication: confidentiality.
 
 Liquid supports Confidential Transactions.
 Confidentiality means that funds can be transferred without revealing the asset ID and amount to the public blockchain observer.
-Because of this, a wallet should not disclose balances, UTXOs, or view material to a counterparty unless the user has explicitly agreed to that disclosure.
+Because of this, a wallet should not disclose balances, [UTXOs](../glossary.md#utxo), or view material to a counterparty unless the user has explicitly agreed to that disclosure.
 
 The best privacy-preserving path is described by the Wallet ABI approach.
 
@@ -279,7 +278,7 @@ There is also a second use case.
 
 Maybe the user wants to share more information with a website.
 Maybe the application needs balances or UTXOs, and the user explicitly agrees to disclose them.
-In that case, we can adopt the general shape of Bitcoin wallet RPC methods, but adapt them for Liquid.
+In that case, the general shape of Bitcoin wallet RPC methods can be adapted for Liquid.
 
 The [WalletConnect Bitcoin JSON-RPC methods](https://docs.walletconnect.network/wallet-sdk/chain-support/bitcoin) provide
 a useful reference point for wallet-to-application RPC methods in the Bitcoin ecosystem.
@@ -296,7 +295,7 @@ The Liquid profile needs to account for Liquid-specific details:
 
 This approach is useful when the user chooses interoperability and convenience over maximum confidentiality.
 
-The important rule is that disclosure should be explicit.
+Disclosure should be explicit.
 A wallet should not leak wallet-private information merely to make an application easier to build.
 
 ## Clear Signing as the Center
@@ -327,11 +326,11 @@ With clear signing, the wallet becomes an interpreter between complex protocol l
 
 ## Conclusion
 
-We started with a simple motto:
+This document started with a simple motto:
 
 > I understand for what I am paying.
 
-This motto gives us the structure of the ecosystem.
+This motto provides the structure of the ecosystem.
 
 The "I" is represented by the wallet: the user's agent, keeper of funds, balances, keys, and private state.
 
@@ -341,10 +340,10 @@ The "for what" part is represented by third-party protocols: payments, lending, 
 
 The "am paying" part is represented by transaction construction, signing, and broadcast.
 
-To make this work, we need a transport layer that allows websites and wallets to communicate.
-We need wallet APIs that preserve Liquid confidentiality by default.
-We need RPC methods for cases where the user explicitly agrees to disclose wallet information.
-And we need clear signing metadata that lets the wallet explain complex Simplicity contracts to the user.
+Making this work requires a transport layer that allows websites and wallets to communicate,
+wallet APIs that preserve Liquid confidentiality by default,
+RPC methods for cases where the user explicitly agrees to disclose wallet information,
+and clear signing metadata that lets the wallet explain complex Simplicity contracts to the user.
 
 Clear signing is the most ambitious part of this vision.
 It requires more than good UI. It requires standards, registries, validation logic, contract metadata, asset metadata, and wallet implementations that reject what they cannot understand.
