@@ -2,11 +2,11 @@
 
 [Simplicity](../glossary.md#simplicity) is a [smart contract](../glossary.md#smart-contract) language for the [Liquid Network](../glossary.md#liquid) built around [covenants](../glossary.md#covenant): rules that govern exactly how, when, and by whom digital assets move, enforced by the blockchain itself rather than by a counterparty. People are already building programmable [vaults](../glossary.md#vault) with multi-party approval and time-locked withdrawals, atomic swaps, options, and collateralized loans this way: see [use cases](../../use-cases/) for real examples.
 
-This is provided natively on Bitcoin's architecture, enabling sophisticated financial products on top of Bitcoin-like chains.
+This is provided natively on Bitcoin's architecture. It enables sophisticated financial products on top of Bitcoin-like chains.
 
 Two properties matter most for this audience: every program's execution cost is statically bounded and known before a transaction is broadcast (no surprise fees), and the language's formal semantics support machine-checked proofs of contract behavior.
 
-Simplicity supports [vaults](../glossary.md#vault) with multi-party approval workflows, time-locked withdrawals, and complex recovery paths codified directly into the asset; atomic swaps that act as programmable limit orders, with partial fills and dynamic pricing and no settlement risk; and complex derivatives, such as covered call options or collateralized loans, settled directly on-chain without relying on trusted intermediaries or centralized clearinghouses.
+Simplicity supports vaults with multi-party approval workflows, time-locked withdrawals, and complex recovery paths codified directly into the asset; atomic swaps that act as programmable limit orders, with partial fills and dynamic pricing and no settlement risk; and complex derivatives, such as covered call options or collateralized loans, settled directly on-chain without relying on trusted intermediaries or centralized clearinghouses.
 
 ## More integration features and options
 
