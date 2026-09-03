@@ -132,7 +132,7 @@ At a technical level, issuing oracle statements for Simplicity contracts require
 
 SHA256 and BIP0340 should generally be used because they're most compatible with the rest of the ecosystem, and because Simplicity has built-in [jets](../glossary.md#jet) to help verify signatures made with them.
 
-!!! Note
+!!! warning
 
     Operating a public oracle that smart contracts rely on is a serious responsibility, and may expose the operator to attacks meant to steal its keys or induce it to issue false statements. Oracle operators' security and business continuity best practices are beyond the scope of this document.
 
