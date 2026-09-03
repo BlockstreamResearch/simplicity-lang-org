@@ -27,6 +27,7 @@ If you’re unsure it belongs here, it probably does. Submit the PR.
 * **Call out risk.** Use “⚠️” notes for foot‑guns and security pitfalls.
 * **Cite sources** for claims and specs where useful.
 * **Focus on technology, not the author.** Avoid the first person (I, we, our).
+* **Avoid duplication.** Set out facts in the most appropriate place; if relevant elsewhere, link rather than repeating.
 
 ### Formatting
 
