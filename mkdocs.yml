@@ -158,8 +158,8 @@ nav:
           - Oracles: documentation/oracle.md
           - Timelocks: documentation/timelocks.md
       - App Development:
-          - Ecosystem & Wallet Integration: documentation/wallet.md
           - Simplex: documentation/simplex.md
+          - Ecosystem & Wallet Integration: documentation/wallet.md
       - Examples & Use Cases:
           - Use Cases Overview: use-cases/index.md
           - Example Contracts (Basic): https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples
