@@ -21,7 +21,7 @@ Examples developed by Blockstream include
 
 Check out the [SimplicityHL examples](https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples) for other introductory smart contract examples, including [vault](../glossary.md#vault) and [covenant](../glossary.md#covenant) mechanisms.
 
-In addition to options, lending, insurance, and prediction markets, we've envisioned that Simplicity will be used for
+In addition to options, lending, insurance, and prediction markets, Simplicity is expected to support
 
 * Cross-chain atomic swaps
 * Crowdfunding contracts
