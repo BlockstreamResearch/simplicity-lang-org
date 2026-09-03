@@ -1,12 +1,12 @@
 # Covenants and state management
 
-This document describes concepts and features for enforcing complex financial logic in a Simplicity *covenant* that manages assets across a series of multiple transactions.
+This document describes concepts and features for enforcing complex financial logic in a Simplicity [*covenant*](../glossary.md#covenant) that manages assets across a series of multiple transactions.
 
 ## Covenants
 
 Some Simplicity contracts will be "finished" after a single transaction in which some party successfully claims the assets held by the contract. The <a href="https://github.com/BlockstreamResearch/SimplicityHL/blob/master/examples/htlc.simf">Hash Time-Locked Contract</a> is an example where the contract is complete as soon as an authorized party claims its underlying value.
 
-However, a key feature of Simplicity is the ability to implement more complex financial logic by [introspection](../glossary.md#introspection). Introspection allows a [smart contact](../glossary.md#smart-contract) to enforce policies and relationships that last beyond a single transaction. This is usually done by means of [covenants](../glossary.md#covenant), smart contracts that enforce that assets are sent *back to a copy of the same contract*. This allows a contract to "hold onto" assets across a series of transactions, possibly moving some portion of those assets in or out of the contract, or updating the contract's state over time.
+However, a key feature of Simplicity is the ability to implement more complex financial logic by [introspection](../glossary.md#introspection). Introspection allows a [smart contract](../glossary.md#smart-contract) to enforce policies and relationships that last beyond a single transaction. This is usually done by means of [covenants](../glossary.md#covenant), smart contracts that enforce that assets are sent *back to a copy of the same contract*. This allows a contract to "hold onto" assets across a series of transactions, possibly moving some portion of those assets in or out of the contract, or updating the contract's state over time.
 
 ```mermaid
 flowchart LR
@@ -91,7 +91,7 @@ flowchart TD
     A -->|Inheritor signature<br><i>Inherit assets</i><br><b>Only for assets held over 180 days</b>| C((Inheritor's wallet))
 ```
 
-The creator is expected to periodically refresh the contract by sending the contract's assets back to the same contract (via the **hot key**). Importantly, the "hot key" is restricted to authorizing this specific form of transaction: it can *only* authorize sending assets back to the same contract, not to any other destination. (This restriction on the hot key's power, the fact that it can't *remove* assets from the covenant's control, is the part of this example that uses covenant logic.)
+The creator is expected to periodically refresh the contract by sending the contract's assets back to the same contract (via the **hot key**). Importantly, the "hot key" is restricted to authorizing this specific form of transaction: it can only authorize sending assets back to the same contract. (This restriction on the hot key's power, the fact that it can't *remove* assets from the covenant's control, is the part of this example that uses covenant logic.)
 
 The creator's more secure **cold key** isn't needed routinely, but can be used to authorize arbitrary withdrawals if the contract creator no longer wishes to keep certain assets stored inside the contract.
 
@@ -103,7 +103,7 @@ The covenant logic in `last_will.simf` is enforced by ensuring that a specific [
 
 The `last_will.simf` example above is **stateless**: it doesn't require the contract to actively remember anything. UTXOs' age is represented on the blockchain itself, and the contract automatically blocks the inheritor from transferring fresh UTXOs.
 
-The <a href="execution-model">execution environment of a Simplicity program</a> is highly constrained; specifically, a Simplicity program can't perform any kind of input or output or network access, and can't even directly access earlier the contents of earlier transactions on the blockchain.
+The <a href="execution-model">execution environment of a Simplicity program</a> is highly constrained; specifically, a Simplicity program can't perform any kind of input or output or network access, and can't even directly access the contents of earlier transactions on the blockchain.
 
 Still, complex contracts will often need to enforce multiple related transactions and "remember" facts and details over time. For example, they may need to record the existence or size of a debt, or record whether a certain action has already been taken. How can they do so in Simplicity's transaction-based architecture, without being able to save or load anything corresponding to files or database entries?
 
@@ -113,13 +113,13 @@ Effectively, this method generates an address for a program in a way that inhere
 
 This approach provides a way for a contract to maintain state (the values of specific variables) between one transaction and another transaction, enforcing a guarantee that the later transaction has access to the correct values of those variables and that no one has modified them. The contract does so by enforcing that outputs, including address references to versions of the same contract, contain cryptographic references to that state ("save"). A version of the same or a related contract can then enforce in a later transaction that suggested state provided to that new transaction matches up correctly with those cryptographic references ("load").
 
-## Wallets maintain and assert state to contracts; cryptographic commitments confirm it
+## Wallet-side state storage and on-chain verification
 
 This means that the actual state data is not directly stored "inside of" the contract; the contract possesses a reliable way to *verify* state that is provided to it, but that state information is typically physically stored inside of a user's wallet software, and passed back to the contract whenever a new transaction involving the contract is constructed. Web developers may recognize this pattern as akin to digitally signed tokens (such as <a href="https://www.jwt.io/introduction#what-is-json-web-token">JWT</a>) provided by clients to web applications. In the web application setting, the physical storage of the state information can be offloaded to the client, and a digital signature proves that the client didn't modify its contents. The "client" (the wallet or other software that is constructing future transactions) similarly has the responsibility to store and provide the state information back to the contract, under a form of cryptographic authentication preventing modification, although the exact cryptographic details are different from the JWT analogy.
 
 In the Simplicity context, the cryptographic commitment to the state is actually used as part of the contract's on-chain address, so performing a state update will actually mean deriving an updated address for the same contract (or a specifically chosen successor contract), and committing a transaction that forwards assets from the contract's prior address to the updated address. Those forwarded assets' spending conditions are then controlled by the updated version of the contract, which is cryptographically bound to the updated version of the state information.
 
-To reiterate this point: whenever a [covenant](../glossary.md#covenant) performs a state update, it sends assets to a new copy of itself with a *different on-chain address* encoding a reference to the updated state data. A transaction can update state without moving any assets in or out of the contract, merely sending them to the new copy with the new address. Of course, client software meant to interact with the contract must be programmed to observe that this has happened so that new transactions are always performed with the most current updated copy.
+Whenever a [covenant](../glossary.md#covenant) performs a state update, it sends assets to a new copy of itself with a *different on-chain address* encoding a reference to the updated state data. A transaction can update state without moving any assets in or out of the contract, merely sending them to the new copy with the new address. Client software meant to interact with the contract must be programmed to observe that this has happened so that new transactions are always performed with the most current updated copy.
 
 Although wallet software should generally store contract state in order to provide it back to the contract when performing subsequent transactions, this information could be recalculated if necessary by examining blockchain history, because all Simplicity program execution is deterministic and based on public information. Thus, state information isn't generally confidential; locally replaying the evolution of a contract will ordinarily reveal what the expected state for the next transaction should be. (An initial state commitment when a copy of a program receives assets for the first time could require witness values that have not yet been publicly revealed anywhere, much as the code of the program may not have been publicly revealed. Storing state in a Merkle tree also optionally permits the state to be partially revealed as it is actually needed. For example, state of one branch of the program could be stored in one branch of the Merkle tree and state of another branch could be stored in another branch. The program could be designed so that the witness only reveals the part of the state that is actually used.)
 
@@ -282,7 +282,7 @@ This example contract, `third_time.simf`, uses the state management mechanism de
     }
     ```
 
-The use of `jet::ge_8` means that one can update *at least* twice before a withdrawal. If this is replaced by `jet::eq_8`, the contract will enforce *exactly* two updates before a withdrawal.
+The use of `jet::le_64` means that one can update *at least* twice before a withdrawal. If this is replaced by `jet::eq_64`, the contract will enforce *exactly* two updates before a withdrawal.
 
 As described earlier, each of the intermediate transactions will be sent to a **different on-chain address** representing a commitment to the same Simplicity covenant, but with different state. Thus, the `update` transactions in the diagram below each have corresponding distinct destination addresses.
 
@@ -302,7 +302,7 @@ The `update()` function in this example enforces further constraints on outputs,
 
 A real financial application may need to include logic to enforce a variety of further constraints. For example:
 
-* The contract may be designed to deal with a specified [asset](../glossary.md#asset), such as LBTC. Since [Liquid](../glossary.md#liquid) supports a variety of assets, the contract should inspect the assets being transferred to confirm that they always of the expected kinds. In most contexts, payments should not be allowed to be made with arbitrary assets.
+* The contract may be designed to deal with a specified [asset](../glossary.md#asset), such as Liquid bitcoin (LBTC). Since [Liquid](../glossary.md#liquid) supports a variety of assets, the contract should inspect the assets being transferred to confirm that they always of the expected kinds. In most contexts, payments should not be allowed to be made with arbitrary assets.
 <!-- Let's figure out a clearer way to talk about this issue, as we don't have a concrete example relevant to it here, or a description of how this situation can arise:
 * If the same contract controls several different UTXOs, it may need to enforce that *all* relevant value is transferred by certain actions, not just a portion of the value controlled by the contract.
 -->
