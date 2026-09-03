@@ -12,7 +12,7 @@ Simplicity, a new programming language from Blockstream Research, offers a funda
 
 While it operates on different principles, Simplicity's design provides expressiveness and reliability together, letting you build sophisticated smart contracts and be confident in their outcomes.
 
-This guide will help you navigate the key conceptual shifts as you transition into the Simplicity world.
+This guide will help you navigate the key conceptual shifts as you transition into the Simplicity world. (You can also check out [https://medium.com/@Arvolear/evm-vs-simplicity-6b96bd64b987](a blog post by Artem Chystiakov) comparing the two environments and ecosystems.)
 
 ## Key Differences: Simplicity vs. EVM/Solidity
 
