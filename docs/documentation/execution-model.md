@@ -1,6 +1,6 @@
 # On-chain Simplicity execution model
 
-Simplicity is a special-purpose language. It works in the context of the Bitcoin transaction model on Bitcoin-like blockchains. This is sometimes also called the "[UTXO](../glossary.md#utxo) model." If you're already familiar with Bitcoin Script and the role it plays in the logic of Bitcoin transactions, you can think of Simplicity as a more expressive and more analyzable alternative to Bitcoin Script, useful for writing more complex conditions (such as recursive [covenant](../glossary.md#covenant)s that can propagate conditions across multiple subsequent transactions).
+Simplicity is a special-purpose language. It works in the context of the Bitcoin transaction model on Bitcoin-like blockchains. This is sometimes also called the "[UTXO](../glossary.md#utxo) model". If you're already familiar with Bitcoin Script and the role it plays in the logic of Bitcoin transactions, you can think of Simplicity as a more expressive and more analyzable alternative to Bitcoin Script, useful for writing more complex conditions (such as recursive [covenants](../glossary.md#covenant) that can propagate conditions across multiple subsequent transactions).
 
 This document will describe the context in which Simplicity programs run, and what they can and can't do as a result.
 
@@ -24,7 +24,7 @@ The Simplicity program does not initiate or originate the transaction and does n
 
 In Bitcoin and related systems, anyone can propose any transaction at any time; the spending conditions associated with assets, such as those contained in the logic of a Simplicity program, form part of the rules that determine whether or not proposed transactions are valid and hence whether those transactions could eventually be recorded in a block and become part of the blockchain.
 
-So, whenever a [node](../glossary.md#node) examines a transaction involving UTXO controlled by a Simplicity program, the node will run that program to confirm that the program agrees to allow the transaction.
+Whenever a [node](../glossary.md#node) examines a transaction involving UTXO controlled by a Simplicity program, the node will run that program to confirm that the program agrees to allow the transaction.
 
 The information available to the program to use in making that decision consists of
 
@@ -67,7 +67,7 @@ Simplicity is a deterministic functional programming environment. Simplicity pro
 
 Whenever a user proposes a transaction that would spend (consume as input) an existing UTXO to which a Simplicity program is attached, the proposed transaction makes a claim that the Simplicity program authorizes that UTXO to be spent in the indicated context. Nodes then check this claim by running the program. Most, though not all, programs will check cryptographic information derived from the attached witness data, such as whether one or more digital signatures included there are valid.
 
-A Simplicity program can include several alternative paths reflecting different scenarios or outcomes, and different criteria for approving each one. A simple example is a timeout branch, where assets controlled by the program can be refunded to their original senders, but only after a certain amount of time has elapsed. This can serve as an alternative to the originally intended outcome in which a certain transaction is completed by transferring assets elsewhere, preventing assets from being stuck inside the contract if some party fails to perform its role.
+A Simplicity program can include several alternative paths reflecting different scenarios or outcomes, and different criteria for approving each one. A simple example is a timeout branch, where assets controlled by the program can be refunded to their original senders, but only after a certain amount of time has elapsed. This can serve as an alternative to the originally intended outcome in which a certain transaction is completed by transferring assets elsewhere. This prevents assets from being stuck inside the contract if some party fails to perform its role.
 
 ## Why not perform more complex computations in Simplicity?
 
@@ -230,7 +230,7 @@ On the other hand, if the underlying asset being transferred is still controlled
 
 In each of these cases, the appropriate party must actively make a claim by submitting a transaction and substantiating it with a [witness](../glossary.md#witness) that proves all required conditions are met. Until the recipient explicitly creates and submits this claiming transaction, the assets remain controlled by the contract.
 
-It's also worth noting that the contract does not store any kind of state to record whether one or the other paths has already previously been taken. The reason that one path excludes the other is simply that the underlying asset will already have been spent. In this case, the blockchain's transaction validity logic forbids double-spending the same [UTXO](../glossary.md#utxo). Another way of thinking of this is that, after the asset has been claimed from the contract by someone, the contract no longer controls the disposition of that asset, and therefore it is no longer interesting or relevant whether the contract would "agree" to some other transfer. In a certain sense, Simplicity contracts do not "know" what assets they control, but that information is readily available on the blockchain for inspection by software like wallet apps.
+The contract does not store any kind of state to record whether one or the other paths has already previously been taken. The reason that one path excludes the other is simply that the underlying asset will already have been spent. In this case, the blockchain's transaction validity logic forbids double-spending the same [UTXO](../glossary.md#utxo). Another way of thinking of this is that, after the asset has been claimed from the contract by someone, the contract no longer controls the disposition of that asset, and therefore it is no longer interesting or relevant whether the contract would "agree" to some other transfer. In a certain sense, Simplicity contracts do not "know" what assets they control, but that information is readily available on the blockchain for inspection by software like wallet apps.
 
 ??? "Expand for diagram"
     ```mermaid
