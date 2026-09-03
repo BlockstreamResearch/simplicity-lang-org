@@ -1,10 +1,10 @@
 # Simplicity DEX
 
-The underlying code for this project is found in <a href="https://github.com/Blockstream/simplicity-dex">https://github.com/Blockstream/simplicity-dex</a> (other relevant repository links appear below).
+The underlying code for this project is found in the [Simplicity DEX repository](https://github.com/Blockstream/simplicity-dex) (other relevant repository links appear below).
 
 Despite the name, there is no exchange of Token A for Token B in the traditional sense at the core of the Simplicity DEX. It is a **structured product marketplace** that enables users to create and trade options contracts on-chain on the Liquid Network. Similar techniques can extend it to advertise and perform direct, immediate exchange of pairs of assets in a decentralized way without an intermediary; that functionality is planned for future development.
 
-The current protocol facilitates *only* the exchange of "Grantor Tokens" plus a premium in USD for LBTC tokens. Support for other variations will be added in the future.
+The current protocol facilitates *only* the exchange of "Grantor Tokens" plus a premium in USD for Liquid Bitcoin (LBTC) tokens. Support for other variations will be added in the future.
 
 The existing code uses Nostr to publicize the existence of contracts and allow a party to locate a counterparty. This document focuses mainly on the financial logic of the contract rather than the technical mechanisms for representing the contract on Nostr and Liquid.
 
@@ -14,7 +14,7 @@ The existing code uses Nostr to publicize the existence of contracts and allow a
 
 **Put Option**: A financial contract that gives the holder the right, but not the obligation, to *sell* an underlying asset at a specified strike price before or at a specified expiration date.
 
-> **Note**: The underlying smart contract supports both Call and Put options, but the current CLI implementation only supports Call options.
+> **Note**: The underlying [smart contract](../glossary.md#smart-contract) supports both Call and Put options, but the current CLI implementation only supports Call options.
 
 **Grantor Token**: A tradable token received by the maker upon funding an options contract. The Grantor Token represents the right to claim assets at settlement - either the LBTC deposited during exercise (if the option is exercised) or the USDt collateral (if the option expires unexercised). In the current version of the protocol, the maker sells this token along with a premium in USD to a taker in exchange for LBTC.
 
@@ -42,7 +42,7 @@ The core contract of the Simplicity DEX is the Options contract: <https://github
 
 The concept for this contract was proposed in the following whitepaper: <https://blockstream.com/assets/downloads/pdf/options-whitepaper.pdf>
 
-Link to the Simplicity DEX repository: <a href="https://github.com/Blockstream/simplicity-dex">https://github.com/Blockstream/simplicity-dex</a>.
+Link to the [Simplicity DEX repository](https://github.com/Blockstream/simplicity-dex).
 
 ## Financial Incentive
 
@@ -50,7 +50,7 @@ Link to the Simplicity DEX repository: <a href="https://github.com/Blockstream/s
 
 **Taker Profit Condition**: The taker profits when the premium they receive covers any potential losses, while still retaining a guaranteed claim on either LBTC (if the option is exercised) or the USDt collateral (if the option expires unexercised).
 
- ![This graph is a combination of the Long Call by the Maker ("Graph 1") and the Short Call by the Taker ("Graph 3"). Consult Appendix B for more details](/assets/11ad966b-8507-40c2-b29d-0d1e26a6a26a.png " =1457x888")
+ ![This graph is a combination of the Long Call by the Maker ("Graph 1") and the Short Call by the Taker ("Graph 3"). Consult Appendix B for more details](/assets/11ad966b-8507-40c2-b29d-0d1e26a6a26a.png){ width="1457" height="888" }
 
 !!! info "Option Offer Contract"
     The [Option Offer contract](https://github.com/BlockstreamResearch/simplicity-contracts/blob/main/crates/contracts/src/finance/option_offer/source_simf/option_offer.simf) enables depositing two assets (collateral + premium) into a single covenant. A counterparty can then swap their settlement asset for both deposited assets in a single atomic transaction, with amounts enforced by configurable ratios (`collateral_per_contract` and `premium_per_collateral`).
@@ -119,9 +119,9 @@ sequenceDiagram
 ```
 
 
-#### Appendix A — Excalidraw file
+## Appendix A: Excalidraw file
 
-[profit-loss-diagram(2).excalidraw 28916](/assets/9e9ecabd-7792-4970-a69c-28847b5e9c99.false)
+[profit-loss-diagram(2).excalidraw 28916](/assets/9e9ecabd-7792-4970-a69c-28847b5e9c99.excalidraw)
 
 
 ## Appendix B: Mapping to Traditional Options Positions
@@ -130,7 +130,7 @@ The Options contract is flexible enough to create all four standard options posi
 
 However, the current contract configuration forces the premium to be of the collateral type, not in USD.
 
- ![Standard options profit/loss profiles. The X-axis represents the underlying asset price, and the Y-axis represents profit/loss. The strike price is marked as X, and the breakeven point accounts for the option premium.](/assets/387b82dc-e7ad-4f00-99bb-50a066714ef2.jpg " =510x323")
+ ![Standard options profit/loss profiles. The X-axis represents the underlying asset price, and the Y-axis represents profit/loss. The strike price is marked as X, and the breakeven point accounts for the option premium.](/assets/387b82dc-e7ad-4f00-99bb-50a066714ef2.jpg){ width="510" height="323" }
 
 ### The Two Determining Factors
 
