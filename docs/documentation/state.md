@@ -4,7 +4,7 @@ This document describes concepts and features for enforcing complex financial lo
 
 ## Covenants
 
-Some Simplicity contracts will be "finished" after a single transaction in which some party successfully claims the assets held by the contract. The <a href="https://github.com/BlockstreamResearch/SimplicityHL/blob/master/examples/htlc.simf">Hash Time-Locked Contract</a> is an example where the contract is complete as soon as an authorized party claims its underlying value.
+Some Simplicity contracts will be "finished" after a single transaction in which some party successfully claims the assets held by the contract. The [Hash Time-Locked Contract](https://github.com/BlockstreamResearch/SimplicityHL/blob/master/examples/htlc.simf) is an example where the contract is complete as soon as an authorized party claims its underlying value.
 
 However, a key feature of Simplicity is the ability to implement more complex financial logic by [introspection](../glossary.md#introspection). Introspection allows a [smart contract](../glossary.md#smart-contract) to enforce policies and relationships that last beyond a single transaction. This is usually done by means of [covenants](../glossary.md#covenant), smart contracts that enforce that assets are sent *back to a copy of the same contract*. This allows a contract to "hold onto" assets across a series of transactions, possibly moving some portion of those assets in or out of the contract, or updating the contract's state over time.
 
@@ -24,7 +24,7 @@ flowchart LR
 
 In Simplicity, most complex and long-term financial relationships among multiple parties will be modeled as covenants.
 
-A simple example is provided in <a href="https://github.com/BlockstreamResearch/SimplicityHL/blob/master/examples/last_will.simf">`last_will.simf`</a>.
+A simple example is provided in [`last_will.simf`](https://github.com/BlockstreamResearch/SimplicityHL/blob/master/examples/last_will.simf).
 
 ???+ "Click to hide source code"
     ```rust
@@ -103,7 +103,7 @@ The covenant logic in `last_will.simf` is enforced by ensuring that a specific [
 
 The `last_will.simf` example above is **stateless**: it doesn't require the contract to actively remember anything. UTXOs' age is represented on the blockchain itself, and the contract automatically blocks the inheritor from transferring fresh UTXOs.
 
-The <a href="execution-model">execution environment of a Simplicity program</a> is highly constrained; specifically, a Simplicity program can't perform any kind of input or output or network access, and can't even directly access the contents of earlier transactions on the blockchain.
+The [execution environment of a Simplicity program](execution-model.md) is highly constrained; specifically, a Simplicity program can't perform any kind of input or output or network access, and can't even directly access the contents of earlier transactions on the blockchain.
 
 Still, complex contracts will often need to enforce multiple related transactions and "remember" facts and details over time. For example, they may need to record the existence or size of a debt, or record whether a certain action has already been taken. How can they do so in Simplicity's transaction-based architecture, without being able to save or load anything corresponding to files or database entries?
 
@@ -115,7 +115,7 @@ This approach provides a way for a contract to maintain state (the values of spe
 
 ## Wallet-side state storage and on-chain verification
 
-This means that the actual state data is not directly stored "inside of" the contract; the contract possesses a reliable way to *verify* state that is provided to it, but that state information is typically physically stored inside of a user's wallet software, and passed back to the contract whenever a new transaction involving the contract is constructed. Web developers may recognize this pattern as akin to digitally signed tokens (such as <a href="https://www.jwt.io/introduction#what-is-json-web-token">JWT</a>) provided by clients to web applications. In the web application setting, the physical storage of the state information can be offloaded to the client, and a digital signature proves that the client didn't modify its contents. The "client" (the wallet or other software that is constructing future transactions) similarly has the responsibility to store and provide the state information back to the contract, under a form of cryptographic authentication preventing modification, although the exact cryptographic details are different from the JWT analogy.
+This means that the actual state data is not directly stored "inside of" the contract; the contract possesses a reliable way to *verify* state that is provided to it, but that state information is typically physically stored inside of a user's wallet software, and passed back to the contract whenever a new transaction involving the contract is constructed. Web developers may recognize this pattern as akin to digitally signed tokens (such as [JWT](https://www.jwt.io/introduction#what-is-json-web-token)) provided by clients to web applications. In the web application setting, the physical storage of the state information can be offloaded to the client, and a digital signature proves that the client didn't modify its contents. The "client" (the wallet or other software that is constructing future transactions) similarly has the responsibility to store and provide the state information back to the contract, under a form of cryptographic authentication preventing modification, although the exact cryptographic details are different from the JWT analogy.
 
 In the Simplicity context, the cryptographic commitment to the state is actually used as part of the contract's on-chain address, so performing a state update will actually mean deriving an updated address for the same contract (or a specifically chosen successor contract), and committing a transaction that forwards assets from the contract's prior address to the updated address. Those forwarded assets' spending conditions are then controlled by the updated version of the contract, which is cryptographically bound to the updated version of the state information.
 
@@ -127,11 +127,11 @@ Although wallet software should generally store contract state in order to provi
 
 The modified address is calculated by storing a 256-bit state value in [Taproot](../glossary.md#taproot) alongside a commitment to the Simplicity program's code. Sample code to assert that input state is consistent with the program's address ("load"), and to assert that an output address is consistent with a commitment to a specific updated state value ("store") appears below. The `hal-simplicity simplicity pset update-input` command has also been updated with a `-s` flag that provides an input state value to the program; a copy should also be provided in the witness as `witness::STATE`.
 
-The Rust version of this logic is found in <a href="https://github.com/BlockstreamResearch/simplicity-contracts/tree/main/crates/contracts/src/state_management/bytes32_tr_storage">`state_management/bytes32_tr_storage`</a>, including Rust code to build witnesses and transactions. This shows how a wallet can actually track and provide state back to the contract in a subsequent transaction.
+The Rust version of this logic is found in [`state_management/bytes32_tr_storage`](https://github.com/BlockstreamResearch/simplicity-contracts/tree/main/crates/contracts/src/state_management/bytes32_tr_storage), including Rust code to build witnesses and transactions. This shows how a wallet can actually track and provide state back to the contract in a subsequent transaction.
 
 Currently, this allows a program, if structured as a [covenant](../glossary.md#covenant), to pass itself state updates across subsequent transactions. The state information is always represented as a single uninterpreted `u256` integer value. This is conveniently the size of the output of a SHA256 hash, so a program can choose to interpret this value as a SHA256 hash of specified data items that are provided in a [witness](../glossary.md#witness), in a specific order. The program can then commit to specific values of these chosen data items between one transaction and the next. A more elegant approach would be interpreting this `u256` value as a reference to the root of a [Merkle tree](../glossary.md#merkle-tree).
 
-A discussion and demonstration of this approach took place in <a href="https://youtu.be/ry2wQelP8Kc">the December 23, 2025 Simplicity Office Hours session</a>.
+A discussion and demonstration of this approach took place in [the December 23, 2025 Simplicity Office Hours session](https://youtu.be/ry2wQelP8Kc).
 
 ## Example with integer counter
 

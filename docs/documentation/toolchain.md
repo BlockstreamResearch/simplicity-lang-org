@@ -138,7 +138,7 @@ The output is a JSON object which contains some of the following fields (most of
 
 * `liquid_address_unconf`: the [Liquid](../glossary.md#liquid) on-chain address of the program, in unconfidential format
 
-* `liquid_testnet_address_unconf`: the [Liquid](../glossary.md#liquid) Testnet on-chain address of the program, in unconfidential format
+* `liquid_testnet_address_unconf`: the [Liquid](../glossary.md#liquid) testnet on-chain address of the program, in unconfidential format
 
 * `is_redeem`: whether a witness was provided (for redeem-time) or not (for commit-time)
 

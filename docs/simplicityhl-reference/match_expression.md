@@ -96,7 +96,7 @@ let unwrap_or_default: u32 = match Some(Left(42)) {
 ## Enum matching
 
 Since SimplicityHL 0.7.0 (compiling with `-Z enums`), you can match on all values of an `enum` type.
-This is useful for *actions* at the top level of a contract's `main()` function. Matching an `enum` lets a witness choose from among several predefined actions.
+This is useful for *actions* at the top level of a contract's `main()` function. Matching an `enum` lets a [witness](../glossary.md#witness) choose from among several predefined actions.
 
 ```rust
 enum Action {

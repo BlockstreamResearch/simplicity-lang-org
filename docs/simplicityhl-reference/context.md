@@ -42,7 +42,7 @@ For any C
 
 ## Right constructor
 
-If Γ ⊩ `c`: c
+If Γ ⊩ `c`: C
 
 Then Γ ⊩ `Right(c)`: B + C
 

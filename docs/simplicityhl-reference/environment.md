@@ -2,7 +2,7 @@
 
 An environment Ξ maps variable names to Simplicity expressions.
 
-All expressions inside an environment share the same source type A. We say the environment is "from type A".
+All expressions inside an environment share the same source type A; the environment is said to be "from type A".
 
 ```text
 Ξ =
@@ -12,17 +12,17 @@ All expressions inside an environment share the same source type A. We say the e
 ]
 ```
 
-We use environments to translate variables inside SimplicityHL expressions to Simplicity.
+Environments translate variables inside SimplicityHL expressions to Simplicity.
 
-The environment tells us the Simplicity expression that returns the value of each variable.
+The environment gives the Simplicity expression that returns the value of each variable.
 
-We translate a SimplicityHL program "top to bottom". Each time a variable is defined, we update the environment to reflect this change.
+A SimplicityHL program is translated "top to bottom". Each time a variable is defined, the environment is updated to reflect this change.
 
-During the translation, we can ignore the source type of Simplicity expressions (translated SimplicityHL expressions) entirely. We can focus on producing a Simplicity value of the expected target type. Environments ensure that we get input values for each variable that is in scope.
+During the translation, the source type of Simplicity expressions (translated SimplicityHL expressions) can be ignored entirely. Translation focuses on producing a Simplicity value of the expected target type. Environments ensure that input values are available for each variable that is in scope.
 
 Target types are handled by contexts.
 
-We obtain context Ctx(Ξ) from environment Ξ by mapping each variable `x` from Ξ to the target type of Ξ(`x`):
+Context Ctx(Ξ) is obtained from environment Ξ by mapping each variable `x` from Ξ to the target type of Ξ(`x`):
 
 Ctx(Ξ)(`x`) = B if Ξ(`x`) = a: A → B
 
@@ -33,13 +33,13 @@ Patterns occur in let statements `let p := s`.
 
 Pattern `p` binds the output of SimplicityHL expression `s` to variables.
 
-As we translate `s` to Simplicity, we need an environment that maps the variables from `p` to Simplicity expressions.
+Translating `s` to Simplicity requires an environment that maps the variables from `p` to Simplicity expressions.
 
 If `p` is just a variable `p = a`, then the environment is simply [`a` ↦ iden: A → A].
 
 If `p` is a product of two variables `p = (a, b)`, then the environment is [`a` ↦ take iden: A × B → A, `b` ↦ drop iden: A × B → B].
 
-"take" and "drop" are added as we go deeper in the product hierarchy. The pattern `_` is ignored.
+"take" and "drop" are added when going deeper in the product hierarchy. The pattern `_` is ignored.
 
 PEnv'(t: A → B, `v`) := [`v` ↦ t]
 
@@ -57,11 +57,11 @@ Ctx(PEnv(A, `p`)) = PCtx(A, `p`)
 
 ## Product
 
-We write Product(ΞA, ΞB) to denote the **product** of environment ΞA from A and environment ΞB from B.
+Product(ΞA, ΞB) denotes the **product** of environment ΞA from A and environment ΞB from B.
 
 The product is an environment from type A × B.
 
-When two Simplicity expressions with environments are joined using the "pair" combinator, then the product of both environments gives us updated bindings for all variables.
+When two Simplicity expressions with environments are joined using the "pair" combinator, the product of both environments gives updated bindings for all variables.
 
 If the same variable is bound in both environments, then the binding from the first environment is taken.
 

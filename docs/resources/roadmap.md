@@ -1,6 +1,6 @@
 # Simplicity Roadmap
 
-For announcements on progress on this and other Simplicity and SimplicityHL work, you can join the <a href="https://t.me/simplicity_community">Simplicity Community Telegram group</a>.
+For announcements on progress on this and other Simplicity and SimplicityHL work, you can join the [Simplicity Community Telegram group](https://t.me/simplicity_community).
 
 ## Upcoming SimplicityHL features
 
@@ -15,7 +15,7 @@ SimplicityHL continues to gain additional notation and convenience features. The
 
 ## State management
 
-Simplicity programs can track persistent state via cryptographic commitments. This provides proper support for general [covenants](../glossary.md#covenant) that need to keep track of arbitrary history as users interact with them over time. (You can see a brief demonstration of this approach in the <a href="https://youtu.be/ry2wQelP8Kc">December 23, 2025 Office Hours session</a>.)
+Simplicity programs can track persistent state via cryptographic commitments. This provides proper support for general [covenants](../glossary.md#covenant) that need to keep track of arbitrary history as users interact with them over time. (You can see a brief demonstration of this approach in the [December 23, 2025 Office Hours session](https://youtu.be/ry2wQelP8Kc).)
 
 Documention and sample contracts demonstrating this are forthcoming. Library code is also under development to support maintaining arbitrary quantities of state information (with selective revelation and efficient updates) via a [Merkle tree](../glossary.md#merkle-tree).
 
@@ -25,7 +25,7 @@ A standard library for SimplicityHL is [under development](https://github.com/Bl
 
 ## Developer tool improvements
 
-Improvements are planned to various developer tools, including the existing <a href="https://github.com/distributed-lab/simplicityhl-lsp">language server</a> for VSCode integration, and the `hal-simplicity` command-line tool.
+Improvements are planned to various developer tools, including the existing [language server](https://github.com/distributed-lab/simplicityhl-lsp) for VSCode integration, and the `hal-simplicity` command-line tool.
 
 ## Type-based SimplicityHL
 
@@ -33,11 +33,11 @@ A future version of SimplicityHL using type theory foundations is in preparation
 
 ## Mutinynet integration
 
-An integration of Simplicity in <a href="https://github.com/MutinyWallet/mutiny-net">Mutinynet</a>, a signet (test network) that remains architecturally closer to Bitcoin Core, is in progress. This will demonstrate the potential for development with Simplicity on a Bitcoin-like chain without Elements extensions.
+An integration of Simplicity in [Mutinynet](https://github.com/MutinyWallet/mutiny-net), a signet (test network) that remains architecturally closer to Bitcoin Core, is in progress. This will demonstrate the potential for development with Simplicity on a Bitcoin-like chain without Elements extensions.
 
 ## AMP and LWK integrations
 
-Integrations of Simplicity with <a href="https://blockstream.com/amp/">AMP</a> and <a href="https://github.com/Blockstream/lwk">LWK</a> are underway, in order to offer financial application developers more power when building on Liquid Network.
+Integrations of Simplicity with [AMP](https://blockstream.com/amp/) and [LWK](https://github.com/Blockstream/lwk) are underway, in order to offer financial application developers more power when building on Liquid Network.
 
 ## Documentation updates
 

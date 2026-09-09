@@ -226,4 +226,4 @@ let auth: Either<Signature, (Pubkey, u32)> = witness::SIGNATURE_OR_PUBKEY_AND_AM
 
 ## More built-in types
  
-Domain-specific [alias types](../../simplicityhl-reference/type_alias) are available for clarity, including, among others, `Pubkey`, `Signature`, and the four [timelock](../glossary.md#timelock) types `Distance`, `Duration`, `Height`, and `Time`. These names are capitalized in SimplicityHL signatures, and their parameter requirements are detailed in [the jet documentation](../jets).
+Domain-specific [alias types](../../simplicityhl-reference/type_alias.md) are available for clarity, including, among others, `Pubkey`, `Signature`, and the four [timelock](../glossary.md#timelock) types `Distance`, `Duration`, `Height`, and `Time`. These names are capitalized in SimplicityHL signatures, and their parameter requirements are detailed in [the jet documentation](../jets.md).

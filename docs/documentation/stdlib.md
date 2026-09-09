@@ -3,11 +3,11 @@
 
 The SimplicityHL standard library provides various functions useful in developing smart contracts.
 
-Here is a complete list of the available library functions, their <a href="../../simplicityhl-reference/type/">type signatures</a>, and a description of what they do.
+Here is a complete list of the available library functions, their [type signatures](../../simplicityhl-reference/type/), and a description of what they do.
 
 Some library functions can fail or panic. This allows a Simplicity program to refuse a proposed transaction by performing a mandatory assertion; these functions' return type is `()` below. The failure or panic effect produced by these functions, or the corresponding behavior of jets, is ultimately the *only* way to decline a transaction.
 
-For more built-in SimplicityHL functions, see the [jets reference](../../documentation/jets).
+For more built-in SimplicityHL functions, see the [jets reference](jets.md).
 
 
 ## Asserts

@@ -4,25 +4,21 @@
 
 No, the "simplicity" refers to its foundational design and formal semantics, not its expressiveness.
 
-- Bitcoin Script is deliberately limited; Simplicity is finitarily complete → it can program any finite computation.
+- Bitcoin Script is deliberately limited; Simplicity is finitarily complete, meaning it can program any finite computation.
 
 - Complex off-chain (even Turing-complete) computations can be verified on-chain with Simplicity.
 
 ## Is Simplicity Turing-complete like EVM?
 
-No, and that’s a feature!
+No. Non-Turing-completeness is a deliberate design choice.
 
-- **Predictable Resource Costs:** No “out of gas” issues; costs are known at compile-time.
-
-- **Guaranteed Termination:** No unbounded loops/recursion → all programs halt.
-
-- **Enhanced Verifiability:** Programs are analyzable, enabling formal reasoning.
+Costs are known at compile time, so there are no "out of gas" failures. Programs contain no unbounded loops or recursion, so every program halts. Programs are also analyzable; this property supports formal reasoning about program behavior.
 
 ## How does Simplicity handle state? Does it have global state like Ethereum?
 
-Simplicity has no global state. It is a purely functional language: each program is just a function mapping inputs → outputs.
+Simplicity has no global state. It is a purely functional language: each program is just a function that maps inputs to outputs.
 
-Contracts run within the Bitcoin UTXO model:
+Contracts run within the Bitcoin [UTXO](../glossary.md#utxo) model:
 
 1. Contracts are small programs attached to UTXOs that guard the associated coins.
 
@@ -62,7 +58,7 @@ Benefits:
 
 ## How does Simplicity exist alongside Bitcoin script?
 
-With Taproot’s versioned leaves, a single Taproot output can include both standard Script/Miniscript leaves and a Simplicity leaf. This allows mixing policies: simple paths can remain in Script while advanced paths use Simplicity, preserving flexibility and privacy under one Taptree.
+With [Taproot](../glossary.md#taproot)'s versioned leaves, a single Taproot output can include both standard Script/Miniscript leaves and a Simplicity leaf. This allows mixing policies: simple paths can remain in Script while advanced paths use Simplicity, preserving flexibility and privacy under one Taptree.
 
 ## How do I track the value of a Simplicity contract with partial payouts when different strike prices are being matched?
 

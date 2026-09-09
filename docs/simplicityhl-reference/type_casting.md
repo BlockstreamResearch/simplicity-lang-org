@@ -76,5 +76,5 @@ The programmer needs to supply this information by annotating the cast with its 
 let x: u32 = <(u16, u16)>::into((0, 1));
 ```
 
-In the above example, we cast the tuple `(0, 1)` of type `(u16, u16)` into type `u32`.
-Feel free to consult the table above to verify that this is a valid cast.
+In the above example, the tuple `(0, 1)` of type `(u16, u16)` is cast into type `u32`.
+Consult the table above to verify this is a valid cast.

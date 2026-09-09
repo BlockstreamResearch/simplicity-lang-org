@@ -19,7 +19,7 @@ SimplicityHL programmers have to handle long tuples of unlabeled data, which can
 To help with the situation, programmers can define custom type aliases.
 Aliases define a new name for an existing type.
 In contrast, `struct`s define an entirely new type, so aliases are different from `struct`s.
-However, aliases still help us to make the code more readable.
+However, aliases still make the code more readable.
 
 ```rust
 type User = (bool, u256, u64);

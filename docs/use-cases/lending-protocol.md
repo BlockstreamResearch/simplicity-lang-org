@@ -241,7 +241,7 @@ To monitor all active orders, an indexer scans the blockchain to identify transa
 An indexer recognizes Pre-lock initialization transactions by matching them against a specific transaction template:
 
 - The transaction must contain a minimum of 5 inputs and 6 outputs.
-- The transaction must include an `OP_RETURN` output containing a valid <a href="https://en.bitcoin.it/wiki/BIP_0340">BIP340</a> public key.
+- The transaction must include an `OP_RETURN` output containing a valid [BIP340](https://en.bitcoin.it/wiki/BIP_0340) public key.
 - The first and second inputs must contain Parameter UTXOs, where the encoded amounts match the bit-packed lending protocol structure.
 
 If a transaction meets the criteria above, the indexer performs a verification:

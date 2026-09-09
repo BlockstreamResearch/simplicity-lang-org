@@ -24,13 +24,13 @@ Some jets allow a Simplicity program to refuse a proposed transaction by perform
 
 * For example, `jet::bip_0340_verify` checks a digital signature and refuses the transaction if the signature cannot be verified.
 
-Jets also provide information about the currently proposed transaction, enabling [introspection](../glossary.md#introspection) of its inputs and outputs.
+Jets also provide [introspection](../glossary.md#introspection) of the currently proposed transaction's inputs and outputs.
 
 * For example, `jet::output_script_hash` provides the cryptographic identity of the program that controls a specified output of the proposed transaction. This can be used to require that assets are sent back to a copy of a specific [program](../glossary.md#program) (a [covenant](../glossary.md#covenant)).
 
 ## Jet list
 
-Here is a complete list of the available jets in the Elements Simplicity integration available on Liquid Network, their <a href="../../simplicityhl-reference/type/">type signatures</a>, and a description of what they do.
+Here is a complete list of the available jets in the Elements Simplicity integration on Liquid Network, their [type signatures](../../simplicityhl-reference/type/), and a description of what they do.
 """.format(sys.argv[1], datetime.datetime.now().date().isoformat())
 
 print(preamble)

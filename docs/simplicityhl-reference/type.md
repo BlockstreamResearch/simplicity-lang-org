@@ -51,7 +51,7 @@ It is mostly used as the return type of functions that don't return anything.
 
 Singletons `(a0,)` must be written with an extra comma `,` to differentiate them from function calls.
 
-Bigger tuples `(a0, b0, …)` work like in pretty much any other programming language.
+Bigger tuples `(a0, b0, …)` work like in most other programming languages.
 Each tuple type `(A1, A2, …, AN)` defines a sequence `A1`, `A2`, …, `AN` of types.
 Values of that type must mirror the sequence of types:
 A tuple value `(a1, a2, …, aN)` consists of a sequence `a1`, `a2`, …, `aN` of values, where `a1` is of type `A1`, `a2` is of type `A2`, and so on.
@@ -75,7 +75,7 @@ Tuples are always finite in length.
 
 The empty array `[]` is basically useless, but is included for completeness.
 
-Arrays `[a0, …, aN]` work like in pretty much any other programming language.
+Arrays `[a0, …, aN]` work like in most other programming languages.
 Each array type `[A; N]` defines an element type `A` and a length `N`.
 An array value `[a0, …, aN]` of that type consists of `N` many elements `a0`, …, `aN` that are each of type `A`.
 Arrays are always of finite length.
@@ -119,7 +119,7 @@ The bound 1 is not supported, because it would only allow empty lists, which is 
 
 On the blockchain, you pay for every byte that you use.
 If you use an array, then you pay for every single element.
-For example, values of type `[u8; 512]` cost roughly as much as 512 many `u8` values.
+For example, values of type `[u8; 512]` cost roughly as much as 512 individual `u8` values.
 However, if you use a list, then you only pay for the elements that you actually use.
 For example, the type `List<u8, 512>` allows for up to 511 elements.
 If you only use three elements `list![1, 2, 3]`, then you pay for exactly three elements.

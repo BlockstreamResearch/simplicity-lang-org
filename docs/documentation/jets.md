@@ -13,13 +13,13 @@ Some jets allow a Simplicity program to refuse a proposed transaction by perform
 
 * For example, `jet::bip_0340_verify` checks a digital signature and refuses the transaction if the signature cannot be verified.
 
-Jets also provide information about the currently proposed transaction, enabling [introspection](../glossary.md#introspection) of its inputs and outputs.
+Jets also provide [introspection](../glossary.md#introspection) of the currently proposed transaction's inputs and outputs.
 
 * For example, `jet::output_script_hash` provides the cryptographic identity of the program that controls a specified output of the proposed transaction. This can be used to require that assets are sent back to a copy of a specific [program](../glossary.md#program) (a [covenant](../glossary.md#covenant)).
 
 ## Jet list
 
-Here is a complete list of the available jets in the Elements Simplicity integration available on Liquid Network, their <a href="../../simplicityhl-reference/type/">type signatures</a>, and a description of what they do.
+Here is a complete list of the available jets in the Elements Simplicity integration on Liquid Network, their [type signatures](../../simplicityhl-reference/type/), and a description of what they do.
 
 
 ### Multi-bit logic
@@ -390,7 +390,7 @@ Here is a complete list of the available jets in the Elements Simplicity integra
     | `gej_double(Gej) -> Gej` | Double a point. If the result is the point at infinity, it is returned in canonical form. |
     | `gej_equiv(Gej, Gej) -> bool` | Check if two points represent the same point. |
     | `gej_ge_add(Gej, Ge) -> Gej` | Add two points. If the result is the point at infinity, it is returned in canonical form. |
-    | `gej_ge_add_ex(Gej, Ge) -> (Fe, Gej)` | Add two points. Also return the ration of the `a`s z-coordinate and the result's z-coordinate. If the result is the point at infinity, it is returned in canonical form. |
+    | `gej_ge_add_ex(Gej, Ge) -> (Fe, Gej)` | Add two points. Also return the ratio of `a`'s z-coordinate and the result's z-coordinate. If the result is the point at infinity, it is returned in canonical form. |
     | `gej_ge_equiv(Gej, Ge) -> bool` | Check if two points represent the same point. |
     | `gej_infinity() -> Gej` | Return the canonical representation of the point at infinity. |
     | `gej_is_infinity(Gej) -> bool` | Check if the point represents infinity. |
@@ -414,9 +414,9 @@ Here is a complete list of the available jets in the Elements Simplicity integra
     | `scalar_normalize(Scalar) -> Scalar` | Return the canonical representation of the scalar. |
     | `scalar_square(Scalar) -> Scalar` | Square a scalar. |
     | `scale(Scalar, Gej) -> Gej` | Multiply a point by a scalar. |
-    | `swu(Fe) -> Ge` | Algebraically distribute a field element over the secp256k1 curve as defined in 'Indifferentiable Hashing to Barreto-Naehrig Curves' by Pierre-Alain Fouque, Mehdi Tibouchi (https://inria.hal.science/hal-01094321/file/FT12.pdf).<br><br>While this by itself is not a cryptographic hash function, it can be used as a subroutine in a `hash_to_curve` function. However, the distribution only approaches uniformity when it is called twice. |
+    | `swu(Fe) -> Ge` | Algebraically distribute a field element over the secp256k1 curve as defined in ["Indifferentiable Hashing to Barreto-Naehrig Curves"](https://inria.hal.science/hal-01094321/file/FT12.pdf) by Pierre-Alain Fouque and Mehdi Tibouchi.<br><br>While this by itself is not a cryptographic hash function, it can be used as a subroutine in a `hash_to_curve` function. However, the distribution only approaches uniformity when it is called twice. |
 
-### Digital Signatures
+### Digital signatures
 
 
 
@@ -507,7 +507,7 @@ Here is a complete list of the available jets in the Elements Simplicity integra
     | `issuance_asset(u32) -> Option<Option<ExplicitAsset>>` | Return the ID of the issued asset of the input at the given index:<br>- Return `Some(Some(x))` if the input has issuance with asset id `x`.<br>- Return `Some(None)` if the input has no issuance.<br>- Return `None` if the input does not exist. |
     | `issuance_entropy(u32) -> Option<Option<u256>>` | Return the issuance entropy of the input at the given index:<br>- Return `Some(Some(x))` if the input has reissuance with entropy `x` or if there is new issuance whose computed entropy is `x`.<br>- Return `Some(None)` if the input has no issuance.<br>- Return `None` if the input does not exist. |
     | `issuance_token(u32) -> Option<Option<ExplicitAsset>>` | Return the reissuance token of the input at the given index:<br>- Return `Some(Some(x))` if the input has issuance with the reissuance token ID `x`.<br>- Return `Some(None)` if the input has no issuance.<br>- Return `None` if the input does not exist. |
-    | `lbtc_asset() -> u256` | Return the asset for Liquid Bitcoin. |
+    | `lbtc_asset() -> u256` | Return the asset for Liquid bitcoin. |
 
 ### Transaction
 
@@ -597,4 +597,4 @@ The list of jets is fixed when Simplicity is integrated with a specific blockcha
 
 Calling jets, where available, makes your Simplicity program smaller and faster.
 
-A few jets <a href="https://delvingbitcoin.org/t/delving-simplicity-part-two-side-effects/2091">provide behaviors that could not be achieved directly with low-level Simplicity combinators alone</a>, such as transaction introspection. Jets that can fail (those whose return type is `()`) are the expected and only way for a Simplicity program to disapprove a proposed transaction.
+A few jets [provide behaviors that could not be achieved directly with low-level Simplicity combinators alone](https://delvingbitcoin.org/t/delving-simplicity-part-two-side-effects/2091), such as transaction introspection. Jets that can fail (those whose return type is `()`) are the expected and only way for a Simplicity program to disapprove a proposed transaction.

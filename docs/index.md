@@ -21,10 +21,28 @@ Simplicity has been running in production on [Liquid mainnet since July 2025](ne
   Every program has a statically bounded cost, known before you fund a transaction — no surprise fees, no out-of-gas failures.
 
 - ### :material-source-branch: Introspection and covenants
-  Programs can inspect the proposed transaction's inputs and outputs, enabling [covenants](glossary.md#covenant) that enforce multi-step spending policies directly on-chain.
+  Programs can inspect the proposed transaction's inputs and outputs, enabling [covenants](glossary.md#covenant) that enforce multi-step spending policies directly on-chain. On Liquid, this extends to bound assets and amounts, alongside confidentiality at the transaction layer.
 
 - ### :material-shield-check: A narrower attack surface
   No loops, no unbounded recursion, fully deterministic evaluation. Broad classes of runtime failure are eliminated by construction.
+
+</div>
+
+## Simplicity examples
+
+<div class="grid cards" markdown>
+
+- ### :material-lock-clock: Hash time-locked contracts (HTLCs)
+  The building block for payment channels and atomic swaps. Lock funds until a secret is revealed or a timeout is reached, enabling trustless, cross-chain exchanges and Layer 2 protocols like the Lightning Network.
+
+- ### :material-swap-horizontal-bold: Trustless atomic swaps
+  Execute peer-to-peer trades of different assets across blockchains without settlement risk. Simplicity ensures that either both parties receive their assets or the trade is atomically reverted.
+
+- ### :material-chart-line: Covered call options
+  Write and settle derivatives contracts directly on-chain. A seller can lock collateral to issue a call option, which a buyer can exercise at a predetermined strike price before an expiry date, all enforced by the Simplicity program.
+
+- ### :material-cash-lock: Collateralized loans
+  Lock collateral in a Simplicity contract to borrow assets. The program guarantees that the lender can claim the collateral if the borrower defaults, or that the borrower can reclaim it upon repayment, all without a trusted intermediary.
 
 </div>
 
@@ -54,16 +72,16 @@ fn checksig(pk: Pubkey, sig: Signature) {
 
 fn complete_spend(preimage: u256, recipient_sig: Signature) {
     let hash: u256 = sha2(preimage);
-    let expected_hash: u256 = 0x66687aadf862bd776c8fc18b8e9f8e20089714856ee233b3902a591d0d5f2925;
+    let expected_hash: u256 = 0x66687aadf862bd776c8fc18b8e9f8e20089714856ee233b3902a591d0d5f2925;// (2)!
     assert!(jet::eq_256(hash, expected_hash));
-    let recipient_pk: Pubkey = 0x79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798;
+    let recipient_pk: Pubkey = 0x79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798;// (3)!
     checksig(recipient_pk, recipient_sig);
 }
 
 fn cancel_spend(sender_sig: Signature) {
     let timeout: Height = 1000;
     jet::check_lock_height(timeout);
-    let sender_pk: Pubkey = 0xc6047f9441ed7d6d3045406e95c07cd85c778e4b8cef3ca7abac09b95c709ee5;
+    let sender_pk: Pubkey = 0xc6047f9441ed7d6d3045406e95c07cd85c778e4b8cef3ca7abac09b95c709ee5;// (4)!
     checksig(sender_pk, sender_sig)
 }
 
@@ -75,5 +93,13 @@ fn main() {
         },
         Right(sender_sig: Signature) => cancel_spend(sender_sig),
     }
-}
+}// (1)!
 ```
+
+1.  This compiles to Simplicity ready for on-chain execution. More involved scripts can execute [reverse Dutch auctions](https://delvingbitcoin.org/t/writing-simplicity-programs-with-simplicityhl/1900).
+
+2.  `sha2([0x00; 32])`
+
+3.  `1 * G`
+
+4. `2 * G`

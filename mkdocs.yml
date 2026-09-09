@@ -4,6 +4,7 @@ site_description: A typed, combinator-based, smart contract language for Bitcoin
 plugins:
   - search:
   - git-revision-date-localized:
+  - llms-source:
   - blog:
       blog_dir: news
   - git-committers:
