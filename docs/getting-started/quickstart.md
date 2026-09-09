@@ -157,13 +157,13 @@ Please choose your preferred language environment immediately below.
 
     (Without `-v`, you'll just see the address on the last line.) `MIN_DISTANCE_BLOCKS` defaults to 3 purely so this quickstart finishes in a few minutes, as Liquid Network blocks are created once per minute.
 
-    ### 4. Fund the contract on Liquid Testnet
+    ### 4. Fund the contract on Liquid testnet
 
     ```bash
     cargo run last-will fund-from-faucet --address tex1p6df7ur00f9hc3k3y2g9ls6tl963sg59vm3pe9urytupxkhlpyrestuh6nm
     ```
 
-    **(Substitute the address from your own Step 3 output.)** This funds the contract with 100000 sats of tLBTC, and prints the funding transaction's ID — you'll need it for the next step. Wait for it to confirm (check <a href="https://blockstream.info/liquidtestnet/">the Explorer</a>) before continuing, since a relative timelock's clock starts at the confirming block, not at broadcast time.
+    **(Substitute the address from your own Step 3 output.)** This funds the contract with 100000 sats of tLBTC, and prints the funding transaction's ID; you'll need it for the next step. Wait for it to confirm (check <a href="https://blockstream.info/liquidtestnet/">the Explorer</a>) before continuing, since a relative timelock's clock starts at the confirming block, not at broadcast time.
 
     ### 5. Check in with the hot key
 
@@ -173,14 +173,14 @@ Please choose your preferred language environment immediately below.
     cargo run last-will prove-alive --utxo <FAUCET_TXID>:0 --fee-sats 100 --broadcast
     ```
 
-    Replace `<FAUCET_TXID>` with the transaction ID from Step 4. This derives all three keypairs again (needed to recompile the identical contract and re-derive its address), builds a transaction paying the contract's balance minus the fee back to itself, signs it with the hot key, builds the `Action::HotSpend` [witness](../glossary.md#witness), and — because `--broadcast` is set — submits it and prints the resulting txid.
+    Replace `<FAUCET_TXID>` with the transaction ID from Step 4. This derives all three keypairs again (needed to recompile the identical contract and re-derive its address), builds a transaction paying the contract's balance minus the fee back to itself, signs it with the hot key, builds the `Action::HotSpend` [witness](../glossary.md#witness), and (because `--broadcast` is set) submits it and prints the resulting txid.
 
     ??? "What's happening here?"
         Leave off `--broadcast` and the command prints the finalized raw transaction hex instead of submitting it.
 
-    Wait for this transaction to confirm too, and note the block height it confirms at (visible on <a href="https://blockstream.info/liquidtestnet/">the Explorer</a>) — call it `HOT_CONFIRM_HEIGHT`. The inheritor's timelock is satisfied starting at block `HOT_CONFIRM_HEIGHT + 3` (or whatever `--min-distance-blocks` you used).
+    Wait for this transaction to confirm too, and note the block height it confirms at (visible on <a href="https://blockstream.info/liquidtestnet/">the Explorer</a>): call it `HOT_CONFIRM_HEIGHT`. The inheritor's timelock is satisfied starting at block `HOT_CONFIRM_HEIGHT + 3` (or whatever `--min-distance-blocks` you used).
 
-    ### 6. Try to inherit early — this should fail
+    ### 6. Try to inherit early (should fail)
 
     With the benefactor apparently still active, the inheritor shouldn't be able to claim anything yet:
 
@@ -192,13 +192,13 @@ Please choose your preferred language environment immediately below.
       --broadcast
     ```
 
-    Replace `<HOT_TXID>` with the txid from Step 5. This derives the keys, builds a transaction spending the hot-spend UTXO to the given destination, declares a relative-locktime distance of `--min-distance-blocks` (3 by default) on the input, signs with the inheritor's key, and builds the `Action::Inherit` witness — all of which succeeds locally, since the contract's own check only compares against the *declared* distance. The broadcast, though, should fail with something like `non-BIP68-final`: the node independently checks how many blocks have *actually* passed since `<HOT_TXID>` confirmed, and it's still close to zero.
+    Replace `<HOT_TXID>` with the txid from Step 5. This derives the keys, builds a transaction spending the hot-spend UTXO to the given destination, declares a relative-locktime distance of `--min-distance-blocks` (3 by default) on the input, signs with the inheritor's key, and builds the `Action::Inherit` witness, all of which succeeds locally, since the contract's own check only compares against the *declared* distance. The broadcast, though, should fail with something like `non-BIP68-final`: the node independently checks how many blocks have *actually* passed since `<HOT_TXID>` confirmed, and it's still close to zero.
 
     This is the same split explained on the [Timelocks](../documentation/timelocks.md#timelock-enforcement-mechanisms) page: Simplicity checks "does this transaction's declared `sequence` satisfy my rule?"; blockchain consensus separately checks "has enough real time actually passed to accept this `sequence`?" Both have to say yes.
 
     ### 7. Wait, then inherit for real
 
-    Wait until the chain tip reaches `HOT_CONFIRM_HEIGHT + 3` (watch <a href="https://blockstream.info/liquidtestnet/">the Explorer</a>, or poll it the way the [bash quickstart](../getting-started/last-will-quickstart.md#part-3-wait) does). At a block a minute on Liquid Testnet, this should take about three minutes.
+    Wait until the chain tip reaches `HOT_CONFIRM_HEIGHT + 3` (watch <a href="https://blockstream.info/liquidtestnet/">the Explorer</a>, or poll it the way the [bash quickstart](../getting-started/last-will-quickstart.md#part-3-wait) does). At a block a minute on Liquid testnet, this should take about three minutes.
 
     Then run the *identical* command from Step 6 again:
 
@@ -214,7 +214,7 @@ Please choose your preferred language environment immediately below.
 
     ### Congratulations
 
-    You've walked a single contract through all three roles of a realistic covenant: funding it, proving activity to keep it alive, watching the network itself enforce a timelock the contract applied, and finally exercising the fallback path once that timelock had genuinely elapsed.
+    You've walked a single contract through all three roles of a realistic covenant: funding it, proving activity to keep it alive, watching the network itself enforce a timelock the contract applied, and finally exercising the fallback path once that timelock had elapsed.
 
     ??? "See more technical details"
         All four `last-will` subcommands support the `-v` option for verbose output, including the full compiled SimplicityHL source and parameter/witness values.
@@ -257,9 +257,9 @@ Please choose your preferred language environment immediately below.
     DESTINATION_ADDRESS=tex1q9hgs7pj8etd92rw5qz3dymvujffxzylmj6a28h
     ```
 
-    As in the <a href="/getting-started/bash-quickstart">P2MS quickstart</a>, `INTERNAL_KEY` is the standard BIP-0341 unspendable [internal key](../glossary.md#internal-key), and the private keys are intentionally the small integers 1, 2, and 3 — in a real contract these would be long random numbers, generated and held separately by each party. `DESTINATION_ADDRESS` is where the inheritor's claim will send funds; it defaults to a Liquid Testnet Faucet return address so nothing is wasted, but you can point it at your own wallet instead.
+    As in the <a href="/getting-started/bash-quickstart">P2MS quickstart</a>, `INTERNAL_KEY` is the standard BIP-0341 unspendable [internal key](../glossary.md#internal-key), and the private keys are intentionally the small integers 1, 2, and 3. In a real contract these would be long random numbers, generated and held separately by each party. `DESTINATION_ADDRESS` is where the inheritor's claim will send funds; it defaults to a Liquid testnet faucet return address so nothing is wasted, but you can point it at your own wallet instead.
 
-    `MIN_DISTANCE_BLOCKS` is set to 3 purely so this quickstart finishes in a few minutes. [Liquid Testnet blocks land once a minute](../documentation/timelocks.md#timelock-measurement-units), so you'll only have to wait three minutes in order to inherit the contract's funds. A longer, more realistic period can be achieved by raising this number, up to a point. `Distance` is capped at 65535, which at one block a minute is only about 45 days. A real deployment wanting something like a 180-day check-in period would need to use [a different timelock enforcement method](../documentation/timelocks.md#relative-timelock-in-simplicityhl) instead.
+    `MIN_DISTANCE_BLOCKS` is set to 3 purely so this quickstart finishes in a few minutes. [Liquid testnet blocks land once a minute](../documentation/timelocks.md#timelock-measurement-units), so you'll only have to wait three minutes in order to inherit the contract's funds. A longer, more realistic period can be achieved by raising this number, up to a point. `Distance` is capped at 65535, which at one block a minute is only about 45 days. A real deployment wanting something like a 180-day check-in period would need to use [a different timelock enforcement method](../documentation/timelocks.md#relative-timelock-in-simplicityhl) instead.
 
     Now write out the `.args` file substituting these values into the contract's parameters:
 
@@ -315,7 +315,7 @@ Please choose your preferred language environment immediately below.
 
     (FIXME: This method of converting satoshis to Bitcoin is not correct in general if the number of satoshis isn't exactly six digits long.)
 
-    Build a [PSET](../glossary.md#pset) with two [outputs](../glossary.md#output): the refreshed contract, and an explicit fee. (This 2-output shape is exactly what `recursive_covenant()` checks for above — the contract will reject anything else.)
+    Build a [PSET](../glossary.md#pset) with two [outputs](../glossary.md#output): the refreshed contract, and an explicit fee. (This 2-output shape is exactly what `recursive_covenant()` checks for above; the contract will reject anything else.)
 
     ```bash
     PSET=$(hal-simplicity simplicity pset create \
@@ -350,13 +350,13 @@ Please choose your preferred language environment immediately below.
     HOT_TXID=$(curl -X POST "https://blockstream.info/liquidtestnet/api/tx" -d "$RAW_TX" 2>/dev/null)
     ```
 
-    Wait for `HOT_TXID` to confirm before moving on — you'll need the [height](../glossary.md#height) it confirms at in a moment. Once the Explorer shows it as confirmed, fetch that height:
+    Wait for `HOT_TXID` to confirm before moving on: you'll need the [height](../glossary.md#height) it confirms at in a moment. Once the Explorer shows it as confirmed, fetch that height:
 
     ```bash
     HOT_CONFIRM_HEIGHT=$(curl -sSL https://blockstream.info/liquidtestnet/api/tx/$HOT_TXID/status | jq -r .block_height)
     ```
 
-    ## Part 2: Try to inherit early — this should fail
+    ## Part 2: Try to inherit early (should fail)
 
     With the benefactor apparently still active, the inheritor shouldn't be able to claim anything yet. Let's confirm the contract actually enforces that, not just trust it.
 
@@ -406,9 +406,9 @@ Please choose your preferred language environment immediately below.
     curl -X POST "https://blockstream.info/liquidtestnet/api/tx" -d "$INHERIT_RAW_TX"
     ```
 
-    This should be rejected with something like `non-BIP68-final`. The contract approved the transaction; the [node](../glossary.md#node) didn't, because it independently checks how many blocks have *actually* passed since `HOT_TXID` confirmed — and it's still close to zero. This is the same split explained on the [Timelocks](../documentation/timelocks.md#timelock-enforcement-mechanisms) page: Simplicity checks "does this transaction's declared `sequence` satisfy my rule?"; blockchain consensus separately checks "has enough real time actually passed to accept this `sequence`?" Both have to say yes.
+    This should be rejected with something like `non-BIP68-final`. The contract approved the transaction; the [node](../glossary.md#node) didn't, because it independently checks how many blocks have *actually* passed since `HOT_TXID` confirmed, and it's still close to zero. This is the same split explained on the [Timelocks](../documentation/timelocks.md#timelock-enforcement-mechanisms) page: Simplicity checks "does this transaction's declared `sequence` satisfy my rule?"; blockchain consensus separately checks "has enough real time actually passed to accept this `sequence`?" Both have to say yes.
 
-    Hold onto `INHERIT_RAW_TX` — you'll resend the exact same bytes in Part 4, unchanged.
+    Hold onto `INHERIT_RAW_TX`: you'll resend the exact same bytes in Part 4, unchanged.
 
     ## Part 3: Wait
 
@@ -437,13 +437,13 @@ Please choose your preferred language environment immediately below.
 
     ### Congratulations
 
-    You've walked a single contract through all three roles of a realistic covenant: funding it, proving activity to keep it alive, watching the network itself enforce a timelock the contract applied, and finally exercising the fallback path once that timelock had genuinely elapsed.
+    You've walked a single contract through all three roles of a realistic covenant: funding it, proving activity to keep it alive, watching the network itself enforce a timelock the contract applied, and finally exercising the fallback path once that timelock had elapsed.
 
     #### Next steps
 
     * Read more about how relative and absolute timelocks work, and why they can only enforce *minimum* times, in [Timelocks](../documentation/timelocks.md).
     * Read more about state and recursive covenants in [Covenants & State Management](../documentation/state.md).
-    * Try the same story in Rust — see the <a href="https://github.com/BlockstreamResearch/simplicity-demo">simplicity-demo</a> repository's `last-will` CLI commands.
+    * Try the same story in Rust: see the <a href="https://github.com/BlockstreamResearch/simplicity-demo">simplicity-demo</a> repository's `last-will` CLI commands.
     * See <a href="https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples">more example contracts</a> demonstrating other SimplicityHL language features.
 
 
@@ -454,7 +454,7 @@ Please choose your preferred language environment immediately below.
     This is the **Python version** of the quickstart. This version is experimental because it relies on the Python bindings for [`lwk`](https://github.com/Blockstream/lwk), Blockstream's Liquid Wallet Kit. This software has not been officially released yet.
 
     !!! warning "Temporary: you'll need to patch and rebuild `lwk` first"
-        `lwk`'s Python bindings currently pin an older SimplicityHL (0.5.0) that predates the `-Z enums` feature this contract needs, and don't yet expose a couple of small primitives every enum-based contract needs (constructing an `enum` witness value, and looking up the type of a declared witness). None of this is `last_will`-specific — any SimplicityHL contract using `enum` hits the same gap — but until it's addressed upstream, following this quickstart means building a patched `lwk` yourself:
+        `lwk`'s Python bindings currently pin an older SimplicityHL (0.5.0) that predates the `-Z enums` feature this contract needs, and don't yet expose a couple of small primitives every enum-based contract needs (constructing an `enum` witness value, and looking up the type of a declared witness). None of this is `last_will`-specific (any SimplicityHL contract using `enum` hits the same gap), but until it's addressed upstream, following this quickstart means building a patched `lwk` yourself:
 
         1. Clone the repository:
             ```bash
@@ -473,13 +473,13 @@ Please choose your preferred language environment immediately below.
             pip install --force-reinstall target/wheels/lwk-*.whl
             ```
 
-        Separately: the `lwk` package on PyPI doesn't currently ship *any* Simplicity bindings, patched or not (its default build omits the `simplicity` feature), so `pip install lwk` alone isn't enough even setting the above aside — you need a wheel built with `--features simplicity` regardless.
+        Separately: the `lwk` package on PyPI doesn't currently ship *any* Simplicity bindings, patched or not (its default build omits the `simplicity` feature), so `pip install lwk` alone isn't enough even setting the above aside: you need a wheel built with `--features simplicity` regardless.
 
         This box exists to make the quickstart runnable *today*, but these steps should become unnecessary with future fixes to `lwk`.
 
-    This contract uses SimplicityHL's `enum` feature, which is still experimental. Compiling it requires enabling the `enums` unstable feature — in Python, that means passing `["enums"]` to `SimplicityProgram.load_with_unstable_features()`, as you'll see below (the patch from the box above is what makes that method exist at all).
+    This contract uses SimplicityHL's `enum` feature, which is still experimental. Compiling it requires enabling the `enums` unstable feature: in Python, that means passing `["enums"]` to `SimplicityProgram.load_with_unstable_features()`, as you'll see below (the patch from the box above is what makes that method exist at all).
 
-    The three [public keys](../glossary.md#public-key) and the timelock length are compile-time [parameters](../glossary.md#parameter), not hardcoded — you'll supply them as `SimplicityArguments` below, Python's equivalent of the `.args` file the bash and Rust quickstarts use.
+    The three [public keys](../glossary.md#public-key) and the timelock length are compile-time [parameters](../glossary.md#parameter), not hardcoded: you'll supply them as `SimplicityArguments` below, Python's equivalent of the `.args` file the bash and Rust quickstarts use.
 
     ??? note "Want to skip typing individual commands?"
         A complete script that runs every step below automatically is available at <a href="/assets/last-will-demo.py">last-will-demo.py</a>. Download it (and build the patched `lwk` wheel from the box above first) and run `python3 last-will-demo.py`. The walkthrough below explains what it's doing, step by step.
@@ -545,7 +545,7 @@ Please choose your preferred language environment immediately below.
     DESTINATION_ADDRESS = "tex1q9hgs7pj8etd92rw5qz3dymvujffxzylmj6a28h"
     ```
 
-    `MIN_DISTANCE_BLOCKS` is set to 3 purely so this quickstart finishes in a few minutes. **[Liquid Testnet blocks land once a minute](../documentation/timelocks.md#timelock-measurement-units)**, so a longer, more realistic period is just a matter of raising this number — up to a point. `Distance` is a `u16`, capped at 65535, which at one block a minute is only about 45 days. A real deployment wanting something like a 180-day check-in period would need to swap `enforce_relative_distance`/`Distance` for [`enforce_relative_duration`/`Duration`](../documentation/timelocks.md#relative-timelock-in-simplicityhl) instead.
+    `MIN_DISTANCE_BLOCKS` is set to 3 purely so this quickstart finishes in a few minutes. **[Liquid testnet blocks land once a minute](../documentation/timelocks.md#timelock-measurement-units)**, so a longer, more realistic period is just a matter of raising this number, up to a point. `Distance` is a `u16`, capped at 65535, which at one block a minute is only about 45 days. A real deployment wanting something like a 180-day check-in period would need to swap `enforce_relative_distance`/`Distance` for [`enforce_relative_duration`/`Duration`](../documentation/timelocks.md#relative-timelock-in-simplicityhl) instead.
 
     A couple of small helpers for talking to the Faucet and Esplora over HTTP, since this quickstart deliberately avoids any extra dependency beyond `lwk` itself:
 
@@ -613,7 +613,7 @@ Please choose your preferred language environment immediately below.
     print("Address:", contract_address)
     ```
 
-    Fund it from the Liquid Testnet Faucet:
+    Fund it from the Liquid testnet faucet:
 
     ```python
     faucet_txid = get_json(f"{FAUCET_URL}?address={contract_address}&action=lbtc")["txid"]
@@ -630,9 +630,9 @@ Please choose your preferred language environment immediately below.
 
     ## Part 1: Check in with the hot key
 
-    This is the transaction the benefactor is expected to send periodically: it spends the current UTXO straight back to the *same contract address*, minus a [fee](../glossary.md#fee), signed with the hot key. Producing this transaction is what resets the inheritor's timelock — the covenant doesn't track a countdown anywhere; it just requires this specific action to keep happening.
+    This is the transaction the benefactor is expected to send periodically: it spends the current UTXO straight back to the *same contract address*, minus a [fee](../glossary.md#fee), signed with the hot key. Producing this transaction is what resets the inheritor's timelock: the covenant doesn't track a countdown anywhere; it just requires this specific action to keep happening.
 
-    First, fetch the details of the UTXO you're about to spend, and wrap it as a `TxOut` — note that unlike the bash version, there's no BTC/satoshi decimal juggling here, since `lwk`'s builders just take integer satoshis directly:
+    First, fetch the details of the UTXO you're about to spend, and wrap it as a `TxOut`. Unlike the bash version, there's no BTC/satoshi decimal juggling here, since `lwk`'s builders just take integer satoshis directly:
 
     ```python
     input_tx = get_json(f"{BASE_URL}/api/tx/{faucet_txid}")
@@ -642,7 +642,7 @@ Please choose your preferred language environment immediately below.
     tx_out = TxOut.from_explicit(contract_script, funding_asset, funding_value)
     ```
 
-    Build a [PSET](../glossary.md#pset) with two [outputs](../glossary.md#output): the refreshed contract, and an explicit fee. (This 2-output shape is exactly what `recursive_covenant()` checks for above — the contract will reject anything else.)
+    Build a [PSET](../glossary.md#pset) with two [outputs](../glossary.md#output): the refreshed contract, and an explicit fee. (This 2-output shape is exactly what `recursive_covenant()` checks for above; the contract will reject anything else.)
 
     ```python
     input_builder = PsetInputBuilder.from_prevout(OutPoint.from_parts(Txid(faucet_txid), 0))
@@ -659,7 +659,7 @@ Please choose your preferred language environment immediately below.
     unsigned_tx = pset.extract_tx()
     ```
 
-    Sign it with the hot key, and build the witness. `witness::ACTION` needs to carry the `Action::HotSpend` enum variant along with the signature — this is what `SimplicityTypedValue.enum_variant` and `SimplicityProgram.witness_type` (both from the patch above) are for:
+    Sign it with the hot key, and build the witness. `witness::ACTION` needs to carry the `Action::HotSpend` enum variant along with the signature; this is what `SimplicityTypedValue.enum_variant` and `SimplicityProgram.witness_type` (both from the patch above) are for:
 
     ```python
     sighash = program.get_sighash_all(unsigned_tx, INTERNAL_KEY, [tx_out], 0, network)
@@ -682,14 +682,14 @@ Please choose your preferred language environment immediately below.
     print("Broadcast:", hot_txid)
     ```
 
-    Wait for `hot_txid` to confirm before moving on — you'll need the [height](../glossary.md#height) it confirms at in a moment:
+    Wait for `hot_txid` to confirm before moving on: you'll need the [height](../glossary.md#height) it confirms at in a moment:
 
     ```python
     hot_confirm_height = wait_for_confirmation(hot_txid)
     target_height = hot_confirm_height + MIN_DISTANCE_BLOCKS
     ```
 
-    ## Part 2: Try to inherit early — this should fail
+    ## Part 2: Try to inherit early (should fail)
 
     With the benefactor apparently still active, the inheritor shouldn't be able to claim anything yet. Let's confirm the contract actually enforces that, not just trust it.
 
@@ -745,9 +745,9 @@ Please choose your preferred language environment immediately below.
     broadcast(inherit_raw_tx)
     ```
 
-    This should raise a `RuntimeError` with something like `non-BIP68-final`. The contract approved the transaction; the [node](../glossary.md#node) didn't, because it independently checks how many blocks have *actually* passed since `hot_txid` confirmed — and it's still close to zero. This is the same split explained on the [Timelocks](../documentation/timelocks.md#timelock-enforcement-mechanisms) page: Simplicity checks "does this transaction's declared `sequence` satisfy my rule?"; blockchain consensus separately checks "has enough real time actually passed to accept this `sequence`?" Both have to say yes.
+    This should raise a `RuntimeError` with something like `non-BIP68-final`. The contract approved the transaction; the [node](../glossary.md#node) didn't, because it independently checks how many blocks have *actually* passed since `hot_txid` confirmed, and it's still close to zero. This is the same split explained on the [Timelocks](../documentation/timelocks.md#timelock-enforcement-mechanisms) page: Simplicity checks "does this transaction's declared `sequence` satisfy my rule?"; blockchain consensus separately checks "has enough real time actually passed to accept this `sequence`?" Both have to say yes.
 
-    Hold onto `inherit_raw_tx` — you'll resend the exact same bytes in Part 4, unchanged.
+    Hold onto `inherit_raw_tx`: you'll resend the exact same bytes in Part 4, unchanged.
 
     ## Part 3: Wait
 
@@ -771,12 +771,12 @@ Please choose your preferred language environment immediately below.
 
     ### Congratulations
 
-    You've walked a single contract through all three roles of a realistic covenant: funding it, proving activity to keep it alive, watching the network itself enforce a timelock the contract applied, and finally exercising the fallback path once that timelock had genuinely elapsed.
+    You've walked a single contract through all three roles of a realistic covenant: funding it, proving activity to keep it alive, watching the network itself enforce a timelock the contract applied, and finally exercising the fallback path once that timelock had elapsed.
 
     #### Next steps
 
     * Once you're building something real rather than following a tutorial, [Simplex](https://github.com/BlockstreamResearch/smplx) handles project scaffolding, dependencies, and test suites for larger SimplicityHL projects.
     * Read more about how relative and absolute timelocks work, and why they can only enforce *minimum* times, in [Timelocks](../documentation/timelocks.md).
     * Read more about state and recursive covenants in [Covenants & State Management](../documentation/state.md).
-    * Try the same story in bash or Rust — see the <a href="/getting-started/last-will-quickstart">bash quickstart</a> and the <a href="https://github.com/BlockstreamResearch/simplicity-demo">simplicity-demo</a> repository's `last-will` CLI commands.
+    * Try the same story in bash or Rust: see the <a href="/getting-started/last-will-quickstart">bash quickstart</a> and the <a href="https://github.com/BlockstreamResearch/simplicity-demo">simplicity-demo</a> repository's `last-will` CLI commands.
     * See <a href="https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples">more example contracts</a> demonstrating other SimplicityHL language features.
