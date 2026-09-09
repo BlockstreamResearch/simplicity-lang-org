@@ -162,6 +162,7 @@ nav:
       - App Development:
           - Simplex: documentation/simplex.md
           - Ecosystem & Wallet Integration: documentation/wallet.md
+          - txmanifest: documentation/txmanifest.md
       - Examples & Use Cases:
           - Use Cases Overview: use-cases/index.md
           - Example Contracts (Basic): https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples

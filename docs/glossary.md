@@ -89,6 +89,9 @@ The list of jets and their specific behaviors is fixed at the time of integratio
 ## Liquid
 A specific [Elements](./glossary.md#elements)-based network, the [Liquid Network](https://liquid.net/), that is the first blockchain to have native support for Simplicity. Most Simplicity examples as of 2026 assume that a program is running on the Liquid mainnet or Liquid testnet, although other integrations are planned.
 
+## Manifest
+(Also "`txmanifest`", the full name of the manifest file format.) A JSON file that describes an individual [smart contract](./glossary.md#smart-contract) in detail, helping wallet applications identify instances of the contract on-chain and build [transactions](./glossary.md#transaction) to interact with it, thereby invoking user-selected actions within the contract's logic.
+
 ## Merkle tree
 A cryptographic mechanism for representing a potentially large amount of data concisely in a way that ensures that none of the data can be changed (a "commitment"). The Merkle tree also allows that data to be revealed selectively, so that some portions can be disclosed and verified, while continuing to hide other portions. A Merkle tree is represented by its root, which is a single cryptographic hash that commits to every object in the tree.
 
@@ -165,6 +168,9 @@ In some contexts, the term "sighash" is used to describe the set of relevant dat
 
 ## simc
 Blockstream's Simplicity compiler, which translates [SimplicityHL](./glossary.md#simplicityhl) to [Simplicity](./glossary.md#simplicity), as well as serializing [witness](./glossary.md#witness)es for inclusion on a blockchain.
+
+## Simplex
+A development tool for [SimplicityHL](./glossary.md#simplicityhl) projects that supports dependency management, automatic generation of Rust [artifacts](./glossary.md#artifacts) for [transaction](./glossary.md#transaction) and [witness](./glossary.md#witness) building, and integration testing via [elementsd](./glossary.md#elementsd).
 
 ## Simplicity
 A financial programming language for high-assurance [smart contract](./glossary.md#smart-contract) and financial instrument development. A low-level language created by Blockstream and natively available on the [Liquid](./glossary.md#liquid) Network, Simplicity makes it easier and safer to write complex conditions and behaviors for automated provision of financial services.
