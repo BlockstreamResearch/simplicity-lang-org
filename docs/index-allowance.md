@@ -8,7 +8,7 @@ Simplicity is a low-level smart contract language for Bitcoin-like blockchains, 
 
 You write contracts in [SimplicityHL](glossary.md#simplicityhl), a higher-level language with Rust-like syntax that compiles down to Simplicity.
 
-Simplicity has been running in production on [Liquid mainnet since July 2025](news/2025/07/31/simplicity-launches-on-liquid-mainnet/). The tutorials on this site currently target Liquid testnet for learning purposes; production deployments run on mainnet.
+The tutorials on this site currently target Liquid testnet for learning purposes; production deployments run on mainnet.
 
 ## Why Simplicity
 
