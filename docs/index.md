@@ -18,7 +18,7 @@ Simplicity has been running in production on [Liquid mainnet since July 2025](ne
   Simplicity's semantics are formally defined and suitable for machine-checked proofs, giving high assurance that the implementation matches the specification.
 
 - ### :material-gauge: Predictable execution cost
-  Every program has a statically bounded cost, known before you fund a transaction — no surprise fees, no out-of-gas failures.
+  Every program has a statically bounded cost, known before you fund a transaction: no surprise fees, no out-of-gas failures.
 
 - ### :material-source-branch: Introspection and covenants
   Programs can inspect the proposed transaction's inputs and outputs, enabling [covenants](glossary.md#covenant) that enforce multi-step spending policies directly on-chain. On Liquid, this extends to bound assets and amounts, alongside confidentiality at the transaction layer.
@@ -98,8 +98,8 @@ fn main() {
 
 1.  This compiles to Simplicity ready for on-chain execution. More involved scripts can execute [reverse Dutch auctions](https://delvingbitcoin.org/t/writing-simplicity-programs-with-simplicityhl/1900).
 
-2.  `sha2([0x00; 32])`
+2.  The SHA-256 hash of the all-zero 32-byte value `[0x00; 32]`, a fixed, public preimage used here so the example is self-contained and spendable by anyone trying it.
 
-3.  `1 * G`
+3.  The public key corresponding to using the number `1` as a private key, for demonstration purposes.
 
-4. `2 * G`
+4.  The public key corresponding to using the number `2` as a private key, for demonstration purposes.
