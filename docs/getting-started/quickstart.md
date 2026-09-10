@@ -92,6 +92,12 @@ You'll play the roles both of the benefactor and the inheritor, using two differ
 
 Please choose your preferred language environment immediately below.
 
+<!-- This is the page's only tabbed block, so Material assigns its tabs the
+anchors #__tabbed_1_1 (Rust), #__tabbed_1_2 (bash/CLI), #__tabbed_1_3 (Python),
+in document order, and the "Next steps" list in each tab links to the other
+two by these anchors. Reordering these tabs, or adding another tabbed block
+above this one, shifts the numbering and silently breaks those links. -->
+
 === "Rust"
 
     ## Rust quickstart
@@ -198,7 +204,7 @@ Please choose your preferred language environment immediately below.
 
     ### 7. Wait, then inherit for real
 
-    Wait until the chain tip reaches `HOT_CONFIRM_HEIGHT + 3` (watch <a href="https://blockstream.info/liquidtestnet/">the Explorer</a>, or poll it the way the [bash quickstart](../getting-started/last-will-quickstart.md#part-3-wait) does). At a block a minute on Liquid testnet, this should take about three minutes.
+    Wait until the chain tip reaches `HOT_CONFIRM_HEIGHT + 3` (watch <a href="https://blockstream.info/liquidtestnet/">the Explorer</a>, or poll it the way the [bash/CLI tab](#__tabbed_1_2) above does). At a block a minute on Liquid testnet, this should take about three minutes.
 
     Then run the *identical* command from Step 6 again:
 
@@ -221,9 +227,10 @@ Please choose your preferred language environment immediately below.
 
     #### Next steps
 
+    * Once you're building something real rather than following a tutorial, [Simplex](https://github.com/BlockstreamResearch/smplx) handles project scaffolding, dependencies, and test suites for larger SimplicityHL projects.
     * Read more about how relative and absolute timelocks work, and why they can only enforce *minimum* times, in [Timelocks](../documentation/timelocks.md).
     * Read more about state and recursive covenants in [Covenants & State Management](../documentation/state.md).
-    * Try the same story in <a href="/getting-started/last-will-quickstart">bash</a> or <a href="/getting-started/last-will-python-quickstart">Python</a>.
+    * Try the same story in the [bash/CLI](#__tabbed_1_2) or [Python](#__tabbed_1_3) tab above.
     * See <a href="https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples">more example contracts</a> demonstrating other SimplicityHL language features.
 
 === "bash/CLI"
@@ -257,7 +264,7 @@ Please choose your preferred language environment immediately below.
     DESTINATION_ADDRESS=tex1q9hgs7pj8etd92rw5qz3dymvujffxzylmj6a28h
     ```
 
-    As in the <a href="/getting-started/bash-quickstart">P2MS quickstart</a>, `INTERNAL_KEY` is the standard BIP-0341 unspendable [internal key](../glossary.md#internal-key), and the private keys are intentionally the small integers 1, 2, and 3. In a real contract these would be long random numbers, generated and held separately by each party. `DESTINATION_ADDRESS` is where the inheritor's claim will send funds; it defaults to a Liquid testnet faucet return address so nothing is wasted.
+    `INTERNAL_KEY` is the standard BIP-0341 unspendable [internal key](../glossary.md#internal-key), and the private keys are intentionally the small integers 1, 2, and 3. In a real contract these would be long random numbers, generated and held separately by each party. `DESTINATION_ADDRESS` is where the inheritor's claim will send funds; it defaults to a Liquid testnet faucet return address so nothing is wasted.
 
     `MIN_DISTANCE_BLOCKS` is set to 3 purely so this quickstart finishes in a few minutes. [Liquid testnet blocks land once a minute](../documentation/timelocks.md#timelock-measurement-units), so you'll only have to wait three minutes in order to inherit the contract's funds. A longer, more realistic period can be achieved by raising this number, up to a point. `Distance` is capped at 65535, which at one block a minute is only about 45 days. A real deployment wanting something like a 180-day check-in period would need to use [a different timelock enforcement method](../documentation/timelocks.md#relative-timelock-in-simplicityhl) instead.
 
@@ -441,9 +448,10 @@ Please choose your preferred language environment immediately below.
 
     #### Next steps
 
+    * Once you're building something real rather than following a tutorial, [Simplex](https://github.com/BlockstreamResearch/smplx) handles project scaffolding, dependencies, and test suites for larger SimplicityHL projects.
     * Read more about how relative and absolute timelocks work, and why they can only enforce *minimum* times, in [Timelocks](../documentation/timelocks.md).
     * Read more about state and recursive covenants in [Covenants & State Management](../documentation/state.md).
-    * Try the same story in Rust: see the <a href="https://github.com/BlockstreamResearch/simplicity-demo">simplicity-demo</a> repository's `last-will` CLI commands.
+    * Try the same story in the [Rust](#__tabbed_1_1) or [Python](#__tabbed_1_3) tab above.
     * See <a href="https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples">more example contracts</a> demonstrating other SimplicityHL language features.
 
 
@@ -777,5 +785,5 @@ Please choose your preferred language environment immediately below.
     * Once you're building something real rather than following a tutorial, [Simplex](https://github.com/BlockstreamResearch/smplx) handles project scaffolding, dependencies, and test suites for larger SimplicityHL projects.
     * Read more about how relative and absolute timelocks work, and why they can only enforce *minimum* times, in [Timelocks](../documentation/timelocks.md).
     * Read more about state and recursive covenants in [Covenants & State Management](../documentation/state.md).
-    * Try the same story in bash or Rust: see the <a href="/getting-started/last-will-quickstart">bash quickstart</a> and the <a href="https://github.com/BlockstreamResearch/simplicity-demo">simplicity-demo</a> repository's `last-will` CLI commands.
+    * Try the same story in the [Rust](#__tabbed_1_1) or [bash/CLI](#__tabbed_1_2) tab above.
     * See <a href="https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples">more example contracts</a> demonstrating other SimplicityHL language features.
