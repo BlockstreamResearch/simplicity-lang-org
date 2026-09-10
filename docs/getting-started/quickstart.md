@@ -194,7 +194,7 @@ Please choose your preferred language environment immediately below.
 
     Replace `<HOT_TXID>` with the txid from Step 5. This derives the keys, builds a transaction spending the hot-spend UTXO to the given destination, declares a relative-locktime distance of `--min-distance-blocks` (3 by default) on the input, signs with the inheritor's key, and builds the `Action::Inherit` witness, all of which succeeds locally, since the contract's own check only compares against the *declared* distance. The broadcast, though, should fail with something like `non-BIP68-final`: the node independently checks how many blocks have *actually* passed since `<HOT_TXID>` confirmed, and it's still close to zero.
 
-    This is the same split explained on the [Timelocks](../documentation/timelocks.md#timelock-enforcement-mechanisms) page: Simplicity checks "does this transaction's declared `sequence` satisfy my rule?"; blockchain consensus separately checks "has enough real time actually passed to accept this `sequence`?" Both have to say yes.
+    This is the same split explained on the [Timelocks](../documentation/timelocks.md#timelock-enforcement-mechanisms) page: Simplicity checks "does this transaction's declared `sequence` satisfy my rule?"; blockchain consensus separately checks "has enough real time actually passed to accept this `sequence`?" Both conditions must be satisfied.
 
     ### 7. Wait, then inherit for real
 
@@ -406,7 +406,7 @@ Please choose your preferred language environment immediately below.
     curl -X POST "https://blockstream.info/liquidtestnet/api/tx" -d "$INHERIT_RAW_TX"
     ```
 
-    This should be rejected with something like `non-BIP68-final`. The contract approved the transaction; the [node](../glossary.md#node) didn't, because it independently checks how many blocks have *actually* passed since `HOT_TXID` confirmed, and it's still close to zero. This is the same split explained on the [Timelocks](../documentation/timelocks.md#timelock-enforcement-mechanisms) page: Simplicity checks "does this transaction's declared `sequence` satisfy my rule?"; blockchain consensus separately checks "has enough real time actually passed to accept this `sequence`?" Both have to say yes.
+    This should be rejected with something like `non-BIP68-final`. The contract approved the transaction; the [node](../glossary.md#node) didn't, because it independently checks how many blocks have *actually* passed since `HOT_TXID` confirmed, and it's still close to zero. This is the same split explained on the [Timelocks](../documentation/timelocks.md#timelock-enforcement-mechanisms) page: Simplicity checks "does this transaction's declared `sequence` satisfy my rule?"; blockchain consensus separately checks "has enough real time actually passed to accept this `sequence`?" Both conditions must be satisfied.
 
     Hold onto `INHERIT_RAW_TX`: you'll resend the exact same bytes in Part 4, unchanged.
 
@@ -744,7 +744,7 @@ Please choose your preferred language environment immediately below.
     broadcast(inherit_raw_tx)
     ```
 
-    This should raise a `RuntimeError` with something like `non-BIP68-final`. The contract approved the transaction; the [node](../glossary.md#node) didn't, because it independently checks how many blocks have *actually* passed since `hot_txid` confirmed, and it's still close to zero. This is the same split explained on the [Timelocks](../documentation/timelocks.md#timelock-enforcement-mechanisms) page: Simplicity checks "does this transaction's declared `sequence` satisfy my rule?"; blockchain consensus separately checks "has enough real time actually passed to accept this `sequence`?" Both have to say yes.
+    This should raise a `RuntimeError` with something like `non-BIP68-final`. The contract approved the transaction; the [node](../glossary.md#node) didn't, because it independently checks how many blocks have *actually* passed since `hot_txid` confirmed, and it's still close to zero. This is the same split explained on the [Timelocks](../documentation/timelocks.md#timelock-enforcement-mechanisms) page: Simplicity checks "does this transaction's declared `sequence` satisfy my rule?"; blockchain consensus separately checks "has enough real time actually passed to accept this `sequence`?" Both conditions must be satisfied.
 
     Hold onto `inherit_raw_tx`: you'll resend the exact same bytes in Part 4, unchanged.
 
