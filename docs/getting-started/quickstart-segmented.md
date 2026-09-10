@@ -1,6 +1,6 @@
-# SimplicityHL Quickstart
+# Simplicity Quickstart
 
-Try a real smart contract transaction on Liquid testnet with the `last_will.simf` contract.
+Try a real smart contract transaction on [Liquid](../glossary.md#liquid) testnet with the `last_will.simf` contract.
 
 ???+ "Your choice"
     After the introduction below, you'll choose your most familiar language environment (Rust, `bash`/CLI, or Python) below. You can also run any version [online, with no download](https://github.com/Blockstream/simplicity-codespace/).
@@ -270,7 +270,7 @@ Please choose your preferred language environment immediately below.
     DESTINATION_ADDRESS=tex1q9hgs7pj8etd92rw5qz3dymvujffxzylmj6a28h
     ```
 
-    As in the <a href="/getting-started/bash-quickstart">P2MS quickstart</a>, `INTERNAL_KEY` is the standard BIP-0341 unspendable [internal key](../glossary.md#internal-key), and the private keys are intentionally the small integers 1, 2, and 3. In a real contract these would be long random numbers, generated and held separately by each party. `DESTINATION_ADDRESS` is where the inheritor's claim will send funds; it defaults to a Liquid testnet faucet return address so nothing is wasted, but you can point it at your own wallet instead.
+    As in the <a href="/getting-started/bash-quickstart">P2MS quickstart</a>, `INTERNAL_KEY` is the standard BIP-0341 unspendable [internal key](../glossary.md#internal-key), and the private keys are intentionally the small integers 1, 2, and 3. In a real contract these would be long random numbers, generated and held separately by each party. `DESTINATION_ADDRESS` is where the inheritor's claim will send funds; it defaults to a Liquid testnet faucet return address so nothing is wasted.
 
     `MIN_DISTANCE_BLOCKS` is set to 3 purely so this quickstart finishes in a few minutes. [Liquid testnet blocks land once a minute](../documentation/timelocks.md#timelock-measurement-units), so you'll only have to wait three minutes in order to inherit the contract's funds. A longer, more realistic period can be achieved by raising this number, up to a point. `Distance` is capped at 65535, which at one block a minute is only about 45 days. A real deployment wanting something like a 180-day check-in period would need to use [a different timelock enforcement method](../documentation/timelocks.md#relative-timelock-in-simplicityhl) instead.
 
@@ -553,8 +553,7 @@ Please choose your preferred language environment immediately below.
     MIN_DISTANCE_BLOCKS = 3
 
     # Where the inheritor's claim will send funds; defaults to a Liquid Testnet
-    # Faucet return address so nothing is wasted, but you can point it at your
-    # own wallet instead.
+    # Faucet return address so nothing is wasted.
     DESTINATION_ADDRESS = "tex1q9hgs7pj8etd92rw5qz3dymvujffxzylmj6a28h"
     ```
 
