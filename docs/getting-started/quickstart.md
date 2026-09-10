@@ -2,9 +2,6 @@
 
 Try a real smart contract transaction on [Liquid](../glossary.md#liquid) testnet with the `last_will.simf` contract.
 
-???+ "Your choice"
-    After the introduction below, you'll choose your most familiar language environment (Rust, `bash`/CLI, or Python) below. You can also run any version [online, with no download](https://github.com/Blockstream/simplicity-codespace/).
-
 You'll perform a [Liquid](../glossary.md#liquid) testnet transaction using the "last will" [covenant](../glossary.md#covenant). This allows an inheritor to claim funds after a delay if their benefactor goes silent, while the benefactor can postpone that indefinitely just by checking in.
 
 ## The contract
@@ -90,7 +87,8 @@ fn main() {
 
 You'll play the roles both of the benefactor and the inheritor, using two different [private keys](../glossary.md#private-key). In a real deployment, these keys would belong to different people. The benefactor would also have a "cold key", most likely kept offline.
 
-Please choose your preferred language environment immediately below.
+Please choose your preferred language environment immediately below. You can also run any version [online, with no download](https://github.com/Blockstream/simplicity-codespace/).
+
 
 <!-- This is the page's only tabbed block, so Material assigns its tabs the
 anchors #__tabbed_1_1 (Rust), #__tabbed_1_2 (bash/CLI), #__tabbed_1_3 (Python),
@@ -101,8 +99,6 @@ above this one, shifts the numbering and silently breaks those links. -->
 === "Rust"
 
     ## Rust quickstart
-
-    This is the **Rust version** of the quickstart.
 
     Before beginning, please <a href="https://rust-lang.org/tools/install/">make sure you have Rust installed.</a>
 
@@ -236,8 +232,6 @@ above this one, shifts the numbering and silently breaks those links. -->
 === "bash/CLI"
 
     ## bash/CLI quickstart
-
-    This is the **`bash`/CLI version** of the quickstart.
 
     Before beginning, please <a href="/documentation/toolchain">make sure you have installed the toolchain applications</a> (`simc` and `hal-simplicity`). You'll also need `curl` and `jq`.
 
@@ -459,7 +453,7 @@ above this one, shifts the numbering and silently breaks those links. -->
 
     ## Python quickstart
 
-    This is the **Python version** of the quickstart. This version is experimental because it relies on the Python bindings for [`lwk`](https://github.com/Blockstream/lwk), Blockstream's Liquid Wallet Kit. This software has not been officially released yet.
+    This version is experimental because it relies on the Python bindings for [`lwk`](https://github.com/Blockstream/lwk), Blockstream's Liquid Wallet Kit. This software has not been officially released yet.
 
     !!! warning "Temporary: you'll need to patch and rebuild `lwk` first"
         `lwk`'s Python bindings currently pin an older SimplicityHL (0.5.0) that predates the `-Z enums` feature this contract needs, and don't yet expose a couple of small primitives every enum-based contract needs (constructing an `enum` witness value, and looking up the type of a declared witness). None of this is `last_will`-specific (any SimplicityHL contract using `enum` hits the same gap), but until it's addressed upstream, following this quickstart means building a patched `lwk` yourself:
