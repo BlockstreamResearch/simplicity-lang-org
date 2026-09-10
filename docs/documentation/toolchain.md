@@ -25,7 +25,7 @@ The SimplicityHL toolchain consists of the command-line tools `simc` (the Simpli
 
 !!! note "Try these tools in the Simplicity Codespace"
 
-    You can try out these tools interactively in the [Simplicity Codespace](https://github.com/Blockstream/simplicity-codespace).
+    You can try out these tools interactively in the [Simplicity Codespace](https://github.com/codespaces/new/blockstream/simplicity-codespace).
 
 !!! note "VSCode users"
 

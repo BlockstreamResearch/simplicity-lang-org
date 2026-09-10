@@ -73,7 +73,7 @@ The proof process works as follows:
 
 While Simplicity is an extremely low-level language, akin to assembler, you are not expected to write contracts directly in it for most applications.
 
-Higher-level languages and tools are available. SimplicityHL is a developer-friendly "front-end" language that compiles down to Simplicity assembly; it has a syntax similar to Rust, abstracting away some of Simplicity's functional programming details to make it more accessible. The [SimplicityHL Codespace](https://github.com/Blockstream/simplicity-codespace) lets you start experimenting with SimplicityHL in your browser, and includes example programs and pre-installed developer tools.
+Higher-level languages and tools are available. SimplicityHL is a developer-friendly "front-end" language that compiles down to Simplicity assembly; it has a syntax similar to Rust, abstracting away some of Simplicity's functional programming details to make it more accessible. The [Simplicity Codespace](https://github.com/codespaces/new/blockstream/simplicity-codespace) lets you start experimenting with SimplicityHL in your browser, and includes example programs and pre-installed developer tools.
 
 The Haskell implementation provides a way to construct Simplicity programs in a tagless-final style, which transparently handles sharing of subexpressions. The [`Haskell-Examples`](https://github.com/BlockstreamResearch/simplicity/tree/master/Haskell-Examples) folder in the Simplicity repository contains various Simplicity expressions written in Haskell.
 

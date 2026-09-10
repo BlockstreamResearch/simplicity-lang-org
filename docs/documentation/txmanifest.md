@@ -16,7 +16,7 @@ The `txmanifest` format is work-in-progress and has not yet been frozen as a rel
 
 The [`txmanifest-wallet`](https://github.com/stringhandler/txmanifest-wallet/) project provides a reference implementation of `txmanifest` as a developer-oriented wallet application with a textual user interface.
 
-You can use `txmanifest-wallet` to debug and experiment with manifest files describing new or existing Simplicity contracts. An interactive online demonstration of this tool, with sample manifests and contracts, is available in the [txw codespace](https://github.com/stringhandler/txw-codespace).
+You can use `txmanifest-wallet` to debug and experiment with manifest files describing new or existing Simplicity contracts. An interactive online demonstration of this tool, with sample manifests and contracts, is available in the [txw codespace](https://github.com/codespaces/new/stringhandler/txw-codespace).
 
 ## Security considerations
 
