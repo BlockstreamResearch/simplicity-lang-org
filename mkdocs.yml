@@ -149,6 +149,7 @@ nav:
       - Quickstart: getting-started/quickstart.md
       - Weekly Office Hours call: office-hours.md
       - Simplicity Telegram group: https://t.me/simplicity_community
+      - Community forum: https://community.simplicity-lang.org/
   - Learn:
       - Core Concepts:
           - Execution Model: documentation/execution-model.md
