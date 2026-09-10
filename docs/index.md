@@ -10,7 +10,7 @@ You write contracts in [SimplicityHL](glossary.md#simplicityhl), a higher-level 
 
 The tutorials on this site currently target Liquid testnet for learning purposes; production deployments run on Liquid mainnet.
 
-## Why Simplicity
+<!-- ## Why Simplicity
 
 <div class="grid cards" markdown>
 
@@ -44,7 +44,7 @@ The tutorials on this site currently target Liquid testnet for learning purposes
 - ### :material-cash-lock: Collateralized loans
   Lock collateral in a Simplicity contract to borrow assets. The program guarantees that the lender can claim the collateral if the borrower defaults, or that the borrower can reclaim it upon repayment, all without a trusted intermediary.
 
-</div>
+</div> -->
 
 ## Write in a language you already know
 
