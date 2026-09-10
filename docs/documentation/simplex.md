@@ -62,7 +62,7 @@ Pass a name to run just one file's tests.
 
 ## Examples
 
-`BlockstreamResearch/smplx/examples` contains sample Simplex projects demonstrating how to create integration tests.
+[`BlockstreamResearch/smplx/examples`](https://github.com/BlockstreamResearch/smplx/tree/master/examples) contains sample Simplex projects demonstrating how to create integration tests.
 
 The current examples are
 
