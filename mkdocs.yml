@@ -148,6 +148,7 @@ nav:
   - Get Started:
       - Try it in your browser: getting-started/try-it.md
       - Quickstart: getting-started/quickstart.md
+      - Simplicity SDK (Simplex): documentation/simplex.md
   - Learn:
       - Core Concepts:
           - Execution Model: documentation/execution-model.md
@@ -156,7 +157,7 @@ nav:
           - Oracles: documentation/oracle.md
           - Timelocks: documentation/timelocks.md
       - App Development:
-          - Simplex: documentation/simplex.md
+          - Simplicity SDK (Simplex): documentation/simplex.md
           - Ecosystem & Wallet Integration: documentation/wallet.md
           - txmanifest: documentation/txmanifest.md
       - Examples & Use Cases:
