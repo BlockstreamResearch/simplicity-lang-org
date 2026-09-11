@@ -70,3 +70,5 @@ The current examples are
 <!-- * `examples/last_will` (demonstrates a recursive covenant with a timeout-based inheritance mechanism, called `last_will.simf`) -->
 
 Each has a `README.md` file describing the project and how to invoke its Simplex test suite.
+
+You can also experiment with Simplex online in your browser using the [Simplicity Codespace](https://github.com/codespaces/new/blockstream/simplicity-codespace).
