@@ -252,7 +252,9 @@ Please choose your preferred language environment immediately below.
 
     Save the contract above as `last_will.simf`.
 
-    ## Set up parameters
+    ## Demo walkthrough
+
+    ### 1. Set up parameters
 
     ```bash
     INTERNAL_KEY="50929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac0"
@@ -287,7 +289,7 @@ Please choose your preferred language environment immediately below.
     EOF
     ```
 
-    ## Compile and fund the contract
+    ### 2. Compile and fund the contract
 
     Check the result of compiling the contract with the parameters from the prior step:
 
@@ -313,7 +315,7 @@ Please choose your preferred language environment immediately below.
 
     Wait for this transaction to confirm before continuing. You can check <a href="https://blockstream.info/liquidtestnet/">the Explorer</a>, or `curl https://blockstream.info/liquidtestnet/api/tx/$FAUCET_TXID/status` until it reports `"confirmed": true`. This matters here specifically because a relative timelock's clock starts at the confirming block, not at broadcast time, so the steps below need this input to have actually landed in a block.
 
-    ## Part 1: Check in with the hot key
+    ### 3. Check in with the hot key
 
     This is the transaction the benefactor is expected to send periodically: it spends the current UTXO straight back to the *same contract address*, minus a [fee](../glossary.md#fee), signed with the hot key. Producing this transaction is what resets the inheritor's timelock. The covenant doesn't track a countdown anywhere; it just requires this specific action to keep happening, repeatedly creating a fresh copy of the same covenant.
 
@@ -369,7 +371,7 @@ Please choose your preferred language environment immediately below.
     HOT_CONFIRM_HEIGHT=$(curl -sSL https://blockstream.info/liquidtestnet/api/tx/$HOT_TXID/status | jq -r .block_height)
     ```
 
-    ## Part 2: Try to inherit early (should fail)
+    ### 4. Try to inherit early (should fail)
 
     With the benefactor apparently still active, the inheritor shouldn't be able to claim anything yet. Let's confirm the contract actually enforces that, not just trust it.
 
@@ -421,9 +423,9 @@ Please choose your preferred language environment immediately below.
 
     This should be rejected with something like `non-BIP68-final`. The contract approved the transaction; the [node](../glossary.md#node) didn't, because it independently checks how many blocks have *actually* passed since `HOT_TXID` confirmed, and it's still close to zero. This is the same split explained on the [Timelocks](../documentation/timelocks.md#timelock-enforcement-mechanisms) page: Simplicity checks "does this transaction's declared `sequence` satisfy my rule?"; blockchain consensus separately checks "has enough real time actually passed to accept this `sequence`?" Both conditions must be satisfied.
 
-    Hold onto `INHERIT_RAW_TX`: you'll resend the exact same bytes in Part 4, unchanged.
+    Hold onto `INHERIT_RAW_TX`: you'll resend the exact same bytes in Step 6, unchanged.
 
-    ## Part 3: Wait
+    ### 5. Wait
 
     ```bash
     TARGET_HEIGHT=$((HOT_CONFIRM_HEIGHT + MIN_DISTANCE_BLOCKS))
@@ -438,9 +440,9 @@ Please choose your preferred language environment immediately below.
 
     At a block a minute, this should take about three minutes. Watch <a href="https://blockstream.info/liquidtestnet/">the Explorer</a> if you'd rather not poll from the command line.
 
-    ## Part 4: Inherit for real
+    ### 6. Inherit for real
 
-    Once the tip has reached `TARGET_HEIGHT`, resend the *identical* transaction from Part 2:
+    Once the tip has reached `TARGET_HEIGHT`, resend the *identical* transaction from Step 4:
 
     ```bash
     curl -X POST "https://blockstream.info/liquidtestnet/api/tx" -d "$INHERIT_RAW_TX"
