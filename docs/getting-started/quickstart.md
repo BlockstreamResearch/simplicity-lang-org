@@ -89,7 +89,6 @@ You'll play the roles both of the benefactor and the inheritor, using two differ
 
 Please choose your preferred language environment immediately below. You can also run any version [online, with no download](https://github.com/Blockstream/simplicity-codespace/).
 
-
 <!-- This is the page's only tabbed block, so Material assigns its tabs the
 anchors #__tabbed_1_1 (Rust) and #__tabbed_1_2 (bash/CLI), in document order,
 and the "Next steps" list in each tab links to the other one by this anchor.
@@ -103,6 +102,9 @@ the numbering and silently breaks those links. -->
     Before beginning, please <a href="https://rust-lang.org/tools/install/">make sure you have Rust installed.</a>
 
     ## Demo walkthrough
+
+    !!! tip "Need help?"
+        If you get stuck at any point in this tutorial, ask in the [Simplicity Community](https://community.simplicity-lang.org/) forum. Questions posted there are public, so the answer can help later readers too.
 
     ### 1. Clone the walkthrough git repository
 
@@ -238,11 +240,16 @@ the numbering and silently breaks those links. -->
     ??? note "Want to skip typing individual commands?"
         A complete script that runs every step below automatically is available at <a href="/assets/last-will-demo.sh">last-will-demo.sh</a>. Download it and run `bash last-will-demo.sh`. The walkthrough below explains what it's doing, step by step.
 
-    Save the contract above as `last_will.simf`.
-
     ## Demo walkthrough
 
-    ### 1. Set up parameters
+    !!! tip "Need help?"
+        If you get stuck at any point in this tutorial, ask in the [Simplicity Community](https://community.simplicity-lang.org/) forum. Questions posted there are public, so the answer can help later readers too.
+
+    ### 1. Save the contract
+
+    Save the contract above as `last_will.simf`.
+
+    ### 2. Set up parameters
 
     ```bash
     INTERNAL_KEY="50929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac0"
@@ -277,7 +284,7 @@ the numbering and silently breaks those links. -->
     EOF
     ```
 
-    ### 2. Compile and fund the contract
+    ### 3. Compile and fund the contract
 
     Check the result of compiling the contract with the parameters from the prior step:
 
@@ -303,7 +310,7 @@ the numbering and silently breaks those links. -->
 
     Wait for this transaction to confirm before continuing. You can check <a href="https://blockstream.info/liquidtestnet/">the Explorer</a>, or `curl https://blockstream.info/liquidtestnet/api/tx/$FAUCET_TXID/status` until it reports `"confirmed": true`. This matters here specifically because a relative timelock's clock starts at the confirming block, not at broadcast time, so the steps below need this input to have actually landed in a block.
 
-    ### 3. Check in with the hot key
+    ### 4. Check in with the hot key
 
     This is the transaction the benefactor is expected to send periodically: it spends the current UTXO straight back to the *same contract address*, minus a [fee](../glossary.md#fee), signed with the hot key. Producing this transaction is what resets the inheritor's timelock. The covenant doesn't track a countdown anywhere; it just requires this specific action to keep happening, repeatedly creating a fresh copy of the same covenant.
 
@@ -359,7 +366,7 @@ the numbering and silently breaks those links. -->
     HOT_CONFIRM_HEIGHT=$(curl -sSL https://blockstream.info/liquidtestnet/api/tx/$HOT_TXID/status | jq -r .block_height)
     ```
 
-    ### 4. Try to inherit early (should fail)
+    ### 5. Try to inherit early (should fail)
 
     With the benefactor apparently still active, the inheritor shouldn't be able to claim anything yet. Let's confirm the contract actually enforces that, not just trust it.
 
@@ -411,9 +418,9 @@ the numbering and silently breaks those links. -->
 
     This should be rejected with something like `non-BIP68-final`. The contract approved the transaction; the [node](../glossary.md#node) didn't, because it independently checks how many blocks have *actually* passed since `HOT_TXID` confirmed, and it's still close to zero. This is the same split explained on the [Timelocks](../documentation/timelocks.md#timelock-enforcement-mechanisms) page: Simplicity checks "does this transaction's declared `sequence` satisfy my rule?"; blockchain consensus separately checks "has enough real time actually passed to accept this `sequence`?" Both conditions must be satisfied.
 
-    Hold onto `INHERIT_RAW_TX`: you'll resend the exact same bytes in Step 6, unchanged.
+    Hold onto `INHERIT_RAW_TX`: you'll resend the exact same bytes in Step 7, unchanged.
 
-    ### 5. Wait
+    ### 6. Wait
 
     ```bash
     TARGET_HEIGHT=$((HOT_CONFIRM_HEIGHT + MIN_DISTANCE_BLOCKS))
@@ -428,9 +435,9 @@ the numbering and silently breaks those links. -->
 
     At a block a minute, this should take about three minutes. Watch <a href="https://blockstream.info/liquidtestnet/">the Explorer</a> if you'd rather not poll from the command line.
 
-    ### 6. Inherit for real
+    ### 7. Inherit for real
 
-    Once the tip has reached `TARGET_HEIGHT`, resend the *identical* transaction from Step 4:
+    Once the tip has reached `TARGET_HEIGHT`, resend the *identical* transaction from Step 5:
 
     ```bash
     curl -X POST "https://blockstream.info/liquidtestnet/api/tx" -d "$INHERIT_RAW_TX"
