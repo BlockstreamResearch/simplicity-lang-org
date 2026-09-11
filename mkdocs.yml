@@ -146,10 +146,8 @@ hooks:
 
 nav:
   - Get Started:
+      - Try it in your browser: getting-started/try-it.md
       - Quickstart: getting-started/quickstart.md
-      - Weekly Office Hours call: office-hours.md
-      - Simplicity Telegram group: https://t.me/simplicity_community
-      - Community forum: https://community.simplicity-lang.org/
   - Learn:
       - Core Concepts:
           - Execution Model: documentation/execution-model.md
@@ -188,6 +186,9 @@ nav:
           - Environment: simplicityhl-reference/environment.md
           - Translation: simplicityhl-reference/translation.md
   - Resources:
+      - Weekly Office Hours call: office-hours.md
+      - Simplicity Telegram group: https://t.me/simplicity_community
+      - Community forum: https://community.simplicity-lang.org/
       - FAQ: resources/faq.md
       - Glossary: glossary.md
       - Simplicity for EVM Developers: documentation/simplicity-for-evm-developers.md
