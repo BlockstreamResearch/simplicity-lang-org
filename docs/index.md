@@ -67,7 +67,12 @@ You can use SimplicityHL, a high-level language with a clean, Rust-like syntax. 
 // one. Paying the address again creates a second allowance rather than
 // extending the first, and the two can never be combined. Merging would
 // require a separate deposit path, which this contract deliberately
-// omits for the sake of staying readable.
+// omits for readability.
+//
+// Warning: fund this address only with explicit (unblinded) outputs.
+// same_asset and full_withdrawal panic on a confidential asset or
+// amount, so a confidential output sent here can never be spent and its
+// funds are stuck permanently.
 
 fn checksig(pk: Pubkey, sig: Signature) {
     let msg: u256 = jet::sig_all_hash();
@@ -158,10 +163,16 @@ fn enforce_single_input() {
     // holds on every path, including a full withdrawal, and so that it keeps
     // holding if further paths are added later.
     //
-    // The restriction costs two things: instances can never be merged (see
-    // the funding note at the top of this file), and fees must come out of
-    // the covenant's own balance, since an outside input cannot help pay
-    // them. Fees therefore come out of the allowance.
+    // As a result, instances can never be merged (see the funding
+    // note at the top of this file), and fees must come out of the
+    // covenant's own balance, since an outside input cannot help pay
+    // them. Fees therefore come out of the allowance itself.
+    //
+    // The fee output checked in recursive_covenant must be denominated in
+    // the network's policy asset (e.g. LBTC for Liquid), and the single-input
+    // restriction leaves no other input available to supply the fee. Funding
+    // this covenant with any other asset limits every partial withdrawal to a
+    // zero-value fee output, which nodes will generally not relay.
     assert!(jet::eq_32(jet::num_inputs(), 1));
 }
 
