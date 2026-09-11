@@ -62,7 +62,7 @@ Pass a name to run just one file's tests.
 
 ## Examples
 
-`BlockstreamResearch/smplx/examples` contains sample Simplex projects demonstrating how to create integration tests.
+[`BlockstreamResearch/smplx/examples`](https://github.com/BlockstreamResearch/smplx/tree/master/examples) contains sample Simplex projects demonstrating how to create integration tests.
 
 The current examples are
 
@@ -70,3 +70,5 @@ The current examples are
 <!-- * `examples/last_will` (demonstrates a recursive covenant with a timeout-based inheritance mechanism, called `last_will.simf`) -->
 
 Each has a `README.md` file describing the project and how to invoke its Simplex test suite.
+
+You can also experiment with Simplex online in your browser using the [Simplicity Codespace](https://github.com/codespaces/new/blockstream/simplicity-codespace).

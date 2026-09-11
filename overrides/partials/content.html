@@ -1,0 +1,18 @@
+{#-
+  Overrides material/templates/partials/content.html.
+
+  Upstream always synthesizes an <h1> from page.title when the page content
+  has none. On the homepage this duplicated the hero's own <h1>{{ config.site_name }}</h1>
+  with a second, much longer heading repeating the tagline. The homepage already
+  has its title in the hero, so skip the synthesized heading there; every other
+  page keeps upstream's original behavior unchanged.
+-#}
+{% include "partials/tags.html" %}
+{% include "partials/actions.html" %}
+{% if "<h1" not in page.content and not page.is_homepage %}
+  <h1>{{ page.title | d(config.site_name, true)}}</h1>
+{% endif %}
+{{ page.content }}
+{% include "partials/source-file.html" %}
+{% include "partials/feedback.html" %}
+{% include "partials/comments.html" %}

@@ -23,12 +23,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="hero-text">
         <h1>{{ config.site_name }}</h1>
         <p>{{ config.site_description }}</p>
+        <p class="hero-status">
+            <a href="{{ 'news/2025/07/31/simplicity-launches-on-liquid-mainnet/' | url }}">
+                <span class="hero-status-dot">&#9679;</span> Live on Liquid mainnet since July 2025
+            </a>
+        </p>
         <a href="{{ 'getting-started/quickstart/' | url }}" class="md-button md-button--primary">
             Get Started
         </a>
         <a href="{{ 'documentation/execution-model' | url }}" class="md-button">
             Read the Docs
         </a>
+        <p class="hero-links">
+            <a href="{{ 'getting-started/try-it-embed-demo/' | url }}">Try it in Your Browser</a>
+        </p>
     </div>
 </section>
 {% endif %}

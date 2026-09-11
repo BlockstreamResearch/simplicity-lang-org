@@ -22,7 +22,7 @@ You can use `txmanifest-wallet` to debug and experiment with manifest files desc
 
 The `txmanifest` format does not include a means to confirm or verify the correctness of descriptions.
 
-Trusting an inaccurate or deceptive manifest file can result in wallets misinterpreting the meaning or effect of transactions, and misdescribing them to users. This could cause users' assets to be lost or stolen because the users approve transactions with undesired or unintended effects, including transferring assets to an attacker's control.
+Trusting an inaccurate or deceptive manifest file can result in wallets misinterpreting the meaning or effect of transactions, and misdescribing them to users. This could allow users' assets to be lost or stolen because the users approve transactions with undesired or unintended effects, including transferring assets to an attacker's control.
 
 For example, a manifest file could falsely state that transferring currency to a certain address deposits it as collateral for a loan, which can purportedly be reclaimed by repaying the loan. In reality, the loan could have highly unfavorable terms that the wallet application fails to explain correctly, or the destination address could be some other form of contract that forfeits the user's deposit to an attacker with no further recourse.
 

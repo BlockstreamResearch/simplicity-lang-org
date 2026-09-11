@@ -1,0 +1,267 @@
+diff --git a/lwk_bindings/src/error.rs b/lwk_bindings/src/error.rs
+index 5a65ee3..9f09971 100644
+--- a/lwk_bindings/src/error.rs
++++ b/lwk_bindings/src/error.rs
+@@ -288,8 +288,8 @@ impl From<lwk_simplicity::error::ProgramError> for LwkError {
+ }
+ 
+ #[cfg(feature = "simplicity")]
+-impl From<lwk_simplicity::simplicityhl::error::RichError> for LwkError {
+-    fn from(value: lwk_simplicity::simplicityhl::error::RichError) -> Self {
++impl From<lwk_simplicity::simplicityhl::error::Diagnostic> for LwkError {
++    fn from(value: lwk_simplicity::simplicityhl::error::Diagnostic) -> Self {
+         LwkError::Generic {
+             msg: format!("{value}"),
+         }
+diff --git a/lwk_bindings/src/simplicity/program.rs b/lwk_bindings/src/simplicity/program.rs
+index 7c3d610..6e73160 100644
+--- a/lwk_bindings/src/simplicity/program.rs
++++ b/lwk_bindings/src/simplicity/program.rs
+@@ -13,6 +13,7 @@ use super::arguments::{SimplicityArguments, SimplicityWitnessValues};
+ use super::cmr::Cmr;
+ use super::log_level::SimplicityLogLevel;
+ use super::run_result::SimplicityRunResult;
++use super::simplicity_type::SimplicityType;
+ use super::utils::{convert_utxos, derive_keypair};
+ 
+ /// A compiled Simplicity program ready for use in transactions.
+@@ -46,11 +47,58 @@ impl SimplicityProgram {
+         Ok(Arc::new(SimplicityProgram { inner: compiled }))
+     }
+ 
++    /// Load and compile a Simplicity program from source, enabling unstable compiler
++    /// features (e.g. `["enums"]` for nominative `enum` declarations, matching `simc -Z enums`).
++    #[uniffi::constructor]
++    pub fn load_with_unstable_features(
++        source: &str,
++        arguments: &SimplicityArguments,
++        unstable_features: Vec<String>,
++    ) -> Result<Arc<Self>, LwkError> {
++        use std::str::FromStr;
++
++        let features = unstable_features
++            .iter()
++            .map(|name| {
++                simplicityhl::UnstableFeature::from_str(name).map_err(|msg| LwkError::Generic {
++                    msg,
++                })
++            })
++            .collect::<Result<Vec<_>, _>>()?;
++
++        let compiled = scripts::load_program_with_unstable(
++            source,
++            arguments.to_inner()?,
++            false,
++            &simplicityhl::UnstableFeatures::new(features),
++        )?;
++        Ok(Arc::new(SimplicityProgram { inner: compiled }))
++    }
++
+     /// Get the Commitment Merkle Root (CMR) of the program.
+     pub fn cmr(&self) -> Arc<Cmr> {
+         Arc::new(self.inner.commit().cmr().into())
+     }
+ 
++    /// Look up the Simplicity type of a declared witness value by name (e.g. `"ACTION"`
++    /// for a program declaring `witness ACTION: Action;`).
++    ///
++    /// Useful for building `SimplicityTypedValue.enum_variant` values for nominative
++    /// `enum` witnesses, whose type can't otherwise be constructed outside the program
++    /// that declares it.
++    pub fn witness_type(&self, name: &str) -> Result<Arc<SimplicityType>, LwkError> {
++        let witness_name = simplicityhl::str::WitnessName::from_str_unchecked(name);
++        self.inner
++            .witness_types()
++            .get(&witness_name)
++            .cloned()
++            .map(SimplicityType::from_inner)
++            .map(Arc::new)
++            .ok_or_else(|| LwkError::Generic {
++                msg: format!("program has no witness named {name:?}"),
++            })
++    }
++
+     /// Create a P2TR (Pay-to-Taproot) address for this Simplicity program.
+     pub fn create_p2tr_address(
+         &self,
+diff --git a/lwk_bindings/src/simplicity/run_result.rs b/lwk_bindings/src/simplicity/run_result.rs
+index a5fe3d8..2c20000 100644
+--- a/lwk_bindings/src/simplicity/run_result.rs
++++ b/lwk_bindings/src/simplicity/run_result.rs
+@@ -7,8 +7,7 @@ use lwk_simplicity::simplicityhl;
+ /// The result of running a Simplicity program.
+ #[derive(uniffi::Object)]
+ pub struct SimplicityRunResult {
+-    pub(crate) pruned:
+-        Arc<simplicityhl::simplicity::RedeemNode<simplicityhl::simplicity::jet::Elements>>,
++    pub(crate) pruned: Arc<simplicityhl::simplicity::RedeemNode>,
+     pub(crate) value: simplicityhl::simplicity::Value,
+ }
+ 
+diff --git a/lwk_bindings/src/simplicity/simplicity_type.rs b/lwk_bindings/src/simplicity/simplicity_type.rs
+index 527d4dd..1aea1c6 100644
+--- a/lwk_bindings/src/simplicity/simplicity_type.rs
++++ b/lwk_bindings/src/simplicity/simplicity_type.rs
+@@ -121,6 +121,10 @@ impl SimplicityType {
+     pub(crate) fn inner(&self) -> &simplicityhl::ResolvedType {
+         &self.inner
+     }
++
++    pub(crate) fn from_inner(inner: simplicityhl::ResolvedType) -> Self {
++        Self { inner }
++    }
+ }
+ 
+ #[cfg(test)]
+diff --git a/lwk_bindings/src/simplicity/typed_value.rs b/lwk_bindings/src/simplicity/typed_value.rs
+index 239587a..974874f 100644
+--- a/lwk_bindings/src/simplicity/typed_value.rs
++++ b/lwk_bindings/src/simplicity/typed_value.rs
+@@ -124,6 +124,25 @@ impl SimplicityTypedValue {
+         let inner = simplicityhl::Value::parse_from_str(value_str, ty.inner())?;
+         Ok(Arc::new(Self { inner }))
+     }
++
++    /// Create the value of a nominative `enum` type's variant, carrying the given payload
++    /// values (empty for a unit variant).
++    #[uniffi::constructor]
++    pub fn enum_variant(
++        ty: &SimplicityType,
++        variant_name: &str,
++        payload: &[Arc<SimplicityTypedValue>],
++    ) -> Result<Arc<Self>, LwkError> {
++        let identifier = simplicityhl::str::Identifier::from_str_unchecked(variant_name);
++        let payload: Vec<simplicityhl::Value> = payload.iter().map(|v| v.inner.clone()).collect();
++
++        let inner = simplicityhl::Value::enum_variant(ty.inner(), &identifier, payload)
++            .ok_or_else(|| LwkError::Generic {
++                msg: format!("type {ty} has no variant {variant_name:?} matching the given payload"),
++            })?;
++
++        Ok(Arc::new(Self { inner }))
++    }
+ }
+ 
+ impl SimplicityTypedValue {
+diff --git a/lwk_bindings/src/simplicity/utils.rs b/lwk_bindings/src/simplicity/utils.rs
+index 4241a5e..1ba9b56 100644
+--- a/lwk_bindings/src/simplicity/utils.rs
++++ b/lwk_bindings/src/simplicity/utils.rs
+@@ -19,6 +19,27 @@ pub fn simplicity_derive_xonly_pubkey(
+     Ok(XOnlyPublicKey::from_keypair(&keypair))
+ }
+ 
++/// Sign an arbitrary Simplicity sighash (as returned by `SimplicityProgram.get_sighash_all`)
++/// with the key derived from `signer` at `derivation_path`, using BIP-340 Schnorr signing.
++///
++/// Use this (rather than `SimplicityProgram.create_p2pk_signature`) whenever the signing key
++/// is not also the contract's Taproot internal key -- e.g. a covenant with an unspendable
++/// (NUMS) internal key and multiple possible signing keys for different spending paths.
++#[uniffi::export]
++pub fn simplicity_sign_schnorr(
++    signer: &crate::Signer,
++    derivation_path: &DerivationPath,
++    sighash: &[u8],
++) -> Result<Vec<u8>, LwkError> {
++    let keypair = derive_keypair(signer, derivation_path)?;
++    let message =
++        lwk_wollet::secp256k1::Message::from_digest_slice(sighash).map_err(|e| LwkError::Generic {
++            msg: format!("invalid sighash: {e}"),
++        })?;
++    let signature = keypair.sign_schnorr(message);
++    Ok(signature.serialize().to_vec())
++}
++
+ /// Compute the Taproot control block for Simplicity script-path spending.
+ #[uniffi::export]
+ pub fn simplicity_control_block(
+diff --git a/lwk_simplicity/Cargo.toml b/lwk_simplicity/Cargo.toml
+index c2d793c..a2f6c60 100644
+--- a/lwk_simplicity/Cargo.toml
++++ b/lwk_simplicity/Cargo.toml
+@@ -12,7 +12,7 @@ lwk_common = { version = "0.19.0" }
+ lwk_signer = { version = "0.19.0", default-features = false }
+ lwk_wollet = { version = "0.19.0", default-features = false }
+ 
+-simplicityhl = { version = "0.5.0" }
++simplicityhl = { version = "0.7.1" }
+ 
+ thiserror = { workspace = true }
+ 
+diff --git a/lwk_simplicity/src/runner.rs b/lwk_simplicity/src/runner.rs
+index 94cd421..0f18843 100644
+--- a/lwk_simplicity/src/runner.rs
++++ b/lwk_simplicity/src/runner.rs
+@@ -2,7 +2,6 @@ use std::sync::Arc;
+ 
+ use simplicityhl::simplicity::elements::Transaction;
+ use simplicityhl::simplicity::jet::elements::ElementsEnv;
+-use simplicityhl::simplicity::jet::Elements;
+ use simplicityhl::simplicity::{BitMachine, RedeemNode, Value};
+ use simplicityhl::tracker::{DefaultTracker, TrackerLogLevel};
+ use simplicityhl::{CompiledProgram, WitnessValues};
+@@ -19,11 +18,12 @@ pub fn run_program(
+     witness_values: WitnessValues,
+     env: &ElementsEnv<Arc<Transaction>>,
+     log_level: TrackerLogLevel,
+-) -> Result<(Arc<RedeemNode<Elements>>, Value), ProgramError> {
++) -> Result<(Arc<RedeemNode>, Value), ProgramError> {
+     let satisfied = program
+         .satisfy(witness_values)
+         .map_err(ProgramError::WitnessSatisfaction)?;
+ 
++    #[allow(deprecated)]
+     let mut tracker = DefaultTracker::new(satisfied.debug_symbols()).with_log_level(log_level);
+ 
+     let pruned = satisfied
+diff --git a/lwk_simplicity/src/scripts.rs b/lwk_simplicity/src/scripts.rs
+index 5232238..ee8109c 100644
+--- a/lwk_simplicity/src/scripts.rs
++++ b/lwk_simplicity/src/scripts.rs
+@@ -1,8 +1,9 @@
++use simplicityhl::ast::ElementsJetHinter;
+ use simplicityhl::elements::{taproot, Address, AddressParams, Script};
+ 
+ use simplicityhl::simplicity::bitcoin::{secp256k1, XOnlyPublicKey};
+ use simplicityhl::simplicity::hashes::{sha256, Hash, HashEngine};
+-use simplicityhl::{Arguments, CompiledProgram};
++use simplicityhl::{Arguments, CompiledProgram, UnstableFeatures};
+ 
+ use crate::error::ProgramError;
+ 
+@@ -25,8 +26,33 @@ pub fn load_program_with_debug_symbols(
+     arguments: Arguments,
+     include_debug_symbols: bool,
+ ) -> Result<CompiledProgram, ProgramError> {
+-    let compiled = CompiledProgram::new(source, arguments, include_debug_symbols)
+-        .map_err(ProgramError::Compilation)?;
++    load_program_with_unstable(
++        source,
++        arguments,
++        include_debug_symbols,
++        &UnstableFeatures::none(),
++    )
++}
++
++/// Load program source and compile it to a Simplicity program, optionally including debug
++/// symbols and enabling unstable compiler features (e.g. nominative `enum`s).
++///
++/// # Errors
++/// Returns error if the program fails to compile.
++pub fn load_program_with_unstable(
++    source: &str,
++    arguments: Arguments,
++    include_debug_symbols: bool,
++    unstable_features: &UnstableFeatures,
++) -> Result<CompiledProgram, ProgramError> {
++    let compiled = CompiledProgram::new_with_unstable(
++        source,
++        unstable_features,
++        arguments,
++        include_debug_symbols,
++        Box::new(ElementsJetHinter::new()),
++    )
++    .map_err(ProgramError::Compilation)?;
+ 
+     Ok(compiled)
+ }

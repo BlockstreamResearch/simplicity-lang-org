@@ -89,7 +89,7 @@ These examples do not use introspection features, so they don't demonstrate Simp
 
 ### p2ms
 
-This program, `p2ms.simf`, is taken from the SimplicityHL examples collection. The [quickstart](/getting-started/quickstart) guide provides a recipe for making a Liquid testnet transaction using this program.
+This program, `p2ms.simf`, is taken from the SimplicityHL examples collection. An [older version of the `bash` quickstart](/getting-started/bash-quickstart) guide provides a recipe for making a Liquid Testnet transaction using this program.
 
 ```rust
 /*

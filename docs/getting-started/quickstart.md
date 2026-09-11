@@ -1,230 +1,461 @@
-# SimplicityHL Quickstart
+# Simplicity Quickstart
 
-This is a quickstart document to help you perform your first [transaction](../glossary.md#transaction) on [Liquid](../glossary.md#liquid) testnet using a [Simplicity](../glossary.md#simplicity) [contract](../glossary.md#contract) with a Rust environment.
+Try a real smart contract transaction on [Liquid](../glossary.md#liquid) testnet with the `last_will.simf` contract.
 
-[Make sure you have Rust installed.](https://rust-lang.org/tools/install/)
+You'll perform a [Liquid](../glossary.md#liquid) testnet transaction using the "last will" [covenant](../glossary.md#covenant). This allows an inheritor to claim funds after a delay if their benefactor goes silent, while the benefactor can postpone that indefinitely just by checking in.
 
 ??? note "Want to try it online with no download?"
     You can also try an equivalent quickstart (and other Simplicity exercises and demos) online in your browser using the [Simplicity Codespace](https://github.com/codespaces/new/blockstream/simplicity-codespace).
 
-<!-- (There is also a [`bash` version](bash-quickstart.md) of the quickstart available, which may be helpful for readers who are more familiar with `bash` than with Rust.) -->
+## The contract
 
-## Demo walkthrough
+This [smart contract](../glossary.md#smart-contract), written in [SimplicityHL](../glossary.md#simplicityhl), is called `last_will.simf`. It implements a covenant with an inheritance-after-timeout pattern, using three keys and three spending paths:
 
-### 1. Clone the walkthrough git repository
+* **Hot key**: the benefactor can "check in" at any time. Checking in re-creates the exact same contract at a new [UTXO](../glossary.md#utxo) (a [recursive covenant](../glossary.md#recursive-covenant)) and resets the inheritor's timelock. This is the key the benefactor is expected to use day-to-day.
+* **Cold key**: the benefactor can also break out of the covenant entirely and move the funds anywhere, no matter what the timelock says. This key would typically be kept offline, since it's only needed in unusual circumstances. This quickstart doesn't exercise this path.
+* **Inheritor key**: after a [timelock](../glossary.md#timelock) has elapsed, the inheritor can claim everything.
 
-Clone the repository:
-
-```bash
-git clone https://github.com/BlockstreamResearch/simplicity-demo
-cd simplicity-demo
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 150, 'rankSpacing': 100}}}%%
+flowchart TD
+    F[Liquid testnet faucet] -- Funds --> C[Contract]
+    C -- "Hot key:<br>check in<br>(repeat any number of times)" --> C
+    C -- "Inheritor key:<br>after timelock" --> H[Heir's wallet]
+    C -. "Cold key:<br>any time" .-> O[Owner's own wallet]
 ```
 
-This is a Rust project surrounding a SimplicityHL "Pay-to-Public-Key" (P2PK) smart contract. This smart contract lets anyone who has the matching private key claim the funds held by the contract. Its code (from `crates/simplicity-hl-core/src/source_simf_p2pk.simf`) looks like this:
+The code (from the online <a href="https://github.com/BlockstreamResearch/SimplicityHL/blob/master/examples/last_will.simf">SimplicityHL examples</a>) looks like this:
 
 ```rust
+fn checksig(pk: Pubkey, sig: Signature) {
+    let msg: u256 = jet::sig_all_hash();
+    jet::bip_0340_verify((pk, msg), sig);
+}
+
+fn enforce_relative_distance(min_distance: Distance) {
+    // Transaction version must be at least 2 for BIP68 relative locktime to apply.
+    assert!(jet::le_32(2, jet::version()));
+
+    // Fetch and parse the current input's own sequence number.
+    let actual_data: Either<Distance, Duration> = unwrap(jet::parse_sequence(jet::current_sequence()));
+    let actual_distance: Distance = unwrap_left::<Duration>(actual_data);
+
+    assert!(jet::le_16(min_distance, actual_distance));
+}
+
+// Enforce the covenant to repeat in the first output.
+//
+// Elements has explicit fee outputs, so enforce a fee output in the second output.
+// Disallow further outputs.
+fn recursive_covenant() {
+    assert!(jet::eq_32(jet::num_outputs(), 2));
+    let this_script_hash: u256 = jet::current_script_hash();
+    let output_script_hash: u256 = unwrap(jet::output_script_hash(0));
+    assert!(jet::eq_256(this_script_hash, output_script_hash));
+    assert!(unwrap(jet::output_is_fee(1)));
+}
+
+fn inherit_spend(inheritor_sig: Signature) {
+    let min_distance: Distance = param::MIN_DISTANCE_BLOCKS;
+    enforce_relative_distance(min_distance);
+    let inheritor_pk: Pubkey = param::INHERITOR_PUBLIC_KEY;
+    checksig(inheritor_pk, inheritor_sig);
+}
+
+fn cold_spend(cold_sig: Signature) {
+    let cold_pk: Pubkey = param::COLD_PUBLIC_KEY;
+    checksig(cold_pk, cold_sig);
+}
+
+fn refresh_spend(hot_sig: Signature) {
+    let hot_pk: Pubkey = param::HOT_PUBLIC_KEY;
+    checksig(hot_pk, hot_sig);
+    recursive_covenant();
+}
+
+enum Action {
+    Inherit(Signature),
+    ColdSpend(Signature),
+    HotSpend(Signature),
+}
+
 fn main() {
-    // Authorized public key (fixed at compile time)
-    let pubkey: Pubkey = param::PUBLIC_KEY;
-
-    // Signature value (provided at spend time)
-    let signature: Signature = witness::SIGNATURE;
-
-    // Sighash (summary of complete proposed transaction)
-    let sighash: u256 = jet::sig_all_hash();
-
-    // Verify supplied signature over proposed transaction details
-    jet::bip_0340_verify((pubkey, sighash), signature);
+    match witness::ACTION {
+        Action::Inherit(sig: Signature) => inherit_spend(sig),
+        Action::ColdSpend(sig: Signature) => cold_spend(sig),
+        Action::HotSpend(sig: Signature) => refresh_spend(sig),
+    }
 }
 ```
 
-This contract has a spot for a public key ("`param::PUBLIC_KEY`") of the person authorized to spend the contract's funds.
+You'll play the roles both of the benefactor and the inheritor, using two different [private keys](../glossary.md#private-key). In a real deployment, these keys would belong to different people. The benefactor would also have a "cold key", most likely kept offline.
 
-??? "Using your own wallet instead"
-    If you prefer, you can generate a Liquid testnet wallet of your own and send the tLBTC from the contract to your own wallet instead. You can do this by installing `elementsd` and `elements-cli` and then generating a local wallet with `elements-cli`. Alternatively, you can install a wallet application with Liquid Network support like the [Blockstream App](https://blockstream.com/app/). In the latter case, you'll need to create a Liquid testnet wallet and account. You must provide an [unconfidential](../glossary.md#unconfidential) [address](../glossary.md#address) as the destination address here, not a [confidential](../glossary.md#confidential) address. The command `hal-simplicity address inspect` can derive the unconfidential equivalent of a confidential address if required.
+Please choose your preferred language environment immediately below. You can also run any version [online, with no download](https://github.com/codespaces/new/blockstream/simplicity-codespace).
 
-### 2. Create a random seed for a public and private keypair
+<!-- This is the page's only tabbed block, so Material assigns its tabs the
+anchors #__tabbed_1_1 (Rust) and #__tabbed_1_2 (bash/CLI), in document order,
+and the "Next steps" list in each tab links to the other one by this anchor.
+Reordering these tabs, or adding another tabbed block above this one, shifts
+the numbering and silently breaks those links. -->
 
-Generate a seed value for generating keys.
+=== "Rust"
 
-```bash
-openssl rand -hex 32
-```
+    ## Rust quickstart
 
-??? "Alternative software options"
-    If you don't have `openssl`, you can use one of these methods to generate a random seed value.
+    Before beginning, please <a href="https://rust-lang.org/tools/install/">make sure you have Rust installed.</a>
 
-    On Unix-like systems:
+    ## Demo walkthrough
+
+    !!! tip "Need help?"
+        If you get stuck at any point in this tutorial, ask in the [Simplicity Community](https://community.simplicity-lang.org/) forum. Questions posted there are public, so the answer can help later readers too.
+
+    ### 1. Clone the walkthrough git repository
 
     ```bash
-    head -c 32 /dev/urandom | xxd -p -c 32
+    git clone https://github.com/BlockstreamResearch/simplicity-demo
+    cd simplicity-demo
     ```
 
-    On Windows (PowerShell):
+    ### 2. Create a random seed for the demo's keypairs
 
-    ```ps1
-    $bytes = New-Object Byte[] 32
-    (New-Object System.Security.Cryptography.RNGCryptoServiceProvider).GetBytes($bytes)
-    [System.BitConverter]::ToString($bytes).Replace("-", "").ToLower()
+    Run this command to create a random seed value. (This will be used to derive keypairs used in the demo.)
+
+    ```bash
+    openssl rand -hex 32
     ```
 
-Create an `.env.demo` file at the top level of the `simplicity-demo` project. Add a single line with `SEED_HEX=` followed by your random seed value.
+    Create an `.env.demo` file at the top level of the `simplicity-demo` project, with a single line `SEED_HEX=` followed by your random seed value from the previous command.
 
-### 3. Compile the P2PK contract using the public key
+    Every `last-will` command below derives its keys from this one seed, so you don't need to manage three separate seeds to play all three roles yourself. In a real deployment, these would be three unrelated seeds held on different devices.
 
-```bash
-cargo run p2pk compile-to-testnet-address
-```
+    ### 3. Compile the last-will contract
 
-This code:
+    ```bash
+    cargo run last-will compile-to-testnet-address -v
+    ```
 
-* Derives a private and public keypair from the random seed
-* Substitutes the public key into the `p2pk.simf` program
-* Compiles the `p2pk.simf` program
-* Derives a blockchain address from the compiled Simplicity program
-
-The output will look something like this:
-
-```
-# Deriving keypair from seed.
-# Deriving Liquid testnet address.
-# Compiling SimplicityHL program source_simf/p2pk.simf.
-
-SimplicityHL source code:
-    fn main() {
-        // Authorized public key (fixed at compile time)
-        let pubkey: Pubkey = param::PUBLIC_KEY;
-
-        // Signature value (provided at spend time)
-        let signature: Signature = witness::SIGNATURE;
-
-        // Sighash (summary of complete proposed transaction)
-        let sighash: u256 = jet::sig_all_hash();
-
-        // Verify supplied signature over proposed transaction details
-        jet::bip_0340_verify((pubkey, sighash), signature);
-    }
-
-Parameter arguments (compile-time):
-    mod param {
-        const PUBLIC_KEY: u256 = 0x7c37...;
-    }
-
-Contract's Liquid testnet address: tex1...
-```
-
-The address derived at the bottom, beginning with `tex1...`, can be used to transfer coins to the contract.
-
-```mermaid
-flowchart LR
-    A[Liquid testnet faucet] -- Funding transaction --> B[P2PK smart contract];
-    B -- Spending transaction --> C[Wallet];
-```
-
-### 4. Fund the contract on Liquid testnet
-
-Use the Liquid testnet faucet to send some tLBTC (representing Bitcoin on [Liquid](../glossary.md#liquid) testnet) to this contract. Provide the address from the previous step.
-
-```bash
-cargo run p2pk fund-from-faucet --address tex1...
-```
-
-This funds the contract with 100000 sats of tLBTC. Now that the contract controls these coins, its logic decides if and when this value may be spent.
-
-You'll see a transaction ID in the output reflecting the transaction that sent the coins from the faucet to the contract. This will be used in the next step in claiming the coins from the contract.
-
-### 5. Create a transaction that spends the tLBTC
-
-Now run this command to generate a transaction that spends the assets you sent to your contract (less a network fee of 100 sats).
-
-Replace `<TXID>` with the transaction ID value from the prior step. The address `tex1q9hgs7pj8etd92rw5qz3dymvujffxzylmj6a28h` is a sample wallet address created to receive tLBTC funds from this process.
-
-```bash
-cargo run p2pk spend-from-p2pk-contract --utxo <TXID>:0 --to-address tex1q9hgs7pj8etd92rw5qz3dymvujffxzylmj6a28h --send-sats 99900 --fee-sats 100
-```
-
-You'll see output describing steps in the creation of the spending transaction. This transaction proves to the contract that you're entitled to spend the funds it controls.
-
-??? "What's happening here?"
-    This command creates a new Liquid testnet transaction whose [input](../glossary.md#input) comes from the prior contract-funding transaction and whose [output](../glossary.md#output), less a fee, goes to the specified destination address.
-
-    The Rust program handles various steps in this process.
-
-    * It derives the private key again (from the seed you created earlier).
-    * It compiles the SimplicityHL program again to obtain all parameters associated with the compiled program.
-    * It creates a [transaction](../glossary.md#transaction) proposing to transfer assets from the contract.
-    * It signs the transaction with the private key, creating a digital signature.
-    * It creates a [witness](../glossary.md#witness) including this digital signature.
-    * It combines all of these elements into a single finalized transaction ready for submission to the blockchain.
-
-    You'll see each of these steps as it happens, with output something like this:
+    This derives all three keypairs from the seed, substitutes their public keys (and the default `--min-distance-blocks 3`) into `last_will.simf`, and compiles it. The output will look something like this:
 
     ```
-    # Deriving keypair from seed.
-    # Creating proposed transaction from UTXO to specified destination.
-    Asset: (tLBTC)
-    # Signing transaction with private key.
-    # Compiling SimplicityHL program source_simf/p2pk.simf.
+    # Deriving keypairs from seed.
+    # Compiling SimplicityHL program source_simf/last_will.simf.
 
     SimplicityHL source code:
-        fn main() {
-            // Authorized public key (fixed at compile time)
-            let pubkey: Pubkey = param::PUBLIC_KEY;
-
-            // Signature value (provided at spend time)
-            let signature: Signature = witness::SIGNATURE;
-
-            // Sighash (summary of complete proposed transaction)
-            let sighash: u256 = jet::sig_all_hash();
-
-            // Verify supplied signature over proposed transaction details
-            jet::bip_0340_verify((pubkey, sighash), signature);
+        fn checksig(pk: Pubkey, sig: Signature) {
+            ...
         }
+
+        ...
 
     Parameter arguments (compile-time):
         mod param {
-            const PUBLIC_KEY: u256 = 0x7c37e620ca2a8e8ba67c7e18f9d9cc6ad53221b1dfbcbc75ba3900c7cea7d75b;
+            const COLD_PUBLIC_KEY: u256 = 0x0804...;
+            const HOT_PUBLIC_KEY: u256 = 0x4f35...;
+            const INHERITOR_PUBLIC_KEY: u256 = 0x55f1...;
+            const MIN_DISTANCE_BLOCKS: u16 = 3;
         }
+    # Deriving Liquid Testnet address.
+    ---> Inheritor public key: 55f1cd1f0ebdd80e86080ab56c02fb3f65c540f880f4e5e48bc1800e74c13606
+    ---> Cold public key: 08040427cb5728a184a886897f0faed50353919e24b0571de75c45ef799821be
+    ---> Hot public key: 4f355bdcb7cc0af728ef3cceb9615d90684bb5b2ca5f859ab0f0b704075871aa
 
-    Witness values (spend-time):
-        mod witness {
-            const SIGNATURE: [u8; 64] = 0x6755724721a2ade83c21f1e89c67be1585cc397b0702719bcc58d2a8c5f7ca77ca32321cb22dd73637cff759b248b0c9f816a895478cbd4e77ba79ca86531929;
-        }
-
-    Transaction:
-    020000000....
+    Contract's Liquid Testnet address: tex1p6df7ur00f9hc3k3y2g9ls6tl963sg59vm3pe9urytupxkhlpyrestuh6nm
     ```
 
-### 6. Submit the transaction to the Liquid testnet
+    (Without `-v`, you'll just see the address on the last line.) `MIN_DISTANCE_BLOCKS` defaults to 3 purely so this quickstart finishes in a few minutes, as Liquid Network blocks are created once per minute.
 
-Now run the prior command again with `--broadcast` to submit the transaction to the mempool for inclusion on the blockchain.
+    ### 4. Fund the contract on Liquid testnet
 
-```bash
-cargo run p2pk spend-from-p2pk-contract --utxo <TXID>:0 --to-address tex1q9hgs7pj8etd92rw5qz3dymvujffxzylmj6a28h --send-sats 99900 --fee-sats 100 --broadcast
-```
+    ```bash
+    cargo run last-will fund-from-faucet --address tex1p6df7ur00f9hc3k3y2g9ls6tl963sg59vm3pe9urytupxkhlpyrestuh6nm
+    ```
 
-(Again, `<TXID>` here should be replaced with the transaction ID from step 4.)
+    **(Substitute the address from your own Step 3 output.)** This funds the contract with 100000 sats of tLBTC, and prints the funding transaction's ID; you'll need it for the next step. Wait for it to confirm (check <a href="https://blockstream.info/liquidtestnet/">the Explorer</a>) before continuing, since a relative timelock's clock starts at the confirming block, not at broadcast time.
 
-You can view your successful transaction [on the Explorer](https://blockstream.info/liquidtestnet/).
+    ### 5. Check in with the hot key
 
-### Congratulations
+    This is the transaction the benefactor is expected to send periodically: it spends the current UTXO straight back to the *same contract address*, minus a fee, signed with the hot key. Producing this transaction is what resets the inheritor's timelock.
 
-You've just compiled a smart contract, sent assets to it on a public blockchain, and then satisfied the contract, allowing you to spend those assets.
+    ```bash
+    cargo run last-will prove-alive --utxo <FAUCET_TXID>:0 --fee-sats 100 --broadcast
+    ```
 
-??? "See more technical details"
-    The `cargo run` commands above support a `-v` option for verbose output, which includes more technical details about the cryptographic parameters that were calculated by the Rust code. For example, this will display the [CMR](../glossary.md#cmr) and compiled program.
+    Replace `<FAUCET_TXID>` with the transaction ID from Step 4. This derives all three keypairs again (needed to recompile the identical contract and re-derive its address), builds a transaction paying the contract's balance minus the fee back to itself, signs it with the hot key, builds the `Action::HotSpend` [witness](../glossary.md#witness), and (because `--broadcast` is set) submits it and prints the resulting txid.
 
-#### Next steps
+    ??? "What's happening here?"
+        Leave off `--broadcast` and the command prints the finalized raw transaction hex instead of submitting it.
 
-??? note "Using VSCode?"
-    If you're expecting to develop SimplicityHL contracts with Visual Studio Code, you can also install Blockstream's VSCode extension to provide syntax highlighting and other developer features.
+    Wait for this transaction to confirm too, and note the block height it confirms at (visible on <a href="https://blockstream.info/liquidtestnet/">the Explorer</a>): call it `HOT_CONFIRM_HEIGHT`. The inheritor's timelock is satisfied starting at block `HOT_CONFIRM_HEIGHT + 3` (or whatever `--min-distance-blocks` you used).
 
-    * Open Extensions View: Click the Extensions icon in the left sidebar.
-    * Search: In the search field, type `SimplicityHL`.
-    * Install: Click the Install button for the extension provided by Blockstream.
+    ### 6. Try to inherit early (should fail)
 
-* See the welcome pages for [Bitcoin](../welcome-bitcoin), [Solidity / EVM](../welcome-evm), and [finance](../welcome-finance) audiences.
-* Try more tools and sample contracts interactively in the [Simplicity Codespace](https://github.com/Blockstream/simplicity-codespace).
-* Check out [more complex example contracts](https://github.com/BlockstreamResearch/simplicity-contracts) with similar demos.
-* See [simple contract source code](https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples) that demonstrates SimplicityHL language syntax and features.
-* Read [SimplicityHL language documentation](https://docs.simplicity-lang.org/documentation/execution-model/) to learn more about how to write smart contracts.
+    With the benefactor apparently still active, the inheritor shouldn't be able to claim anything yet:
+
+    ```bash
+    cargo run last-will spend-as-inheritor \
+      --utxo <HOT_TXID>:0 \
+      --to-address tex1q9hgs7pj8etd92rw5qz3dymvujffxzylmj6a28h \
+      --fee-sats 100 \
+      --broadcast
+    ```
+
+    Replace `<HOT_TXID>` with the txid from Step 5. This derives the keys, builds a transaction spending the hot-spend UTXO to the given destination, declares a relative-locktime distance of `--min-distance-blocks` (3 by default) on the input, signs with the inheritor's key, and builds the `Action::Inherit` witness, all of which succeeds locally, since the contract's own check only compares against the *declared* distance. The broadcast, though, should fail with something like `non-BIP68-final`: the node independently checks how many blocks have *actually* passed since `<HOT_TXID>` confirmed, and it's still close to zero.
+
+    This is the same split explained on the [Timelocks](../documentation/timelocks.md#timelock-enforcement-mechanisms) page: Simplicity checks "does this transaction's declared `sequence` satisfy my rule?"; blockchain consensus separately checks "has enough real time actually passed to accept this `sequence`?" Both conditions must be satisfied.
+
+    ### 7. Wait, then inherit for real
+
+    Wait until the chain tip reaches `HOT_CONFIRM_HEIGHT + 3` (watch <a href="https://blockstream.info/liquidtestnet/">the Explorer</a>, or poll it the way the [bash/CLI tab](#__tabbed_1_2) above does). At a block a minute on Liquid testnet, this should take about three minutes.
+
+    Then run the *identical* command from Step 6 again:
+
+    ```bash
+    cargo run last-will spend-as-inheritor \
+      --utxo <HOT_TXID>:0 \
+      --to-address tex1q9hgs7pj8etd92rw5qz3dymvujffxzylmj6a28h \
+      --fee-sats 100 \
+      --broadcast
+    ```
+
+    This time it should succeed, printing a txid. You can view the completed transaction on <a href="https://blockstream.info/liquidtestnet/">the Explorer</a>.
+
+    ### Congratulations
+
+    You've walked a single contract through all three roles of a realistic covenant: funding it, proving activity to keep it alive, watching the network itself enforce a timelock the contract applied, and finally exercising the fallback path once that timelock had elapsed.
+
+    ??? "See more technical details"
+        All four `last-will` subcommands support the `-v` option for verbose output, including the full compiled SimplicityHL source and parameter/witness values.
+
+    #### Next steps
+
+    * Once you're building something real rather than following a tutorial, [Simplex](https://github.com/BlockstreamResearch/smplx) handles project scaffolding, dependencies, and test suites for larger SimplicityHL projects.
+    * Read more about how relative and absolute timelocks work, and why they can only enforce *minimum* times, in [Timelocks](../documentation/timelocks.md).
+    * Read more about state and recursive covenants in [Covenants & State Management](../documentation/state.md).
+    * Try the same story in the [bash/CLI](#__tabbed_1_2) tab above.
+    * See <a href="https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples">more example contracts</a> demonstrating other SimplicityHL language features.
+
+=== "bash/CLI"
+
+    ## bash/CLI quickstart
+
+    Before beginning, please <a href="/documentation/toolchain">make sure you have installed the toolchain applications</a> (`simc` and `hal-simplicity`). You'll also need `curl` and `jq`.
+
+    ??? note "Want to skip typing individual commands?"
+        A complete script that runs every step below automatically is available at <a href="/assets/last-will-demo.sh">last-will-demo.sh</a>. Download it and run `bash last-will-demo.sh`. The walkthrough below explains what it's doing, step by step.
+
+    ## Demo walkthrough
+
+    !!! tip "Need help?"
+        If you get stuck at any point in this tutorial, ask in the [Simplicity Community](https://community.simplicity-lang.org/) forum. Questions posted there are public, so the answer can help later readers too.
+
+    ### 1. Save the contract
+
+    Save the contract above as `last_will.simf`.
+
+    ### 2. Set up parameters
+
+    ```bash
+    INTERNAL_KEY="50929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac0"
+
+    PRIVKEY_INHERITOR="0000000000000000000000000000000000000000000000000000000000000001"
+    PRIVKEY_COLD="0000000000000000000000000000000000000000000000000000000000000002"
+    PRIVKEY_HOT="0000000000000000000000000000000000000000000000000000000000000003"
+
+    INHERITOR_PUBLIC_KEY="0x79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"
+    COLD_PUBLIC_KEY="0xc6047f9441ed7d6d3045406e95c07cd85c778e4b8cef3ca7abac09b95c709ee5"
+    HOT_PUBLIC_KEY="0xf9308a019258c31049344f85f89d5229b531c845836f99b08601f113bce036f9"
+
+    MIN_DISTANCE_BLOCKS=3
+
+    DESTINATION_ADDRESS=tex1q9hgs7pj8etd92rw5qz3dymvujffxzylmj6a28h
+    ```
+
+    `INTERNAL_KEY` is the standard BIP-0341 unspendable [internal key](../glossary.md#internal-key), and the private keys are intentionally the small integers 1, 2, and 3. In a real contract these would be long random numbers, generated and held separately by each party. `DESTINATION_ADDRESS` is where the inheritor's claim will send funds; it defaults to a Liquid testnet faucet return address so nothing is wasted.
+
+    `MIN_DISTANCE_BLOCKS` is set to 3 purely so this quickstart finishes in a few minutes. [Liquid testnet blocks land once a minute](../documentation/timelocks.md#timelock-measurement-units), so you'll only have to wait three minutes in order to inherit the contract's funds. A longer, more realistic period can be achieved by raising this number, up to a point. `Distance` is capped at 65535, which at one block a minute is only about 45 days. A real deployment wanting something like a 180-day check-in period would need to use [a different timelock enforcement method](../documentation/timelocks.md#relative-timelock-in-simplicityhl) instead.
+
+    Now write out the `.args` file substituting these values into the contract's parameters:
+
+    ```bash
+    cat > last_will.args << EOF
+    {
+        "INHERITOR_PUBLIC_KEY": "$INHERITOR_PUBLIC_KEY",
+        "COLD_PUBLIC_KEY": "$COLD_PUBLIC_KEY",
+        "HOT_PUBLIC_KEY": "$HOT_PUBLIC_KEY",
+        "MIN_DISTANCE_BLOCKS": "$MIN_DISTANCE_BLOCKS"
+    }
+    EOF
+    ```
+
+    ### 3. Compile and fund the contract
+
+    Check the result of compiling the contract with the parameters from the prior step:
+
+    ```bash
+    simc -Z enums last_will.simf -a last_will.args
+    ```
+
+    (This contract uses SimplicityHL's `enum` feature, which is still experimental. Compiling it requires passing `-Z enums` to `simc`.)
+
+    Now derive the contract's address and compute its [CMR](../glossary.md#cmr), which you'll need in later steps to attach the program to a [PSET](../glossary.md#pset):
+
+    ```bash
+    COMPILED_PROGRAM=$(simc -Z enums last_will.simf -a last_will.args --json | jq -r .program)
+    CMR=$(hal-simplicity simplicity info "$COMPILED_PROGRAM" | jq -r .cmr)
+    CONTRACT_ADDRESS=$(hal-simplicity simplicity info "$COMPILED_PROGRAM" | jq -r .liquid_testnet_address_unconf)
+    ```
+
+    Fund it from the Liquid testnet faucet, which provides free tLBTC assets for testing and experimentation:
+
+    ```bash
+    FAUCET_TXID=$(curl "https://liquidtestnet.com/api/faucet?address=$CONTRACT_ADDRESS&action=lbtc" 2>/dev/null | jq -r .txid)
+    ```
+
+    Wait for this transaction to confirm before continuing. You can check <a href="https://blockstream.info/liquidtestnet/">the Explorer</a>, or `curl https://blockstream.info/liquidtestnet/api/tx/$FAUCET_TXID/status` until it reports `"confirmed": true`. This matters here specifically because a relative timelock's clock starts at the confirming block, not at broadcast time, so the steps below need this input to have actually landed in a block.
+
+    ### 4. Check in with the hot key
+
+    This is the transaction the benefactor is expected to send periodically: it spends the current UTXO straight back to the *same contract address*, minus a [fee](../glossary.md#fee), signed with the hot key. Producing this transaction is what resets the inheritor's timelock. The covenant doesn't track a countdown anywhere; it just requires this specific action to keep happening, repeatedly creating a fresh copy of the same covenant.
+
+    First, fetch the details of the UTXO you're about to spend:
+
+    ```bash
+    curl https://liquid.network/liquidtestnet/api/tx/$FAUCET_TXID > input-tx.json
+    HEX=$(jq -r '.vout[0].scriptpubkey' < input-tx.json)
+    ASSET=$(jq -r '.vout[0].asset' < input-tx.json)
+    VALUE="0.00"$(jq -r '.vout[0].value' < input-tx.json)
+    ```
+
+    (FIXME: This method of converting satoshis to Bitcoin is not correct in general if the number of satoshis isn't exactly six digits long.)
+
+    Build a [PSET](../glossary.md#pset) with two [outputs](../glossary.md#output): the refreshed contract, and an explicit fee. (This 2-output shape is exactly what `recursive_covenant()` checks for above; the contract will reject anything else.)
+
+    ```bash
+    PSET=$(hal-simplicity simplicity pset create \
+      '[ { "txid": "'"$FAUCET_TXID"'", "vout": 0 } ]' \
+      '[ { "'"$CONTRACT_ADDRESS"'": 0.00099900 }, { "fee": 0.00000100 } ]' \
+      | jq -r .pset)
+
+    PSET=$(hal-simplicity simplicity pset update-input "$PSET" 0 -i "$HEX:$ASSET:$VALUE" -c "$CMR" -p "$INTERNAL_KEY" | jq -r .pset)
+    ```
+
+    Sign it with the hot key, and build the witness. `witness::ACTION` needs to carry the `Action::HotSpend` enum variant along with the signature:
+
+    ```bash
+    HOT_SIGNATURE=$(hal-simplicity simplicity sighash "$PSET" 0 "$CMR" -x "$PRIVKEY_HOT" | jq -r .signature)
+
+    cat > last_will.wit << EOF
+    {
+        "ACTION": "Action::HotSpend(0x$HOT_SIGNATURE)"
+    }
+    EOF
+    ```
+
+    Compile with the witness attached, finalize, extract, and broadcast:
+
+    ```bash
+    PROGRAM=$(simc -Z enums last_will.simf -a last_will.args -w last_will.wit --json | jq -r .program)
+    WITNESS=$(simc -Z enums last_will.simf -a last_will.args -w last_will.wit --json | jq -r .witness)
+
+    PSET=$(hal-simplicity simplicity pset finalize "$PSET" 0 "$PROGRAM" "$WITNESS" | jq -r .pset)
+    RAW_TX=$(hal-simplicity simplicity pset extract "$PSET" | jq -r)
+
+    HOT_TXID=$(curl -X POST "https://blockstream.info/liquidtestnet/api/tx" -d "$RAW_TX" 2>/dev/null)
+    ```
+
+    Wait for `HOT_TXID` to confirm before moving on: you'll need the [height](../glossary.md#height) it confirms at in a moment. Once the Explorer shows it as confirmed, fetch that height:
+
+    ```bash
+    HOT_CONFIRM_HEIGHT=$(curl -sSL https://blockstream.info/liquidtestnet/api/tx/$HOT_TXID/status | jq -r .block_height)
+    ```
+
+    ### 5. Try to inherit early (should fail)
+
+    With the benefactor apparently still active, the inheritor shouldn't be able to claim anything yet. Let's confirm the contract actually enforces that, not just trust it.
+
+    Fetch the hot-spend output's details, the same way as before:
+
+    ```bash
+    curl https://liquid.network/liquidtestnet/api/tx/$HOT_TXID > input-tx.json
+    HEX=$(jq -r '.vout[0].scriptpubkey' < input-tx.json)
+    ASSET=$(jq -r '.vout[0].asset' < input-tx.json)
+    VALUE="0.00"$(jq -r '.vout[0].value' < input-tx.json)
+    ```
+
+    This time, build the PSET with a [`sequence`](../documentation/timelocks.md#creating-appropriate-transactions) value declaring a relative distance of `MIN_DISTANCE_BLOCKS`:
+
+    ```bash
+    PSET=$(hal-simplicity simplicity pset create \
+      '[ { "txid": "'"$HOT_TXID"'", "vout": 0, "sequence": '"$MIN_DISTANCE_BLOCKS"' } ]' \
+      '[ { "'"$DESTINATION_ADDRESS"'": 0.00099800 }, { "fee": 0.00000100 } ]' \
+      | jq -r .pset)
+
+    PSET=$(hal-simplicity simplicity pset update-input "$PSET" 0 -i "$HEX:$ASSET:$VALUE" -c "$CMR" -p "$INTERNAL_KEY" | jq -r .pset)
+    ```
+
+    Sign with the inheritor's key this time, and build an `Action::Inherit` witness:
+
+    ```bash
+    INHERITOR_SIGNATURE=$(hal-simplicity simplicity sighash "$PSET" 0 "$CMR" -x "$PRIVKEY_INHERITOR" | jq -r .signature)
+
+    cat > last_will.wit << EOF
+    {
+        "ACTION": "Action::Inherit(0x$INHERITOR_SIGNATURE)"
+    }
+    EOF
+    ```
+
+    ```bash
+    PROGRAM=$(simc -Z enums last_will.simf -a last_will.args -w last_will.wit --json | jq -r .program)
+    WITNESS=$(simc -Z enums last_will.simf -a last_will.args -w last_will.wit --json | jq -r .witness)
+
+    PSET=$(hal-simplicity simplicity pset finalize "$PSET" 0 "$PROGRAM" "$WITNESS" | jq -r .pset)
+    INHERIT_RAW_TX=$(hal-simplicity simplicity pset extract "$PSET" | jq -r)
+    ```
+
+    Note that `finalize` and `extract` both **succeed**. That's expected: the contract's own check only compares against the `sequence` value you just declared, and 3 satisfies "at least 3". Now try broadcasting it anyway:
+
+    ```bash
+    curl -X POST "https://blockstream.info/liquidtestnet/api/tx" -d "$INHERIT_RAW_TX"
+    ```
+
+    This should be rejected with something like `non-BIP68-final`. The contract approved the transaction; the [node](../glossary.md#node) didn't, because it independently checks how many blocks have *actually* passed since `HOT_TXID` confirmed, and it's still close to zero. This is the same split explained on the [Timelocks](../documentation/timelocks.md#timelock-enforcement-mechanisms) page: Simplicity checks "does this transaction's declared `sequence` satisfy my rule?"; blockchain consensus separately checks "has enough real time actually passed to accept this `sequence`?" Both conditions must be satisfied.
+
+    Hold onto `INHERIT_RAW_TX`: you'll resend the exact same bytes in Step 7, unchanged.
+
+    ### 6. Wait
+
+    ```bash
+    TARGET_HEIGHT=$((HOT_CONFIRM_HEIGHT + MIN_DISTANCE_BLOCKS))
+    echo "Waiting for block $TARGET_HEIGHT..."
+    ```
+
+    Poll the current chain tip until it reaches `TARGET_HEIGHT`:
+
+    ```bash
+    curl -sSL https://blockstream.info/liquidtestnet/api/blocks/tip/height
+    ```
+
+    At a block a minute, this should take about three minutes. Watch <a href="https://blockstream.info/liquidtestnet/">the Explorer</a> if you'd rather not poll from the command line.
+
+    ### 7. Inherit for real
+
+    Once the tip has reached `TARGET_HEIGHT`, resend the *identical* transaction from Step 5:
+
+    ```bash
+    curl -X POST "https://blockstream.info/liquidtestnet/api/tx" -d "$INHERIT_RAW_TX"
+    ```
+
+    This time it should be accepted, and you'll get back a txid. You can view the completed transaction on <a href="https://blockstream.info/liquidtestnet/">the Explorer</a>.
+
+    ### Congratulations
+
+    You've walked a single contract through all three roles of a realistic covenant: funding it, proving activity to keep it alive, watching the network itself enforce a timelock the contract applied, and finally exercising the fallback path once that timelock had elapsed.
+
+    #### Next steps
+
+    * Once you're building something real rather than following a tutorial, [Simplex](https://github.com/BlockstreamResearch/smplx) handles project scaffolding, dependencies, and test suites for larger SimplicityHL projects.
+    * Read more about how relative and absolute timelocks work, and why they can only enforce *minimum* times, in [Timelocks](../documentation/timelocks.md).
+    * Read more about state and recursive covenants in [Covenants & State Management](../documentation/state.md).
+    * Try the same story in the [Rust](#__tabbed_1_1) tab above.
+    * See <a href="https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples">more example contracts</a> demonstrating other SimplicityHL language features.
