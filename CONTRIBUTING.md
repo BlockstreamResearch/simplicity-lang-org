@@ -33,6 +33,7 @@ If you’re unsure it belongs here, it probably does. Submit the PR.
 
 * English (US), Markdown only.
 * Headings: `# H1`, `## H2`, `### H3` (don’t skip levels).
+* Consistent parallel formatting within each document (e.g. don't number some sections but not others, or otherwise format or label things that are directly parallel in different ways).
 * Code fences with language tags: \`\`\`rust, \`\`\`bash, \`\`\`json, etc.
 * File/command names as `code` inline.
 * Use lists, tables, and callouts for scan‑ability.
