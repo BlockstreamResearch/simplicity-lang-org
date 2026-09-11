@@ -165,7 +165,7 @@ fn enforce_single_input() {
     assert!(jet::eq_32(jet::num_inputs(), 1));
 }
 
-pub fn enforce_relative_distance(min_distance: Distance) {
+fn enforce_relative_distance(min_distance: Distance) {
     // Assert that the current input is spent in a transaction that can
     // only appear a distance of at least min_distance blocks after the
     // block containing the input UTXO.
