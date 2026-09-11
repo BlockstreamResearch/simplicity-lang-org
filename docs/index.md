@@ -51,55 +51,170 @@ The tutorials on this site currently target Liquid testnet for learning purposes
 You can use SimplicityHL, a high-level language with a clean, Rust-like syntax. This abstracts away low-level complexity, making it straightforward to write clear and reliable financial contracts with minimal code.
 
 
-```rust title="Hash Time-Locked Contract" 
-/*
- * The recipient can spend the coins by providing the secret preimage of a hash.
- * The sender can cancel the transfer after a fixed block height.
- *
- * HTLCs enable two-way payment channels and multi-hop payments,
- * such as on the Lightning network.
- */
-fn sha2(string: u256) -> u256 {
-    let hasher: Ctx8 = jet::sha_256_ctx_8_init();
-    let hasher: Ctx8 = jet::sha_256_ctx_8_add_32(hasher, string);
-    jet::sha_256_ctx_8_finalize(hasher)
-}
+```rust title="Allowance Covenant"
+// An allowance covenant.
+//
+// A beneficiary may withdraw up to ALLOWANCE_AMOUNT, no more often
+// than once every MIN_DISTANCE blocks, returning the remainder to a
+// fresh copy of this same contract. Once the remaining balance is
+// ALLOWANCE_AMOUNT or less, the beneficiary may take all of it and the
+// covenant ends.
+//
+// Funding note: each UTXO at this contract's address is an independent
+// allowance with its own timelock. Every spend of this contract uses
+// exactly one input (see enforce_single_input), so the balance of an
+// existing instance can only decrease; no transaction adds funds to
+// one. Paying the address again creates a second allowance rather than
+// extending the first, and the two can never be combined. Merging would
+// require a separate deposit path, which this contract deliberately
+// omits for the sake of staying readable.
 
 fn checksig(pk: Pubkey, sig: Signature) {
     let msg: u256 = jet::sig_all_hash();
     jet::bip_0340_verify((pk, msg), sig);
 }
 
-fn complete_spend(preimage: u256, recipient_sig: Signature) {
-    let hash: u256 = sha2(preimage);
-    let expected_hash: u256 = 0x66687aadf862bd776c8fc18b8e9f8e20089714856ee233b3902a591d0d5f2925;// (2)!
-    assert!(jet::eq_256(hash, expected_hash));
-    let recipient_pk: Pubkey = 0x79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798;// (3)!
-    checksig(recipient_pk, recipient_sig);
+fn not(bit: bool) -> bool {
+    <u1>::into(jet::complement_1(<bool>::into(bit)))
 }
 
-fn cancel_spend(sender_sig: Signature) {
-    let timeout: Height = 1000;
-    jet::check_lock_height(timeout);
-    let sender_pk: Pubkey = 0xc6047f9441ed7d6d3045406e95c07cd85c778e4b8cef3ca7abac09b95c709ee5;// (4)!
-    checksig(sender_pk, sender_sig)
+fn same_asset(x: (Asset1, Amount1), y: (Asset1, Amount1)) -> (u64, u64) {
+    // Confirm that two (asset, amount) pairs are denominated in the same asset,
+    // and return their explicit amounts.
+    //
+    // Comparing amounts without comparing assets is unsafe: anyone can issue an
+    // Elements asset carrying any amount at no cost, so an amount check on its own
+    // can be satisfied with worthless tokens. Returning the amounts from the same
+    // function that checks the assets means the amounts cannot be read without the
+    // check happening.
+    //
+    // Panics if either asset or either amount is confidential.
+    //
+    // This functionality is scheduled to be added to the SimplicityHL standard
+    // library.
+    let (x_asset, x_amount): (Asset1, Amount1) = x;
+    let (y_asset, y_amount): (Asset1, Amount1) = y;
+    let x_asset_id: u256 = unwrap_right::<(u1, u256)>(x_asset);// (1)!
+    let y_asset_id: u256 = unwrap_right::<(u1, u256)>(y_asset);
+    assert!(jet::eq_256(x_asset_id, y_asset_id));
+    (unwrap_right::<(u1, u256)>(x_amount), unwrap_right::<(u1, u256)>(y_amount))
 }
 
-fn main() {
-    match witness::COMPLETE_OR_CANCEL {
-        Left(preimage_sig: (u256, Signature)) => {
-            let (preimage, recipient_sig): (u256, Signature) = preimage_sig;
-            complete_spend(preimage, recipient_sig);
-        },
-        Right(sender_sig: Signature) => cancel_spend(sender_sig),
+fn recursive_covenant() {
+    // Enforce the covenant to repeat in the first output.
+    //
+    // Output 0: the covenant
+    // Output 1: the beneficiary's withdrawal
+    // Output 2: the fee (Elements has explicit fee outputs)
+    // Disallow further outputs.
+    assert!(jet::eq_32(jet::num_outputs(), 3));
+    let this_script_hash: u256 = jet::current_script_hash();// (2)!
+    let output_script_hash: u256 = unwrap(jet::output_script_hash(0));
+    assert!(jet::eq_256(this_script_hash, output_script_hash));
+    assert!(unwrap(jet::output_is_fee(2)));// (3)!
+}
+
+fn full_withdrawal() -> bool {
+    // Is the beneficiary currently allowed to take all of the
+    // remaining funds? (return true or false)
+    let (_, available_amount): (Asset1, Amount1) = jet::current_amount();
+    let explicit_amount: u64 = unwrap_right::<(u1, u256)>(available_amount);
+    jet::le_64(explicit_amount, param::ALLOWANCE_AMOUNT)// (4)!
+}
+
+fn partial_withdrawal() {
+    // Is the beneficiary validly taking an appropriate amount of
+    // the funds and returning the rest to a new instance of this
+    // same contract? (panic if not)
+
+    // Ensure some funds are being sent back to the same contract on
+    // output 0.
+    recursive_covenant();
+
+    // The covenant's current balance, and the amount retained on output 0.
+    // Both must be denominated in the same asset.
+    let (remaining_amount, retained_amount): (u64, u64) =
+        same_asset(jet::current_amount(), unwrap(jet::output_amount(0)));
+
+    // Subtract
+    let (borrow, difference): (bool, u64) = jet::subtract_64(remaining_amount, param::ALLOWANCE_AMOUNT);// (5)!
+    // Ensure calculated amount did not go negative.
+    assert!(not(borrow));
+    // Ensure retained amount is large enough.
+    assert!(jet::le_64(difference, retained_amount));
+}
+
+fn enforce_signature(sig: Signature) {
+    checksig(param::BENEFICIARY_KEY, sig);
+}
+
+fn enforce_single_input() {
+    // Only one copy of this covenant may run in a transaction. Otherwise
+    // several inputs would each check their own balance against the same
+    // output 0, only the largest of those checks would bind, and the rest of
+    // the co-spent balances could be taken.
+    //
+    // This is enforced here rather than inside partial_withdrawal so that it
+    // holds on every path, including a full withdrawal, and so that it keeps
+    // holding if further paths are added later.
+    //
+    // The restriction costs two things: instances can never be merged (see
+    // the funding note at the top of this file), and fees must come out of
+    // the covenant's own balance, since an outside input cannot help pay
+    // them. Fees therefore come out of the allowance.
+    assert!(jet::eq_32(jet::num_inputs(), 1));
+}
+
+pub fn enforce_relative_distance(min_distance: Distance) {
+    // Assert that the current input is spent in a transaction that can
+    // only appear a distance of at least min_distance blocks after the
+    // block containing the input UTXO.
+    // Panic otherwise.
+
+    // This is a replacement for the deprecated jet::check_lock_distance.
+
+    // Transaction version must be at least 2.
+    assert!(jet::le_32(2, jet::version()));
+
+    // Fetch and parse sequence
+    let actual_data: Either<Distance, Duration> = unwrap(jet::parse_sequence(jet::current_sequence()));// (6)!
+    let actual_distance: Distance = unwrap_left::<Duration>(actual_data);
+
+    assert!(jet::le_16(min_distance, actual_distance));
+}
+
+fn enforce_time_delay() {
+    enforce_relative_distance(param::MIN_DISTANCE);
+}
+
+fn main(){
+    // Transactions must be signed by the beneficiary.
+    enforce_signature(witness::SIGNATURE);
+
+    // Transactions must not be too frequent.
+    enforce_time_delay();
+
+    // Only one instance of this covenant may be spent per transaction.
+    enforce_single_input();
+
+    // If the amount remaining is no more than the allowance amount,
+    // the beneficiary is allowed to take all of it without sending
+    // anything back to the covenant.
+    match full_withdrawal() {
+        true => (),
+        false => partial_withdrawal(),
     }
-}// (1)!
+}
 ```
 
-1.  This compiles to Simplicity ready for on-chain execution. More involved scripts can execute [reverse Dutch auctions](https://delvingbitcoin.org/t/writing-simplicity-programs-with-simplicityhl/1900).
+1.  Elements assets and amounts can be confidential (encrypted) or explicit; `unwrap_right` assumes explicit and panics on a confidential value, since this contract only knows how to check plaintext amounts.
 
-2.  The SHA-256 hash of the all-zero 32-byte value `[0x00; 32]`, a fixed, public preimage used here so the example is self-contained and spendable by anyone trying it.
+2.  A covenant restricts future spends by requiring the same script to reappear in an output; `current_script_hash` is how the contract refers to its own code to check for that.
 
-3.  The public key corresponding to using the number `1` as a private key, for demonstration purposes.
+3.  Elements (Liquid's underlying protocol) pays fees through an explicit fee output rather than Bitcoin's implicit input/output-value difference.
 
-4.  The public key corresponding to using the number `2` as a private key, for demonstration purposes.
+4.  `param::` values aren't defined in this file: they're compile-time parameters bound when the contract is instantiated, and they become part of the resulting address.
+
+5.  Simplicity has no exceptions, so arithmetic jets like `subtract_64` return an explicit borrow flag instead of panicking or silently wrapping on underflow.
+
+6.  Bitcoin's `nSequence` field is overloaded to encode either a block-count or a time-duration relative timelock; `parse_sequence` decodes which one a transaction is using.
