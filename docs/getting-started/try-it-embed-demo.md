@@ -2,8 +2,6 @@
 title: Try it in your browser (embed preview)
 ---
 
-# Try it in your browser
-
 This page is a preview of embedding the interactive SimplicityHL playground directly on
 this site. It compiles and runs SimplicityHL in your browser, with nothing to install.
 
