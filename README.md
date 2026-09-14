@@ -32,4 +32,10 @@ on completion, failure, cancellation, or the 15-second timeout.
 Run the regression check with `node --test tests/webmcp.test.cjs`. For browser
 validation, serve the built site over localhost, discover `search_docs` with a
 WebMCP-capable browser, and try `timelock`, `eq_32`, and an unmatched query.
-Check that result links work from nested pages and after instant navigation.
+Check that result links work from nested pages, the 404 page, and after instant
+navigation. To test HTML extraction with the browser's real DOM parser, serve the
+repository root (`python -m http.server 8001 --bind 127.0.0.1`) and open
+`http://127.0.0.1:8001/tests/webmcp-browser.html`; the page must report PASS.
+This fixture tests markup removal, entities, and whitespace. Material's generated
+search excerpts can still omit surrounding context; follow result links for full
+definitions and warnings.

@@ -4,7 +4,7 @@ const { readFileSync } = require("node:fs");
 const vm = require("node:vm");
 const source = readFileSync(`${__dirname}/../docs/javascript/webmcp.js`, "utf8");
 
-function setup({ legacy = false, supported = true, failFetch = false, failWorker = false, stallWorker = false } = {}) {
+function setup({ legacy = false, supported = true, failFetch = false, failWorker = false, stallWorker = false, base = "../.." } = {}) {
   let tool;
   const workers = [];
   const input = { value: "", dispatchEvent() {}, focus() { this.focused = true; } };
@@ -37,7 +37,7 @@ function setup({ legacy = false, supported = true, failFetch = false, failWorker
   vm.runInNewContext(source, {
     document: {
       modelContext: supported && !legacy ? context : undefined,
-      getElementById: () => ({ textContent: JSON.stringify({ base: "../..", search: "../../assets/worker.js" }) }),
+      getElementById: () => ({ textContent: JSON.stringify({ base, search: "../../assets/worker.js" }) }),
       querySelector: () => input,
       createElement: () => ({ set innerHTML(value) { this.content = { textContent: value }; } }),
     },
@@ -97,4 +97,14 @@ test("search_docs validates, isolates calls, bounds results and cleans up", asyn
   during.abort();
   await assert.rejects(execution, /cancelled or timed out/);
   assert.ok(pending.workers[0].terminated);
+});
+
+test("root and subpath bases retain a single trailing slash", async () => {
+  for (const base of ["/", "/docs/", "/docs"]) {
+    const env = setup({ base });
+    const output = result(await env.tool.execute({ query: "timelock" }));
+    const expected = base === "/" ? "http://localhost:8000/" : "http://localhost:8000/docs/";
+    assert.ok(env.urls.includes(`${expected}search/search_index.json`));
+    assert.equal(output.results[0].url, `${expected}reference/#section-11`);
+  }
 });

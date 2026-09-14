@@ -1,0 +1,51 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>WebMCP HTML extraction regression</title>
+<h1>WebMCP HTML extraction regression</h1>
+<pre id="result">Running…</pre>
+<script id="__config" type="application/json">{"base":"/","search":"/unused-worker.js"}</script>
+<script>
+  // Run the production adapter with real DOM parsing and deterministic worker output.
+  (async () => {
+  let registeredTool;
+  const source = await (await fetch("../docs/javascript/webmcp.js")).text();
+  const testDocument = {
+    modelContext: { registerTool(tool) { registeredTool = tool; } },
+    getElementById: document.getElementById.bind(document),
+    createElement: document.createElement.bind(document),
+    querySelector: () => null,
+  };
+  const testFetch = async () => ({ ok: true, json: async () => ({ config: {}, docs: [] }) });
+  const TestWorker = class {
+    postMessage({ type }) {
+      queueMicrotask(() => this.onmessage({ data: type === 0 ? { type: 1 } : {
+        type: 3,
+        data: { items: [[{
+          title: "<mark>Signature</mark> &amp; verification",
+          text: "<table><tr><td><code>verify()</code></td> <td>Checks <mark>signatures</mark> &amp; keys.</td></tr></table>\n  <p>Panics on failure.</p>",
+          location: "reference/#verify",
+          score: 1,
+        }]] },
+      } }));
+    }
+    terminate() {}
+  };
+    try {
+      new Function("document", "navigator", "fetch", "Worker", source)(testDocument, {}, testFetch, TestWorker);
+      const response = await registeredTool.execute({ query: "verify" });
+      const { results } = JSON.parse(response.content[0].text);
+      const expected = {
+        title: "Signature & verification",
+        excerpt: "verify() Checks signatures & keys. Panics on failure.",
+        url: `${location.origin}/reference/#verify`,
+      };
+      if (JSON.stringify(results[0]) !== JSON.stringify(expected)) {
+        throw new Error(`Unexpected extraction: ${JSON.stringify(results[0])}`);
+      }
+      document.getElementById("result").textContent = "PASS: real DOM strips markup, decodes entities, normalizes whitespace, and preserves the complete fixture description.";
+    } catch (error) {
+      document.getElementById("result").textContent = `FAIL: ${error.message}`;
+      throw error;
+    }
+  })();
+</script>

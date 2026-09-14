@@ -4,7 +4,7 @@
   if (!context?.registerTool) return;
 
   const config = JSON.parse(document.getElementById("__config").textContent);
-  const base = new URL(`${config.base}/`, location.href);
+  const base = new URL(config.base.endsWith("/") ? config.base : `${config.base}/`, location.href);
   const workerURL = new URL(config.search, location.href);
 
   context.registerTool({
