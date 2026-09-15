@@ -15,3 +15,27 @@ mkdocs serve
 # Build for production
 python -m mkdocs build
 ```
+
+## WebMCP search
+
+Browsers that expose WebMCP receive one tool, `search_docs`, with a required
+`query` string (1–500 characters). It uses Material's existing search index and
+worker, returns up to ten sections with plain-text excerpts and URLs, and displays
+the query in the normal search UI. Unsupported browsers keep normal search.
+No server, API key, or additional search dependency is needed.
+
+The integration supports `document.modelContext` and the earlier
+`navigator.modelContext` location. It loads once per document and survives
+Material's instant navigation. Each invocation owns a worker, which is terminated
+on completion, failure, cancellation, or the 15-second timeout.
+
+Run the regression check with `node --test tests/webmcp.test.cjs`. For browser
+validation, serve the built site over localhost, discover `search_docs` with a
+WebMCP-capable browser, and try `timelock`, `eq_32`, and an unmatched query.
+Check that result links work from nested pages, the 404 page, and after instant
+navigation. To test HTML extraction with the browser's real DOM parser, serve the
+repository root (`python -m http.server 8001 --bind 127.0.0.1`) and open
+`http://127.0.0.1:8001/tests/webmcp-browser.html`; the page must report PASS.
+This fixture tests markup removal, entities, and whitespace. Material's generated
+search excerpts can still omit surrounding context; follow result links for full
+definitions and warnings.
