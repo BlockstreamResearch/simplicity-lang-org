@@ -1,2 +1,0 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["_astro/runnable.Bqd5ptkk.js","_astro/preload-helper.CeUMIjIt.js"])))=>i.map(i=>d[i]);
-import{t as e}from"./preload-helper.CeUMIjIt.js";if(document.querySelector(`[data-simptut-runnable]`)){let{mountAll:t}=await e(async()=>{let{mountAll:e}=await import(`./runnable.Bqd5ptkk.js`);return{mountAll:e}},__vite__mapDeps([0,1]));t()}
