@@ -89,7 +89,7 @@ A relative timelock is calculated based on the time when a particular UTXO was i
 
 This function enforces a relative distance timelock by calling a combination of related jets.
 
-```rust
+```simplicityhl
 fn enforce_relative_distance(min_distance: Distance) {
     // Assert that the current input is spent in a transaction that can
     // only appear a distance of at least min_distance blocks after the input's
@@ -118,7 +118,7 @@ fn enforce_relative_distance(min_distance: Distance) {
 
 And this is the equivalent function to enforce a relative duration timelock.
 
-```rust
+```simplicityhl
 fn enforce_relative_duration(min_duration: Duration) {
     // Assert that the current input is spent in a transaction that can only
     // appear a duration of at least min_duration units of 512 seconds after

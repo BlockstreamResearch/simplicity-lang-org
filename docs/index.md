@@ -51,7 +51,7 @@ The tutorials on this site currently target Liquid testnet for learning purposes
 You can use SimplicityHL, a high-level language with a clean, Rust-like syntax. This abstracts away low-level complexity, making it straightforward to write clear and reliable financial contracts with minimal code.
 
 
-```rust title="Allowance Covenant"
+```simplicityhl title="Allowance Covenant"
 // An allowance covenant.
 //
 // A beneficiary may withdraw up to ALLOWANCE_AMOUNT, no more often

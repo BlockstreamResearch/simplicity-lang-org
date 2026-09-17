@@ -14,7 +14,7 @@ You don't have to do anything special to make a `.simf` file into a module; by d
 
 To let a function be imported into another file, put `pub` in front of its definition:
 
-```rust
+```simplicityhl
 // shapes/polygons.simf
 pub fn triangle_area(base: u32, height: u32) -> u32 {
     let (_, doubled): (bool, u32) = jet::multiply_32(base, height);
@@ -29,7 +29,7 @@ Without `pub`, `triangle_area` could only be called from within `polygons.simf` 
 
 To use `triangle_area` from a different file, add a `use` line naming its full path, starting with `crate` and delimited with double colons:
 
-```rust
+```simplicityhl
 // main.simf
 use crate::shapes::polygons::triangle_area;
 
@@ -58,7 +58,7 @@ with the very last segment naming the actual item being imported from that file.
 
 Sometimes you want to group related functions together without creating a whole new file for them. A `mod` block does that inside a single file. `mod` blocks can be nested.
 
-```rust
+```simplicityhl
 mod math {
     pub mod ops {
         pub fn double(x: u32) -> u32 {
@@ -92,7 +92,7 @@ This is a single file, `examples/modules.simf` in the SimplicityHL repository. N
 
 If an imported name would clash with something else, or you'd just prefer a different local name, add `as`:
 
-```rust
+```simplicityhl
 use crate::shapes::polygons::triangle_area as tri_area;
 ```
 
@@ -102,7 +102,7 @@ The imported function will now be called `tri_area`.
 
 List multiple items from the same file in braces. Optionally, use an `as` wherever you like:
 
-```rust
+```simplicityhl
 use crate::shapes::polygons::{triangle_area, square_area as sq_area};
 ```
 
@@ -112,7 +112,7 @@ There's no `*` wildcard to import "everything" from a file. Every name has to be
 
 Adding `pub` in front of a `use` line imports the item and makes it available for *other* files to import from *this* file, under its own name. This is handy for building a single file that gathers up functions from several lower-level files into one convenient place:
 
-```rust
+```simplicityhl
 // lib/api.simf
 pub use crate::shapes::polygons::triangle_area;
 pub use crate::shapes::polygons::square_area;
@@ -130,7 +130,7 @@ simc -Z imports --dep shapes_lib=../shape_lib main.simf
 
 This maps the name `shapes_lib` to the directory `../shape_lib` for the duration of this compile. Inside your code, you import from it exactly like a local module, just starting from the alias instead of `crate`:
 
-```rust
+```simplicityhl
 use shapes_lib::polygons::triangle_area;
 ```
 
@@ -148,7 +148,7 @@ This adds an entry to the project's `Simplex.toml`.
 
 Simplex passes the equivalent of a `--dep std=...` argument to `simc` when it builds the project, so all standard library functions become available to import under `std::`:
 
-```rust
+```simplicityhl
 use std::lib::u32::math::checked_add_32;
 use std::lib::asserts::assert_eq_32;
 

@@ -139,7 +139,7 @@ The value `Some(a)` contains an inner value `a` of type `A`.
 
 In Rust, we implement options as follows.
 
-```rust
+```simplicityhl
 enum Option<A> {
     None,
     Some(A),
@@ -162,7 +162,7 @@ The value `Right(b)` contains an inner value `b` of type `B`.
 
 In Rust, we implement sum types as follows.
 
-```rust
+```simplicityhl
 enum Either<A, B> {
     Left(A),
     Right(B),
@@ -175,7 +175,7 @@ Enum types are available since SimplicityHL 0.7.0 (compiling with `-Z enums`).
 
 Enum types are declared with a stanza like
 
-```rust
+```simplicityhl
 enum A {
     B,
     C,
@@ -188,7 +188,7 @@ This declaration allows the type `A` to take on any of four listed values, calle
 
 Enum type values can also wrap objects of other types, when this is appropriately declared in the initial enum declaration. The `Enum` instances then contain inner variables of the specified types.
 
-```rust
+```simplicityhl
 enum A {
     B,
     C(T),

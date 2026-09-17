@@ -8,7 +8,7 @@ All SimplicityHL variables are immutable. There is no way to declare a variable 
 
 Allowed:
 
-```rust
+```simplicityhl
 let ctx: Ctx8 = jet::sha_256_ctx_8_init();
 let ctx: Ctx8 = jet::sha_256_ctx_8_add_1(ctx, 0x68);
 let ctx: Ctx8 = jet::sha_256_ctx_8_add_4(ctx, 0x656c6c6f);
@@ -18,7 +18,7 @@ assert!(jet::eq_256(hash, 0x2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e7304
 
 Not useful:
 
-```rust
+```simplicityhl
 // This function does not do what the developer may have expected. It does not modify x.
 fn increment(x: u8){
     let (carry, x2): (bool, u8) = jet::increment_8(x);
@@ -30,7 +30,7 @@ fn increment(x: u8){
 
 Currently, SimplicityHL does not support common infix and unary operators such as `!=`, `==`, `<=`, `>=`, `+`, `-`, `*`, `/`, `&`, `|`, `^`, `!`, and others that are found in Rust and in other languages whose syntax descends from C's. Instead, each of these operations requires an explicit call to an appropriate [jet](../jets) to perform the comparison. (It may be possible for a future version of the SimplicityHL compiler to support these notations as syntactic sugar for the corresponding jet calls.) For example, code that might look like
 
-```rust
+```simplicityhl
 if (counter3 != threshold) {
     assert!(0);
 }
@@ -38,20 +38,20 @@ if (counter3 != threshold) {
 
 in other languages is written in current versions of SimplicityHL as
 
-```rust
+```simplicityhl
 assert!(jet::eq_8(counter3, threshold));
 ```
 
 Code that might look like
 
-```rust
+```simplicityhl
 let x: u8 = 17;
 let y: u8 = x + 1;
 ```
 
 in Rust is written in current SimplicityHL as
 
-```rust
+```simplicityhl
 let x: u8 = 17;
 let (carry, y): (bool, u8) = jet::add_8(x, 1);
 ```

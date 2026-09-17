@@ -2,7 +2,7 @@
 
 SimplicityHL currently doesn't support Rust-like `struct`s for organizing data.
 
-```rust
+```simplicityhl
 struct User {
   active: bool,
   id: u256,
@@ -12,7 +12,7 @@ struct User {
 
 SimplicityHL programmers have to handle long tuples of unlabeled data, which can get messy.
 
-```rust
+```simplicityhl
 (bool, u256, u64)
 ```
 
@@ -21,7 +21,7 @@ Aliases define a new name for an existing type.
 In contrast, `struct`s define an entirely new type, so aliases are different from `struct`s.
 However, aliases still make the code more readable.
 
-```rust
+```simplicityhl
 type User = (bool, u256, u64);
 ```
 

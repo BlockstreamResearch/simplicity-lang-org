@@ -24,7 +24,7 @@ Reference the item you want with a `use` declaration, giving its full path and e
 
 Local files (that is, files belonging to your own project rather than an external dependency) are addressed with the `crate::` prefix. Path resolution walks the remaining segments greedily: each segment that names an existing subdirectory is descended into, and the first segment that instead matches `<name>.simf` (the name, without the `.simf` extension) marks the file being imported from. Any segments still remaining after that point name a chain of nested `mod` blocks inside that file, ending in the actual function or type being imported.
 
-```rust
+```simplicityhl
 use crate::math::foo::bar;
 ```
 
@@ -38,7 +38,7 @@ There is no `super::` or other syntax for referring to a parent module relativel
 
 Instead of (or alongside) splitting code into separate files, `mod name { ... }` groups items into a named namespace within a single file. `mod` blocks can be marked `pub` and nested to any depth:
 
-```rust
+```simplicityhl
 mod math {
     pub mod ops {
         pub fn double(x: u32) -> u32 {
@@ -61,7 +61,7 @@ As a special case, `enum` declarations cannot be placed inside any `mod` block, 
 
 ### Aliasing with `as`
 
-```rust
+```simplicityhl
 use crate::math::foo::bar as baz;
 ```
 
@@ -69,7 +69,7 @@ use crate::math::foo::bar as baz;
 
 ### Importing multiple items at once
 
-```rust
+```simplicityhl
 use crate::math::foo::{bar, baz as qux};
 ```
 
@@ -79,7 +79,7 @@ imports both `bar` and `baz` (renamed to `qux`) from the same file or `mod` bloc
 
 Adding `pub` in front of a `use` declaration imports the item for use in the current file and also re-exports it, making it available for other files to import from this file/module, under its own path:
 
-```rust
+```simplicityhl
 pub use crate::math::foo::bar;
 ```
 
@@ -95,7 +95,7 @@ simc -Z imports --dep NAME=PATH main.simf
 
 This maps the prefix `NAME` to the directory `PATH` (relative or absolute) for that compile. A `use NAME::...` path is then resolved exactly like a `crate::...` path, but rooted at `PATH` instead of the project root:
 
-```rust
+```simplicityhl
 use elsewhere::foo::bar;
 ```
 

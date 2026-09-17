@@ -131,7 +131,7 @@ Here's an example that shows the differences between both languages. An oracle s
 
 ### Simplicity Example ([source](https://github.com/BlockstreamResearch/SimplicityHL/blob/master/examples/hodl_vault.simf))
 
-```rust
+```simplicityhl
 fn checksig(pk: Pubkey, sig: Signature) {
     let msg: u256 = jet::sig_all_hash();
     jet::bip_0340_verify((pk, msg), sig);

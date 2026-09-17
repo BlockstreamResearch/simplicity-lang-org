@@ -20,7 +20,7 @@
 
 ### `array_fold`
 
-```rust
+```simplicityhl
 fn sum(elt: u32, acc: u32) -> u32 {
     let (_, acc): (bool, u32) = jet::add_32(elt, acc);
     acc
@@ -35,7 +35,7 @@ fn main() {
 
 ### `assert!`
 
-```rust
+```simplicityhl
 fn main(){
    let (_, total): (bool, u32) = jet::add_32(1, 1);
    assert!(jet::eq_32(total, 2));
@@ -44,7 +44,7 @@ fn main(){
 
 ### `fold`
 
-```rust
+```simplicityhl
 fn sum(elt: u32, acc: u32) -> u32 {
     let (_, acc): (bool, u32) = jet::add_32(elt, acc);
     acc
@@ -62,7 +62,7 @@ fn main() {
 Detailed example of calculating a hash over an entire array (from `SimplicityHL/examples/hash_loop.simf`).
 
 ??? "Click to show"
-    ```rust
+    ```simplicityhl
     // Add counter to streaming hash and finalize when the loop exists
     fn hash_counter_8(ctx: Ctx8, unused: (), byte: u8) -> Either<u256, Ctx8> {
         let new_ctx: Ctx8 = jet::sha_256_ctx_8_add_1(ctx, byte);
@@ -99,7 +99,7 @@ Detailed example of calculating a hash over an entire array (from `SimplicityHL/
 
 ### `into`
 
-```rust
+```simplicityhl
 fn not(bit: bool) -> bool {
     <u1>::into(jet::complement_1(<bool>::into(bit)))
 }
@@ -111,7 +111,7 @@ See [type casting](../type_casting/) for more details.
 
 Many uses of `is_none` are more simply handled with `unwrap()` or `match`, but it is available where desired.
 
-```rust
+```simplicityhl
 let existing_key: Pubkey = get_existing_pubkey();
 if is_none::<Pubkey>(witness::NEW_PUBKEY) {
     require_pubkey(existing_key)
@@ -122,7 +122,7 @@ if is_none::<Pubkey>(witness::NEW_PUBKEY) {
 
 This is equivalent to the `match` version
 
-```rust
+```simplicityhl
 let existing_key: Pubkey = get_existing_pubkey();
 match witness::NEW_PUBKEY {
     None => require_pubkey(existing_key),
@@ -132,7 +132,7 @@ match witness::NEW_PUBKEY {
 
 ### `panic!`
 
-```rust
+```simplicityhl
 // This requires that the specified witness include a Left(Signature)
 // rather than a Right(Signature).
 fn main(){
@@ -147,7 +147,7 @@ fn main(){
 
 A simple example of `unwrap()` appears in [`last_will.simf`](https://github.com/BlockstreamResearch/SimplicityHL/blob/master/examples/last_will.simf).
 
-```rust
+```simplicityhl
 assert!(unwrap(jet::output_is_fee(1)));
 ```
 

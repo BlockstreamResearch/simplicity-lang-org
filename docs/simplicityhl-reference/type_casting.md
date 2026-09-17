@@ -51,7 +51,7 @@ If type `A` can be cast into type `B` and type `B` can be cast into type `C`, th
 
 All casting in SimplicityHL happens explicitly through a casting expression.
 
-```rust
+```simplicityhl
 <Input>::into(input)
 ```
 
@@ -60,7 +60,7 @@ The input type of the cast is explicit while the output type is implicit.
 
 In SimplicityHL, the output type of every expression is known.
 
-```rust
+```simplicityhl
 let x: u32 = 1;
 ```
 
@@ -72,7 +72,7 @@ The SimplicityHL compiler knows the type of the outermost expression, and it tri
 When it comes to casting expressions, the compiler has no idea about the input type of the cast.
 The programmer needs to supply this information by annotating the cast with its input type.
 
-```rust
+```simplicityhl
 let x: u32 = <(u16, u16)>::into((0, 1));
 ```
 

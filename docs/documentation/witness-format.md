@@ -82,7 +82,7 @@ Primitive types include unsigned integers (`u1`, `u2`, `u4`, `u8`, `u16`, `u32`,
 
 **Contract expectation (`contract.simf`):**
 
-```rust
+```simplicityhl
 let quantity: u16 = witness::QUANTITY;
 let is_valid: bool = witness::YES_OR_NO;
 ```
@@ -100,7 +100,7 @@ Some alias types like `Signature` and `Pubkey` are also written as scalar string
 
 **Contract expectation (`contract.simf`):**
 
-```rust
+```simplicityhl
 let sig: Signature = witness::ALICE_SIGNATURE;
 ```
 
@@ -120,7 +120,7 @@ Enum values can be *unit variants* (simple names) or *compound variants* that ca
 
 **Contract expectation (`contract.simf`):**
 
-```rust
+```simplicityhl
 enum Action {
     Update,
     Claim(u64, u64),
@@ -163,7 +163,7 @@ Tuples and arrays group multiple values into a single witness item.
 
 **Contract expectation (`contract.simf`):**
 
-```rust
+```simplicityhl
 let mypair: (bool, u16) = witness::MYPAIR;
 let four_sigs: [Signature; 4] = witness::FOUR_SIGS;
 ```
@@ -190,7 +190,7 @@ Tagged sum types express conditional data structures that are unwrapped inside t
 
 **Contract expectation (`contract.simf`):**
 
-```rust
+```simplicityhl
 let alice_sig: Option<Signature> = witness::MAYBE_ALICE_SIG;
 let bob_sig: Option<Signature> = witness::MAYBE_BOB_SIG;
 ```
@@ -212,7 +212,7 @@ While custom `enum` types are generally preferred for named contract actions, `E
 
 **Contract expectation (`contract.simf`):**
 
-```rust
+```simplicityhl
 let auth: Either<Signature, (Pubkey, u32)> = witness::SIGNATURE_OR_PUBKEY_AND_AMOUNT;
 ```
 

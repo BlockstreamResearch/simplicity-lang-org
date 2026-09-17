@@ -68,7 +68,7 @@ Then a Simplicity witness using this statement might include
 
 A SimplicityHL program that's run with this witness can verify it with
 
-```rust
+```simplicityhl
 // Minimum required block height (= 2026-03-09).
 // Block height is a 32-bit value.
 assert!(jet::lt_32(3790000, witness::oracle_height));

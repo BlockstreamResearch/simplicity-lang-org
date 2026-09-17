@@ -27,7 +27,7 @@ In Simplicity, most complex and long-term financial relationships among multiple
 A simple example is provided in [`last_will.simf`](https://github.com/BlockstreamResearch/SimplicityHL/blob/master/examples/last_will.simf).
 
 ???+ "Click to hide source code"
-    ```rust
+    ```simplicityhl
     /*
      * LAST WILL
      *
@@ -138,7 +138,7 @@ A discussion and demonstration of this approach took place in [the December 23, 
 This example contract, `third_time.simf`, uses the state management mechanism described in the prior section. It enforces the saying "the third time's the charm"; it requires a series of three distinct transactions in order to perform a withdrawal.
 
 ???+ "Click to hide source code"
-    ```rust
+    ```simplicityhl
     /*
     * "Third Time's The Charm" covenant demonstrating Simplicity state management 
     *

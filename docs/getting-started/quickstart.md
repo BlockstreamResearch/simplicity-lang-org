@@ -26,7 +26,7 @@ flowchart TD
 
 The code (from the online <a href="https://github.com/BlockstreamResearch/SimplicityHL/blob/master/examples/last_will.simf">SimplicityHL examples</a>) looks like this:
 
-```rust
+```simplicityhl
 fn checksig(pk: Pubkey, sig: Signature) {
     let msg: u256 = jet::sig_all_hash();
     jet::bip_0340_verify((pk, msg), sig);

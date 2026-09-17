@@ -3,7 +3,7 @@
 A match expression conditionally executes code branches.
 Which branch is executed depends on the input to the match expression.
 
-```rust
+```simplicityhl
 let result: u32 = match f(42) {
     Left(x: u32) => x,
     Right(x: u16) => jet::left_pad_low_16_32(x),
@@ -31,7 +31,7 @@ There is limited support for pattern matching inside match expressions.
 Boolean values can be matched.
 The Boolean match expression is the replacement for an "if-then-else" in SimplicityHL.
 
-```rust
+```simplicityhl
 let bit_flip: bool = match false {
     false => true,
     true => false,
@@ -41,7 +41,7 @@ let bit_flip: bool = match false {
 Optional values can be matched.
 The `Some` arm introduces a variable which must be explicitly typed.
 
-```rust
+```simplicityhl
 let unwrap_or_default: u32 = match Some(42) {
     None => 0,
     Some(x: u32) => x,
@@ -51,7 +51,7 @@ let unwrap_or_default: u32 = match Some(42) {
 Finally, `Either` values can be matched.
 Again, variables that are introduced in match arms must be explicitly typed.
 
-```rust
+```simplicityhl
 let map_either: u32 = match Left(1337) {
     Left(x: u32) => f(x),
     Right(y: u32) => f(y),
@@ -60,7 +60,7 @@ let map_either: u32 = match Left(1337) {
 
 Since SimplicityHL 0.5.0, the match expression also supports further pattern matching, similar to Rust.
 
-```rust
+```simplicityhl
 let unwrap_or_default: u32 = match Some((4, 2)) {
     None => 0,
     Some((y, z): (u16, u16)) => <(u16, u16)>::into((y, z)),
@@ -70,7 +70,7 @@ let unwrap_or_default: u32 = match Some((4, 2)) {
 This is more concise than including code to perform the deconstruction inside the match arm.
 For example, the code above is a more concise alternative to this version that subsequently deconstructes the tuple `x` of type `(u16, u16)` into two integers `y` and `z` of type `u16`.
 
-```rust
+```simplicityhl
 let unwrap_or_default: u32 = match Some((4, 2)) {
     None => 0,
     Some(x: (u16, u16)) => {
@@ -83,7 +83,7 @@ let unwrap_or_default: u32 = match Some((4, 2)) {
 The match arm can also contain match expressions for further deconstruction.
 For example, the sum value `x` of type `Either<u32, u32>` can be matched as either `Left(y: u32)` or `Right(z: u32)`.
 
-```rust
+```simplicityhl
 let unwrap_or_default: u32 = match Some(Left(42)) {
     None => 0,
     Some(x: Either<u32, u32>) => match x {
@@ -98,7 +98,7 @@ let unwrap_or_default: u32 = match Some(Left(42)) {
 Since SimplicityHL 0.7.0 (compiling with `-Z enums`), you can match on all values of an `enum` type.
 This is useful for *actions* at the top level of a contract's `main()` function. Matching an `enum` lets a [witness](../glossary.md#witness) choose from among several predefined actions.
 
-```rust
+```simplicityhl
 enum Action {
     Inherit(Signature),
     ColdSpend(Signature),

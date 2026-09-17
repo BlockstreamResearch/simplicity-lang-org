@@ -2,14 +2,14 @@
 
 Variables are defined in let statements, [just like in Rust](https://doc.rust-lang.org/std/keyword.let.html).
 
-```rust
+```simplicityhl
 let x: u32 = 1;
 ```
 
 The above let statement defines a variable called `x`.
 The variable is of type `u32` and it is assigned the value `1`.
 
-```rust
+```simplicityhl
 let x: u32 = f(1337);
 ```
 
@@ -30,7 +30,7 @@ There are no mutable variables.
 The same variable can be defined twice in the same scope.
 The later definition overrides the earlier definition.
 
-```rust
+```simplicityhl
 let x: u32 = 1;
 let x: u32 = 2;
 assert!(jet::eq_32(x, 2)); // x == 2
@@ -40,7 +40,7 @@ Normal scoping rules apply:
 Variables from outer scopes are available inside inner scopes.
 A variable defined in an inner scope shadows a variable of the same name from an outer scope.
 
-```rust
+```simplicityhl
 let x: u32 = 1;
 let y: u32 = 2;
 let z: u32 = {
@@ -55,7 +55,7 @@ assert!(jet::eq_32(z, 3)); // z == 3
 
 There is limited pattern matching support inside let statements.
 
-```rust
+```simplicityhl
 let (x, y, _): (u8, u16, u32) = (1, 2, 3);
 let [x, _, z]: [u32; 3] = [1, 2, 3];
 ```

@@ -146,6 +146,7 @@ repo_name: "" # Hides the GitHub link/icon from title bar while keeping edit fun
 edit_uri: edit/main/docs/
 
 hooks:
+  - hooks/simplicityhl_lexer.py
   - hooks/runnable.py
   - includes/hooks/autolink_glossary.py
 

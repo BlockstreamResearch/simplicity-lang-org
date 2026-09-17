@@ -2,7 +2,7 @@
 
 Functions are defined and called [just like in Rust](https://doc.rust-lang.org/std/keyword.fn.html).
 
-```rust
+```simplicityhl
 fn add(x: u32, y: u32) -> u32 {
     let (carry, sum): (bool, u32) = jet::add_32(x, y);
     match carry {
@@ -25,7 +25,7 @@ The above function is called by writing its name `add` followed by a list of arg
 Each parameter needs an argument, so the list of arguments is as long as the list of parameters.
 Here, `x` is assigned the value `40` and `y` is assigned the value `2`.
 
-```rust
+```simplicityhl
 let z: u32 = add(40, 2);
 ```
 
@@ -43,7 +43,7 @@ Loops, where `f` calls `g` and `g` calls `f`, are also impossible.
 
 What _is_ possible are stratified function definitions, where level-0 functions depend on nothing, level-1 functions depend on level-0 functions, and so on.
 
-```rust
+```simplicityhl
 fn level_0() -> u32 {
     0
 }
@@ -63,7 +63,7 @@ fn level_2() -> u32 {
 
 If function `g` calls function `f`, then `f` **must** be defined before `g`.
 
-```rust
+```simplicityhl
 fn f() -> u32 {
     42
 }
@@ -79,7 +79,7 @@ The `main` function is the entry point of each SimplicityHL program.
 Running a program means running its `main` function.
 Other functions are called from the `main` function.
 
-```rust
+```simplicityhl
 fn main() {
     // ...
 }
@@ -93,7 +93,7 @@ There is no support for "libraries".
 
 Jets are predefined and optimized functions for common use cases.
 
-```rust
+```simplicityhl
 jet::add_32(40, 2)
 ```
 

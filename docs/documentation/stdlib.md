@@ -19,7 +19,7 @@ simplex install std
 
 This adds an entry to the project's `Simplex.toml` with a standard library dependency. The functions listed below are then available under the alias `std`, for example:
 
-```rust
+```simplicityhl
 use std::lib::u32::math::safe_add_32;
 ```
 

@@ -91,7 +91,7 @@ These examples do not use introspection features, so they don't demonstrate Simp
 
 This program, `p2ms.simf`, is taken from the SimplicityHL examples collection. An [older version of the `bash` quickstart](/getting-started/bash-quickstart) guide provides a recipe for making a Liquid Testnet transaction using this program.
 
-```rust
+```simplicityhl
 /*
  * PAY TO MULTISIG
  *
@@ -175,7 +175,7 @@ Once an asset has been sent to this contract (that is, a UTXO identifies it as a
 
 This program, `htlc.simf`, is also taken from the SimplicityHL examples collection. It implements a hash-timelock contract, a mechanism often used in cryptocurrency swaps.
 
-```rust
+```simplicityhl
 /*
  * HTLC (Hash Time-Locked Contract)
  *
