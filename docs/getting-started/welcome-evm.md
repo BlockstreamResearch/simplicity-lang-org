@@ -7,10 +7,10 @@ The architectural differences from Solidity that matter most are the absence of 
 ## Where to go from here
 
 * **Quickstart:** Make a first Simplicity transaction with the [quickstart tutorial](../quickstart/).
-* **Simplicity for EVM developers:** [Introduction to Simplicity for EVM Developers](../documentation/simplicity-for-evm-developers) maps EVM concepts to Simplicity, with FAQs and a video on the architectural differences.
+* **Simplicity for EVM developers:** [Introduction to Simplicity for EVM Developers](../../documentation/simplicity-for-evm-developers) maps EVM concepts to Simplicity, with FAQs and a video on the architectural differences.
 * **Use cases:** [Simplicity use cases and demos](../../use-cases/), including complex financial applications built natively on-chain.
 * **Execution model:** [The UTXO execution model](../../documentation/execution-model) that structures Simplicity contracts, including how spending conditions are enforced without global state or account balances.
 * **Covenants and state:** [Covenants and state management](../../documentation/state), the UTXO equivalent of updating contract storage.
 * **Oracles:** How [oracles](../../documentation/oracle) pass off-chain data into Simplicity contracts.
-* **Example code:** [Basic contract examples](https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples) and [more complex example contracts](https://github.com/BlockstreamResearch/simplicity-contracts) demonstrate SimplicityHL syntax and features. The [SimplicityHL language documentation](https://docs.simplicity-lang.org/documentation/) covers the full reference.
+* **Example code:** [Basic contract examples](https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples) and [more complex example contracts](https://github.com/BlockstreamResearch/simplicity-contracts) demonstrate SimplicityHL syntax and features. The [SimplicityHL language reference](https://docs.simplicity-lang.org/simplicityhl-reference/) describes full language details.
 * **Community:** Join the [Simplicity forum](https://community.simplicity-lang.org/), [Telegram group](https://t.me/simplicity_community), or the [weekly office hours calls](../../office-hours).
