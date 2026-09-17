@@ -23,17 +23,17 @@ Make your first Simplicity transaction on Liquid Testnet in a few minutes. Every
 - ### :material-language-rust: Rust
   A small Rust project with `cargo run` commands wrapping compile, fund, and spend. No Rust code to write yourself.
  
-  [:octicons-arrow-right-24: Start the Rust track](quickstart-rust.md)
+  [:octicons-arrow-right-24: Start the Rust track](quickstart.md)
  
 - ### :material-console: Bash / CLI
   The `simc` and `hal-simplicity` command-line tools directly, with `bash`, `curl`, and `jq`. The most explicit track — every step is a visible command, nothing wrapped.
 
-  [:octicons-arrow-right-24: Start the `bash`/CLI track](quickstart-bash.md)
+  [:octicons-arrow-right-24: Start the `bash`/CLI track](bash-quickstart.md)
  
 - ### :material-language-python: Python
   Using the [Liquid Wallet Kit](https://github.com/Blockstream/lwk)'s Python bindings.
 
-  [:octicons-arrow-right-24: Start the Python track](quickstart-python.md)
+  [:octicons-arrow-right-24: Read about the Python SDK](https://github.com/Blockstream/lwk)
 
 </div>
  

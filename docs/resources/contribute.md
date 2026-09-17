@@ -1,6 +1,6 @@
 ## How to help the Simplicity project
 
-You can help Simplicity by participating in any of the [projects built with it](../../use-cases), or by building your own applications.
+You can help Simplicity by participating in any of the [projects built with it](../use-cases/index.md), or by building your own applications.
 
 To contribute to the Simplicity and SimplicityHL open source projects, please see
 

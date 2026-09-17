@@ -26,7 +26,7 @@ Both of these will require `jq` and `curl` (for parsing JSON data and connecting
 
 This script assumes you have already installed `simc` and `hal-simplicity` and also have `git`, `curl`, and `jq` available.
 
-You will need to download the [p2ms-demo.sh](/assets/p2ms-demo.sh) bash script from this site. (Firefox may refuse to save it because of its MIME type; if so, use `wget` or `curl` instead.)
+You will need to download the [p2ms-demo.sh](../assets/p2ms-demo.sh) bash script from this site. (Firefox may refuse to save it because of its MIME type; if so, use `wget` or `curl` instead.)
 
 Then just run `bash p2ms-demo.sh` in the same directory where you checked out the `SimplicityHL` repository and downloaded `p2ms-demo.sh`. This should be sufficient to perform your first Simplicity transaction with an on-chain contract written in SimplicityHL!
 

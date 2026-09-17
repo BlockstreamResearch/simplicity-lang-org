@@ -6,9 +6,9 @@ Simplicity provides tools to represent and enforce complex financial agreements 
 
 ## Where to go from here
 
-* **Quickstart:** Make a first Simplicity transaction ("pay-to-public-key" implemented in SimplicityHL) with the [quickstart tutorial](../quickstart/).
-* **Execution model:** [The UTXO model](../../documentation/execution-model) that Simplicity programs execute within, including [introspection](../glossary.md#introspection).
-* **Covenants, state, and oracles:** [Covenants and state management](../../documentation/state) and [oracles](../../documentation/oracle) cover how to build vaults and advanced constraints. [Jets](../../documentation/jets) expose transaction details and perform calculations efficiently.
-* **Use cases:** [Simplicity use cases and demos](../../use-cases/).
+* **Quickstart:** Make a first Simplicity transaction ("pay-to-public-key" implemented in SimplicityHL) with the [quickstart tutorial](quickstart.md).
+* **Execution model:** [The UTXO model](../documentation/execution-model.md) that Simplicity programs execute within, including [introspection](../glossary.md#introspection).
+* **Covenants, state, and oracles:** [Covenants and state management](../documentation/state.md) and [oracles](../documentation/oracle.md) cover how to build vaults and advanced constraints. [Jets](../documentation/jets.md) expose transaction details and perform calculations efficiently.
+* **Use cases:** [Simplicity use cases and demos](../use-cases/index.md).
 * **Example code:** [Basic contract examples](https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples) and [more complex example contracts](https://github.com/BlockstreamResearch/simplicity-contracts) demonstrate SimplicityHL syntax and features. The [SimplicityHL language documentation](https://docs.simplicity-lang.org/documentation/) covers the full reference.
-* **Community:** Join the [Simplicity forum](https://community.simplicity-lang.org/), [Telegram group](https://t.me/simplicity_community), or the [weekly office hours calls](../../office-hours).
+* **Community:** Join the [Simplicity forum](https://community.simplicity-lang.org/), [Telegram group](https://t.me/simplicity_community), or the [weekly office hours calls](../office-hours.md).

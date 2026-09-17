@@ -85,7 +85,7 @@ jet::bip_0340_verify((oracle_pubkey, overall_hash), witness::oracle_signature);
 
 Note that the program recomputes the SHA256 hash of the asserted data values, then checks that the provided oracle signature is a valid signature for that hash. If a party tried to submit a false or modified oracle statement, the oracle's signature wouldn't verify correctly.
 
-The program can then use the validated `witness::oracle_price` value for other logic (for example, calculating a liquidation threshold or a pro-rated refund amount in the [Simplicity Lending Protocol](../../use-cases/lending-protocol), or determining whether it exceeded a threshold for the conditions of a prediction contract).
+The program can then use the validated `witness::oracle_price` value for other logic (for example, calculating a liquidation threshold or a pro-rated refund amount in the [Simplicity Lending Protocol](../use-cases/lending-protocol.md), or determining whether it exceeded a threshold for the conditions of a prediction contract).
 
 A contract can also allow for multiple oracles by accepting any of several different public keys as trusted, providing a different verification path for each key.
 
@@ -97,7 +97,7 @@ Resolvr's [Deadcat project](https://github.com/Resolvr-io/deadcat/) includes an 
 
 In addition to financial applications like prediction markets and options contracts, oracles have applications for letting smart contracts "query" a company's databases or APIs. In this capacity, an internal oracle can bridge the gap between business systems and the blockchain by making signed statements about the results of API calls.
 
-When a contract needs access to information kept in a database in order to make a decision, oracle mechanisms help work around [the fact that Simplicity contracts can't directly access off-chain data](../../documentation/execution-model).
+When a contract needs access to information kept in a database in order to make a decision, oracle mechanisms help work around [the fact that Simplicity contracts can't directly access off-chain data](execution-model.md).
 
 For example, suppose you're creating an application which is only allowed to send withdrawals to explicitly pre-approved addresses. But the list of such addresses may live in a database, not on the blockchain. An internal oracle can help by 
 1.  performing a database lookup,

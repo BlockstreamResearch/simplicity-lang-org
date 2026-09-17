@@ -28,7 +28,7 @@ fn increment(x: u8){
 
 ## No infix and unary operators
 
-Currently, SimplicityHL does not support common infix and unary operators such as `!=`, `==`, `<=`, `>=`, `+`, `-`, `*`, `/`, `&`, `|`, `^`, `!`, and others that are found in Rust and in other languages whose syntax descends from C's. Instead, each of these operations requires an explicit call to an appropriate [jet](../jets) to perform the comparison. (It may be possible for a future version of the SimplicityHL compiler to support these notations as syntactic sugar for the corresponding jet calls.) For example, code that might look like
+Currently, SimplicityHL does not support common infix and unary operators such as `!=`, `==`, `<=`, `>=`, `+`, `-`, `*`, `/`, `&`, `|`, `^`, `!`, and others that are found in Rust and in other languages whose syntax descends from C's. Instead, each of these operations requires an explicit call to an appropriate [jet](jets.md) to perform the comparison. (It may be possible for a future version of the SimplicityHL compiler to support these notations as syntactic sugar for the corresponding jet calls.) For example, code that might look like
 
 ```rust
 if (counter3 != threshold) {
@@ -76,8 +76,8 @@ SimplicityHL's type system is much simpler than Rust's. It isn't possible to dec
 
 ## Simpler `match` expression
 
-The [`match` expression](../../simplicityhl-reference/match_expression/) in SimplicityHL is more limited than Rust's.
+The [`match` expression](../simplicityhl-reference/match_expression.md) in SimplicityHL is more limited than Rust's.
 
 ## Simpler module import notation
 
-The [module import syntax](../../simplicityhl-reference/modules/) in SimplicityHL is more limited than Rust's. For example, you cannot use `*` as a wildcard to import multiple functions at once.
+SimplicityHL's module import syntax is more limited than Rust's. For example, you cannot use `*` as a wildcard to import multiple functions at once.

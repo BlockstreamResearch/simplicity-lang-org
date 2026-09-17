@@ -21,7 +21,7 @@ You can see all public Simplicity-related events in the calendar:
 * [December 2, 2025](https://youtu.be/c6Uis6VwANU)
 * [December 9, 2025](https://youtu.be/oEJ1syVf7lg)
 * [December 16, 2025](https://youtu.be/HpvkMzm8GDc)
-* [December 23, 2025](https://youtu.be/ry2wQelP8Kc) ([state management](../documentation/state) demo)
+* [December 23, 2025](https://youtu.be/ry2wQelP8Kc) ([state management](documentation/state.md) demo)
 * [January 6, 2026](https://youtu.be/hCgBdQNPc9c)
 * [January 13, 2026](https://youtu.be/wknEBcV3HeE)
 * [January 20, 2026](https://youtu.be/OSa0zMaqGnM)

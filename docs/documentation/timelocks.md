@@ -10,7 +10,7 @@ A [vault contract](../glossary.md#vault) can also use timelocks to require a ser
 
 Timelocks can be expressed in various ways. An *absolute* timelock gives an absolute time after which a transaction may occur ("starting next Monday"), while a *relative* timelock specifies how much later a transaction may occur after a prior transaction ("at least one week after this input was confirmed").
 
-Time can be expressed in terms of *blocks* on the blockchain. A blockchain consists of an ever-growing series of blocks, which can be counted to obtain an ever-increasing timescale. In Simplicity, an absolute timelock measured in blocks is [called](../../simplicityhl-reference/type_alias/) a `Height`, while a relative timelock measured in blocks is called a `Distance`.
+Time can be expressed in terms of *blocks* on the blockchain. A blockchain consists of an ever-growing series of blocks, which can be counted to obtain an ever-increasing timescale. In Simplicity, an absolute timelock measured in blocks is [called](../simplicityhl-reference/type_alias.md) a `Height`, while a relative timelock measured in blocks is called a `Distance`.
 
 !!! note "Block creation intervals"
     **[Liquid Network](../glossary.md#liquid) blocks are created once per minute.** This is different from Bitcoin, where a block is created (on average) once every ten minutes.
@@ -184,6 +184,6 @@ The core logic is simple: you can make it impossible to perform an action by rem
 
 A simple example is a timeout-and-refund mechanism. A contract can provide that, after a certain time period, assets may be transferred back to their original senders. Once a sender proactively claims such a refund, no further actions can be taken with the associated assets because the contract no longer holds them.
 
-In general, a preempting transaction transfers the assets elsewhere, or it updates the [covenant's](../glossary.md#covenant) [state](../state.md) to a new version that restricts previously allowed actions. A covenant can be written to permit an authorized party to perform a state update at a certain time which causes previously permitted actions to be forbidden. For example, an authorized update could perform an internal state change to declare a contract "closed" to new claims after a deadline.
+In general, a preempting transaction transfers the assets elsewhere, or it updates the [covenant's](../glossary.md#covenant) [state](state.md) to a new version that restricts previously allowed actions. A covenant can be written to permit an authorized party to perform a state update at a certain time which causes previously permitted actions to be forbidden. For example, an authorized update could perform an internal state change to declare a contract "closed" to new claims after a deadline.
 
 An effective deadline is enforced provided that a party is incentivized to perform the required transfer or update action.

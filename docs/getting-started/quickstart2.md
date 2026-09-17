@@ -215,8 +215,4 @@ If you'd like to see the whole process above happen automatically, a bash script
 
 The script assumes you have `simc`, `hal-simplicity`, `curl`, and `jq` available.
 
-You can download the [example-demo.sh](/assets/example-demo.sh) bash script from this site. (Firefox may refuse to save it because of its MIME type; if so, use `wget` or `curl` instead.)
-
-Then just run `bash example-demo.sh`. This should be sufficient to perform your first Simplicity transaction with an on-chain contract written in SimplicityHL!
-
-Just like the walkthrough, the script exercises a Pay to Public Key (P2PK)-style contract written in SimplicityHL by performing a real transaction to and from this contract on the Liquid testnet. Most commands, and their output, are printed as they're run. You can look at the contents of `example-demo.sh` to understand more about the steps it performs, or use it as a basis for performing Liquid testnet transactions with other Simplicity contracts. At the end of the process, you'll see a link to the [Liquid testnet Explorer](https://blockstream.info/liquidtestnet/) to look at the details of the resulting transaction.
+This walkthrough does not have a separate automation script. Run the commands above directly, or use the [Bash quickstart](bash-quickstart.md) for a maintained scripted P2MS example. At the end of the process, you'll see a link to the [Liquid testnet Explorer](https://blockstream.info/liquidtestnet/) to look at the details of the resulting transaction.

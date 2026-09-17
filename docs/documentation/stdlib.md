@@ -3,7 +3,7 @@
 
 The SimplicityHL standard library provides various functions useful in developing smart contracts.
 
-Here is a complete list of the available library functions, their [type signatures](../../simplicityhl-reference/type/), and a description of what they do.
+Here is a complete list of the available library functions, their [type signatures](../simplicityhl-reference/type.md), and a description of what they do.
 
 Some library functions can fail or panic. This allows a Simplicity program to refuse a proposed transaction by performing a mandatory assertion; these functions' return type is `()` below. The failure or panic effect produced by these functions, or the corresponding behavior of jets, is ultimately the *only* way to decline a transaction.
 
@@ -372,4 +372,3 @@ For more built-in SimplicityHL functions, see the [jets reference](jets.md).
     | `div_256(u256, u256) -> u256` | Divide the first `u256` value by the second, returning the quotient.<br><br>## Panics<br>Panics if the divisor is zero. |
     | `checked_div_256(u256, u256) -> Option<u256>` | Divide the first `u256` value by the second. Return `Some` of the quotient, or `None` if the divisor is zero. |
     | `safe_div_256(u256, u256) -> u256` | Divide the first `u256` value by the second.<br><br>## Panics<br>Panics if the divisor is zero. |
-

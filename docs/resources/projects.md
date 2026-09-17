@@ -1,7 +1,7 @@
 # Simplicity-related projects
 
 !!! tip
-    For beginners and quick experimentation, start with the [quickstart](../../getting-started/quickstart).
+    For beginners and quick experimentation, start with the [quickstart](../getting-started/quickstart.md).
 
 These are open source projects in the Simplicity ecosystem.
 

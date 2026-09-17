@@ -68,7 +68,7 @@ By including both the program source code `p2ms.simf` and the witness file `p2ms
 
 Witness data doesn't necessarily need to be written to disk as a `.wit` file; it can be assembled in memory by client applications.
 
-* **Rust Integration:** Developers using Rust can build witness structures directly. Tools like [Simplex](../simplex/) generate native Rust witness-building code directly from `.simf` files. Explicit witness-building examples are also available in [`simplicity-contracts`](https://github.com/BlockstreamResearch/simplicity-contracts/tree/main/crates/contracts/src).
+* **Rust Integration:** Developers using Rust can build witness structures directly. Tools like [Simplex](simplex.md) generate native Rust witness-building code directly from `.simf` files. Explicit witness-building examples are also available in [`simplicity-contracts`](https://github.com/BlockstreamResearch/simplicity-contracts/tree/main/crates/contracts/src).
 
 * **Liquid Wallet Kit (LWK):** The [Liquid Wallet Kit](https://github.com/Blockstream/lwk) SDK ("`lwk`") allows building witnesses in Python, JavaScript, and Rust without creating intermediate `.wit` files.
 
@@ -226,4 +226,4 @@ let auth: Either<Signature, (Pubkey, u32)> = witness::SIGNATURE_OR_PUBKEY_AND_AM
 
 ## More built-in types
  
-Domain-specific [alias types](../../simplicityhl-reference/type_alias.md) are available for clarity, including, among others, `Pubkey`, `Signature`, and the four [timelock](../glossary.md#timelock) types `Distance`, `Duration`, `Height`, and `Time`. These names are capitalized in SimplicityHL signatures, and their parameter requirements are detailed in [the jet documentation](../jets.md).
+Domain-specific [alias types](../simplicityhl-reference/type_alias.md) are available for clarity, including, among others, `Pubkey`, `Signature`, and the four [timelock](../glossary.md#timelock) types `Distance`, `Duration`, `Height`, and `Time`. These names are capitalized in SimplicityHL signatures, and their parameter requirements are detailed in [the jet documentation](jets.md).

@@ -18,7 +18,7 @@ The rest of this page is the same regardless of your background. These optional 
     Simplicity is a [smart contract](../glossary.md#smart-contract) language built for [UTXO-based](../glossary.md#utxo) blockchains like the [Liquid Network](../glossary.md#liquid), which puts it closer to Bitcoin Script than to the EVM's account model. Instead of a contract address holding shared, global state, you build [covenants](../glossary.md#covenant): rules that govern how a specific output can be spent and how state is passed from one UTXO to the next, which is exactly what `recursive_covenant()` does in the contract below. Because there is no shared, global state, reentrancy does not apply. Every program's execution cost is statically bounded and known before a transaction is ever broadcast.
 
 ??? note "Finance / TradFi background"
-    Simplicity is a smart contract language for the [Liquid Network](../glossary.md#liquid) built around [covenants](../glossary.md#covenant): rules that govern exactly how, when, and by whom assets move, enforced by the blockchain itself rather than by a counterparty. The contract below is one example: it locks funds under a set of spending conditions and enforces them without a trusted intermediary. Two properties matter most for this audience: every program's execution cost is statically bounded and known before a transaction is broadcast, and the language's formal semantics support machine-checked proofs of contract behavior. See [use cases](../use-cases/) for other patterns built this way, including vaults, atomic swaps, and derivatives.
+    Simplicity is a smart contract language for the [Liquid Network](../glossary.md#liquid) built around [covenants](../glossary.md#covenant): rules that govern exactly how, when, and by whom assets move, enforced by the blockchain itself rather than by a counterparty. The contract below is one example: it locks funds under a set of spending conditions and enforces them without a trusted intermediary. Two properties matter most for this audience: every program's execution cost is statically bounded and known before a transaction is broadcast, and the language's formal semantics support machine-checked proofs of contract behavior. See [use cases](../use-cases/index.md) for other patterns built this way, including vaults, atomic swaps, and derivatives.
 
 ## The contract
 
@@ -214,7 +214,7 @@ Please choose your preferred language environment immediately below.
 
     ### 7. Wait, then inherit for real
 
-    Wait until the chain tip reaches `HOT_CONFIRM_HEIGHT + 3` (watch <a href="https://blockstream.info/liquidtestnet/">the Explorer</a>, or poll it the way the [bash quickstart](../getting-started/last-will-quickstart.md#part-3-wait) does). At a block a minute on Liquid testnet, this should take about three minutes.
+    Wait until the chain tip reaches `HOT_CONFIRM_HEIGHT + 3` (watch <a href="https://blockstream.info/liquidtestnet/">the Explorer</a>, or follow the [bash/CLI quickstart](bash-quickstart.md) for the polling command). At a block a minute on Liquid testnet, this should take about three minutes.
 
     Then run the *identical* command from Step 6 again:
 
@@ -239,7 +239,7 @@ Please choose your preferred language environment immediately below.
 
     * Read more about how relative and absolute timelocks work, and why they can only enforce *minimum* times, in [Timelocks](../documentation/timelocks.md).
     * Read more about state and recursive covenants in [Covenants & State Management](../documentation/state.md).
-    * Try the same story in <a href="/getting-started/last-will-quickstart">bash</a>.
+    * Try the same story in the [bash/CLI tab](quickstart.md#__tabbed_1_2).
     * See <a href="https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples">more example contracts</a> demonstrating other SimplicityHL language features.
 
 === "bash/CLI"
