@@ -106,6 +106,12 @@ extra_javascript:
     type: module
 extra:
   generator: false
+  annotate:
+    # Lets a `# (1)!`-style annotation marker land in its own Comment.Special
+    # (`.cs`) token, separate from preceding comment prose on the same line,
+    # without Material's default `.c, .c1, .cm` annotation selector missing
+    # it. See `hooks/simplicityhl_lexer.py` for why the split is needed.
+    simplicityhl: [.cs]
   social:
     - icon: simple/youtube
       link: https://www.youtube.com/@Blockstream/search?query=simplicity

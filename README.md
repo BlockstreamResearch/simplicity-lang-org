@@ -44,3 +44,14 @@ definitions and warnings.
 
 See [`RUNNABLE_SNIPPETS.md`](RUNNABLE_SNIPPETS.md) for how to add an editable, runnable
 SimplicityHL example to a page.
+
+## SimplicityHL lexer
+
+There is a separate syntax highlighting module for SimplicityHL in
+`hooks/` which can be invoked with a ```simplicityhl code fence. Currently
+it falls back to Rust syntax highlighting rules, but it can be extended if
+the SimplicityHL syntax diverges from Rust's in an important way in the
+future.
+
+This module also works around a bug where Markdown annotations like // (1)!
+didn't work at all at the end of a // comment line.
