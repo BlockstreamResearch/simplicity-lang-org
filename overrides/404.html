@@ -46,7 +46,7 @@
     <p>
       Think this link is broken?
       {% if config.repo_url %}
-      <a href="{{ config.repo_url }}/issues/new?title=Broken+Link+Report&body=404+Error+at+URL:+{{ page.url | url }}"
+      <a id="__404-report-link" href="{{ config.repo_url }}/issues/new?title=Broken+Link+Report"
         target="_blank" rel="noopener">
         Let us know on GitHub
       </a>
@@ -62,5 +62,15 @@
 {{ super() }}
 <script>
   document.title = "404 - Page Not Found - {{ config.site_name }}";
+
+  // `page.url` isn't usable here: 404.html is built once as a static file, so
+  // any URL baked in at build time is the same for every visitor regardless
+  // of what broken link they actually followed. The real URL is only known
+  // in the browser, at the moment of the 404, via `window.location.href`.
+  var reportLink = document.getElementById("__404-report-link");
+  if (reportLink) {
+    var body = "404 error at URL: " + window.location.href;
+    reportLink.href += "&body=" + encodeURIComponent(body);
+  }
 </script>
 {% endblock %}
