@@ -31,7 +31,29 @@ jobs:
             crates/simplicity-runner/target
           restore-keys: |
             cargo-
+      # Most content here lands via a direct commit to `main`, not a PR, so a missing
+      # fixture must not freeze deployment of the entire site over one example: fetch
+      # whatever isn't already checked in, from the same live explorer the browser
+      # itself falls back to. Committing the fixture stays the recommended path (no
+      # live dependency at build time, reviewable, deterministic) — this is the safety
+      # net for when that didn't happen, not a replacement for it.
+      - run: cargo run --manifest-path crates/simplicity-runner/Cargo.toml --bin add_tx_fixture
       - run: cargo test --manifest-path crates/simplicity-runner/Cargo.toml
+
+      # A non-blocking nudge, not a build gate: catches "referenced a new txid (or
+      # changed a tx-*.hex fixture) but didn't commit the fixture and/or its exported
+      # JSON" early, on the commit itself, rather than only in the deploy job's own
+      # (also non-blocking) re-run of this same step. Compares against a freshly
+      # regenerated copy rather than re-parsing every `tx txid="…"` fence a second time
+      # — cheaper, and doesn't duplicate the fence syntax `hooks/runnable.py` owns.
+      - run: cargo run --manifest-path crates/simplicity-runner/Cargo.toml --bin export_tx_fixtures
+      - name: Warn if tx fixtures or their exported JSON aren't committed
+        run: |
+          paths="crates/simplicity-runner/tests/fixtures/ docs/assets/tx-fixtures/"
+          if [ -n "$(git status --porcelain -- $paths)" ]; then
+            echo "::warning::Transaction fixture data isn't fully committed — CI fetched and/or exported something that isn't checked in. Probably: commit these, and run 'npm run export:tx-fixtures' locally next time before pushing."
+            git status --porcelain -- $paths
+          fi
 
   deploy:
     # A page whose snippet no longer compiles must not reach the site.
@@ -69,6 +91,17 @@ jobs:
       # wasm-pack also emits npm packaging and type declarations; only the loader and the
       # binary are served, and the rest would otherwise be published with the site.
       - run: rm -f docs/wasm/pkg/{.gitignore,package.json,README.md,*.d.ts}
+
+      # --- preset transaction data for the `tx` snippets ------------------------------
+      # Fetches whatever referenced txid isn't already a checked-in fixture (this job
+      # runs in its own fresh checkout, so the `snippets` job's own fetch, if any,
+      # doesn't carry over) — see the comment on the same step in `snippets` above.
+      - run: cargo run --manifest-path crates/simplicity-runner/Cargo.toml --bin add_tx_fixture
+      # Exported from the (now-complete) fixtures so the tutorial's own worked examples
+      # load instantly and don't depend on the live Esplora API being reachable; a
+      # reader loading an arbitrary txid still goes straight to the explorer. Must also
+      # land in docs/ before mkdocs runs, same reasoning as the wasm package above.
+      - run: cargo run --manifest-path crates/simplicity-runner/Cargo.toml --bin export_tx_fixtures
 
       # --- the site ------------------------------------------------------------------
       - uses: actions/setup-python@v5

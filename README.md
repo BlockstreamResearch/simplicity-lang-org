@@ -15,3 +15,6 @@ mkdocs serve
 # Build for production
 python -m mkdocs build
 ```
+
+See [`RUNNABLE_SNIPPETS.md`](RUNNABLE_SNIPPETS.md) for how to add an editable, runnable
+SimplicityHL example to a page.

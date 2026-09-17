@@ -9,6 +9,7 @@
     "watch": "npm run build -- --watch",
     "typecheck": "tsc --noEmit",
     "build:wasm": "wasm-pack build crates/simplicity-runner --target web --out-dir ../../docs/wasm/pkg --release && node -e \"['.gitignore','package.json','README.md','simplicity_runner.d.ts','simplicity_runner_bg.wasm.d.ts'].forEach(f=>require('fs').rmSync('docs/wasm/pkg/'+f,{force:true}))\"",
+    "export:tx-fixtures": "cargo run --manifest-path crates/simplicity-runner/Cargo.toml --bin export_tx_fixtures",
     "test:snippets": "cargo test --manifest-path crates/simplicity-runner/Cargo.toml"
   },
   "dependencies": {

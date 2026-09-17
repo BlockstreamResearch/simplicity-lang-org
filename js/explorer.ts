@@ -49,6 +49,26 @@ interface EsploraVin {
   prevout: { value?: number; asset?: string } | null;
 }
 
+/**
+ * A preset transaction the docs ship data for (see
+ * `crates/simplicity-runner/src/bin/export_tx_fixtures.rs`), so the tutorial's own
+ * worked examples don't depend on the live explorer being reachable. Resolved against
+ * this module's own URL, not the page's, so it's correct regardless of how deep the
+ * current page is nested or what base path the site is served under — the same
+ * technique `simplicityhl.ts` uses to locate the wasm package, for the same reason.
+ */
+async function loadLocalFixture(txid: string): Promise<LoadedTransaction | null> {
+  const url = new URL(`../assets/tx-fixtures/${txid}.json`, import.meta.url);
+  let response: Response;
+  try {
+    response = await fetch(url.href);
+  } catch {
+    return null; // Offline, or the request was blocked; fall through to the live explorer.
+  }
+  if (!response.ok) return null; // Not a preset — true for almost every txid a reader tries.
+  return (await response.json()) as LoadedTransaction;
+}
+
 async function fetchTransaction(txid: string): Promise<LoadedTransaction> {
   const details = JSON.parse(await getText(`${API}/tx/${txid}`)) as { vin: EsploraVin[] };
   const hex = await getText(`${API}/tx/${txid}/hex`);
@@ -79,7 +99,7 @@ export function loadTransaction(txid: string): Promise<LoadedTransaction> {
   }
   let pending = cache.get(key);
   if (!pending) {
-    pending = fetchTransaction(key);
+    pending = loadLocalFixture(key).then((local) => local ?? fetchTransaction(key));
     // Don't cache failures; a reader who drops connectivity should be able to retry.
     pending.catch(() => cache.delete(key));
     cache.set(key, pending);

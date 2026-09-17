@@ -90,8 +90,6 @@ markdown_extensions:
   - tables:
   - def_list:
 
-hooks:
-  - hooks/runnable.py
 extra_css:
   - stylesheets/extra.css
 
@@ -145,6 +143,7 @@ repo_name: "" # Hides the GitHub link/icon from title bar while keeping edit fun
 edit_uri: edit/main/docs/
 
 hooks:
+  - hooks/runnable.py
   - includes/hooks/autolink_glossary.py
 
 nav:
@@ -189,10 +188,10 @@ nav:
           - Context: simplicityhl-reference/context.md
           - Environment: simplicityhl-reference/environment.md
           - Translation: simplicityhl-reference/translation.md
-      - Runnable tutorial example:
-        - tutorial/index.md
-        - Your first program: tutorial/your-first-program.md
-        - Reading data from an input: tutorial/reading-transaction-data.md
+#      - Runnable tutorial example:
+#        - tutorial/index.md
+#        - Your first program: tutorial/your-first-program.md
+#        - Reading data from an input: tutorial/reading-transaction-data.md
   - Resources:
       - FAQ: resources/faq.md
       - Glossary: glossary.md
