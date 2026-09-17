@@ -159,6 +159,7 @@ nav:
           - Timelocks: documentation/timelocks.md
       - App Development:
           - Simplicity SDK (Simplex): documentation/simplex.md
+          - Modules and Imports: documentation/modules.md
           - Ecosystem & Wallet Integration: documentation/wallet.md
           - txmanifest: documentation/txmanifest.md
       - Examples & Use Cases:
@@ -176,6 +177,7 @@ nav:
           - Let Statements: simplicityhl-reference/let_statement.md
           - Match Expression: simplicityhl-reference/match_expression.md
           - Defining Functions: simplicityhl-reference/function.md
+          - Modules and Imports Reference: simplicityhl-reference/modules.md
           - Programs: simplicityhl-reference/program.md
       - Libraries & Tooling:
           - Built-in Functions: simplicityhl-reference/builtin.md

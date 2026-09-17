@@ -21,6 +21,22 @@ Here is a complete list of the available library functions, their [type signatur
 Some library functions can fail or panic. This allows a Simplicity program to refuse a proposed transaction by performing a mandatory assertion; these functions' return type is `()` below. The failure or panic effect produced by these functions, or the corresponding behavior of jets, is ultimately the *only* way to decline a transaction.
 
 For more built-in SimplicityHL functions, see the [jets reference](jets.md).
+
+## Using the library in SimplicityHL projects with Simplex
+
+In an existing [Simplex](simplex.md) project, install the standard library with
+
+```bash
+simplex install std
+```
+
+This adds an entry to the project's `Simplex.toml` with a standard library dependency. The functions listed below are then available under the alias `std`, for example:
+
+```rust
+use std::lib::u32::math::safe_add_32;
+```
+
+See [Modules](modules.md#using-the-standard-library-with-simplex) for more on the module and import system used here.
 """.format(sys.argv[1], datetime.datetime.now().date().isoformat())
 
 print(preamble)
