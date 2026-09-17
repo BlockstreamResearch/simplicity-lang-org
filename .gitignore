@@ -67,3 +67,13 @@ node_modules/
 # Backup files
 *.bak
 *.backup
+.claude/
+# Rust build output for the snippet compiler
+crates/*/target/
+
+# MkDocs hook bytecode
+hooks/__pycache__/
+
+# The SimplicityHL compiler. Built by CI (and locally by `npm run build:wasm`)
+# from crates/simplicity-runner, never committed.
+docs/wasm/pkg/

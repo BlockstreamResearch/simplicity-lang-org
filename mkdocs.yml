@@ -94,6 +94,7 @@ markdown_extensions:
 extra_css:
   - stylesheets/extra.css
 
+  - stylesheets/runnable.css
 extra_javascript:
   - javascript/webmcp.js
   - javascript/mathjax.js
@@ -101,6 +102,8 @@ extra_javascript:
   - javascript/simplicity-embed.js
     #  - https://polyfill.io/v3/polyfill.min.js?features=es6
     #  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+  - path: javascripts/runnable.js
+    type: module
 extra:
   generator: false
   social:
@@ -143,6 +146,7 @@ repo_name: "" # Hides the GitHub link/icon from title bar while keeping edit fun
 edit_uri: edit/main/docs/
 
 hooks:
+  - hooks/runnable.py
   - includes/hooks/autolink_glossary.py
 
 nav:
@@ -189,6 +193,10 @@ nav:
           - Context: simplicityhl-reference/context.md
           - Environment: simplicityhl-reference/environment.md
           - Translation: simplicityhl-reference/translation.md
+#      - Runnable tutorial example:
+#        - tutorial/index.md
+#        - Your first program: tutorial/your-first-program.md
+#        - Reading data from an input: tutorial/reading-transaction-data.md
   - Resources:
       - Weekly Office Hours call: office-hours.md
       - Simplicity Telegram group: https://t.me/simplicity_community

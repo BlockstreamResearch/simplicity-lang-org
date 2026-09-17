@@ -5,20 +5,65 @@ on:
     branches:
       - master
       - main
+  # Runnable snippets are executed on every PR, so one that stops compiling is caught
+  # before it reaches the site rather than after.
+  pull_request:
 
 permissions:
   contents: read  # Adjusted from 'write'
   pages: write    # Added
   id-token: write # Added
 
-# Used to avoid concurrency issues
-concurrency:
-  group: github-pages
-  cancel-in-progress: false
-
 jobs:
-  deploy:
+  # Executes every `simplicityhl,run` fence under docs/ and checks it behaves as its
+  # `expect=` flag claims. See crates/simplicity-runner/README.md.
+  snippets:
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # Ubuntu runners ship a rustup toolchain, so nothing to install for a host build.
+      - uses: actions/cache@v4
+        with:
+          key: cargo-${{ hashFiles('crates/simplicity-runner/Cargo.lock') }}
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            crates/simplicity-runner/target
+          restore-keys: |
+            cargo-
+      # Most content here lands via a direct commit to `main`, not a PR, so a missing
+      # fixture must not freeze deployment of the entire site over one example: fetch
+      # whatever isn't already checked in, from the same live explorer the browser
+      # itself falls back to. Committing the fixture stays the recommended path (no
+      # live dependency at build time, reviewable, deterministic) — this is the safety
+      # net for when that didn't happen, not a replacement for it.
+      - run: cargo run --manifest-path crates/simplicity-runner/Cargo.toml --bin add_tx_fixture
+      - run: cargo test --manifest-path crates/simplicity-runner/Cargo.toml
+
+      # A non-blocking nudge, not a build gate: catches "referenced a new txid (or
+      # changed a tx-*.hex fixture) but didn't commit the fixture and/or its exported
+      # JSON" early, on the commit itself, rather than only in the deploy job's own
+      # (also non-blocking) re-run of this same step. Compares against a freshly
+      # regenerated copy rather than re-parsing every `tx txid="…"` fence a second time
+      # — cheaper, and doesn't duplicate the fence syntax `hooks/runnable.py` owns.
+      - run: cargo run --manifest-path crates/simplicity-runner/Cargo.toml --bin export_tx_fixtures
+      - name: Warn if tx fixtures or their exported JSON aren't committed
+        run: |
+          paths="crates/simplicity-runner/tests/fixtures/ docs/assets/tx-fixtures/"
+          if [ -n "$(git status --porcelain -- $paths)" ]; then
+            echo "::warning::Transaction fixture data isn't fully committed — CI fetched and/or exported something that isn't checked in. Probably: commit these, and run 'npm run export:tx-fixtures' locally next time before pushing."
+            git status --porcelain -- $paths
+          fi
+
+  deploy:
+    # A page whose snippet no longer compiles must not reach the site.
+    needs: snippets
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    # Serialise deploys only; PR runs are free to overlap.
+    concurrency:
+      group: github-pages
+      cancel-in-progress: false
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }} # Retrieved from deploy-pages action
@@ -26,10 +71,43 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      # --- the compiler readers run in their browser --------------------------------
+      # Built here rather than committed, so no 2 MB binary accumulates in git history.
+      # It must land in docs/wasm/pkg/ before mkdocs runs, since mkdocs copies docs/
+      # verbatim into the site.
+      - run: rustup target add wasm32-unknown-unknown
+      - uses: actions/cache@v4
+        with:
+          key: cargo-wasm-${{ hashFiles('crates/simplicity-runner/Cargo.lock') }}
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            crates/simplicity-runner/target
+          restore-keys: |
+            cargo-wasm-
+      - run: curl -sSf https://rustwasm.github.io/wasm-pack/installer/init.sh | sh
+      - run: wasm-pack build crates/simplicity-runner --target web --out-dir ../../docs/wasm/pkg --release
+      # wasm-pack also emits npm packaging and type declarations; only the loader and the
+      # binary are served, and the rest would otherwise be published with the site.
+      - run: rm -f docs/wasm/pkg/{.gitignore,package.json,README.md,*.d.ts}
+
+      # --- preset transaction data for the `tx` snippets ------------------------------
+      # Fetches whatever referenced txid isn't already a checked-in fixture (this job
+      # runs in its own fresh checkout, so the `snippets` job's own fetch, if any,
+      # doesn't carry over) — see the comment on the same step in `snippets` above.
+      - run: cargo run --manifest-path crates/simplicity-runner/Cargo.toml --bin add_tx_fixture
+      # Exported from the (now-complete) fixtures so the tutorial's own worked examples
+      # load instantly and don't depend on the live Esplora API being reachable; a
+      # reader loading an arbitrary txid still goes straight to the explorer. Must also
+      # land in docs/ before mkdocs runs, same reasoning as the wasm package above.
+      - run: cargo run --manifest-path crates/simplicity-runner/Cargo.toml --bin export_tx_fixtures
+
+      # --- the site ------------------------------------------------------------------
       - uses: actions/setup-python@v5
         with:
           python-version: 3.x
-      - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV 
+      - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
       - uses: actions/cache@v4
         with:
           key: mkdocs-material-${{ env.cache_id }}
@@ -38,6 +116,9 @@ jobs:
             mkdocs-material-
       - run: pip install -r requirements.txt
       - run: mkdocs build                      # Adjusted from 'mkdocs gh-deploy'
+      # Fail loudly if the compiler is missing rather than deploying a site whose every
+      # Run button 404s.
+      - run: test -s site/wasm/pkg/simplicity_runner_bg.wasm
       - uses: actions/configure-pages@v5       # Added
       - uses: actions/upload-pages-artifact@v3 # Added
         with:

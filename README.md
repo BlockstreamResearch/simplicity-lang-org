@@ -39,3 +39,8 @@ repository root (`python -m http.server 8001 --bind 127.0.0.1`) and open
 This fixture tests markup removal, entities, and whitespace. Material's generated
 search excerpts can still omit surrounding context; follow result links for full
 definitions and warnings.
+
+## Runnable SimplicityHL code snippets
+
+See [`RUNNABLE_SNIPPETS.md`](RUNNABLE_SNIPPETS.md) for how to add an editable, runnable
+SimplicityHL example to a page.
