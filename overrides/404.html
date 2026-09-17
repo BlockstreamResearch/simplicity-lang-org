@@ -46,7 +46,7 @@
     <p>
       Think this link is broken?
       {% if config.repo_url %}
-      <a href="{{ config.repo_url }}/issues/new?title=Broken+Link+Report&body=404+Error+at+URL:+{{ page.url | url }}"
+      <a id="broken-link-report" href="{{ config.repo_url }}/issues/new?title=Broken+Link+Report"
         target="_blank" rel="noopener">
         Let us know on GitHub
       </a>
@@ -62,5 +62,11 @@
 {{ super() }}
 <script>
   document.title = "404 - Page Not Found - {{ config.site_name }}";
+  const report = document.getElementById("broken-link-report");
+  if (report) {
+    const url = new URL(report.href);
+    url.searchParams.set("body", `404 Error at URL: ${window.location.href}`);
+    report.href = url.toString();
+  }
 </script>
 {% endblock %}
