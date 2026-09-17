@@ -24,11 +24,12 @@ jobs:
       # Ubuntu runners ship a rustup toolchain, so nothing to install for a host build.
       - uses: actions/cache@v4
         with:
-          key: cargo-${{ hashFiles('crates/simplicity-runner/Cargo.lock') }}
+          key: cargo-${{ hashFiles('crates/simplicity-runner/Cargo.lock', 'crates/tx-fixtures/Cargo.lock') }}
           path: |
             ~/.cargo/registry
             ~/.cargo/git
             crates/simplicity-runner/target
+            crates/tx-fixtures/target
           restore-keys: |
             cargo-
       # Most content here lands via a direct commit to `main`, not a PR, so a missing
@@ -37,7 +38,10 @@ jobs:
       # itself falls back to. Committing the fixture stays the recommended path (no
       # live dependency at build time, reviewable, deterministic) — this is the safety
       # net for when that didn't happen, not a replacement for it.
-      - run: cargo run --manifest-path crates/simplicity-runner/Cargo.toml --bin add_tx_fixture
+      #
+      # `tx-fixtures` is a separate crate from `simplicity-runner` on purpose — see the
+      # comment atop `crates/tx-fixtures/src/bin/add_tx_fixture.rs`.
+      - run: cargo run --manifest-path crates/tx-fixtures/Cargo.toml --bin add_tx_fixture
       - run: cargo test --manifest-path crates/simplicity-runner/Cargo.toml
 
       # A non-blocking nudge, not a build gate: catches "referenced a new txid (or
@@ -46,7 +50,7 @@ jobs:
       # (also non-blocking) re-run of this same step. Compares against a freshly
       # regenerated copy rather than re-parsing every `tx txid="…"` fence a second time
       # — cheaper, and doesn't duplicate the fence syntax `hooks/runnable.py` owns.
-      - run: cargo run --manifest-path crates/simplicity-runner/Cargo.toml --bin export_tx_fixtures
+      - run: cargo run --manifest-path crates/tx-fixtures/Cargo.toml --bin export_tx_fixtures
       - name: Warn if tx fixtures or their exported JSON aren't committed
         run: |
           paths="crates/simplicity-runner/tests/fixtures/ docs/assets/tx-fixtures/"
@@ -93,15 +97,28 @@ jobs:
       - run: rm -f docs/wasm/pkg/{.gitignore,package.json,README.md,*.d.ts}
 
       # --- preset transaction data for the `tx` snippets ------------------------------
+      # `tx-fixtures` is a separate crate from `simplicity-runner` (see the comment atop
+      # crates/tx-fixtures/src/bin/add_tx_fixture.rs) — no wasm target/toolchain needed
+      # for either step here, just the host-native cargo already set up above.
+      #
       # Fetches whatever referenced txid isn't already a checked-in fixture (this job
       # runs in its own fresh checkout, so the `snippets` job's own fetch, if any,
       # doesn't carry over) — see the comment on the same step in `snippets` above.
-      - run: cargo run --manifest-path crates/simplicity-runner/Cargo.toml --bin add_tx_fixture
+      - uses: actions/cache@v4
+        with:
+          key: cargo-tx-fixtures-${{ hashFiles('crates/tx-fixtures/Cargo.lock') }}
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            crates/tx-fixtures/target
+          restore-keys: |
+            cargo-tx-fixtures-
+      - run: cargo run --manifest-path crates/tx-fixtures/Cargo.toml --bin add_tx_fixture
       # Exported from the (now-complete) fixtures so the tutorial's own worked examples
       # load instantly and don't depend on the live Esplora API being reachable; a
       # reader loading an arbitrary txid still goes straight to the explorer. Must also
       # land in docs/ before mkdocs runs, same reasoning as the wasm package above.
-      - run: cargo run --manifest-path crates/simplicity-runner/Cargo.toml --bin export_tx_fixtures
+      - run: cargo run --manifest-path crates/tx-fixtures/Cargo.toml --bin export_tx_fixtures
 
       # --- the site ------------------------------------------------------------------
       - uses: actions/setup-python@v5

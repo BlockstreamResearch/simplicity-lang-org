@@ -25,14 +25,6 @@ serde = { version = "1", features = ["derive"] }
 serde-wasm-bindgen = "0.6"
 console_error_panic_hook = "0.1"
 
-# Only used by the `export_tx_fixtures` bin (a native, non-wasm target), to write the
-# static tx-fixture JSON consumed by `js/explorer.ts`.
-serde_json = "1"
-
-# Only used by the `add_tx_fixture` bin (also native-only), to fetch a transaction and
-# its inputs' previous transactions from the Liquid testnet explorer.
-ureq = { version = "2", features = ["rustls"] }
-
 # SimplicityHL pulls getrandom in transitively; the js backend is required for wasm.
 getrandom = { version = "0.2", features = ["js"] }
 

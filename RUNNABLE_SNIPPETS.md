@@ -52,7 +52,7 @@ doesn't depend on a live explorer for every reader):
 1. Find or create the Liquid testnet transaction the example needs.
 2. Fetch it and everything it spends from:
    ```
-   cargo run --manifest-path crates/simplicity-runner/Cargo.toml --bin add_tx_fixture -- <txid>
+   npm run add:tx-fixture -- <txid>
    ```
 3. Reference it in the fence:
    ````markdown
