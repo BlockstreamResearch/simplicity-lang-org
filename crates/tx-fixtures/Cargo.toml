@@ -1,0 +1,15 @@
+[package]
+name = "tx-fixtures"
+version = "0.1.0"
+edition = "2021"
+publish = false
+description = "Maintainer-only CLI tools for caching Liquid testnet transaction fixtures used by simplicity-runner's `tx` snippets. Deliberately a separate crate: these are native-only (they use real sockets and the filesystem) and must never be part of what `wasm-pack build crates/simplicity-runner` compiles for the browser."
+
+[dependencies]
+# Reuses the same `elements` re-export (and so the same consensus-transaction decoder)
+# as simplicity-runner, so a transaction is parsed identically everywhere it matters.
+simplicityhl = { version = "0.7.0", default-features = false }
+
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+ureq = { version = "2", features = ["rustls"] }
