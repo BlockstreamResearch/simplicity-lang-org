@@ -184,6 +184,6 @@ The core logic is simple: you can make it impossible to perform an action by rem
 
 A simple example is a timeout-and-refund mechanism. A contract can provide that, after a certain time period, assets may be transferred back to their original senders. Once a sender proactively claims such a refund, no further actions can be taken with the associated assets because the contract no longer holds them.
 
-In general, a preempting transaction transfers the assets elsewhere, or it updates the [covenant's](../glossary.md#covenant) [state](../state.md) to a new version that restricts previously allowed actions. A covenant can be written to permit an authorized party to perform a state update at a certain time which causes previously permitted actions to be forbidden. For example, an authorized update could perform an internal state change to declare a contract "closed" to new claims after a deadline.
+In general, a preempting transaction transfers the assets elsewhere, or it updates the [covenant's](../glossary.md#covenant) [state](state.md) to a new version that restricts previously allowed actions. A covenant can be written to permit an authorized party to perform a state update at a certain time which causes previously permitted actions to be forbidden. For example, an authorized update could perform an internal state change to declare a contract "closed" to new claims after a deadline.
 
 An effective deadline is enforced provided that a party is incentivized to perform the required transfer or update action.
