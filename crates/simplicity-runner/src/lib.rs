@@ -355,6 +355,16 @@ fn run_in(source: &str, spec: &EnvSpec) -> RunResult {
                 debug.borrow_mut().push(format!("{text}: {value}"));
             })
             .with_warning_sink(|text: &str| {
+                // As of 2026-09-17, a bug in SimplicityHL's tracker
+                // functionality could sometimes produce a spurious
+                // "Unknown debug symbol" non-fatal warning, which is
+                // seemingly never useful to users running snippets
+                // on the web (there is no known way to legitimately
+                // trigger that warning from this environment).
+                // Therefore, ignore it rather than displaying it.
+                if text.starts_with("Unknown debug symbol:") {
+                    return;
+                }
                 warnings.borrow_mut().push(text.to_string());
             });
 
