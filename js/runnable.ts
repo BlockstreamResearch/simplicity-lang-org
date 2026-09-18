@@ -55,15 +55,48 @@ function toCmDiagnostics(source: string, diagnostics: Diagnostic[]): CmDiagnosti
     });
 }
 
-function renderOutput(pane: HTMLElement, result: RunResult): void {
-  pane.replaceChildren();
-  pane.hidden = false;
+/**
+ * The output pane's two regions, which differ in lifetime.
+ *
+ * `lines` is torn down and rebuilt on every run. `cmr` is not, and must not be: Material
+ * wires its glossary preview onto that anchor object during a single pass over the page
+ * at DOMContentLoaded (`querySelectorAll("a")`, one subscription per element — not
+ * delegated events). An anchor created afterwards is never seen, and cloning one does not
+ * carry the wiring. So the element is emitted by `hooks/runnable.py` and kept for the
+ * life of the page; only its value text and `hidden` change.
+ */
+interface OutputPane {
+  root: HTMLElement;
+  lines: HTMLElement;
+  cmr: HTMLElement;
+  cmrValue: HTMLElement;
+}
+
+function findOutputPane(root: HTMLElement): OutputPane | null {
+  const pane = root.querySelector<HTMLElement>('[data-simplicity-output]');
+  const lines = pane?.querySelector<HTMLElement>('[data-simplicity-lines]');
+  const cmr = pane?.querySelector<HTMLElement>('[data-simplicity-cmr]');
+  const cmrValue = pane?.querySelector<HTMLElement>('[data-simplicity-cmr-value]');
+  if (!pane || !lines || !cmr || !cmrValue) return null;
+  return { root: pane, lines, cmr, cmrValue };
+}
+
+/** Empty the pane without discarding the preview-wired CMR anchor. */
+function clearOutput(pane: OutputPane): void {
+  pane.lines.replaceChildren();
+  pane.cmrValue.textContent = '';
+  pane.cmr.hidden = true;
+}
+
+function renderOutput(pane: OutputPane, result: RunResult): void {
+  clearOutput(pane);
+  pane.root.hidden = false;
 
   const add = (className: string, text: string) => {
     const line = document.createElement('div');
     line.className = className;
     line.textContent = text;
-    pane.append(line);
+    pane.lines.append(line);
   };
 
   // `error` is set only when a program compiled and then failed to execute, so its
@@ -88,7 +121,10 @@ function renderOutput(pane: HTMLElement, result: RunResult): void {
     if (runtimeError) add('rn-line', runtimeError);
   }
 
-  if (result.cmr) add('rn-cmr', `CMR ${result.cmr}`);
+  if (result.cmr) {
+    pane.cmrValue.textContent = result.cmr;
+    pane.cmr.hidden = false;
+  }
 }
 
 interface TxBar {
@@ -180,7 +216,7 @@ function mount(root: HTMLElement): void {
   const editorHost = root.querySelector<HTMLElement>('[data-simplicity-editor]');
   const runButton = root.querySelector<HTMLButtonElement>('[data-simplicity-run]');
   const resetButton = root.querySelector<HTMLButtonElement>('[data-simplicity-reset]');
-  const pane = root.querySelector<HTMLElement>('[data-simplicity-output]');
+  const pane = findOutputPane(root);
   if (!holder || !editorHost || !runButton || !resetButton || !pane) return;
 
   const original = holder.value;
@@ -239,14 +275,14 @@ function mount(root: HTMLElement): void {
     } catch (error) {
       // Infrastructure failure, not a fault in the reader's code — say so, or someone
       // spends twenty minutes debugging correct SimplicityHL.
-      pane.replaceChildren();
-      pane.hidden = false;
+      clearOutput(pane);
+      pane.root.hidden = false;
       const line = document.createElement('div');
       line.className = 'rn-status rn-status--error';
       line.textContent = `Could not run the compiler: ${
         error instanceof Error ? error.message : String(error)
       }`;
-      pane.append(line);
+      pane.lines.append(line);
     } finally {
       setBusy(null);
     }
@@ -257,8 +293,8 @@ function mount(root: HTMLElement): void {
   resetButton.addEventListener('click', () => {
     view.dispatch({ changes: { from: 0, to: view.state.doc.length, insert: original } });
     view.dispatch(setDiagnostics(view.state, []));
-    pane.hidden = true;
-    pane.replaceChildren();
+    pane.root.hidden = true;
+    clearOutput(pane);
   });
 
   editorHost.addEventListener('keydown', (event) => {

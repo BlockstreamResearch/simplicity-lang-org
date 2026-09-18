@@ -143,7 +143,21 @@ def _shell(source: str, flags: set[str], values: dict[str, str]) -> str:
             '<button type="button" class="rn-button" data-simplicity-reset>Reset</button>',
             '<span class="rn-hint">Edit the code, then Run (Ctrl+Enter)</span>',
             "</div>",
-            '<div class="rn-output" data-simplicity-output hidden></div>',
+            # The pane has two regions because they have different lifetimes. Everything
+            # in `rn-lines` is rewritten on each run. The CMR line is not: Material binds
+            # its glossary preview to that specific anchor *object*, during a one-time
+            # scan of the page at DOMContentLoaded. An anchor built later in JavaScript,
+            # or rebuilt between runs, is never scanned and so gets no preview — hence a
+            # real anchor here, emitted once, whose value text alone changes.
+            '<div class="rn-output" data-simplicity-output hidden>',
+            '<div data-simplicity-lines></div>',
+            '<div class="rn-cmr" data-simplicity-cmr hidden>'
+            # Root-absolute because snippets live at every depth of the site, and
+            # `site_url` puts the docs at the domain root.
+            '<a href="/glossary/#cmr" data-preview>CMR</a> '
+            "<span data-simplicity-cmr-value></span>"
+            "</div>",
+            "</div>",
             "</figure>",
         ]
     )
