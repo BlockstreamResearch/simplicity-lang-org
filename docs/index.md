@@ -50,6 +50,7 @@ The tutorials on this site currently target Liquid testnet for learning purposes
 
 You can use SimplicityHL, a high-level language with a clean, Rust-like syntax. This abstracts away low-level complexity, making it straightforward to write clear and reliable financial contracts with minimal code.
 
+The contract below is an allowance: a beneficiary draws down a fixed amount at a fixed minimum interval, and every spend returns the remainder to the same address. Each withdrawal is an ordinary transaction whose first output re-creates the covenant as a fresh [UTXO](glossary.md#utxo) with a smaller balance.
 
 ```simplicityhl title="Allowance Covenant"
 // An allowance covenant.
@@ -196,3 +197,23 @@ fn main(){
 9.  This replaces the deprecated `jet::check_lock_distance`.
 
 10. Bitcoin's `nSequence` field is overloaded to encode either a block-count or a time-duration relative [timelock](glossary.md#timelock); `parse_sequence` decodes which one a transaction is using.
+
+The beneficiary's wallet software proposes a full transaction; the Simplicity program enforces that it satisfies every condition.
+
+```mermaid
+flowchart TD
+    F((Funder's wallet)) -->|Deposit| U["Allowance contract<br>(holds the remaining balance)"]
+
+    U --> G{"Last<br>withdrawal?"}
+
+    G -->|"Yes: <code>ALLOWANCE_AMOUNT</code> or less left"| C["<code>full_withdrawal</code><br>Take all that is left"]
+    G -->|"No: more than <code>ALLOWANCE_AMOUNT</code> left"| P["<code>partial_withdrawal</code><br>Take up to <code>ALLOWANCE_AMOUNT</code>"]
+
+    P -->|The rest goes back| U
+    P -->|"Beneficiary signs,<br>after <code>MIN_DISTANCE</code> blocks"| B((Beneficiary's wallet))
+    C -->|"Beneficiary signs,<br>after <code>MIN_DISTANCE</code> blocks"| B
+
+    classDef wallet fill:#ff910033,stroke:#ff9100,stroke-width:2px
+    class F,B wallet
+```
+

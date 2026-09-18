@@ -113,3 +113,12 @@
     font-weight: bold;
     text-align: right;
 }
+
+/* No Mermaid styling can live in this file. Material renders each diagram into
+   a CLOSED shadow root (see mountMermaid in the theme's mermaid/index.ts), so
+   document stylesheets never reach the SVG and rules here silently do nothing.
+   Style diagram nodes with a Mermaid classDef in the Markdown instead; those
+   rules are emitted inside the SVG. classDef values cannot contain parentheses,
+   so var() is unavailable there and colors must be literals: use 8-digit hex
+   with alpha so a fill stays legible in both light and dark schemes. Material
+   injects its own diagram theming via mermaid.initialize({ themeCSS }). */
