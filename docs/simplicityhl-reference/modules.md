@@ -65,7 +65,7 @@ As a special case, `enum` declarations cannot be placed inside any `mod` block, 
 use crate::math::foo::bar as baz;
 ```
 
-`bar` from `math/foo.simf` is available under the local name `baz` instead. The name `main` is reserved, so aliasing any import to `main` is an error.
+`bar` from `math/foo.simf` is available under the local name `baz` instead. Aliasing an import to `main` is an error, regardless of the imported item's original name.
 
 ### Importing multiple items at once
 
