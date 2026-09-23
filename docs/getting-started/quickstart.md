@@ -317,18 +317,22 @@ the numbering and silently breaks those links. -->
 
     This is the transaction the benefactor is expected to send periodically: it spends the current UTXO straight back to the *same contract address*, minus a [fee](../glossary.md#fee), signed with the hot key. Producing this transaction is what resets the inheritor's timelock. The covenant doesn't track a countdown anywhere; it just requires this specific action to keep happening, repeatedly creating a fresh copy of the same covenant.
 
-    First, fetch the details of the UTXO you're about to spend:
+    First, fetch the details of the UTXO you're about to spend. The Explorer API reports its value in satoshis, but `hal-simplicity` expects an amount in LBTC, so the last three lines convert it:
 
     ```bash
     curl https://liquid.network/liquidtestnet/api/tx/$FAUCET_TXID > input-tx.json
     HEX=$(jq -r '.vout[0].scriptpubkey' < input-tx.json)
     ASSET=$(jq -r '.vout[0].asset' < input-tx.json)
-    VALUE="0.00"$(jq -r '.vout[0].value' < input-tx.json)
+    SATS=$(jq -r '.vout[0].value' < input-tx.json)
+
+    WHOLE=$(( SATS / 100000000 ))
+    REMAINDER=$(( SATS % 100000000 ))
+    VALUE=$(printf '%d.%08d' "$WHOLE" "$REMAINDER")
     ```
 
-    (FIXME: This method of converting satoshis to Bitcoin is not correct in general if the number of satoshis isn't exactly six digits long.)
+    There are 100,000,000 satoshis in one LBTC. Dividing by this quantity gives the whole number of LBTC, with the remainder being the number of satoshis left over. `printf` joins the two with `%08d`, which pads the remainder to the eight decimal places an LBTC amount always carries, so 99900 satoshis becomes `0.00099900`. These calculations are performed in whole numbers, keeping the result exact down to the individual satoshi.
 
-    Build a [PSET](../glossary.md#pset) with two [outputs](../glossary.md#output): the refreshed contract, and an explicit fee. (This 2-output shape is exactly what `recursive_covenant()` checks for above; the contract will reject anything else.)
+    Build a [PSET](../glossary.md#pset) with two [outputs](../glossary.md#output): the refreshed contract, and an explicit fee. (The presence of these two outputs is what `recursive_covenant()` checks for above; the contract will reject anything else.)
 
     ```bash
     PSET=$(hal-simplicity simplicity pset create \
@@ -379,7 +383,11 @@ the numbering and silently breaks those links. -->
     curl https://liquid.network/liquidtestnet/api/tx/$HOT_TXID > input-tx.json
     HEX=$(jq -r '.vout[0].scriptpubkey' < input-tx.json)
     ASSET=$(jq -r '.vout[0].asset' < input-tx.json)
-    VALUE="0.00"$(jq -r '.vout[0].value' < input-tx.json)
+    SATS=$(jq -r '.vout[0].value' < input-tx.json)
+
+    WHOLE=$(( SATS / 100000000 ))
+    REMAINDER=$(( SATS % 100000000 ))
+    VALUE=$(printf '%d.%08d' "$WHOLE" "$REMAINDER")
     ```
 
     This time, build the PSET with a [`sequence`](../documentation/timelocks.md#creating-appropriate-transactions) value declaring a relative distance of `MIN_DISTANCE_BLOCKS`:
