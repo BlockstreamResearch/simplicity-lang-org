@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Fund and spend an example "last will" SimplicityHL contract on Liquid Testnet.
 #
@@ -35,10 +35,13 @@ pause() { echo -n "Press Enter to continue. "; read -r; echo; echo; }
 BASE_URL=https://blockstream.info/liquidtestnet
 FAUCET_URL=https://liquidtestnet.com/api/faucet
 
-TMPDIR=$(mktemp -d)
-PROGRAM_SOURCE="$TMPDIR/last_will.simf"
-ARGS_FILE="$TMPDIR/last_will.args"
-WITNESS_FILE="$TMPDIR/last_will.wit"
+# A scratch directory for the contract source, compile-time arguments and
+# witness. Workaround for portability to mktemp on various OSes.
+WORKDIR=$(mktemp -d "${TMPDIR:-/tmp}/last-will.XXXXXXXX") || exit 1
+trap 'rm -rf "$WORKDIR"' EXIT
+PROGRAM_SOURCE="$WORKDIR/last_will.simf"
+ARGS_FILE="$WORKDIR/last_will.args"
+WITNESS_FILE="$WORKDIR/last_will.wit"
 
 # This is the BIP-0341 nothing-up-my-sleeve internal key: a Taproot internal
 # key with no known private key. Used here so the only way to spend the
@@ -94,12 +97,12 @@ echo
 
 # Wait until the Esplora API has details about a transaction (it may not be
 # visible yet immediately after being broadcast). Writes the vout[0] JSON to
-# $TMPDIR/tx-vout0.json and echoes nothing else.
+# $WORKDIR/tx-vout0.json and echoes nothing else.
 propagation_check() {
 	local txid=$1
 	echo -n "Checking for transaction $txid via Liquid API..."
 	for _ in {1..60}; do
-		if curl -sSL "$BASE_URL/api/tx/$txid" 2>/dev/null | jq ".vout[0]" 2>/dev/null | tee "$TMPDIR"/tx-vout0.json | jq -e >/dev/null 2>&1
+		if curl -sSL "$BASE_URL/api/tx/$txid" 2>/dev/null | jq ".vout[0]" 2>/dev/null | tee "$WORKDIR"/tx-vout0.json | jq -e . >/dev/null 2>&1
 		then
 			echo " found."
 			return 0
@@ -177,21 +180,25 @@ broadcast_tx() {
 	fi
 }
 
+# Convert an integer number of satoshis into the decimal LBTC amount that
+# hal-simplicity expects (the Esplora API reports values in satoshis). The
+# division and modulo split the count into whole LBTC and the remainder, and
+# %08d pads that remainder back out to eight decimal places.  10# forces the
+# number to be interpreted in base 10 (otherwise leading zeros could be
+# interpreted as octal).
+#
+# Keeping the arithmetic in integers avoids rounding, and can be done with
+# bash built-ins.
+sats_to_btc() {
+	printf '%d.%08d\n' "$(( 10#$1 / 100000000 ))" "$(( 10#$1 % 100000000 ))"
+}
+
 # --------------------------------------------------------------------------
 # The contract
 # --------------------------------------------------------------------------
 
 # This is adapted from the last_will.simf example in the SimplicityHL
-# repository (https://github.com/BlockstreamResearch/SimplicityHL/blob/master/examples/last_will.simf),
-# with one important change: the original example enforces its timelock with
-# jet::broken_do_not_use_check_lock_distance, which SimplicityHL's
-# maintainers renamed and deprecated -- that jet checks the *maximum*
-# relative-locktime distance declared across ALL of a transaction's inputs,
-# not the distance actually declared by the specific input being spent, so a
-# spender could defeat it by attaching an unrelated extra input with a high
-# sequence value. The enforce_relative_distance function below replaces it
-# with a manual, per-input check built from jet::current_sequence(),
-# following https://github.com/BlockstreamResearch/simplicityhl-std/pull/45.
+# repository (https://github.com/BlockstreamResearch/SimplicityHL/blob/master/examples/last_will.simf).
 #
 # The three public keys and the minimum distance are compile-time
 # parameters (see last_will.args below), substituted into the `param::`
@@ -290,7 +297,7 @@ pause
 COMPILED_PROGRAM=$(simc -Z enums "$PROGRAM_SOURCE" -a "$ARGS_FILE" --json | jq -r .program)
 
 echo hal-simplicity simplicity info "$COMPILED_PROGRAM"
-hal-simplicity simplicity info "$COMPILED_PROGRAM" | jq
+hal-simplicity simplicity info "$COMPILED_PROGRAM" | jq .
 
 CMR=$(hal-simplicity simplicity info "$COMPILED_PROGRAM" | jq -r .cmr)
 CONTRACT_ADDRESS=$(hal-simplicity simplicity info "$COMPILED_PROGRAM" | jq -r .liquid_testnet_address_unconf)
@@ -329,9 +336,9 @@ echo "covenant script is what resets the inheritor's timelock."
 echo
 
 propagation_check "$FAUCET_TXID"
-FUND_HEX=$(jq -r .scriptpubkey < "$TMPDIR"/tx-vout0.json)
-FUND_ASSET=$(jq -r .asset < "$TMPDIR"/tx-vout0.json)
-FUND_VALUE=$(jq -r '.value' < "$TMPDIR"/tx-vout0.json | awk '{printf "%.8f", $1/100000000}')
+FUND_HEX=$(jq -r .scriptpubkey < "$WORKDIR"/tx-vout0.json)
+FUND_ASSET=$(jq -r .asset < "$WORKDIR"/tx-vout0.json)
+FUND_VALUE=$(sats_to_btc "$(jq -r '.value' < "$WORKDIR"/tx-vout0.json)")
 
 echo hal-simplicity simplicity pset create "[...utxo...]" "[...contract, fee...]"
 PSET=$(hal-simplicity simplicity pset create \
@@ -362,7 +369,7 @@ PROGRAM=$(simc -Z enums "$PROGRAM_SOURCE" -a "$ARGS_FILE" -w "$WITNESS_FILE" --j
 WITNESS=$(simc -Z enums "$PROGRAM_SOURCE" -a "$ARGS_FILE" -w "$WITNESS_FILE" --json | jq -r .witness)
 
 PSET=$(hal-simplicity simplicity pset finalize "$PSET" 0 "$PROGRAM" "$WITNESS" | jq -r .pset)
-RAW_TX=$(hal-simplicity simplicity pset extract "$PSET" | jq -r)
+RAW_TX=$(hal-simplicity simplicity pset extract "$PSET" | jq -r .)
 
 echo "Raw transaction is $RAW_TX"
 
@@ -392,9 +399,9 @@ echo "enforcement should reject this broadcast."
 echo
 
 propagation_check "$HOT_TXID"
-HOT_HEX=$(jq -r .scriptpubkey < "$TMPDIR"/tx-vout0.json)
-HOT_ASSET=$(jq -r .asset < "$TMPDIR"/tx-vout0.json)
-HOT_VALUE=$(jq -r '.value' < "$TMPDIR"/tx-vout0.json | awk '{printf "%.8f", $1/100000000}')
+HOT_HEX=$(jq -r .scriptpubkey < "$WORKDIR"/tx-vout0.json)
+HOT_ASSET=$(jq -r .asset < "$WORKDIR"/tx-vout0.json)
+HOT_VALUE=$(sats_to_btc "$(jq -r '.value' < "$WORKDIR"/tx-vout0.json)")
 
 echo hal-simplicity simplicity pset create "[...utxo, sequence=$MIN_DISTANCE_BLOCKS...]" "[...destination, fee...]"
 PSET=$(hal-simplicity simplicity pset create \
@@ -427,19 +434,19 @@ WITNESS=$(simc -Z enums "$PROGRAM_SOURCE" -a "$ARGS_FILE" -w "$WITNESS_FILE" --j
 # Local finalization succeeds here: the contract's own check only compares
 # against the sequence value declared above, and that's >= MIN_DISTANCE_BLOCKS.
 PSET=$(hal-simplicity simplicity pset finalize "$PSET" 0 "$PROGRAM" "$WITNESS" | jq -r .pset)
-INHERIT_RAW_TX=$(hal-simplicity simplicity pset extract "$PSET" | jq -r)
+INHERIT_RAW_TX=$(hal-simplicity simplicity pset extract "$PSET" | jq -r .)
 
 echo "Raw transaction is $INHERIT_RAW_TX"
 
 pause
 
 echo "Attempting to broadcast the inheritance transaction early..."
-if broadcast_tx "$INHERIT_RAW_TX" > "$TMPDIR"/early-attempt.txt 2>&1
+if broadcast_tx "$INHERIT_RAW_TX" > "$WORKDIR"/early-attempt.txt 2>&1
 then
 	echo "Unexpected: the node accepted this early! (Did the wait step above already finish?)"
 else
 	echo "As expected: the node rejected the early attempt."
-	cat "$TMPDIR"/early-attempt.txt
+	cat "$WORKDIR"/early-attempt.txt
 fi
 
 pause
