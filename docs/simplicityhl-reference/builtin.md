@@ -12,6 +12,7 @@
 | `<T>::into()` | Perform native type conversions. See [type casting](../type_casting/) for more details. |
 | `is_none<T>()` | Check whether an `Option<T>` value is `None`, returning `true` or `false`. |
 | `panic!` | Immediately abort the current program, rejecting the currently proposed transaction. |
+| `raw_hash` | (Compile with `-Z raw_hash`.) Compute a SHA256 digest over a provided tuple of integer values of possibly differing widths. |
 | `unwrap` | Require that a value of type `Option<T>` is `Some`, extracting the underlying element of type `T`. Panics if the given value is `None` instead. |
 | `unwrap_left` | Require that a value of type `Either<T, U>` is `Left`, extracting the underlying element of type `T`. Panics if the given value is `Right` instead. |
 | `unwrap_right` | Require that a value of type `Either<T, U>` is `Right`, extracting the underlying element of type `U`. Panics if the given value is `Left` instead. |
@@ -141,6 +142,17 @@ fn main(){
         Right(_: Signature) => panic!(),
     }
 }
+```
+
+### `raw_hash`
+
+```simplicityhl
+// The single line of code below replaces these four lines:
+//   let ctx1: Ctx8 = jet::sha_256_ctx_8_init();
+//   let ctx2: Ctx8 = jet::sha_256_ctx_8_add_2(ctx1, 0x5120);
+//   let ctx3: Ctx8 = jet::sha_256_ctx_8_add_32(ctx2, tweaked_key);
+//   let hash: u256 = jet::sha_256_ctx_8_finalize(ctx3);
+let hash: u256 = raw_hash::<(u16, u256)>((0x5120, tweaked_key));
 ```
 
 ### `unwrap`, `unwrap_left`, `unwrap_right`
