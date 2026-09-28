@@ -166,6 +166,9 @@ A cryptographic hash of relevant data to be signed as part of a Bitcoin or [Elem
 
 In some contexts, the term "sighash" is used to describe the set of relevant data that goes into computing this hash, rather than the hashed value itself.
 
+## Signet
+A form of test network described in [BIP 325](https://github.com/bitcoin/bips/blob/master/bip-0325.mediawiki) which performs mining without proof-of-work. In Simplicity, this typically refers to the [Simplicity Signet](https://signet.simplicity-lang.org/), a public signet instance available since September 2026.
+
 ## simc
 Blockstream's Simplicity compiler, which translates [SimplicityHL](./glossary.md#simplicityhl) to [Simplicity](./glossary.md#simplicity), as well as serializing [witness](./glossary.md#witness)es for inclusion on a blockchain.
 
