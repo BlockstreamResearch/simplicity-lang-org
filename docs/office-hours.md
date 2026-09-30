@@ -57,3 +57,4 @@ You can see all public Simplicity-related events in the calendar:
 * [September 1, 2026](https://youtu.be/niE6zMMCXOc)
 * [September 8, 2026](https://youtu.be/aogCnw8Qx0s)
 * [September 15, 2026](https://youtu.be/51bCmhfCI10)
+* [September 22, 2026](https://youtu.be/hQYRzI0VNZw)
