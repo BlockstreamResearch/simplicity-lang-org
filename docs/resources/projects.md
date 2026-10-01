@@ -16,6 +16,7 @@ These are open source projects in the Simplicity ecosystem.
 | [simplicity-demo](https://github.com/BlockstreamResearch/simplicity-demo) | Quickstart P2PK demo using Rust. |
 | [simplicity-codespace](https://github.com/Blockstream/simplicity-codespace) | Codespace to run examples. |
 | [LWK](https://github.com/Blockstream/LWK) | Liquid Wallet Kit (for developing applications to interact with Liquid Network and Simplicity contracts). |
+| [Humid Wallet](https://github.com/BlockstreamResearch/humid) | Demonstration in-browser Liquid wallet with Simplicity and txmanifest support. |
 | [SimplicityHL VS Code extension](https://marketplace.visualstudio.com/items?itemName=Blockstream.simplicityhl) | Visual Studio Code extension (source code in SimplicityHL repository above). |
 
 <!--
