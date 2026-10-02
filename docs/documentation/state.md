@@ -31,15 +31,18 @@ A simple example is provided in [`last_will.simf`](https://github.com/Blockstrea
     /*
      * LAST WILL
      *
-     * The inheritor can spend the coins if the owner doesn't move the them for 180
-     * days. The owner has to repeat the covenant when he moves the coins with his
-     * hot key. The owner can break out of the covenant with his cold key.
+     * The inheritor can spend the coins if the owner doesn't move them for 25,920
+     * blocks (about 18 days on Liquid). The owner has to repeat the covenant when
+     * he moves the coins with his hot key. The owner can break out of the covenant
+     * with his cold key.
+     *
+     * Requires -Z enums to run this example.
      */
     fn checksig(pk: Pubkey, sig: Signature) {
         let msg: u256 = jet::sig_all_hash();
         jet::bip_0340_verify((pk, msg), sig);
     }
-    
+
     // Enforce the covenant to repeat in the first output.
     //
     // Elements has explicit fee outputs, so enforce a fee output in the second output.
@@ -52,9 +55,28 @@ A simple example is provided in [`last_will.simf`](https://github.com/Blockstrea
         assert!(unwrap(jet::output_is_fee(1)));
     }
 
+    pub fn enforce_relative_distance(min_distance: Distance) {
+        // Assert that the current input is spent in a transaction that can
+        // only appear a distance of at least min_distance blocks after the
+        // block containing the input UTXO.
+        // Panic otherwise.
+
+        // This is a replacement for the deprecated jet::check_lock_distance.
+
+        // Transaction version must be at least 2.
+        assert!(jet::le_32(2, jet::version()));
+
+        // Fetch and parse sequence
+        let actual_data: Either<Distance, Duration> = unwrap(jet::parse_sequence(jet::current_sequence()));
+        let actual_distance: Distance = unwrap_left::<Duration>(actual_data);
+
+        assert!(jet::le_16(min_distance, actual_distance));
+    }
+
     fn inherit_spend(inheritor_sig: Signature) {
-        let days_180: Distance = 25920;
-        jet::check_lock_distance(days_180);
+        // On Bitcoin, this Distance would be 180 days; on Liquid, it is 18 days.
+        let timelock_distance: Distance = 25920;
+        enforce_relative_distance(timelock_distance);
         let inheritor_pk: Pubkey = 0x79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798; // 1 * G
         checksig(inheritor_pk, inheritor_sig);
     }
@@ -70,32 +92,36 @@ A simple example is provided in [`last_will.simf`](https://github.com/Blockstrea
         recursive_covenant();
     }
 
+    enum Action {
+        Inherit(Signature),
+        ColdSpend(Signature),
+        HotSpend(Signature),
+    }
+
     fn main() {
-        match witness::INHERIT_OR_NOT {
-            Left(inheritor_sig: Signature) => inherit_spend(inheritor_sig),
-            Right(cold_or_hot: Either<Signature, Signature>) => match cold_or_hot {
-                Left(cold_sig: Signature) => cold_spend(cold_sig),
-                Right(hot_sig: Signature) => refresh_spend(hot_sig),
-            },
+        match witness::ACTION {
+            Action::Inherit(sig: Signature) => inherit_spend(sig),
+            Action::ColdSpend(sig: Signature) => cold_spend(sig),
+            Action::HotSpend(sig: Signature) => refresh_spend(sig),
         }
     }
     ```
 
-This contract allows an heir to claim an inheritance (held by the contract) after the creator has died. It also enforces a mandatory time delay in the claim process so that the heir can only claim the inheritance when the creator hasn't "refreshed" the contract within the past 180 days.
+This contract allows an heir to claim an inheritance (held by the contract) after the creator has died. It also enforces a mandatory time delay in the claim process so that the heir can only claim the inheritance when the creator hasn't "refreshed" the contract within the past 18 days.
 
 ```mermaid
 flowchart TD
     Z((Creator's wallet)) -->|<i>Asset deposit</i>| A[Last will covenant]
     A -->|Hot key signature<br><i>Refresh covenant</i>| A
     A -->|Cold key signature<br><i>Creator withdrawal</i>| Z
-    A -->|Inheritor signature<br><i>Inherit assets</i><br><b>Only for assets held over 180 days</b>| C((Inheritor's wallet))
+    A -->|Inheritor signature<br><i>Inherit assets</i><br><b>Only for assets held over 18 days</b>| C((Inheritor's wallet))
 ```
 
 The creator is expected to periodically refresh the contract by sending the contract's assets back to the same contract (via the **hot key**). Importantly, the "hot key" is restricted to authorizing this specific form of transaction: it can only authorize sending assets back to the same contract. (This restriction on the hot key's power, the fact that it can't *remove* assets from the covenant's control, is the part of this example that uses covenant logic.)
 
 The creator's more secure **cold key** isn't needed routinely, but can be used to authorize arbitrary withdrawals if the contract creator no longer wishes to keep certain assets stored inside the contract.
 
-The inheritor's **inheritor key** can authorize arbitrary withdrawals from the contract, but only of [UTXO](../glossary.md#utxo)s that have been held by the contract for at least 180 days. So, whenever the creator refreshes the covenant with a hot key transaction, this period begins anew.
+The inheritor's **inheritor key** can authorize arbitrary withdrawals from the contract, but only of [UTXO](../glossary.md#utxo)s that have been held by the contract for at least 18 days. So, whenever the creator refreshes the covenant with a hot key transaction, this period begins anew.
 
 The covenant logic in `last_will.simf` is enforced by ensuring that a specific [output](../glossary.md#output) has a script hash matching the script hash of the [input](../glossary.md#input) from which the Simplicity program is being run. This is determined using the relevant [jet](../glossary.md#jet)s.
 
@@ -184,7 +210,7 @@ This example contract, `third_time.simf`, uses the state management mechanism de
     *
     * When initially funding the contract, use witness::STATE = 0.
     */
-    
+
     fn check_sig(sig: Signature) {
        let authorized_key: Pubkey = 0x79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798; // 1 * G
        let msg: u256 = jet::sig_all_hash();
@@ -198,7 +224,7 @@ This example contract, `third_time.simf`, uses the state management mechanism de
         let state_ctx2: Ctx8 = jet::sha_256_ctx_8_add_32(state_ctx1, state_data);
         let state_leaf: u256 = jet::sha_256_ctx_8_finalize(state_ctx2);
         let tap_node: u256 = jet::build_tapbranch(tap_leaf, state_leaf);
-    
+
         // Compute a taptweak using this.
         let bip0341_key: u256 = 0x50929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac0;
         let tweaked_key: u256 = jet::build_taptweak(bip0341_key, tap_node);
@@ -217,7 +243,7 @@ This example contract, `third_time.simf`, uses the state management mechanism de
             unwrap(jet::input_script_hash(jet::current_index()))
         ));
     }
-    
+
     fn store(new_state: u256) {
         assert!(jet::eq_256(
             script_hash_for_input_script(new_state),
