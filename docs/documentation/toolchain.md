@@ -57,7 +57,7 @@ The most basic workflow for on-chain transactions with the command-line toolchai
 6. convert the PSET to a serialized transaction with `hal-simplicity simplicity pset extract`
 7. submit the resulting transaction on the blockchain
 
-You can see a complete worked example of the actions above, both commit-time and redeem-time, in the old [bash quickstart](../getting-started/bash-quickstart.md), which is no longer suggested for most beginning users. There are also several demonstrations in the Simplicity Codespace, linked in the note above, which demonstrate both actions using `simc` and `hal-simplicity`.
+You can see a complete worked example of the actions above, both commit-time and redeem-time, in the `bash` version of the [quickstart](../getting-started/quickstart.md). There are also several demonstrations in the Simplicity Codespace, linked in the note above, which demonstrate both actions using `simc` and `hal-simplicity`.
 
 ## simc
 
