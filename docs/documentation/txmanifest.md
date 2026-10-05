@@ -10,7 +10,7 @@ For wallet developers, `txmanifest` provides a way to add UI and transaction fun
 
 ## Online documentation
 
-The `txmanifest` format is work-in-progress and has not yet been frozen as a released specification. Detailed documentation for the `txmanifest` format is available in the [*txmanifest book*](https://stringhandler.github.io/tx_manifest_book/).
+The `txmanifest` format is work-in-progress and has not yet been frozen as a released specification, but versions of it have been integrated with several Liquid wallets. Detailed documentation for the `txmanifest` format is available in the [*txmanifest book*](https://stringhandler.github.io/tx_manifest_book/).
 
 ## Reference implementation
 

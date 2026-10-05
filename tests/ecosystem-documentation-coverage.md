@@ -45,6 +45,9 @@ Also in-corpus:
 - Pages linked from the site navigation or from llms.txt
 - GitHub repositories ONLY when an official docs page links them as the
   source of a contract, tool, or example (cite the linking doc page)
+- github.io documentation pages or sites ONLY when an official docs page
+  links them as documentation for a contract, tool, or example (cite
+  the linking doc page)
 
 Out of corpus (allowed only after a documented search failed). Every use
 must be logged as “left official docs”:
