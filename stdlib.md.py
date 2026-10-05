@@ -8,8 +8,9 @@
 
 import datetime
 import json
-import re
 import sys
+
+from descriptions import description_to_cell
 
 preamble = """# SimplicityHL standard library reference
 <!-- Generated from {} by stdlib.md.py on {} -->
@@ -32,7 +33,7 @@ simplex install std
 
 This adds an entry to the project's `Simplex.toml` with a standard library dependency. The functions listed below are then available under the alias `std`, for example:
 
-```rust
+```simplicityhl
 use std::lib::u32::math::safe_add_32;
 ```
 
@@ -59,7 +60,7 @@ def format_jet(name, i, o, desc):
 
 section = ""
 for jet in elements:
-    jet["description"] = re.sub("\\n", "<br>", jet["description"])
+    jet["description"] = description_to_cell(jet["description"])
     if "deprecated" in jet and jet["deprecated"]:
         continue
     this_section = jet["section"]

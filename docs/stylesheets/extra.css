@@ -122,3 +122,39 @@
    so var() is unavailable there and colors must be literals: use 8-digit hex
    with alpha so a fill stays legible in both light and dark schemes. Material
    injects its own diagram theming via mermaid.initialize({ themeCSS }). */
+
+/* "Panics" / "Preconditions" labels in the generated jets and standard library
+   reference tables (see descriptions.py). These sit inside table cells, where
+   Markdown processes only inline syntax, so a rustdoc `## Panics` heading
+   cannot render as a heading and would otherwise show its literal `##`.
+
+   The chip is deliberately neutral rather than warning-colored. A panic is the
+   *only* way for a Simplicity program to decline a transaction, as the jets
+   reference says in its introduction, so these sections describe how a program
+   enforces its rules rather than a hazard to avoid, and most listed functions
+   have one. Warning styling here would contradict the page. --md-default-fg-*
+   is redefined for the slate scheme, so the chip follows the theme instead of
+   holding one fixed color. Size stays at the cell's own font size, since
+   Material already sets tables to .64rem and anything smaller is unreadable. */
+.md-typeset .panics {
+  display: inline-block;
+  padding: 0.1em 0.5em;
+  border-radius: 0.3em;
+  background-color: var(--md-default-fg-color--lightest);
+  color: var(--md-default-fg-color);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Lists in those same cells are real <ul>/<ol> markup rather than Markdown, so
+   they pick up the full 1em block margins. Tighten them to sit closer to the
+   label or lead-in they belong to. */
+.md-typeset table:not([class]) td :is(ul, ol) {
+  margin-top: 0.3em;
+  margin-bottom: 0.3em;
+}
+
+.md-typeset table:not([class]) td :is(ul, ol) :is(ul, ol) {
+  margin-top: 0.15em;
+  margin-bottom: 0.15em;
+}

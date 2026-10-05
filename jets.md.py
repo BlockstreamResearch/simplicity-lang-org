@@ -9,6 +9,8 @@ import json
 import re
 import sys
 
+from descriptions import description_to_cell
+
 preamble = """# Jets reference
 <!-- Generated from {} by jets.md.py on {} -->
 
@@ -53,7 +55,7 @@ def format_jet(name, i, o, desc):
 
 section = ""
 for jet in elements:
-    jet["description"] = re.sub("\\n", "<br>", jet["description"])
+    jet["description"] = description_to_cell(jet["description"])
     if "deprecated" in jet and jet["deprecated"]:
         continue
     this_section = jet["section"]
