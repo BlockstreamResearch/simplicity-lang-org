@@ -113,7 +113,7 @@ the numbering and silently breaks those links. -->
 
     ```bash
     git clone https://github.com/BlockstreamResearch/simplicity-demo
-    cd simplicity-demo
+    cd simplicity-demo/quickstart-cli
     ```
 
     ### 2. Create a random seed for the demo's keypairs
@@ -124,7 +124,7 @@ the numbering and silently breaks those links. -->
     openssl rand -hex 32
     ```
 
-    Create an `.env.demo` file at the top level of the `simplicity-demo` project, with a single line `SEED_HEX=` followed by your random seed value from the previous command.
+    Create an `.env.demo` file in the `quickstart-cli` directory, with a single line `SEED_HEX=` followed by your random seed value from the previous command.
 
     Every `last-will` command below derives its keys from this one seed, so you don't need to manage three separate seeds to play all three roles yourself. In a real deployment, these would be three unrelated seeds held on different devices.
 
