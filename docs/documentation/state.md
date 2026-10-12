@@ -336,6 +336,8 @@ A real financial application may need to include logic to enforce a variety of f
 
 ## Next steps
 
+For more about constraining output destinations in general, see "[Constraining Destinations](destinations.md)".
+
 As noted above, a program can store multiple values by interpreting the commitment as a SHA256 hash, where the `load()` and `store()` routines verify that the hash value matches the hash calculated from all the relevant witness values. In this case, the contract developer will create a convention for exactly which values are hashed and in which order; that convention is then used whenever state is stored or loaded.
 
 SimplicityHL will have library functions reflecting the `load` and `store` patterns to make it easier for developers to use these mechanisms without writing boilerplate referring to the lower-level details of the cryptographic state commitment. It will also offer a reference implementation of Merkle tree creation and verification to make it easier for developers to load and store multiple values in a standardized and elegant way.

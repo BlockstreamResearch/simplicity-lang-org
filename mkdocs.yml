@@ -165,6 +165,7 @@ nav:
       - Core Concepts:
           - Execution Model: documentation/execution-model.md
           - Covenants & State Management: documentation/state.md
+          - Constraining Destinations: documentation/destinations.md
           - Witnesses: documentation/witness.md
           - Oracles: documentation/oracle.md
           - Timelocks: documentation/timelocks.md
