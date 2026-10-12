@@ -129,4 +129,16 @@ Consider various audiences' perspectives and help them find what they need to ac
 
 If a user is completely new to SimplicityHL and encountering it through the first time, that user's successful use of this site would lead to actually running a Quickstart tutorial, or opening up the Simplicity Codespace, to experience deploying Simplicity contracts and making real transactions with them.
 
+### Quality gate (Diátaxis + shortest path)
+
+New or substantially rewritten pages must be screened against the checklist in `.github/documentation-review.md` before merge.
+
+The checklist asks:
+* Does the page serve exactly one Diátaxis type (tutorial, how-to, reference, or explanation)?
+* Is the shortest reliable path to the stated goal preserved?
+* Have setup, install, and platform notes been linked rather than restated?
+* Is language precise for the Bitcoin/Liquid context (no “money” for testnet L-BTC, etc.)?
+
+Reviewers should treat a clear structural failure (mixed quadrants, repeated setup dominating a how-to, missing recovery for the most likely errors) as a request for changes.
+
 **Thanks for making the Simplicity docs better.**

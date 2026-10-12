@@ -46,8 +46,6 @@ python -m mkdocs build
 ## Project-Specific Conventions
 
 ### Content Guidelines
-- **Tool recommendations**: Always promote WebIDE for beginners, SimplicityHL for development
-- **External links**: Point to BlockstreamResearch GitHub organization for implementations
 - **Code samples**: Use SimplicityHL syntax, not core Simplicity combinators in getting-started content
 - **Navigation flow**: High-level tools → Low-level implementations progression
 
@@ -81,3 +79,7 @@ Don’t:
 - Don’t hype or exaggerate
 - Don’t over-simplify technical concepts - respect the audience’s intelligence.
 - Don’t use generic marketing fluff or managemenet-speak
+
+## Documentation screening
+
+When drafting or editing pages under `docs/`, apply the checklist in `.github/documentation-review.md`. Prefer a single clear job per page. Do not restate installation or toolchain setup that already lives elsewhere. Keep how-to guides procedural and move explanatory material to explanation pages.
