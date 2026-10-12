@@ -82,4 +82,4 @@ Don’t:
 
 ## Documentation screening
 
-When drafting or editing pages under `docs/`, apply the checklist in `.github/DOCUMENTATION_REVIEW.md`. Prefer a single clear job per page. Do not restate installation or toolchain setup that already lives elsewhere. Keep how-to guides procedural and move explanatory material to explanation pages.
+When drafting or editing pages under `docs/`, apply the checklist in `.github/documentation-review.md`. Prefer a single clear job per page. Do not restate installation or toolchain setup that already lives elsewhere. Keep how-to guides procedural and move explanatory material to explanation pages.
