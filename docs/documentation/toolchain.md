@@ -222,9 +222,11 @@ The output of the command is a JSON object whose attribute `pset` contains the n
 
 This command modifies an existing PSET by attaching required redeem-time details to an input that is a [UTXO](../glossary.md#utxo) controlled by a Simplicity program.
 
-`hal-simplicity simplicity pset update-input <pset> <inputindex> -i <hex>:<asset>:<value> -c <cmr> -p <internalkey>`
+`hal-simplicity simplicity pset update-input <pset> <inputindex> -i <hex>:<asset>:<value> -c <cmr> -p <internalkey> [-s <state>]`
 
 where `<pset>` is the existing base64-encoded PSET to modify, `<inputindex>` is the index of the input to modify, `<hex>` is the scriptPubKey of the input, `asset` is the Liquid asset ID of the input, `value` is the numerical amount of the input, `<cmr>` is the [CMR](../glossary.md#cmr) of the program to spend from, and `-p` is the program's internal key (commonly the fixed value `50929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac0` by default).
+
+For a program that carries [state](state.md), `--state` (short form `-s`) gives the same 32-byte hex state commitment that was passed to `hal-simplicity simplicity info -s` when deriving the address of the UTXO being spent. Without it, the input's Taproot details are computed with no state commitment, and the spend fails for any UTXO that committed to one. (The `-s` option of `hal-simplicity simplicity sighash` is unrelated: it supplies a signature.)
 
 The output of the command is a JSON object whose attribute `pset` contains the updated PSET in base64 format.
 
@@ -292,3 +294,43 @@ where `<pset>` is the base64-encoded PSET containing the transaction to be signe
 The output is a JSON object containing signature details, in which the `signature` attribute contains a signature suitable for inclusion in a Simplicity program's witness data. Note that the version of the signature used in a `.wit` must begin with `0x` before the hexadecimal signature.
 
 `hal-simplicity simplicity sighash` can also *verify* signatures that have already been created, if the expected public key is specified with `-p` and the existing signature with `-s`.
+
+### hal-simplicity address inspect
+
+This subcommand, inherited from `hal-elements`, decodes a Liquid address and reports the scriptPubKey it encodes. It accepts [confidential](../glossary.md#confidential) and unconfidential addresses. One use is computing the scriptPubKey hash that a Simplicity program compares against an output (see [computing the hash off-chain](destinations.md#computing-the-hash-off-chain)).
+
+`hal-simplicity address inspect <address>`
+
+The network is determined by the address prefix, so the command takes no network option. Add `-y` for YAML output instead of JSON.
+
+Output for a Liquid testnet [Taproot](../glossary.md#taproot) address:
+
+```json
+{
+  "network": "liquidtestnet",
+  "type": "unknown-witness-program-version",
+  "script_pub_key": {
+    "hex": "5120a733a1362f4d951c3361152f22a8bf6fdb19fd8ca069ca1ff3ff967b88593b90",
+    "asm": "OP_PUSHNUM_1 OP_PUSHBYTES_32 a733a1362f4d951c3361152f22a8bf6fdb19fd8ca069ca1ff3ff967b88593b90"
+  },
+  "witness_program_version": 1
+}
+```
+
+The output can contain the following fields:
+
+* `network`: the network the address belongs to, such as `liquid` or `liquidtestnet`.
+
+* `type`: `p2pkh`, `p2sh`, `p2wpkh`, or `p2wsh`. Only SegWit version 0 programs are classified, so every Taproot address, including every Simplicity contract address, reports `unknown-witness-program-version`. The address is valid; `witness_program_version` is `1` for Taproot.
+
+* `script_pub_key.hex`: the scriptPubKey in hex.
+
+* `script_pub_key.asm`: the scriptPubKey as script opcodes.
+
+* `witness_program_version`: the SegWit version, for SegWit addresses only.
+
+* `pubkey_hash`, `script_hash`, `witness_pubkey_hash`, `witness_script_hash`: the hash carried in a P2PKH, P2SH, P2WPKH, or P2WSH address respectively, present only for that type. `script_hash` is the HASH160 of a P2SH redeem script and is unrelated to the scriptPubKey hash returned by `jet::output_script_hash`.
+
+* `blinding_pubkey` and `unconfidential`: for a confidential address only, its blinding public key and the same address without the blinding key.
+
+An address that cannot be parsed makes the command exit with a Rust panic message instead of a JSON error object.
