@@ -51,6 +51,19 @@ Brief explanation inside a tutorial or how-to guide isn't a structural problem w
 
 Evaluate the page against these criteria. For each failure, quote the offending text and give a concrete recommendation.
 
+Some items apply only to some page types. Mark an item that doesn't apply as "N/A" in the output, without counting it as a failure:
+
+| Item | Applies to |
+| --- | --- |
+| 2. Shortest path | Tutorials and how-to guides |
+| 3. Context switching | Tutorials and how-to guides |
+| 5. Versioning and network | Tutorials and how-to guides |
+| 10. Failure and recovery | Tutorials, how-to guides, and reference pages that document commands or functions |
+| 11. Verification | Tutorials and how-to guides |
+| All other items | Every page type |
+
+An explanation or reference page that includes a command or code example still needs that example to be correct and complete. It doesn't need to walk the reader through running it.
+
 1. **Single job (Diátaxis):** Does the page do only one thing? List any material that belongs in a different quadrant and name the destination.
 
 2. **Shortest path:** What is the minimum sequence that achieves the stated goal? Flag any "build the world first" content, or repeated installation content not required for the immediate task.
@@ -78,6 +91,8 @@ Evaluate the page against these criteria. For each failure, quote the offending 
 11. **Verification:** Does every executable command show its expected output (for example a console log or a transaction ID)? Flag steps that leave the reader guessing whether they succeeded. Commands without any output, such as `cd` or `export`, are exempt.
 
 12. **Navigation and next steps:** Does the page end with a clear, single next action or link? Flag pages that introduce new conceptual material at the end instead of pointing to existing documentation.
+
+13. **Accuracy:** Flag claims that are imprecise, or that you can tell are mistaken or inconsistent with the rest of the page or with other pages on the site. This doesn't require an external fact-check of every claim.
 
 ### 3. Formatting rules (must pass)
 
@@ -110,9 +125,9 @@ Produce this structure for each page reviewed:
 
 [Long sentences and other items that don't affect the verdict, or "none".]
 
-## Shortest-path rewrite (optional)
+## Shortest-path rewrite or proposed structure (optional)
 
-[For a how-to guide or tutorial, a bullet outline of the minimal sequence that still achieves the goal.]
+[For a how-to guide or tutorial, a bullet outline of the minimal sequence that still achieves the goal. For an explanation or reference page, a bullet outline of the proposed sections, when the review recommends restructuring.]
 
 ## Verdict
 
