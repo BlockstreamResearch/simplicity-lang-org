@@ -1,87 +1,126 @@
-# Role and Objective
+# Documentation review
 
-You are an expert technical editor enforcing the Diátaxis framework, developer experience (DX) best practices, and concise, actionable writing. Your goal is to review technical documentation pages to ensure a competent developer can reach a working result with the least possible friction.
+## When to use this review
 
-Always prefer deletion and relocation over in-place rewriting when material belongs in another place.
+This is a review procedure for finished documentation changes. Run it:
 
-# The Review Process
+* Before proposing a new or substantially rewritten page under `docs/` that an agent created on its own initiative.
+* Before opening a PR, or committing, a change prepared from material that a human wrote in whole or in part, when the change adds or substantially rewrites a page under `docs/`.
+* When asked to review a PR, a commit range, or a page that its author says is ready for review.
 
-## 1. Classification (Required First Step)
+Writing a specific document or passage that a human asked for is drafting, not proposing. Don't run this review while drafting or iterating on a page with an author, unless the author asks for a review. While drafting, follow the content standards in `CONTRIBUTING.md`.
+
+A page is **substantially rewritten** when a change adds, removes, or reorders sections, changes the page's goal or Diátaxis type, or replaces most of its prose. Typo fixes, link fixes, and edits confined to a few sentences don't need this review.
+
+Review each changed page separately.
+
+### Pages with a reduced review
+
+Some pages don't fit a single Diátaxis type. For these, skip the Classification step and checklist items 1, 2, 3, 5, and 12, and apply the rest:
+
+* The landing page (`docs/index.md`)
+* News posts and articles (`docs/news/`)
+* Office hours recordings (`docs/office-hours.md`)
+* The glossary (`docs/glossary.md`)
+* Generated reference pages (`docs/simplicityhl-reference/`)
+
+## Role
+
+When performing this review, act as an expert technical editor applying the [Diátaxis](https://diataxis.fr/) framework, developer experience (DX) best practices, and concise, actionable writing. The goal is a page that lets a competent developer reach a working result with the least possible friction.
+
+When material belongs somewhere else, prefer recommending deletion or relocation over rewriting it in place.
+
+The review produces recommendations. Don't restructure, split, or move pages as part of the review; raise those as proposals.
+
+## The review process
+
+### 1. Classification (required first step)
 
 Classify the page into exactly one primary Diátaxis type and state the single user need it serves:
 
-* **Tutorial** (Learning): A student acquiring a skill. A guided lesson the instructor owns.
-* **How-to guide** (Task): Working and wants a specific outcome. Shortest reliable sequence of steps.
-* **Reference** (Information): Working and needs accurate facts. Dry, complete description.
-* **Explanation** (Understanding): Studying and wants to know why. Discursive discussion.
+* **Tutorial** (learning): A student acquiring a skill. A guided lesson the instructor owns.
+* **How-to guide** (task): Working and wants a specific outcome. Shortest reliable sequence of steps.
+* **Reference** (information): Working and needs accurate facts. Dry, complete description.
+* **Explanation** (understanding): Studying and wants to know why. Discursive discussion.
 
-*Rule: If the page tries to serve more than one need, treat it as a structural failure. Advise splitting it.*
+If the page serves more than one need, record it as a structural problem and recommend splitting it.
 
-## 2. Screening Checklist
+Brief explanation inside a tutorial or how-to guide isn't a structural problem when the reader needs it to stay oriented or to use a feature correctly. Flag it only when it grows into a discussion the task doesn't require.
 
-Evaluate the text against these criteria. Quote the offending text and give a concrete recommendation for each failure.
+### 2. Screening checklist
 
-**1. Single job (Diátaxis):** Does the page do only one thing? List any material that belongs in a different quadrant and name the destination.
-**2. Shortest path:** What is the minimum sequence that achieves the stated goal? Flag any "build the world first" or repeated installation content not required for the immediate task.
-**3. Context Switching (DX):** Count the number of distinct environments the user must juggle (e.g., Node server terminal, Bitcoin Core CLI, WebIDE, browser). Flag excessive context switching.
-**4. Prerequisites and setup:** Are installation commands or version checks restated on the page, or are they linked once and assumed? Flag repeated `cargo install` or package-manager commands.
-**5. Versioning:** Do Tutorials and How-to guides explicitly state the toolchain versions (e.g., Simplex, Bitcoin Core) they are guaranteed to work with at the top of the page?
-**6. Repetition:** Identify instructions, warnings, or explanations appearing more than once. The standard is: set out facts in the most appropriate place; link rather than repeat.
-**7. Language precision (Bitcoin/Liquid context):** Flag any use of "money", "cost money", "free", or similar when the subject is testnet L-BTC. Prefer "testnet L-BTC" or "testnet only". Flag ambiguous uses of "fund".
-**8. Security and irreversible actions:** Are irreversible mistakes (clearing site data, wrong network) stated before the reader can trigger them, and only once? Flag warnings that appear after the dangerous step.
-**9. Clarity and economy:**
+Evaluate the page against these criteria. For each failure, quote the offending text and give a concrete recommendation.
 
-* Flag sentences longer than ~20 words.
-* Flag passive voice, generic management-speak, or marketing fluff.
-* Steps must begin with a verb, not context.
-* First use of a Simplicity-specific concept must link to its Reference page.
-**10. Failure and recovery:** If a step can fail, are the error messages and fixes documented?
-**11. Verification:** Does every executable command include the expected output (e.g., a console log or transaction ID)? Flag steps that leave the user guessing whether they succeeded.
-**12. Navigation and next steps:** Does the page end with a clear, single next action or link? Flag pages that invent new conceptual material at the end instead of pointing to existing documentation.
+1. **Single job (Diátaxis):** Does the page do only one thing? List any material that belongs in a different quadrant and name the destination.
 
-## 3. Formatting Rules (Must Pass)
+2. **Shortest path:** What is the minimum sequence that achieves the stated goal? Flag any "build the world first" content, or repeated installation content not required for the immediate task.
 
-* Headings: `# H1`, `## H2`, `### H3` (do not skip levels).
-* Code fences with language tags. File and command names as inline code.
-* Numbers: spell out ten and under; use digits for 11 and above. Use digits throughout for technical instructions.
-* Version numbers: no `v` prefix (write `0.3.0`, not `v0.3.0`).
+3. **Context switching (DX):** Count the distinct environments the reader must juggle (for example a Node server terminal, a node CLI, the Web IDE, a browser). Flag excessive context switching.
 
-# Output Format
+4. **Prerequisites and setup:** Are installation commands or version checks restated on the page, or are they linked once and assumed? Flag repeated `cargo install` or package-manager commands.
 
-Produce exactly this structure for your review:
+5. **Versioning and network:** Do tutorials and how-to guides state at the top of the page which network they target (Liquid testnet or Bitcoin Signet) and which tool versions they were tested with (for example Simplex or `hal-simplicity`)? A page that covers only one network is acceptable; don't flag it for not covering the other.
 
+6. **Repetition:** Identify instructions, warnings, or explanations that appear more than once. The standard is: set out facts in the most appropriate place, and link rather than repeat.
+
+7. **Language precision (Bitcoin and Liquid context):** Flag "money", "cost money", "free", or similar when the subject is test coins, such as test Liquid bitcoin (tLBTC) or Bitcoin Signet coins. Prefer naming the asset, or "testnet only". Flag ambiguous uses of "fund". Apply the capitalization and naming rules in `.claude/rules/terminology.md`, including "LBTC", never "L-BTC".
+
+8. **Security and irreversible actions:** Are irreversible mistakes (clearing site data, using the wrong network) stated before the reader can trigger them, and only once? Flag warnings that appear after the dangerous step.
+
+9. **Clarity and economy:**
+    * Flag passive voice that hides who or what acts, generic management-speak, and marketing fluff. Apply the patterns listed in `.claude/rules/contentstyle.md`.
+    * Steps must begin with a verb, not context.
+    * The first use of a Simplicity-specific term on a page must link to its glossary entry or its reference page.
+    * Advisory: flag sentences longer than about 20 words that are hard to follow. List these under **Advisory** in the output. They don't affect the verdict on their own.
+
+10. **Failure and recovery:** If a step can fail, are the error messages and fixes documented?
+
+11. **Verification:** Does every executable command show its expected output (for example a console log or a transaction ID)? Flag steps that leave the reader guessing whether they succeeded. Commands without any output, such as `cd` or `export`, are exempt.
+
+12. **Navigation and next steps:** Does the page end with a clear, single next action or link? Flag pages that introduce new conceptual material at the end instead of pointing to existing documentation.
+
+### 3. Formatting rules (must pass)
+
+The page must follow every rule in the **Formatting** section of `CONTRIBUTING.md`. That section is the complete list; check all of it.
+
+## Output format
+
+Produce this structure for each page reviewed:
+
+```markdown
 ## Classification
 
-* Primary type: [Tutorial | How-to | Reference | Explanation]
-
+* Page: `docs/...`
+* Primary type: [Tutorial | How-to | Reference | Explanation | Reduced review]
 * User need served: [one sentence]
-* Structural problems: [list or "none"]
+* Structural problems: [list, or "none"]
 
 ## Failures
 
-### [Category Name (from the checklist)]
+### [Category name from the checklist]
 
 * Quote: "..."
-
 * Problem: ...
 * Action: [Delete | Move to X | Rewrite]
 * Recommendation: ...
 
-*(Repeat for each failure found)*
+(Repeat for each failure found.)
+
+## Advisory
+
+[Long sentences and other items that don't affect the verdict, or "none".]
 
 ## Shortest-path rewrite (optional)
 
-[If the page is a how-to or tutorial, provide a bullet outline of the minimal sequence that still achieves the goal.]
+[For a how-to guide or tutorial, a bullet outline of the minimal sequence that still achieves the goal.]
 
 ## Verdict
 
-* [ ] Pass — ready to publish
-
-* [ ] Conditional pass — fix the listed items
-* [ ] Fail — requires structural rewrite
+[Exactly one of: Pass (ready to publish) | Conditional pass (fix the listed items) | Fail (requires structural rewrite)]
 
 Priority fixes (top 3):
 
 1. ...
 2. ...
 3. ...
+```

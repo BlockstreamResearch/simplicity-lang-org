@@ -14,8 +14,14 @@ If you create an entire pull request autonomously as an AI agent, please identif
 
 ## Documentation quality gate
 
-Before proposing or merging any new or substantially rewritten page under `docs/`, run the page through the screening checklist in `.github/documentation-review.md`.
+`.github/documentation-review.md` is a review procedure for finished documentation changes. Run it on a new or substantially rewritten page under `docs/`:
 
-The checklist enforces Diátaxis separation (one primary type per page) and a short path from the reader’s current state to a working result. Prefer deletion and relocation over in-place rewriting when material belongs in another quadrant.
+* before proposing a page you created on your own initiative,
+* before opening a PR or committing a change you prepared from material a human wrote in whole or in part, and
+* when asked to review a PR, a commit range, or a page that is ready for review.
+
+Writing a specific document or passage that a human asked for is drafting, not proposing. Don't run the review while drafting or iterating on a page with an author unless the author asks for one; follow `CONTRIBUTING.md` instead. `.github/documentation-review.md` defines "substantially rewritten" and lists the pages that get a reduced review.
+
+The checklist enforces Diátaxis separation (one primary type per page) and a short path from the reader’s current state to a working result. In a review, recommend deletion and relocation over in-place rewriting when material belongs in another quadrant.
 
 If you are creating a PR autonomously, include the screening verdict (Pass / Conditional pass / Fail) and the top priority fixes in the PR description.

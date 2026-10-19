@@ -49,6 +49,7 @@ If you’re unsure it belongs here, it probably does. Submit the PR.
 * Keep examples **minimal** and **correct**.
 * Prefer full, copy‑pasteable blocks over fragments.
 * State the version an example was tested against when behavior could plausibly differ across versions (e.g., "tested with SimplicityHL 0.3.0").
+* Tutorials and how-to guides state, at the top of the page, the network they target (Liquid testnet or Bitcoin Signet) and the tool versions they were tested with.
 
 ### Errors
 
@@ -131,13 +132,14 @@ If a user is completely new to SimplicityHL and encountering it through the firs
 
 ### Quality gate (Diátaxis + shortest path)
 
-New or substantially rewritten pages must be screened against the checklist in `.github/documentation-review.md` before merge.
+New or substantially rewritten pages must be screened against the checklist in `.github/documentation-review.md` before merge. The checklist is a review step for finished changes. While drafting, follow the standards above.
 
 The checklist asks:
+
 * Does the page serve exactly one Diátaxis type (tutorial, how-to, reference, or explanation)?
 * Is the shortest reliable path to the stated goal preserved?
 * Have setup, install, and platform notes been linked rather than restated?
-* Is language precise for the Bitcoin/Liquid context (no “money” for testnet L-BTC, etc.)?
+* Is language precise for the Bitcoin and Liquid context (no "money" for test Liquid bitcoin (tLBTC) or Bitcoin Signet coins, etc.)?
 
 Reviewers should treat a clear structural failure (mixed quadrants, repeated setup dominating a how-to, missing recovery for the most likely errors) as a request for changes.
 
