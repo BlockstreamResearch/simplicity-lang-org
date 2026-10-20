@@ -42,6 +42,7 @@ If you’re unsure it belongs here, it probably does. Submit the PR.
 * Link the descriptive noun or verb ("see the [redeem-time witness](...)"), never bare "click here" or "here" as link text.
 * Numbers: spell out ten and under (one, five, ten); use digits for 11 and above. Use digits throughout for technical instructions (step counts, parameter values, byte sizes) regardless of magnitude.
 * Version numbers: no `v` prefix. Write `0.3.0`, not `v0.3.0`. Inline availability notes as `(0.3.0+)`.
+* Don't label tutorial/HOWTO steps with "Step" (just name them, or at most use digits, if possible automatically generating step and section structure with Markdown).
 * Punctuation goes outside closing quotation marks: `the function returns "unit"`, not `the function returns "unit."` In code-adjacent prose this keeps punctuation from being misread as part of a quoted identifier, command, or literal.
 
 ### Examples
