@@ -129,7 +129,7 @@ changes"](EXPLANATION.md#who-signs-and-what-that-changes).
 
 ---
 
-## Step 1. Get the contract
+## 1. Get the contract
 
 Every later step compiles this one file. It is already here:
 
@@ -147,7 +147,7 @@ For what each function enforces, see
 [`EXPLANATION.md`, "What the contract enforces"](EXPLANATION.md#what-the-contract-enforces). The same contract is published on
 the [docs.simplicity-lang.org](https://docs.simplicity-lang.org/) homepage.
 
-## Step 2. Run the contract's tests on regtest
+## 2. Run the contract's tests on regtest
 
 `simplex` runs SimplicityHL integration tests against a local [Elements](../../glossary.md#elements)
 regtest node that it starts and funds for you, so this step proves the
@@ -226,7 +226,7 @@ simplex test -- -vv        # traces every jet call with its real values
 [`examples/allowance-simplex/README.md`](examples/allowance-simplex/README.md) lists four
 more tests you can add.
 
-## Step 3. Build what the page needs
+## 3. Build what the page needs
 
 Two things get built here: the Liquid library the page itself calls, and the browser
 extension the page can hand a manifest to. Neither has a prebuilt download that carries
@@ -336,7 +336,7 @@ You should see Humid listed and enabled. After any later `bun run build`, click 
 reload icon on its card; an unpacked extension doesn't need a reinstall or a
 browser restart.
 
-## Step 4. Serve the page and fund its wallet
+## 4. Serve the page and fund its wallet
 
 This puts the page in front of you and gives it a funded testnet wallet to lock coins
 from.
@@ -374,7 +374,7 @@ shows.
 parts in order, if you want to read it
 alongside these steps rather than after them.
 
-## Step 5. Generate the beneficiary's key
+## 5. Generate the beneficiary's key
 
 The contract needs a BIP340 x-only public key before it can be compiled, and the only way
 to withdraw is a signature from its private half.
@@ -391,7 +391,7 @@ With two people, the beneficiary does this on their own machine and sends the be
 those 64 characters. Testing on your own, return to the benefactor tab and press **Use my
 own key (single-wallet test)**, which fills the field from the key you just generated.
 
-## Step 6. Set the terms and compile the contract
+## 6. Set the terms and compile the contract
 
 Your three chosen terms become a compiled contract and the covenant address they
 produce.
@@ -429,7 +429,7 @@ Press **Copy** under "Hand the terms to the beneficiary" to get the blob a benef
 needs. Their page re-derives the address from those three values and refuses to continue
 if it disagrees with the address in the blob.
 
-## Step 7. Fund the allowance
+## 7. Fund the allowance
 
 This locks coins at the covenant address, which creates the first allowance instance.
 
@@ -472,7 +472,7 @@ have to be explicit, and which may be blinded, is described
 per-output in [`EXPLANATION.md`, "Confidential and explicit
 outputs"](EXPLANATION.md#confidential-and-explicit-outputs).
 
-## Step 8. Watch the allowance
+## 8. Watch the allowance
 
 Watching means reading the chain for the live allowance instances and working out which
 of them can be withdrawn yet.
@@ -514,7 +514,7 @@ endpoints and their rate limits;
 [`EXPLANATION.md`](EXPLANATION.md#what-the-examples-are-not) covers what a production
 deployment would use instead.
 
-## Step 9. Withdraw
+## 9. Withdraw
 
 This spends one instance: it pays the beneficiary and recreates the covenant holding the
 remainder.
@@ -542,7 +542,7 @@ attempt already reached the mempool and probably succeeded. For anything else, t
 [table at the top of `REFERENCE.md`](REFERENCE.md#errors-and-what-causes-them) lists each
 message with its cause and fix.
 
-## Step 10. Close it out
+## 10. Close it out
 
 The last withdrawal empties the allowance and ends the covenant for good.
 
@@ -570,7 +570,7 @@ create a separate allowance rather than topping this one up.
 To reach this faster on a second run, lock an amount at or below `ALLOWANCE_AMOUNT` in
 Step 7, which makes the first withdrawal a `FullWithdraw`.
 
-## Step 11. Run the same contract through the wallet
+## 11. Run the same contract through the wallet
 
 Steps 4 to 10 kept the key in the browser. This step hands the same contract to the
 Humid extension built in 3c as a manifest, and the extension compiles it, builds the
