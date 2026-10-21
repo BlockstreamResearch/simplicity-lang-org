@@ -233,6 +233,14 @@ choice server-side.
 `blockstream.info` refuses everything for minutes after a burst, so pace automatic
 refreshing against how long there is left to wait and stop when nothing is pending.
 
+Sync the page's wallet through Waterfalls at
+`https://waterfalls.liquidwebwallet.org/liquidtestnet/api`, with a client created as
+`new EsploraClient(network, url, true, 1, false)`, where `true` enables Waterfalls. A plain
+Esplora scan sends one request per address, 40 or more per sync, while Waterfalls returns the
+whole wallet's history in one request. The server sends CORS headers but isn't a full Esplora,
+so covenant lookups, the tip height and broadcasts still go to `blockstream.info`. The
+Waterfalls operator learns the wallet's addresses.
+
 The faucet at `liquidtestnet.com/api/faucet?address=…&action=lbtc` doesn't send any CORS headers. A
 browser can dispatch the request with `mode: "no-cors"` and the faucet receives it, but the
 reply cannot be read. Confirm by checking the balance instead.

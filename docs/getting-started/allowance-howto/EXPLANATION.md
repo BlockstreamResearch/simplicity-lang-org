@@ -344,7 +344,7 @@ that.
 Do not run any of this against mainnet. The long form is in
 [`docs-notes/mainnet-notes.md`](docs-notes/mainnet-notes.md); in brief:
 
-Mechanical swaps: the chain parameter, the Esplora endpoint, the real LBTC asset id
+Mechanical swaps: the chain parameter, the Esplora and Waterfalls endpoints, the real LBTC asset id
 (confirmed live from a trusted source at deploy time, since it is security-critical), and
 the address encodings.
 
