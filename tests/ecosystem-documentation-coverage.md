@@ -205,6 +205,41 @@ impact on G1–G11, not by how easy they are to write.
 Adapted contract, tests, UI sketch, indexer spec, txmanifest draft —
 each annotated with SOURCE / CONFIDENCE as above.
 
+# Where to record the run
+
+Record the run in its own directory on the `experiments` branch of this
+repository, not in a new repository:
+
+  experiments/YYYY-MM-DD-<model>-ecosystem-coverage/
+
+- YYYY-MM-DD is the date the run starts, in US Pacific time.
+- <model> is your model ID without the `claude-` prefix, for example
+  `opus-5-5` for `claude-opus-5-5`.
+- If that directory already exists, append `-2`, `-3`, and so on.
+
+`experiments/README.md` describes the convention and indexes earlier runs.
+Do not open the other run directories. They hold earlier evaluations of this
+same plan, and reading them contaminates yours just as reading local
+checkouts would.
+
+Inside the run directory:
+
+- `LOG.md`: the chronological log, written as you go. Start it with the
+  date, the commit hash of this file, and your model ID.
+- `REPORT.md`: the required output structure, sections 0 to 5. You may put
+  section 2 in a separate `AUDIT.md`.
+- `artifacts/`: the files for section 5.
+- Anything else (downloads, build trees, fetched pages, wallets) wherever
+  you like.
+
+Only the Markdown logs and reports are committed. `experiments/.gitignore`
+ignores everything in a run directory by default. Add a whitelist line
+there for each of `LOG.md`, `REPORT.md` and `AUDIT.md` that you create,
+then commit those files and the `.gitignore` change on the `experiments`
+branch. Do not commit artifacts or downloads, and do not run `git init`
+inside the run directory. Add your run to the table in
+`experiments/README.md`.
+
 # Anti-patterns (do not do these)
 
 - Do not upgrade your persona mid-task.
