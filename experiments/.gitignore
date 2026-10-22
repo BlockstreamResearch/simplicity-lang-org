@@ -1,0 +1,38 @@
+# Each run directory holds everything the run produced, but only its Markdown
+# logs and reports are committed. Everything else (build trees, downloads,
+# artifacts, session transcripts, original-repo.bundle) stays local.
+# To commit another file, whitelist it below.
+/*/**
+
+!/2026-09-16-sonnet-5-allowance-app/README.md
+!/2026-09-16-sonnet-5-allowance-app/EXTERNAL-REVIEW-prompt-v2-suggestions.md
+!/2026-09-16-sonnet-5-allowance-app/logs/
+!/2026-09-16-sonnet-5-allowance-app/logs/LOG.md
+!/2026-09-16-sonnet-5-allowance-app/logs/backend-implementation-log.md
+!/2026-09-16-sonnet-5-allowance-app/logs/txmanifest-implementation-log.md
+!/2026-09-16-sonnet-5-allowance-app/docs-notes/
+!/2026-09-16-sonnet-5-allowance-app/docs-notes/mainnet-notes.md
+!/2026-09-16-sonnet-5-allowance-app/docs-notes/txmanifest-notes.md
+
+!/2026-09-21-sonnet-5-ecosystem-coverage/audit-log.md
+
+!/2026-09-23-haiku-4-5-ecosystem-coverage/AUDIT_REPORT.md
+!/2026-09-23-haiku-4-5-ecosystem-coverage/EXPERIMENT_LOG.md
+!/2026-09-23-haiku-4-5-ecosystem-coverage/FRICTION_LOG.md
+
+!/2026-09-23-opus-5-ecosystem-coverage/README.md
+!/2026-09-23-opus-5-ecosystem-coverage/audit-log.md
+
+!/2026-09-23-sonnet-5-ecosystem-coverage/audit-log.md
+
+!/2026-10-07-sonnet-5-howto-test-1/REPORT.md
+
+!/2026-10-07-sonnet-5-howto-test-2/REPORT.md
+
+!/2026-10-21-opus-5-5-ecosystem-coverage/README.md
+!/2026-10-21-opus-5-5-ecosystem-coverage/REPORT.md
+!/2026-10-21-opus-5-5-ecosystem-coverage/AUDIT.md
+!/2026-10-21-opus-5-5-ecosystem-coverage/LOG.md
+
+!/2026-10-21-opus-5-5-howto-test/log/
+!/2026-10-21-opus-5-5-howto-test/log/TEST-LOG.md
