@@ -1,7 +1,7 @@
 # How the allowance covenant works, and why it is built this way
 
-Background reading. **If you want to run the thing, start with [`HOWTO.md`](HOWTO.md)**: none of this
-is needed to complete those steps. For exact shapes and field behaviour rather than
+Background reading. **To run it yourself, start with [Run an allowance covenant end to end](HOWTO.md)**: none of this
+is needed to complete the HOWTO. For exact shapes and field behaviour rather than
 reasoning, see [`REFERENCE.md`](REFERENCE.md).
 
 ## What a Simplicity covenant is, at the level needed here
@@ -210,7 +210,7 @@ known-good manifest for a different contract.
 
 ### Who signs, and what that changes
 
-The page the guide drives carries both signers, and they are two ends of a range rather
+The page used in the HOWTO carries both signers, and they are two ends of a range rather
 than rival technologies to pick between.
 
 **In the page**, through LWK compiled to wasm: the page loads the library, compiles the
@@ -229,7 +229,7 @@ A real project would take the useful half of each: **a manifest to a wallet for 
 involving a key, plus a library in the page for the application's own work.** Delegating
 signing is the part worth keeping permanently, since it is what keeps a user's keys in the
 wallet where they belong and puts the wallet's review screen in front of them. Signing in
-the page, as Steps 4 to 10 do, keeps the guide runnable before the extension is built, and
+the page, as Steps 4 to 10 do, keeps the HOWTO runnable before the extension is built, and
 is better read as a way to exercise the library than as an architecture to copy.
 
 What a larger project would want from the library is narrower than "everything the wallet
@@ -365,6 +365,6 @@ the script level; the transaction shapes; and the core indexer logic.
 
 ## Doing it
 
-The eleven steps that put this on chain are in [`HOWTO.md`](HOWTO.md). If you are adapting the contract
+The eleven steps that put this on chain are in [Run an allowance covenant end to end](HOWTO.md). If you are adapting the contract
 or writing a manifest for a different one, the sections above on what the contract
 enforces and on writing a manifest are the two to reread first.

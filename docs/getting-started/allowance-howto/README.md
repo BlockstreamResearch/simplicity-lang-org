@@ -1,37 +1,38 @@
-# The allowance-covenant guide
+# Allowance covenant: the HOWTO and its files
 
-Start with `HOWTO.md`: eleven steps that lock testnet L-BTC in a Simplicity covenant, draw
-it down, close it out, and then run the same contract through a browser-extension wallet.
+Start with the HOWTO, [Run an allowance covenant end to end](HOWTO.md): eleven steps that
+lock testnet L-BTC in a Simplicity covenant, draw it down, close it out, and then run the
+same contract through a browser-extension wallet.
 
 Three documents, split by purpose:
 
-- `HOWTO.md` is the task. Commands to run, and what you should see after each one.
+- `HOWTO.md` is the HOWTO: commands to run, and what you should see after each one.
 - `EXPLANATION.md` is the background: what the contract enforces and why the architecture
-  looks like this. Not needed to finish the steps.
+  looks like this. Not needed to finish the HOWTO.
 - `REFERENCE.md` is for lookup while you work: exact RPC shapes, manifest field
   behaviour, an error-to-cause table, and other ways to drive the same contract.
 
-Everything the guide needs is in this directory. A few files it cross-references live
+Everything the HOWTO needs is in this directory. A few files it cross-references live
 elsewhere; the last section lists them so that nothing here looks accidentally missing.
 
 ## What is here
 
 ```
-HOWTO.md                              the steps
+HOWTO.md                              the HOWTO
 EXPLANATION.md                        background, optional
 REFERENCE.md                          lookup material
 contracts/allowance.simf              the contract, also published on docs.simplicity-lang.org
 examples/
   allowance-simplex/                   regtest integration tests (Step 2)
   allowance/                           the manifest, its schema, and one set of call values
-  allowance-lwk/                       the page the steps use
+  allowance-lwk/                       the page the HOWTO uses
   allowance-humid/                     the wallet patch and manifest dialect notes
   allowance-humid-only/                a wasm-free variant, for reference
 webapp/                               a CLI-driven two-party app, reference only
 docs-notes/mainnet-notes.md           the long form of the mainnet notes
 ```
 
-`examples/allowance-lwk/` is the page the steps drive. It compiles the contract and builds
+`examples/allowance-lwk/` is the page the HOWTO uses. It compiles the contract and builds
 transactions itself through LWK compiled to wasm, and it can also hand the same contract to
 the Humid extension as a manifest, which is what Step 11 does.
 `examples/allowance-humid-only/` does the wallet half alone, with no wasm and no build
@@ -39,7 +40,7 @@ step, and `REFERENCE.md` says when that shape is worth copying. Each has its own
 
 ## External things you will need
 
-Nothing in this directory needs building, but the guide points at four projects that live
+Nothing in this directory needs building, but the HOWTO points at four projects that live
 elsewhere:
 
 - [Humid](https://github.com/BlockstreamResearch/humid), the browser-extension wallet,
@@ -57,10 +58,10 @@ A Liquid testnet faucet supplies coins (Step 4). Everything here is testnet only
 ## Not included
 
 - `examples/allowance-lwk/vendor/`: the 15 MB compiled wasm module. It is specific to the
-  machine that built it, and Step 3b of `HOWTO.md` says how to build it.
+  machine that built it, and Step 3b of the HOWTO says how to build it.
 - `logs/LOG.md`: a build log that several files under `webapp/` and a few of the example
   READMEs cite by step number. Those citations do not resolve here, and nothing in the
-  guide depends on them.
+  HOWTO depends on them.
 - `webapp/backend/`: a Rust tree that `webapp/API.md` mentions and `REFERENCE.md` tells
   you to ignore. `webapp/server/` is the implementation that runs.
 - Wallet files holding plaintext mnemonics, and saved instance and state files. Both

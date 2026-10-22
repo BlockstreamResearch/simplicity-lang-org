@@ -2,7 +2,7 @@
 
 Lookup material, organised for finding one fact rather than for reading through.
 
-**If you want to run the thing, start with [`HOWTO.md`](HOWTO.md).** For why any of this is
+**To run it yourself, start with [Run an allowance covenant end to end](HOWTO.md).** For why any of this is
 shaped the way it is, see [`EXPLANATION.md`](EXPLANATION.md).
 
 - [Errors and what causes them](#errors-and-what-causes-them)
@@ -247,7 +247,7 @@ reply cannot be read. Confirm by checking the balance instead.
 
 ## Other ways to drive the same contract
 
-Each of these is useful for one thing. The page the guide drives, `examples/allowance-lwk/`,
+Each of these is useful for one thing. The page used in the HOWTO, `examples/allowance-lwk/`,
 is the one to copy for an application.
 
 **`examples/allowance-humid-only/`.** The wallet half of that page with the library taken
@@ -263,7 +263,7 @@ where that matters.
 **`simc` and `hal-simplicity`.** `cargo install simplicityhl` gives `simc`, which compiles
 a `.simf` with concrete parameters to a base64 program plus its [CMR](../../glossary.md#cmr).
 `cargo install hal-simplicity` inspects programs and can build a [PSET](../../glossary.md#pset) by hand. Neither
-path in the guide needs them, but running `simc` once confirms the toolchain and contract
+path in the HOWTO needs them, but running `simc` once confirms the toolchain and contract
 are sound before you suspect anything else. The
 [quickstart](https://docs.simplicity-lang.org/getting-started/quickstart) has the exact
 invocation.

@@ -39,6 +39,10 @@ once and the later steps can send you back to it:
 GUIDE="$(pwd)"       # allowance-web, from the clone above
 ```
 
+Each later block that depends on the directory starts with `cd "${GUIDE:?}"`, which
+stops with an error if `GUIDE` isn't set. If you run commands in a fresh shell each time,
+set `GUIDE` to the same absolute path at the start of every block.
+
 Steps 2, 3b and 3c clone `smplx`, `lwk` and `humid` into `$GUIDE`. They are ordinary
 clones and you can delete them when you are done.
 
@@ -165,10 +169,12 @@ rustup default stable
 Then install Simplex. Build it from a clone:
 
 ```bash
-cd "$GUIDE"
+cd "${GUIDE:?}"
 git clone https://github.com/BlockstreamResearch/smplx
 cargo install --path smplx/crates/cli --locked
 ```
+
+`cargo install` compiles Simplex and its dependencies, which takes several minutes.
 
 `crates/cli` is the crate that provides the `simplex` binary. To skip the clone, install
 the same crate straight from the repository:
@@ -194,7 +200,7 @@ both builds above. `REFERENCE.md` covers how the two installations interact.
 Then set up the project and run the tests:
 
 ```bash
-cd "$GUIDE"
+cd "${GUIDE:?}"
 simplex init allowance_example && cd allowance_example
 rm tests/p2pk_test.rs simf/p2pk.simf                            # init's own sample
 sed -i 's/^name = .*/name = "allowance_example"/' Cargo.toml
@@ -220,6 +226,7 @@ You should see two passing tests. One walks a full lifecycle; the other attempts
 withdrawal before the [timelock](../../glossary.md#timelock) and is rejected by the node under BIP68.
 
 ```bash
+cd "${GUIDE:?}/allowance_example"
 simplex test -- -vv        # traces every jet call with its real values
 ```
 
@@ -232,6 +239,10 @@ Two things get built here: the Liquid library the page itself calls, and the bro
 extension the page can hand a manifest to. Neither has a prebuilt download that carries
 what this contract needs, so both come from source. This is the longest step in the guide,
 and most of it is waiting.
+
+The `wasm-pack` build and the two `build:wasm` scripts each run for several minutes, with
+long stretches that don't print anything. If you run commands through a tool that times
+out, run these in the background or raise its timeout, and treat silence as normal.
 
 ### 3a. Confirm the build tooling
 
@@ -255,7 +266,7 @@ The page compiles the contract and builds transactions itself, through LWK compi
 wasm. The published builds leave out the Simplicity feature, so build it:
 
 ```bash
-cd "$GUIDE"
+cd "${GUIDE:?}"
 git clone https://github.com/Blockstream/lwk
 cd lwk/lwk_wasm
 wasm-pack build --release --target web --out-dir pkg-web -- --features simplicity
@@ -270,6 +281,7 @@ wasm-pack build --release --target web --out-dir pkg-web -- --features simplicit
 Confirm the feature really compiled in, then copy the two files the page loads:
 
 ```bash
+cd "${GUIDE:?}/lwk/lwk_wasm"
 grep -q SimplicityProgram pkg-web/lwk_wasm.d.ts \
     && echo "Simplicity feature: present" \
     || echo "Simplicity feature: MISSING, rebuild with --features simplicity"
@@ -296,7 +308,7 @@ Order matters: Humid depends on the two WebAssembly modules as local paths, so t
 to exist before the install step can resolve them.
 
 ```bash
-cd "$GUIDE"
+cd "${GUIDE:?}"
 git clone --recursive https://github.com/BlockstreamResearch/humid
 cd humid
 bun run build:wasm:lwk        # minutes; wasm-opt re-optimises a large module
@@ -342,13 +354,13 @@ This puts the page in front of you and gives it a funded testnet wallet to lock 
 from.
 
 ```bash
-cd "$GUIDE/examples/allowance-lwk"
+cd "${GUIDE:?}/examples/allowance-lwk"
 python3 -m http.server 8099 &
 ```
 
 That `&` matters: the server runs until you stop it, so without it the terminal is tied up
-for the rest of the guide. Leave it running through Step 11, then stop it with `kill %1`
-from the same shell.
+for the rest of the guide. Leave it running through Step 11, then stop it from any shell
+with `pkill -f "http.server 8099"`.
 
 Open <http://localhost:8099/>. Serve it over `http://` rather than opening the file
 directly: the ES module import and the fetch of the contract source both need a real
@@ -520,14 +532,19 @@ This spends one instance: it pays the beneficiary and recreates the covenant hol
 remainder.
 
 Wait for the timelock. The button reads **Timelocked** until then, and **Claim** once the
-instance is old enough.
+instance is old enough. With 3 blocks between withdrawals, that is about three minutes
+after the funding transaction confirms. While the page is open, it refreshes the list by
+itself about once a minute, so there's no need to keep pressing **Refresh status**. If you
+check from the command line instead, once a minute is enough, since Liquid makes a block
+about once a minute.
 
 On the beneficiary tab, press **Use my wallet address** to set where the payout goes, then
 press **Claim** and read the confirmation panel, which lists every output before anything
 is signed.
 
-You should see output 0 returning the remainder to the covenant address, output 1
-paying you, and output 2 as the fee. Confirm it.
+For a `PartialWithdraw` you should see output 0 returning the remainder to the covenant
+address, output 1 paying you, and output 2 as the fee. A `FullWithdraw` has no remainder,
+so output 0 pays you and output 1 is the fee. Confirm it.
 
 You should see a broadcast txid, and after a minute a new instance holding the
 remainder, with its timelock counting again from that block. Verify the payout:
@@ -546,9 +563,10 @@ message with its cause and fix.
 
 The last withdrawal empties the allowance and ends the covenant for good.
 
-Each withdrawal spends one instance and creates a new one at the same address, so press
-**Refresh status** before claiming again. Until you do, the list still names the instance
-you just spent, and a claim against it cannot be built.
+Each withdrawal spends one instance and creates a new one at the same address. The page
+refreshes the list after each claim: the instance you just spent shows **Spent**, and the
+new one holding the remainder appears as **Unconfirmed**, then **Timelocked**, then
+**Claim** once its own timelock has passed.
 
 Repeat Step 9 until the balance is at or below `ALLOWANCE_AMOUNT`. The action then shows
 `FullWithdraw`, which takes everything remaining and ends the covenant.
@@ -558,6 +576,7 @@ your wallet. Confirm that the covenant address doesn't hold anything, and that y
 grew:
 
 ```bash
+ADDR=<covenant-address>
 curl -s "https://liquid.network/liquidtestnet/api/address/$ADDR/utxo"
 # -> []
 curl -s "https://liquid.network/liquidtestnet/api/address/<your-wallet-address>/utxo"
@@ -647,7 +666,9 @@ You should see a response carrying `txid`, `feeSats` and `transactionHex`, with
 [`REFERENCE.md`](REFERENCE.md#processconfidentialtransaction) documents every field of that
 response, and the asymmetric `instance` and `state` nesting the withdrawals need.
 
-Fund for real, wait out `MIN_DISTANCE`, then claim once through Humid as in Step 9.
+Fund for real, wait out `MIN_DISTANCE`, then claim once through Humid as in Step 9. Skip
+**Use my wallet address**: in this mode Humid pays to its own change address, and the page
+disables that button.
 
 You should see Humid's own confirmation screen describing the withdrawal, and a
 broadcast txid once you approve it. Without the patch from 3c, this is where every
@@ -680,7 +701,7 @@ own:
   [`examples/allowance-humid-only/README.md`](examples/allowance-humid-only/README.md)
   runs the same lifecycle with the library removed, which isolates what an application has
   to do for itself whatever it is built on.
-- **The indexer.** [Step 8](#step-8-watch-the-allowance) has the whole algorithm already:
+- **The indexer.** [Step 8](#8-watch-the-allowance) has the whole algorithm already:
   two Esplora calls, the depth arithmetic, and the balance comparison that picks the
   action.
 
