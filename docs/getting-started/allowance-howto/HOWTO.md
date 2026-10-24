@@ -5,6 +5,10 @@ close it out, driven from a web page you can edit.
 
 **Scope**: [Liquid](../../glossary.md#liquid) testnet only. No step here costs money.
 
+**Tested with**: Simplex 0.1.0 with `smplx-std` 0.1.1, Rust 1.91.1, `wasm-pack` 0.15.0,
+Bun 1.4.3, LWK at commit `7ad29620`, and Humid 1.1.4 at commit `a6d211d` with the patch
+from Step 3c, in Chromium.
+
 ## Get the files
 
 ```bash
@@ -146,6 +150,9 @@ that can withdraw, `ALLOWANCE_AMOUNT` caps how much leaves per withdrawal, and
 `MIN_DISTANCE` is how many blocks must pass between withdrawals.
 
 You should see about 160 lines of [SimplicityHL](../../glossary.md#simplicityhl), ending in `fn main()`.
+Comments ending in `// (1)!` and so on are annotation markers for the copy on
+docs.simplicity-lang.org, which renders them as notes; the copies under `examples/` leave
+them out.
 
 For what each function enforces, see
 [`EXPLANATION.md`, "What the contract enforces"](EXPLANATION.md#what-the-contract-enforces). The same contract is published on
@@ -193,10 +200,6 @@ Upstream also publishes an installer script, `curl -L https://smplx.simplicity-l
 bash` followed by `simplexup`. If you already have `simplex` that way, use it and skip
 both builds above. `REFERENCE.md` covers how the two installations interact.
 
-???+ warning "A transitive dependency needs pinning"
-    The next step pins `proptest`. Without it `cargo test` fails inside Simplex itself
-    rather than in your project. `REFERENCE.md` explains why, and when the pin can go.
-
 Then set up the project and run the tests:
 
 ```bash
@@ -205,7 +208,6 @@ simplex init allowance_example && cd allowance_example
 rm tests/p2pk_test.rs simf/p2pk.simf                            # init's own sample
 sed -i 's/^name = .*/name = "allowance_example"/' Cargo.toml
 cargo add anyhow@1
-cargo update -p proptest --precise 1.11.0                       # see the warning above
 cp "$GUIDE/examples/allowance-simplex/simf/allowance.simf" ./simf/
 cp "$GUIDE/examples/allowance-simplex/tests/allowance_test.rs" ./tests/
 simplex build && simplex test
@@ -213,7 +215,7 @@ simplex build && simplex test
 
 On macOS, `sed -i` wants an argument: use `sed -i ''` instead.
 
-Four of those lines tidy up after `simplex init`: it leaves a sample contract and a
+Three of those lines tidy up after `simplex init`: it leaves a sample contract and a
 sample test behind, names the package after the directory with a `simplex_` prefix, and
 declares no `anyhow`, which a test needs. `REFERENCE.md` explains each.
 
@@ -230,8 +232,8 @@ cd "${GUIDE:?}/allowance_example"
 simplex test -- -vv        # traces every jet call with its real values
 ```
 
-[`examples/allowance-simplex/README.md`](examples/allowance-simplex/README.md) lists four
-more tests you can add.
+[`examples/allowance-simplex/README.md`](examples/allowance-simplex/README.md) describes
+more tests to write yourself.
 
 ## 3. Build what the page needs
 
@@ -327,17 +329,23 @@ Without the patch, no withdrawal works. If part of it has already landed upstrea
 
 You should see `bun run build` finish by writing `dist/`. If it stops at a
 `check:wasm` step, one of the two module builds did not produce output; rerun that build
-and read its error, which names the missing tool. Script names here are from Humid 1.1.2;
+and read its error, which names the missing tool. Script names here are from Humid 1.1.4;
 if they differ, `cat package.json` and look for the `build:wasm` entries.
 
 ### 3d. Load the extension in your browser
 
 Open `chrome://extensions`, turn on **Developer mode**, choose **Load unpacked**, and
-select `$GUIDE/humid/dist`. To create a wallet, click on the puzzle piece in the top right
-of the browser, then select Humid. Due to interactions with other browser UI features, you
-may need to disable or ignore the browser's request to create or save a password, and you
-may need to write the seed phrase on paper instead of copying it into another software
-application.
+select `$GUIDE/humid/dist`.
+
+If another copy of Humid is already loaded, from an earlier build or another checkout, turn
+it off on its card first, so that only one copy is enabled while you follow this guide.
+Don't remove a copy that holds funds you haven't backed up: removing an extension deletes
+its wallet.
+
+To create a wallet, click the puzzle piece in the top right of the browser, then select
+Humid. Humid's setup window closes whenever it loses focus, so write the seed phrase on
+paper rather than switching to another application to paste it. You may also need to
+ignore or turn off the browser's offer to save a password.
 
 ???+ warning "Switch Humid to Liquid Testnet"
     Humid starts on Liquid mainnet. Use the network menu at the top left of the Humid
@@ -355,20 +363,27 @@ from.
 
 ```bash
 cd "${GUIDE:?}/examples/allowance-lwk"
-python3 -m http.server 8099 &
+PORT=8099
+python3 -m http.server "$PORT" &
 ```
 
 That `&` matters: the server runs until you stop it, so without it the terminal is tied up
-for the rest of the guide. Leave it running through Step 11, then stop it from any shell
-with `pkill -f "http.server 8099"`.
+for the rest of the guide. Leave it running through Step 11, then stop it with
+`pkill -f "http.server $PORT"`.
 
-Open <http://localhost:8099/>. Serve it over `http://` rather than opening the file
-directly: the ES module import and the fetch of the contract source both need a real
-origin.
+If it prints `Address already in use`, something else already serves that port, and the
+address below would show you that instead of this copy of the page. Set `PORT` to another
+number, run the server again, and use that port in the address.
 
-You should see the Library row report that `vendor/lwk_wasm.js` loaded, and that the
-build has the Simplicity feature compiled in. If it reports the feature as missing, the
-`grep` in 3b returned zero and that build needs redoing.
+Open `http://localhost:$PORT/`, which is <http://localhost:8099/> unless you changed it.
+Serve it over `http://` rather than opening the file directly: the ES module import and
+the fetch of the contract source both need a real origin.
+
+The page keeps its wallet and keys per address, port included. A different port starts
+with an empty wallet and no key, and the same port picks up whatever an earlier run left.
+
+You should see `Simplicity API: present` in the Library box. If the build lacks the
+feature, the box instead starts `This build is missing:`, and the build in 3b needs redoing.
 
 The page carries its own single-key wallet. On the **I'm the benefactor** tab, leave the
 mnemonic box blank, press **Open wallet**, then **Request testnet funds**.
@@ -411,7 +426,9 @@ produce.
 On the benefactor tab, fill in the three values that get compiled into the contract:
 
 - **Beneficiary's public key**, from Step 5.
-- **Withdrawable per period**, which is `ALLOWANCE_AMOUNT` in sats.
+- **Withdrawable per period**, which is `ALLOWANCE_AMOUNT` in sats. Keep it well above
+  500: the page pays a fixed 500-sat fee out of every withdrawal, so it can't withdraw an
+  allowance of 500 or less.
 - **Blocks between withdrawals**, which is `MIN_DISTANCE`. Three means about three
   minutes, convenient for a first run; 1440 is about a day.
 
@@ -478,10 +495,11 @@ curl -s "https://liquid.network/liquidtestnet/api/tx/<fund-txid>" | python3 -m j
 
 One output has type `v1_p2tr` and the value you locked: that is the covenant.
 
-Liquid's confidential transactions randomize output order, so
-you should not rely on output position.  Which outputs here
-have to be explicit, and which may be blinded, is described
-per-output in [`EXPLANATION.md`, "Confidential and explicit
+The wallet that builds a payment chooses the order of its outputs, so find the covenant
+by its type rather than its position. Withdrawals are different: the contract checks
+outputs by index, so the page builds them in exactly the order Step 9 shows. Which outputs
+here have to be explicit, and which may be blinded, is described per output in
+[`EXPLANATION.md`, "Confidential and explicit
 outputs"](EXPLANATION.md#confidential-and-explicit-outputs).
 
 ## 8. Watch the allowance
@@ -534,7 +552,9 @@ remainder.
 Wait for the timelock. The button reads **Timelocked** until then, and **Claim** once the
 instance is old enough. With 3 blocks between withdrawals, that is about three minutes
 after the funding transaction confirms. While the page is open, it refreshes the list by
-itself about once a minute, so there's no need to keep pressing **Refresh status**. If you
+itself about once a minute, so there's no need to keep pressing **Refresh status**. The
+button can trail the countdown by up to a minute for the same reason; press **Refresh
+status** if you don't want to wait. If you
 check from the command line instead, once a minute is enough, since Liquid makes a block
 about once a minute.
 
@@ -543,7 +563,7 @@ press **Claim** and read the confirmation panel, which lists every output before
 is signed.
 
 For a `PartialWithdraw` you should see output 0 returning the remainder to the covenant
-address, output 1 paying you, and output 2 as the fee. A `FullWithdraw` has no remainder,
+address, output 1 paying you, and output 2 as the 500-sat fee. A `FullWithdraw` has no remainder,
 so output 0 pays you and output 1 is the fee. Confirm it.
 
 You should see a broadcast txid, and after a minute a new instance holding the
@@ -604,32 +624,14 @@ deployment signs this way.
 
 Under "Who signs", select **Humid extension**, then press **Check for Humid**.
 
-You should see the page report that Humid is injecting.
+You should see the page report that Humid is injecting. The page's own wallet and key
+sections disappear, along with the results from Steps 4 to 10, because none of them apply
+to Humid.
 
-Press **Get my key from Humid**.
-
-<details markdown="1">
-<summary>The call behind that button</summary>
-
-```js
-await invokeHumid("getWalletDescriptor", {
-  descriptorType: "publicWalletDescriptor",
-  descriptorFormat: [{ format: "bip380-split-branches" }],
-});
-// then two non-hardened CKDpub steps, /0 then /0, dropping the parity byte
-```
-
-</details>
-
-The first call raises a connect prompt. Make sure to select `processConfidentialTransaction` on that
-screen (the list starts empty, and without it every later action raises its own extra
-prompt). [`REFERENCE.md`, "Sessions and
-prompts"](REFERENCE.md#sessions-and-prompts) explains when further prompts appear.
-
-You should see 64 hex characters, which differ from Step 5's. Humid funds from its own
-balance, so send testnet coins to the receive address in the extension rather than to the
-page's wallet. Check that Humid is still on **Liquid Testnet** first, as in 3d; a mainnet
-address here cannot be funded. Send them either [manually from the faucet web site](https://liquidtestnet.com/faucet) or via API with `curl`:
+Fund Humid first. It pays from its own balance, so send testnet coins to the receive
+address in the extension, not to the page's wallet. Check that Humid is still on **Liquid
+Testnet**, as in 3d; a mainnet address here cannot be funded. Send them either [from the
+faucet web site](https://liquidtestnet.com/faucet) or with `curl`:
 
 ```bash
 curl "https://liquidtestnet.com/api/faucet?address=<humid-receive-address>&action=lbtc"
@@ -644,8 +646,32 @@ This account holds 0 of the 8137 needed to perform the action and pay its fee.
 reject: shortfall
 ```
 
+Then press **Get my key from Humid**.
+
+<details markdown="1">
+<summary>The call behind that button</summary>
+
+```js
+await invokeHumid("getWalletDescriptor", {
+  descriptorType: "publicWalletDescriptor",
+  descriptorFormat: [{ format: "bip380-split-branches" }],
+});
+// then two non-hardened CKDpub steps, /0 then /0, dropping the parity byte
+```
+
+</details>
+
+The first call raises Humid's "Connect this dapp?" prompt; approve it. From then on, every
+Fund and claim shows Humid's own "Perform a contract action?" confirmation, which is where
+you approve each transaction. [`REFERENCE.md`, "Sessions and
+prompts"](REFERENCE.md#sessions-and-prompts) explains when the connect prompt appears again.
+
+You should see 64 hex characters in the beneficiary key field, which differ from Step 5's.
+
 Now repeat Steps 6 and 7: compile with this key, then fund with **Broadcast for real**
-unchecked.
+unchecked. The covenant address is new, which is the separate allowance the warning above
+describes. With two people, the beneficiary loads the new terms and checks that the address
+is this one, not Step 6's.
 
 <details markdown="1">
 <summary>The call behind Fund in this mode</summary>
@@ -666,13 +692,15 @@ You should see a response carrying `txid`, `feeSats` and `transactionHex`, with
 [`REFERENCE.md`](REFERENCE.md#processconfidentialtransaction) documents every field of that
 response, and the asymmetric `instance` and `state` nesting the withdrawals need.
 
-Fund for real, wait out `MIN_DISTANCE`, then claim once through Humid as in Step 9. Skip
-**Use my wallet address**: in this mode Humid pays to its own change address, and the page
-disables that button.
+Fund for real, wait out `MIN_DISTANCE`, then claim through Humid as in Step 9, and keep
+claiming as in Step 10 until the allowance closes. There is no payout field in this mode,
+because Humid pays to its own change address.
 
-You should see Humid's own confirmation screen describing the withdrawal, and a
-broadcast txid once you approve it. Without the patch from 3c, this is where every
-withdrawal is refused as `unimplemented-construct`.
+You should see Humid's own confirmation screen describing each withdrawal, and a broadcast
+txid once you approve it. The first claim is a `PartialWithdraw` and the last a
+`FullWithdraw`, and each depends on a different fix in the patch from 3c: without it, every
+withdrawal is refused as `unimplemented-construct`, and the last one as `"FullWithdraw"
+pays nothing, so there is nothing to build.`
 
 ## Going further
 
@@ -687,9 +715,8 @@ own:
   tooling; the [quickstart](https://docs.simplicity-lang.org/getting-started/quickstart)
   is the place to start.
 - **The tests.**
-  [`examples/allowance-simplex/README.md`](examples/allowance-simplex/README.md) lists four
-  more passing tests you can drop in, and several that nobody has written yet, with what
-  each one would prove.
+  [`examples/allowance-simplex/README.md`](examples/allowance-simplex/README.md) describes
+  ten more tests to write yourself, with what each one would prove.
 - **The manifest.** [`EXPLANATION.md`, "Writing a manifest for a different
   contract"](EXPLANATION.md#writing-a-manifest-for-a-different-contract) gives the mapping
   to work out from any contract's source, and
@@ -712,11 +739,9 @@ changes"](EXPLANATION.md#who-signs-and-what-that-changes) onwards.
 
 Deploying to Liquid mainnet: do not run any of this against mainnet. What would have to
 change first is in
-[`EXPLANATION.md`](EXPLANATION.md#what-a-mainnet-deployment-would-require), with the long
-form in [`docs-notes/mainnet-notes.md`](docs-notes/mainnet-notes.md).
+[`EXPLANATION.md`](EXPLANATION.md#what-a-mainnet-deployment-would-require).
 
-Other ways to drive the same contract, including a CLI engine that doesn't need a browser
-and a Python backend built on it:
+Other ways to drive the same contract, including a CLI engine that doesn't need a browser:
 [`REFERENCE.md`](REFERENCE.md#other-ways-to-drive-the-same-contract).
 
 ## If something here is wrong

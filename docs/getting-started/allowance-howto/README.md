@@ -28,7 +28,6 @@ examples/
   allowance-lwk/                       the page the HOWTO uses
   allowance-humid/                     the wallet patch and manifest dialect notes
   allowance-humid-only/                a wasm-free variant, for reference
-webapp/                               a CLI-driven two-party app, reference only
 docs-notes/mainnet-notes.md           the long form of the mainnet notes
 ```
 
@@ -40,8 +39,8 @@ step, and `REFERENCE.md` says when that shape is worth copying. Each has its own
 
 ## External things you will need
 
-Nothing in this directory needs building, but the HOWTO points at four projects that live
-elsewhere:
+Nothing in this directory needs building, but the HOWTO and `REFERENCE.md` point at four
+projects that live elsewhere:
 
 - [Humid](https://github.com/BlockstreamResearch/humid), the browser-extension wallet,
   built in Step 3c and used in Step 11. Apply
@@ -51,7 +50,8 @@ elsewhere:
   with `cargo install`; needs a Rust toolchain.
 - [LWK](https://github.com/Blockstream/lwk) for the page itself, built to wasm with
   `--features simplicity`. Step 3b has the commands.
-- [`txmanifest-wallet`](https://github.com/stringhandler/txmanifest-wallet) as a prebuilt binary. Optional.
+- [`txmanifest-wallet`](https://github.com/stringhandler/txmanifest-wallet), optional: a
+  prebuilt CLI that `REFERENCE.md` describes for checking a manifest without a browser.
 
 A Liquid testnet faucet supplies coins (Step 4). Everything here is testnet only.
 
@@ -59,11 +59,6 @@ A Liquid testnet faucet supplies coins (Step 4). Everything here is testnet only
 
 - `examples/allowance-lwk/vendor/`: the 15 MB compiled wasm module. It is specific to the
   machine that built it, and Step 3b of the HOWTO says how to build it.
-- `logs/LOG.md`: a build log that several files under `webapp/` and a few of the example
-  READMEs cite by step number. Those citations do not resolve here, and nothing in the
-  HOWTO depends on them.
-- `webapp/backend/`: a Rust tree that `webapp/API.md` mentions and `REFERENCE.md` tells
-  you to ignore. `webapp/server/` is the implementation that runs.
 - Wallet files holding plaintext mnemonics, and saved instance and state files. Both
   worked examples create their own.
 - `examples/last_will/`: a second manifest worth comparing against, which lives in the

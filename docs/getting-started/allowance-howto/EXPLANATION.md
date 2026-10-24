@@ -96,6 +96,11 @@ come out of the allowance's own balance, since no outside input can help pay the
 UTXOs sent to the same contract address are two separate instances that can never be
 merged, so paying the address a second time does not top up the first.
 
+The same rule limits the covenant to the network's policy asset, L-BTC on Liquid. The fee
+has to be paid in that asset, and with the covenant as the only input nothing else can
+supply it. Funded with any other asset, every partial withdrawal could carry only a
+zero-value fee output, which nodes will generally not relay.
+
 ### `enforce_relative_distance()`
 
 The BIP68 check. It requires `jet::parse_sequence` to decode the spending transaction's
@@ -341,8 +346,9 @@ that.
 
 ## What a mainnet deployment would require
 
-Do not run any of this against mainnet. The long form is in
-[`docs-notes/mainnet-notes.md`](docs-notes/mainnet-notes.md); in brief:
+Do not run any of this against mainnet. Moving this design to mainnet involves three kinds
+of change: some mechanical, some that need real engineering, and some parts that stay the
+same.
 
 Mechanical swaps: the chain parameter, the Esplora and Waterfalls endpoints, the real LBTC asset id
 (confirmed live from a trusted source at deploy time, since it is security-critical), and

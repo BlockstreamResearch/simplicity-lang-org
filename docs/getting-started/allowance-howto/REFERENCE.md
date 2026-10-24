@@ -78,10 +78,11 @@ are granted.
 Sessions carry a 30-day TTL, but they live in the account model and require the wallet
 unlocked, so in practice they expire far sooner.
 
-A separate second layer: a per-method grant is checked on every call, and the checklist on
-the connect screen starts with nothing selected (`DappConnectConfirmation.tsx`). Without
-ticking `processConfidentialTransaction`, every action raises its own confirmation however
-sessions are handled.
+A separate second layer: each method has its own grant. The connect screen lists only the
+read-only methods the page requested, such as `getWalletDescriptor`, and ticks them by
+default. `processConfidentialTransaction` can't be pre-approved, so it never appears there
+(`methodPolicyPresentation.ts`): every call shows Humid's own "Perform a contract action?"
+confirmation, which is where you review and approve the transaction.
 
 ## `processConfidentialTransaction`
 
@@ -125,7 +126,7 @@ with `broadcast: false`".
 `transactionHex` is the full raw transaction, which is enough to read the [covenant](../../glossary.md#covenant) address
 locally: a taproot `scriptPubKey` is the fixed pattern `22·5120·<32 bytes>`, and bech32m
 encodes it with the `tex` HRP on testnet. Identify the output by shape rather than
-position, since output order is randomised.
+position, since the wallet chooses the order of a funding transaction's outputs.
 
 ## Deriving keys and addresses from the wallet
 
@@ -172,15 +173,18 @@ not: `confirmation/provenance.ts` tags every displayed value as `verified`, `cha
 ### The two manifest dialects here
 
 `examples/allowance-humid-only/txmanifest.json` is `manifest_version 0.1.0`, for the
-wallet. `examples/allowance/txmanifest.json` is `0.2.0`, for the CLI engine below. They
+wallet. `examples/allowance/txmanifest.json` is `0.3.0`, for the CLI engine below. They
 describe the same contract.
 
-`examples/allowance/txmanifest.schema.json` is the machine-checkable form of the `0.2.0`
-dialect only. ⚠️ Validating the `0.1.0` manifest against it reports exactly one error:
+`examples/allowance/txmanifest.schema.json` is the machine-checkable form of the `0.3.0`
+dialect only. ⚠️ Validating the `0.1.0` manifest against it reports exactly one error, on
+`utxo_types.allowance`:
 
 ```
-utxo_types/allowance: Additional properties are not allowed ('confidential' was unexpected)
+Additional properties are not allowed ('confidential' was unexpected)
 ```
+
+`python3 -m jsonschema` prints the whole `utxo_types.allowance` object before that message.
 
 That is a dialect difference, not a fault. The schema permits `confidential` on an output
 but not on a utxo type, while Humid reads it there and every Humid fixture sets it. Any
@@ -202,14 +206,6 @@ binary has to come from the repository or the installer script.
 type error about `Program::new`. `simplex init` writes the newest `smplx-std` from
 crates.io regardless of the binary's version, so a mismatch is easy to create by pinning
 only one of the two.
-
-**`proptest` 1.12 breaks `smplx-test`.** It declares `proptest = "1.11.0"`, so Cargo
-resolves 1.12, which moved to `rand` 0.10; `smplx-test` pins `rand` 0.9 and calls 0.9
-methods on `proptest`'s RNG. Its `fuzz` module is not feature-gated and `smplx-test` is a
-normal dependency of `smplx-std`, so every consumer compiles it and `cargo build` fails
-with around fifteen errors inside `smplx-test` rather than in your own code. Fix with
-`cargo update -p proptest --precise 1.11.0`. Committed lock files are immune, which is
-why upstream CI and `examples/basic` do not show it; fresh resolution does.
 
 **If `git apply` rejects a hunk of the Humid patch,** that fix has landed upstream
 already. Apply the rest with `git apply --reject`, or check which of the two refusal
@@ -281,16 +277,7 @@ tx-manifest-wallet run <manifest> <Action> --wallet w.json --params p.json
 ```
 
 That exercises the real compile and witness path without spending anything, and it is the
-only path here that runs headless. This describes 0.2.2; later releases exist, so run
-`tx-manifest-wallet --help` and go by your own copy. This engine
-checks `manifest_version` at parse time against its own `FORMAT_VERSION`, citing ELIP-205,
-unlike Humid, so a newer release may reject the `0.2.0` manifest outright rather than
-warning. Its README says not to use it with real funds.
-
-**`webapp/`.** A working two-party app in which a small Python backend shells out to
-`tx-manifest-wallet` for every contract operation. `webapp/API.md` is a worked endpoint
-contract and `webapp/frontend/` shows how little UI this needs. ⚠️ Do not copy the
-approach in `webapp/server/tmw.py`: it drives an interactive CLI through a pseudo-terminal
-and scrapes human-readable output, which is an adapter to a tool limitation rather than a
-design. For a real backend, drive a library or use the RPC path. The full repository also
-contains `webapp/backend/`, an unrelated Rust tree; ignore it.
+only path here that runs without a browser. It still prompts for a fee rate, so it needs a
+terminal. Use 0.3.0 or a later 0.3.x release: this engine checks `manifest_version` at
+parse time against its own `FORMAT_VERSION`, citing ELIP-205, unlike Humid, and a 0.2.x
+release rejects the `0.3.0` manifest outright. Its README says not to use it with real funds.
