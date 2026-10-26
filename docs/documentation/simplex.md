@@ -1,14 +1,14 @@
 # Simplex
 
-Simplex is a development framework and orchestration tool for SimplicityHL smart contracts. It assumes a Rust development environment, and helps you create applications and tools in Rust to interact with the underlying contract.
+Simplex is a development framework and orchestration tool for [SimplicityHL](../glossary.md#simplicityhl) smart contracts. It assumes a Rust development environment, and helps you create applications and tools in Rust to interact with the underlying contract.
 
-Simplex facilitates creating and running realistic smart contract integration tests, providing a straightforward way to define and run a suite of such tests in Rust. It automatically runs tests against a local instance of `elementsd`, creating a customizable [Liquid Network](../glossary.md#liquid)-like environment for test transactions. Thus, tests can be run without broadcasting transactions publicly on Liquid testnet.
+Simplex defines and runs realistic smart contract integration tests in Rust. It runs the tests against a local instance of [`elementsd`](../glossary.md#elementsd), which provides a customizable [Liquid Network](../glossary.md#liquid)-like environment for test transactions, so the tests don't broadcast any transactions on Liquid testnet.
 
 A Simplex project's `Simplex.toml` file (automatically created by `simplex init`, as described below) configures the details of this test environment.
 
 ## Installing Simplex
 
-You can get Simplex from [https://github.com/BlockstreamResearch/smplx](https://github.com/BlockstreamResearch/smplx), or use the auto-install script:
+You can get Simplex from the [smplx repository](https://github.com/BlockstreamResearch/smplx), or use the auto-install script:
 
 ```bash
 curl -L https://smplx.simplicity-lang.org | bash
@@ -36,11 +36,11 @@ This process analyzes the SimplicityHL source code in `simf/` and creates corres
 Whenever the SimplicityHL source code changes, re-run `simplex build` to regenerate the artifacts and keep them in sync with the contract's expectations.
 
 ???+ "SimplicityHL package dependencies"
-    If your contract's `.simf` import a separate SimplicityHL package (via `use` of an external crate, not just a local module), list it under `[dependencies]` in `Simplex.toml` and run `simplex install` to fetch it before building.
+    If your contract's `.simf` files import a separate SimplicityHL package (via `use` of an external crate, not just a local module), list it under `[dependencies]` in `Simplex.toml` and run `simplex install` to fetch it before building.
 
 ### Creating tests
 
-Create `.rs` files in `tests/` containing your integration tests. Each such file defines a series of named integration tests as Rust functions, each with a prototype like
+Create `.rs` files in `tests/` containing your integration tests. Each such file defines a series of named integration tests as Rust functions, each with a prototype like this:
 
 ```rust
 #[simplex::test]
@@ -54,11 +54,15 @@ fn test_name(context: simplex::TestContext) -> anyhow::Result<()> {
 
 Run `simplex test` to execute your complete integration test suite against a local `elementsd`. Adding `-v` will display verbose output from the tests.
 
-Pass a name to run just one file's tests.
+Pass one or more names to run only tests whose names match. Use `--target <name>` to run the tests in one file, where `<name>` is the file name in `tests/` without `.rs`.
+
+### Persistent regtest instance
+
+`simplex test` normally spins up and tears down its own `elementsd`/Electrs pair for each test. Run `simplex regtest` in a separate terminal to instead start a standalone, long-lived node pair, then point `simplex test` at it via the `[test.rpc]`/`[test.esplora]` entries in `Simplex.toml`. This is useful when you want to inspect chain state between test runs instead of starting from scratch every time.
 
 ### Fuzz tests
 
-Since Simplex 0.1.0, *fuzz tests* can check a contract's logic and invariants against many randomly generated inputs instead of one hand-built transaction. Fuzz tests run entirely locally and don't start or contact `elementsd`. Simplex itself runs the contract internally in a Simplicity bit machine environment.
+Simplex (0.1.0+) can also run *fuzz tests*, which check a contract's logic and invariants against many randomly generated inputs instead of one hand-built transaction. Fuzz tests run entirely locally and don't start or contact `elementsd`. Simplex itself runs the contract internally in a Simplicity bit machine environment.
 
 A fuzz test is marked `#[simplex::fuzz]`, receives a `TestContext<FuzzMode>`, and runs a fuzz engine for one contract, named by the program, arguments, and witness types that `simplex build` generated for it:
 
@@ -73,9 +77,7 @@ fn fuzz_test_name(context: simplex::TestContext<simplex::FuzzMode>) -> anyhow::R
 }
 ```
 
-For each case, the engine generates values for the contract's arguments and witness, compiles the contract with those arguments, spends it in a test transaction, and executes it. By default, a case fails if execution fails. A custom check can instead expect a particular failure, such as a failed `assert!`, or test any other property of the transaction, arguments, witness, and execution result.
-
-As with integration tests, both positive and negative expected results may be useful. Tests may check the contract's ability both to allow valid transactions and to reject invalid transactions.
+For each case, the engine generates values for the contract's arguments and witness, compiles the contract with those arguments, spends it in a test transaction, and executes it. By default, a case fails if execution fails. A custom check can instead expect a particular failure, such as a failed `assert!`, to test that the contract rejects invalid transactions. A custom check can also test any other property of the transaction, arguments, witness, and execution result.
 
 The default strategy draws integer values from a mix of uniformly random values, boundary values (such as 0, 1, powers of two and one less than them, and the type's maximum), and integer literals that appear in the contract's source code, plus or minus one. It also sometimes copies one generated value into another field of the same case, so comparisons between fields are exercised. These choices make the fuzzer more likely to find the specific values at which a contract's behavior changes. A purely random strategy is also available.
 
@@ -83,15 +85,11 @@ Randomly generated values are almost never valid signatures, so a contract that 
 
 Run `simplex test --fuzz` to execute fuzz tests. Plain `simplex test` doesn't run them. The `[test.fuzz]` section of `Simplex.toml` sets the number of cases (`cases`), a fixed random seed (`seed`), and the network whose parameters the test transactions use (`network`). When a fuzz test finds a failing case, Simplex saves its seed and generated values in a `fuzz-failures/` directory, and later runs replay saved cases before generating new ones.
 
-### Persistent regtest instance
-
-`simplex test` normally spins up and tears down its own `elementsd`/Electrs pair for each run. Run `simplex regtest` in a separate terminal to instead start a standalone, long-lived node pair, then point `simplex test` at it via the `[test.rpc]`/`[test.esplora]` entries in `Simplex.toml`. This is useful when you want to inspect chain state between test runs instead of starting from scratch every time.
-
 ## Examples
 
-[`BlockstreamResearch/smplx/examples`](https://github.com/BlockstreamResearch/smplx/tree/master/examples) contains sample Simplex projects demonstrating how to create integration tests.
+[`BlockstreamResearch/smplx/examples`](https://github.com/BlockstreamResearch/smplx/tree/master/examples) contains sample Simplex projects demonstrating how to create integration and fuzz tests.
 
-The current examples are
+The current examples are:
 
 * `examples/basic` (demonstrates a pay-to-public-key contract, called `p2pk.simf`, with both integration tests and fuzz tests)
 <!-- * `examples/last_will` (demonstrates a recursive covenant with a timeout-based inheritance mechanism, called `last_will.simf`) -->
