@@ -56,6 +56,33 @@ Run `simplex test` to execute your complete integration test suite against a loc
 
 Pass a name to run just one file's tests.
 
+### Fuzz tests
+
+Since Simplex 0.1.0, *fuzz tests* can check a contract's logic and invariants against many randomly generated inputs instead of one hand-built transaction. Fuzz tests run entirely locally and don't start or contact `elementsd`. Simplex itself runs the contract internally in a Simplicity bit machine environment.
+
+A fuzz test is marked `#[simplex::fuzz]`, receives a `TestContext<FuzzMode>`, and runs a fuzz engine for one contract, named by the program, arguments, and witness types that `simplex build` generated for it:
+
+```rust
+#[simplex::fuzz]
+fn fuzz_test_name(context: simplex::TestContext<simplex::FuzzMode>) -> anyhow::Result<()> {
+    context
+        .engine::<MyContractProgram, MyContractArguments, MyContractWitness>()
+        .run();
+
+    Ok(())
+}
+```
+
+For each case, the engine generates values for the contract's arguments and witness, compiles the contract with those arguments, spends it in a test transaction, and executes it. By default, a case fails if execution fails. A custom check can instead expect a particular failure, such as a failed `assert!`, or test any other property of the transaction, arguments, witness, and execution result.
+
+As with integration tests, both positive and negative expected results may be useful. Tests may check the contract's ability both to allow valid transactions and to reject invalid transactions.
+
+The default strategy draws integer values from a mix of uniformly random values, boundary values (such as 0, 1, powers of two and one less than them, and the type's maximum), and integer literals that appear in the contract's source code, plus or minus one. It also sometimes copies one generated value into another field of the same case, so comparisons between fields are exercised. These choices make the fuzzer more likely to find the specific values at which a contract's behavior changes. A purely random strategy is also available.
+
+Randomly generated values are almost never valid signatures, so a contract that checks a signature would reject nearly every case. A fuzz test can ask the test signer to replace a named witness value, such as `SIGNATURE`, with a valid signature over each generated transaction. [`examples/basic/tests/basic_fuzz.rs`](https://github.com/BlockstreamResearch/smplx/blob/master/examples/basic/tests/basic_fuzz.rs) shows this for a pay-to-public-key contract.
+
+Run `simplex test --fuzz` to execute fuzz tests. Plain `simplex test` doesn't run them. The `[test.fuzz]` section of `Simplex.toml` sets the number of cases (`cases`), a fixed random seed (`seed`), and the network whose parameters the test transactions use (`network`). When a fuzz test finds a failing case, Simplex saves its seed and generated values in a `fuzz-failures/` directory, and later runs replay saved cases before generating new ones.
+
 ### Persistent regtest instance
 
 `simplex test` normally spins up and tears down its own `elementsd`/Electrs pair for each run. Run `simplex regtest` in a separate terminal to instead start a standalone, long-lived node pair, then point `simplex test` at it via the `[test.rpc]`/`[test.esplora]` entries in `Simplex.toml`. This is useful when you want to inspect chain state between test runs instead of starting from scratch every time.
@@ -66,7 +93,7 @@ Pass a name to run just one file's tests.
 
 The current examples are
 
-* `examples/basic` (demonstrates a pay-to-public-key contract, called `p2pk.simf`)
+* `examples/basic` (demonstrates a pay-to-public-key contract, called `p2pk.simf`, with both integration tests and fuzz tests)
 <!-- * `examples/last_will` (demonstrates a recursive covenant with a timeout-based inheritance mechanism, called `last_will.simf`) -->
 
 Each has a `README.md` file describing the project and how to invoke its Simplex test suite.
