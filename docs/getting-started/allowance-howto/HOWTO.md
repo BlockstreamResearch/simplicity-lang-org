@@ -220,7 +220,7 @@ cd "${GUIDE:?}/allowance_example"
 simplex test -- -vv        # traces every jet call with its real values
 ```
 
-[`examples/allowance-simplex/README.md`](examples/allowance-simplex/README.md) describes
+[`examples/allowance-simplex/README.md`](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/examples/allowance-simplex/README.md) describes
 more tests to write yourself.
 
 ## 3. Build what the page needs
@@ -268,7 +268,7 @@ cp pkg-web/lwk_wasm.js pkg-web/lwk_wasm_bg.wasm \
 You should see `Simplicity feature: present`.
 
 If you later edit the page's library calls,
-[`examples/allowance-lwk/README.md`](examples/allowance-lwk/README.md) covers the
+[`examples/allowance-lwk/README.md`](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/examples/allowance-lwk/README.md) covers the
 wasm ownership rules that cost the most time: consumed `TxOut` arrays, builders that move
 on every call, and two `Address` constructors that are not interchangeable.
 
@@ -368,7 +368,7 @@ without reading the reply, and confirms by watching the balance instead. If it s
 zero, use the [web form](https://liquidtestnet.com/faucet) with the address the page
 shows.
 
-[`examples/allowance-lwk/README.md`](examples/allowance-lwk/README.md) walks the page's
+[`examples/allowance-lwk/README.md`](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/examples/allowance-lwk/README.md) walks the page's
 parts in order, if you want to read it
 alongside these steps rather than after them.
 
@@ -685,7 +685,7 @@ own:
   tooling; the [quickstart](https://docs.simplicity-lang.org/getting-started/quickstart)
   is the place to start.
 - **The tests.**
-  [`examples/allowance-simplex/README.md`](examples/allowance-simplex/README.md) describes
+  [`examples/allowance-simplex/README.md`](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/examples/allowance-simplex/README.md) describes
   ten more tests to write yourself, with what each one would prove.
 - **The manifest.** [`EXPLANATION.md`, "Writing a manifest for a different
   contract"](EXPLANATION.md#writing-a-manifest-for-a-different-contract) gives the mapping
@@ -693,7 +693,7 @@ own:
   ["Checking a manifest you did not
   write"](EXPLANATION.md#checking-a-manifest-you-did-not-write) covers reviewing one,
   including one an AI assistant drafted.
-- **The page.** [`examples/allowance-lwk/README.md`](examples/allowance-lwk/README.md)
+- **The page.** [`examples/allowance-lwk/README.md`](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/examples/allowance-lwk/README.md)
   walks its seven parts in order, with the wasm ownership rules that cost the most time.
 - **The indexer.** [Step 8](#8-watch-the-allowance) has the whole algorithm already:
   two Esplora calls, the depth arithmetic, and the balance comparison that picks the

@@ -166,7 +166,7 @@ spend. The engine in
 equivalent in `localStorage` and rediscover the UTXO from the chain.
 
 For the page rather than the manifest,
-[`examples/allowance-lwk/README.md`](examples/allowance-lwk/README.md) walks its seven
+[`examples/allowance-lwk/README.md`](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/examples/allowance-lwk/README.md) walks its seven
 parts in order, with the library's ownership rules that cost the most time to discover.
 
 ### Writing a manifest for a different contract
