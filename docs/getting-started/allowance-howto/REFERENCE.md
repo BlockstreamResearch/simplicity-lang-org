@@ -1,6 +1,6 @@
 # Reference
 
-Lookup material, organised for finding one fact rather than for reading through.
+Lookup material, organized for finding one fact rather than for reading through.
 
 **To run it yourself, start with [Run an allowance covenant end to end](HOWTO.md).** For why any of this is
 shaped the way it is, see [`EXPLANATION.md`](EXPLANATION.md).
@@ -13,8 +13,8 @@ shaped the way it is, see [`EXPLANATION.md`](EXPLANATION.md).
 - [Chain access](#chain-access)
 - [Other ways to drive the same contract](#other-ways-to-drive-the-same-contract)
 
-Facts about Humid were established by reading its source; paths are relative to a Humid
-checkout. They were current when this was written and the project is moving.
+The Humid sections describe Humid 1.1.4 (`a6d211d`), and their file paths are relative to a
+Humid checkout. Humid changes quickly, so check a newer release against its source.
 
 ## Errors and what causes them
 
@@ -43,7 +43,7 @@ It exposes only six CAIP-25/27 session methods (`core/caip25/methods.ts`):
 `wallet_invokeMethod`, `wallet_addChain`, `wallet_switchChain`. Anything else as a
 top-level `method` returns "No handler for method".
 
-Every chain method is tunnelled:
+Every chain method is tunneled:
 
 ```js
 await window.humid.request({
@@ -221,13 +221,13 @@ style of the Simplex repository's own examples also needs `anyhow`.
 
 ## Chain access
 
-Use `https://blockstream.info/liquidtestnet/api` from a browser, since it is the only
-Liquid Esplora mirror that sends CORS headers.
-`https://liquid.network/liquidtestnet/api` has gentler rate limits and is the better
-choice server-side.
+From a browser, use `https://blockstream.info/liquidtestnet/api`, which sends the CORS
+headers a page needs. Scripts and servers can use `https://liquid.network/liquidtestnet/api`,
+which serves the same API.
 
-`blockstream.info` refuses everything for minutes after a burst, so pace automatic
-refreshing against how long there is left to wait and stop when nothing is pending.
+`blockstream.info` answers a burst of requests with HTTP 429 and then refuses requests from
+that address for a long time, so pace automatic refreshing against how long there is left
+to wait, and stop when nothing is pending.
 
 Sync the page's wallet through Waterfalls at
 `https://waterfalls.liquidwebwallet.org/liquidtestnet/api`, with a client created as
@@ -259,8 +259,8 @@ where that matters.
 **`simc` and `hal-simplicity`.** `cargo install simplicityhl` gives `simc`, which compiles
 a `.simf` with concrete parameters to a base64 program plus its [CMR](../../glossary.md#cmr).
 `cargo install hal-simplicity` inspects programs and can build a [PSET](../../glossary.md#pset) by hand. Neither
-path in the HOWTO needs them, but running `simc` once confirms the toolchain and contract
-are sound before you suspect anything else. The
+path in the HOWTO needs them, but running `simc` once confirms that the toolchain works and
+the contract compiles, before you suspect anything else. The
 [quickstart](https://docs.simplicity-lang.org/getting-started/quickstart) has the exact
 invocation.
 

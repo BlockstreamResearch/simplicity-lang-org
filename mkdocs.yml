@@ -161,6 +161,7 @@ nav:
       - Try it in your browser: getting-started/try-it.md
       - Quickstart: getting-started/quickstart.md
       - Simplicity SDK (Simplex): documentation/simplex.md
+      - End-to-end contract demo: getting-started/allowance-howto/HOWTO.md
   - Learn:
       - Core Concepts:
           - Execution Model: documentation/execution-model.md

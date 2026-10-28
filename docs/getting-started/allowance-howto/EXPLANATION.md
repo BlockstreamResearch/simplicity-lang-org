@@ -1,7 +1,7 @@
 # How the allowance covenant works, and why it is built this way
 
 Background reading. **To run it yourself, start with [Run an allowance covenant end to end](HOWTO.md)**: none of this
-is needed to complete the HOWTO. For exact shapes and field behaviour rather than
+is needed to complete the HOWTO. For exact shapes and field behavior rather than
 reasoning, see [`REFERENCE.md`](REFERENCE.md).
 
 ## What a Simplicity covenant is, at the level needed here
@@ -49,7 +49,7 @@ covenant ends. Above it, `partial_withdrawal()` runs.
 
 No witness field says which action is intended. That is why the txmanifest models this as
 two separate actions, `PartialWithdraw` and `FullWithdraw`, with the caller picking
-whichever one the current balance makes valid. A single parameterised "Withdraw" action
+whichever one the current balance makes valid. A single parameterized "Withdraw" action
 would be unimplementable.
 
 ### The full-withdrawal path enforces no transaction shape at all
@@ -107,8 +107,9 @@ The BIP68 check. It requires `jet::parse_sequence` to decode the spending transa
 sequence as a block-distance encoding specifically, rejecting a time-based BIP68 encoding
 outright, and it requires transaction version 2 or later.
 
-`MIN_DISTANCE` is a count of blocks, checked via the spending transaction's `nSequence`
-field against the funding UTXO's own confirmation height. [Liquid](../../glossary.md#liquid) blocks come from
+`MIN_DISTANCE` is a count of blocks. The contract checks that the spending transaction's
+`nSequence` field encodes at least that many, and the node enforces the encoded distance
+against the funding UTXO's own confirmation height under BIP68. [Liquid](../../glossary.md#liquid) blocks come from
 scheduled signers rather than proof-of-work search, so block time is about one minute with
 very low variance and "N blocks" translates reliably to "about N minutes".
 
@@ -146,7 +147,7 @@ transferable rule is to ask, for each output, whether the contract reads it.
 
 ### What the txmanifest does
 
-A txmanifest teaches a wallet to recognise, describe, build and sign transactions for a
+A txmanifest teaches a wallet to recognize, describe, build and sign transactions for a
 contract it has never seen. It is what lets a page delegate the whole transaction: the
 manifest says what a transaction for this covenant looks like, so the page doesn't have to
 say it in code.
@@ -167,9 +168,6 @@ equivalent in `localStorage` and rediscover the UTXO from the chain.
 For the page rather than the manifest,
 [`examples/allowance-lwk/README.md`](examples/allowance-lwk/README.md) walks its seven
 parts in order, with the library's ownership rules that cost the most time to discover.
-[`examples/allowance-humid-only/README.md`](examples/allowance-humid-only/README.md) does
-the same for the variant that carries no
-library, which is the shorter read if you want the division of labour on its own.
 
 ### Writing a manifest for a different contract
 
@@ -234,8 +232,8 @@ A real project would take the useful half of each: **a manifest to a wallet for 
 involving a key, plus a library in the page for the application's own work.** Delegating
 signing is the part worth keeping permanently, since it is what keeps a user's keys in the
 wallet where they belong and puts the wallet's review screen in front of them. Signing in
-the page, as Steps 4 to 10 do, keeps the HOWTO runnable before the extension is built, and
-is better read as a way to exercise the library than as an architecture to copy.
+the page, as Steps 4 to 10 do, is a way to exercise the library, not an architecture to
+copy.
 
 What a larger project would want from the library is narrower than "everything the wallet
 does", and it is worth being precise about which parts, because the answer decides whether
@@ -251,7 +249,7 @@ a 15 MB wasm module has to be in the page at all:
   the raw hex, which works only because it is hunting for one known output shape. Anything
   with more than one output shape to distinguish needs a real parser.
 - **Key and signature handling is already library work today**, even on the path with no
-  wasm: that page carries three JavaScript imports for BIP32 and secp256k1. "No wasm" has
+  wasm: that page imports three JavaScript packages for BIP32 and secp256k1. "No wasm" has
   never meant "no libraries".
 - **Indexing is not library work and never becomes it.** Neither LWK nor the wallet offers
   an address-based UTXO lookup, so listing what is live at a covenant address stays the
@@ -259,11 +257,10 @@ a 15 MB wasm module has to be in the page at all:
   single piece of the wallet-driven example, and choosing a different library does not
   shrink it.
 
-So the honest version is not that raw JavaScript runs out in general; it is that two
-specific capabilities, compiling and transaction parsing, have no JavaScript substitute,
-and a project needing either has to bring a library that provides them. Everything else is
-a size-and-dependency judgement: narrow JS libraries where they suffice, wasm where only
-it will do.
+Raw JavaScript doesn't run out in general. Two specific capabilities, compiling and
+transaction parsing, have no JavaScript substitute, and a project needing either has to
+bring a library that provides them. Everything else is a size-and-dependency judgment:
+narrow JS libraries where they suffice, wasm where only it will do.
 
 ### What the examples are not
 
@@ -271,10 +268,9 @@ These are testnet demos, and two of their choices would be wrong for real money.
 
 **Custody.** Signing in the page means a mnemonic and a bare Schnorr key in
 `localStorage`, in plaintext. That is fine for play money and unacceptable for anything
-else. Real funds need a real wallet, which is what the manifest path already is. This is
-the strongest reason to treat the wallet as permanent architecture rather than as a
-convenience, and to read the in-page signing as a way to exercise the library rather than
-as a design.
+else. Real funds need a real wallet, which is what the manifest path already is, and this
+is the strongest reason to treat the wallet as permanent architecture rather than as a
+convenience.
 
 **Knowing what exists.** What the manifest format does today is *review*: given one
 proposed action, describe its consequences to the user accurately enough that they are not
@@ -297,14 +293,10 @@ can withdraw now" otherwise rests on a free third-party service staying up and h
 browser loop here exists to keep the examples self-contained, not because it is the right
 shape.
 
-It is worth naming what would change this. A wallet already holds some of the pieces: the
-manifest gives it the covenant's script, the `utxo_type` its instances carry, and the
-actions that can spend them. Generating a portfolio view from that is not technically
-impossible, and more capable wallet-side generation is one direction this could grow in.
-
-It is worth being skeptical that it is the direction, though, because planning needs
-something the format does not currently express. Deciding which action is available on a
-given instance means evaluating the contract's own conditions against chain state: here,
+A wallet already holds some of the pieces planning would need: the manifest gives it the
+covenant's script, the `utxo_type` its instances carry, and the actions that can spend
+them. What the format doesn't express is the rule that selects between actions. Deciding
+which action is available on a given instance means evaluating the contract's own conditions against chain state: here,
 that a balance at or below `ALLOWANCE_AMOUNT` makes `FullWithdraw` the valid action and
 anything above it `PartialWithdraw`, and that `MIN_DISTANCE` blocks must have passed. The
 manifest states the actions and their shapes, not the predicate that selects between them,
@@ -312,10 +304,9 @@ and the expression language is small enough that a bare `fee` reference in an am
 unimplemented. Carrying eligibility rules would be a real expansion of what the format
 expresses, not just more user interface on top of it.
 
-So the more likely near-term shape is that planning lands in a library or a service that
-several applications share, rather than inside wallets. Either way it is work somebody has
-to do, and today it is the application's: this is the piece none of the architectural
-choices above make smaller.
+Planning is therefore more likely to land in a library or service that several
+applications share than inside wallets. Today it is the application's work, and none of
+the architectural choices above make it smaller.
 
 So a real deployment has three parts rather than two: a wallet holding the keys and signing
 from a manifest, an indexer the project operates, and a user interface that needs the
@@ -354,15 +345,18 @@ Mechanical swaps: the chain parameter, the Esplora and Waterfalls endpoints, the
 (confirmed live from a trusted source at deploy time, since it is security-critical), and
 the address encodings.
 
-Five things that are engineering rather than configuration. None of the paths here has key
-custody fit for real funds: the self-contained page keeps a mnemonic and signing key in
-`localStorage` in plaintext. Delegating signing to a wallet is structurally the right
-answer, but the wallet used here is early-stage software not intended for real-money use
-in any form today. The confidential-output hazard needs much stronger guardrails, because
-a stranded mainnet UTXO is an irreversible loss. Fee estimation has to work rather than
-falling back to a hardcoded testnet rate. The contract needs an independent security audit
-before real funds go behind it. And the indexer needs infrastructure the deploying party
-controls rather than a shared public Esplora instance.
+Five things are engineering rather than configuration:
+
+- **Key custody.** None of the paths here has custody fit for real funds: the page keeps a
+  mnemonic and signing key in `localStorage` in plaintext. Delegating signing to a wallet
+  is structurally the right answer, but Humid describes itself as experimental software.
+- **Confidential-output guardrails.** A stranded mainnet UTXO is an irreversible loss, so
+  the hazard needs much stronger protection than a warning.
+- **Fee estimation.** It has to work, rather than falling back to a hardcoded testnet fee.
+- **A security audit.** The contract needs an independent one before real funds go behind
+  it.
+- **An indexer.** It needs infrastructure the deploying party controls, rather than a shared
+  public Esplora instance.
 
 Unchanged: the contract source, since Simplicity covenants are chain-parameter-agnostic at
 the script level; the transaction shapes; and the core indexer logic.
@@ -371,6 +365,6 @@ the script level; the transaction shapes; and the core indexer logic.
 
 ## Doing it
 
-The eleven steps that put this on chain are in [Run an allowance covenant end to end](HOWTO.md). If you are adapting the contract
+The steps that put this on chain are in [Run an allowance covenant end to end](HOWTO.md). If you are adapting the contract
 or writing a manifest for a different one, the sections above on what the contract
 enforces and on writing a manifest are the two to reread first.

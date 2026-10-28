@@ -22,9 +22,8 @@ Read these steps in a browser and run the commands in that directory.
 ## What you need
 
 `git`, `curl` and `python3` are assumed, and are already present on most Unix desktops.
-Python is used only to serve static files. Everything else is listed here so that nothing
-turns up as a surprise halfway through: Step 3 builds a WebAssembly module and a browser
-extension from source, which is more tooling than a web project usually needs.
+Python is used only to serve static files. Step 3 builds WebAssembly modules and a
+browser extension from source, so you need the tools below as well:
 
 | Tool | Needed by | How to get it |
 |---|---|---|
@@ -65,34 +64,27 @@ clang -print-targets | grep -q wasm32 \
 
 Every line should give output, the two pinned versions should be satisfied, and the last line should say that `wasm32` is present.
 
-Those two numbers come from the projects themselves: the [Simplex](../../glossary.md#simplex) workspace sets
-`rust-version = "1.91.0"`, and Humid pins `bun@1.3.14` as its package manager. Step 3b is
-the exception to the Rust figure, because LWK ships a `rust-toolchain.toml` pinning 1.85.0
-and `rustup` will fetch that toolchain for you. A distribution `rustc` ignores that file,
-which is the practical reason to install Rust through `rustup`.
+The [Simplex](../../glossary.md#simplex) workspace requires Rust 1.91.0, and Humid
+requires Bun 1.3.14. LWK, in Step 3b, pins Rust 1.85.0 in its own `rust-toolchain.toml`.
+`rustup` fetches that toolchain for you, but a distribution `rustc` ignores the file, so
+install Rust through `rustup`.
 
-The table gives the packaged route for each. If your system has neither `apt` nor
-Homebrew, both projects also publish a shell installer, which is their own documented
-primary route:
+If your system has neither `apt` nor Homebrew, both projects publish a shell installer:
 
 ```bash
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh    # Rust
 curl -fsSL https://bun.sh/install | bash                          # Bun
 ```
 
-Rust also publishes signed standalone tarballs at <https://static.rust-lang.org> and Bun publishes plain binaries on its GitHub releases page; either works and neither needs a package manager.
-
 For LLVM, the package names are the same across the common distributions: `apt install llvm clang`, `dnf install llvm clang`, or `pacman -S llvm clang`.
 
 ???+ "`clang` on macOS"
-    The system `clang` has no WebAssembly backend, so install LLVM from Homebrew and make sure that copy is the one on your `PATH`. A `clang` without a wasm32 target fails deep inside a Rust crate build, with an error that never mentions wasm.
-
-Skipping Step 2 removes the need for `simplex`. Everything else here is used by the main path. Step 3 compiles two WebAssembly modules and a browser extension, which is where almost all of the waiting is.
+    The system `clang` has no WebAssembly backend, so install LLVM from Homebrew and make sure that copy is the one on your `PATH`. A `clang` without a wasm32 target fails deep inside a Rust crate build, with an error that doesn't mention wasm.
 
 There are two companion documents, neither of which is required to complete these steps.
 
 - [`REFERENCE.md`](REFERENCE.md) is for looking things up while you work: exact RPC shapes, [manifest](../../glossary.md#manifest)
-  field behaviour, and an error-to-cause table. Especially from Step 4 on, if a
+  field behavior, and an error-to-cause table. Especially from Step 4 on, if a
   command fails with a message you don't recognize, look there first.
 - [`EXPLANATION.md`](EXPLANATION.md) is background on the [smart contract](../../glossary.md#smart-contract) itself, what it enforces, and why the architecture looks like this. Read it if you want to understand what you built, or before adapting any of it to a different contract.
 
@@ -128,7 +120,7 @@ flowchart TD
   index -->|"which action is valid now"| form
 ```
 
-Every piece here is provided as a worked example, so these steps have you write nothing.
+Every piece here is provided as a worked example, so these steps don't have you write anything.
 In a project of your own, the compiling, address derivation and signing are the parts you
 get from a library or a wallet; the contract, the manifest, the interface and the indexer
 would all be yours. Which of those a larger project can avoid writing is in
@@ -150,21 +142,17 @@ that can withdraw, `ALLOWANCE_AMOUNT` caps how much leaves per withdrawal, and
 `MIN_DISTANCE` is how many blocks must pass between withdrawals.
 
 You should see about 160 lines of [SimplicityHL](../../glossary.md#simplicityhl), ending in `fn main()`.
-Comments ending in `// (1)!` and so on are annotation markers for the copy on
-docs.simplicity-lang.org, which renders them as notes; the copies under `examples/` leave
-them out.
+Comments ending in `// (1)!` and so on are annotation markers, which docs.simplicity-lang.org
+renders as notes; they don't affect compilation.
 
 For what each function enforces, see
-[`EXPLANATION.md`, "What the contract enforces"](EXPLANATION.md#what-the-contract-enforces). The same contract is published on
-the [docs.simplicity-lang.org](https://docs.simplicity-lang.org/) homepage.
+[`EXPLANATION.md`, "What the contract enforces"](EXPLANATION.md#what-the-contract-enforces).
 
 ## 2. Run the contract's tests on regtest
 
 `simplex` runs SimplicityHL integration tests against a local [Elements](../../glossary.md#elements)
-regtest node that it starts and funds for you, so this step proves the
-contract behaves as described before anything touches a real chain. The
-integration tests are not strictly required for deployment, but they
-are a recommended practice for ensuring reliability.
+regtest node that it starts and funds for you, so this step checks the
+contract's behavior before anything touches a real chain.
 
 This step needs Rust and the Simplex tool. If `cargo --version` fails, install `rustup` by
 any of the routes in "What you need" above, then:
@@ -248,19 +236,10 @@ out, run these in the background or raise its timeout, and treat silence as norm
 
 ### 3a. Confirm the build tooling
 
-All four are in the table at the top. Confirm them before cloning, because the failures
-otherwise appear several minutes into a build:
+If you haven't already, run the check in [What you need](#what-you-need) before cloning.
+A missing tool otherwise shows up several minutes into a build.
 
-```bash
-bun --version
-cargo --version
-wasm-pack --version
-clang -print-targets | grep -q wasm32 \
-    && echo "clang wasm32 target: present" \
-    || echo "clang wasm32 target: MISSING, install LLVM from your package manager"
-```
-
-You should see a version from each, and a line confirming `wasm32` is present.
+You should see a version from each tool, and a line confirming `wasm32` is present.
 
 ### 3b. Build the Liquid library the page calls
 
@@ -273,12 +252,6 @@ git clone https://github.com/Blockstream/lwk
 cd lwk/lwk_wasm
 wasm-pack build --release --target web --out-dir pkg-web -- --features simplicity
 ```
-
-???+ warning "`--out-dir` is required"
-    Keep that separate `--out-dir`. The default `pkg/` is what the extension in 3c
-    consumes as a `file:` dependency, and it needs a different build target; overwriting it
-    breaks every wallet call later with `Import #0 "wbg": module is not an object or
-    function`.
 
 Confirm the feature really compiled in, then copy the two files the page loads:
 
@@ -293,8 +266,6 @@ cp pkg-web/lwk_wasm.js pkg-web/lwk_wasm_bg.wasm \
 ```
 
 You should see `Simplicity feature: present`.
-
-`wasm-opt` runs for several minutes on a module this size.
 
 If you later edit the page's library calls,
 [`examples/allowance-lwk/README.md`](examples/allowance-lwk/README.md) covers the
@@ -313,7 +284,7 @@ to exist before the install step can resolve them.
 cd "${GUIDE:?}"
 git clone --recursive https://github.com/BlockstreamResearch/humid
 cd humid
-bun run build:wasm:lwk        # minutes; wasm-opt re-optimises a large module
+bun run build:wasm:lwk        # minutes; wasm-opt re-optimizes a large module
 bun run build:wasm:smplx      # likewise
 bun install
 git apply "$GUIDE/examples/allowance-humid/humid-allowance-fixes.patch"
@@ -552,11 +523,10 @@ remainder.
 Wait for the timelock. The button reads **Timelocked** until then, and **Claim** once the
 instance is old enough. With 3 blocks between withdrawals, that is about three minutes
 after the funding transaction confirms. While the page is open, it refreshes the list by
-itself about once a minute, so there's no need to keep pressing **Refresh status**. The
-button can trail the countdown by up to a minute for the same reason; press **Refresh
-status** if you don't want to wait. If you
-check from the command line instead, once a minute is enough, since Liquid makes a block
-about once a minute.
+itself, about once a minute as the timelock nears, so the button can trail the countdown
+by about that much. It stops refreshing after an hour; press **Refresh status** to check
+sooner or to start it again. If you check from the command line instead, once a minute is
+enough, since Liquid makes a block about once a minute.
 
 On the beneficiary tab, press **Use my wallet address** to set where the payout goes, then
 press **Claim** and read the confirmation panel, which lists every output before anything
@@ -725,9 +695,6 @@ own:
   including one an AI assistant drafted.
 - **The page.** [`examples/allowance-lwk/README.md`](examples/allowance-lwk/README.md)
   walks its seven parts in order, with the wasm ownership rules that cost the most time.
-  [`examples/allowance-humid-only/README.md`](examples/allowance-humid-only/README.md)
-  runs the same lifecycle with the library removed, which isolates what an application has
-  to do for itself whatever it is built on.
 - **The indexer.** [Step 8](#8-watch-the-allowance) has the whole algorithm already:
   two Esplora calls, the depth arithmetic, and the balance comparison that picks the
   action.
