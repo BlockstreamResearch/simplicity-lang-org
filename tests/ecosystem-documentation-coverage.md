@@ -129,7 +129,9 @@ G1. Locate the official Allowance covenant example (do not assume the
     constraint.
 
 G2. Adapt that covenant so that every successful withdrawal also pays a
-    small fixed commission to a specified destination.
+    small fixed commission to a specified destination (hardcoded into
+    the contract, by you). The commission should be greater than or equal
+    to 1% of the withdrawal amount.
     Constraints the docs must enable you to decide:
     - extra output vs fee output (`output_is_fee` vs a payment output)
     - asset identity (must commission be the same asset?)
