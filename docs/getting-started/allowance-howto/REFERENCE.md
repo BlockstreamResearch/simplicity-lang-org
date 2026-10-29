@@ -22,6 +22,7 @@ Humid checkout. Humid changes quickly, so check a newer release against its sour
 |---|---|---|
 | `{"reject": "unimplemented-construct"}` on any withdrawal | the relative-timelock bug | apply the patch from Step 3c, rebuild, reload the extension |
 | `"FullWithdraw" pays nothing, so there is nothing to build.` | the change-only-output bug | same patch |
+| `reject: shortfall`, with `This account holds 0 of the … needed` | Humid's funds are unconfirmed, or it is on mainnet | wait a minute for the funding to confirm; check the network menu says **Liquid Testnet** |
 | `Unlock the wallet to continue.` | the wallet is locked | open it from the Extensions button and enter the password; it re-locks periodically |
 | `X is neither a parameter nor an argument of this action` | usually `instance` single-nested instead of double-nested | see the nesting rule below |
 | `[object Object]` instead of a message | the real text is in the thrown error's data | read `reject` and `reason` off it |
@@ -213,11 +214,10 @@ strings the patch header quotes still appear in the Humid source and skip the hu
 no longer applies. The patch header describes both fixes well enough to redo by hand.
 
 **What `simplex init` leaves you to fix.** It scaffolds `tests/p2pk_test.rs` whose body
-is `todo!()`, so it panics if left in place, and `simf/p2pk.simf` alongside it. It derives
-the package name by prefixing the directory, so `allowance_example` becomes the crate
-`simplex_allowance_example`, and a test importing the crate under its own name will not
-resolve until the package is renamed. It declares only `smplx-std`, while a test in the
-style of the Simplex repository's own examples also needs `anyhow`.
+is `todo!()`, so it panics if left in place, and `simf/p2pk.simf` alongside it. It names
+the package after the directory with a `simplex_` prefix, so tests import the generated
+code from `simplex_allowance_example::artifacts`. It declares only `smplx-std`, while a
+test in the style of the Simplex repository's own examples also needs `anyhow`.
 
 ## Chain access
 
