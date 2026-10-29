@@ -22,6 +22,43 @@ Background you must NOT pretend to have:
 If the official docs do not explain a concept in terms you can act on, log it.
 Do not fill the gap from training data and then call the docs sufficient.
 
+You can't forget what you already know, so this evaluation asks you to
+notice it instead. Whenever knowledge you didn't get from a page in this run
+shapes what you do, log it in LOG.md at that moment, starting the entry with
+`PRIOR KNOWLEDGE:`. For example:
+- recognizing a project, tool, API, or error message before reading about it
+  in the docs;
+- installing a dependency, or choosing a command, flag, or package, without
+  looking up its instructions;
+- knowing which approach would work before the docs said so, and then
+  reading only to confirm it.
+
+Log it even when the docs turn out to say the same thing, and even when you
+think the persona would know it. Section 6 of the report decides which uses
+fit the persona. The one exception is general tools and knowledge that the
+background under Role already lists, such as `git`, `curl`, npm, TypeScript,
+REST, or what a UTXO or a testnet is; those don't need an entry. When you're
+unsure whether something falls under that background, log it.
+
+The same applies to effort. Code that a goal asks for (the adapted
+contract, tests, UI, indexer, manifest) is expected work. Supporting work
+that no page tells you to do is not, for example:
+- writing a tool, library, wrapper, or script to fill a gap, such as a
+  signer, a transaction builder, or a converter between formats;
+- developing your own patch or workaround for a bug in a dependency;
+- reading a dependency's source to find out how to call it;
+- more than about 50 lines of code that no page provides or describes,
+  for any one step.
+
+When you reach that point, stop before doing the work and log it in LOG.md,
+starting the entry with `PERSONA LIMIT:`. Say what is missing, what you
+would have to build or read, and roughly how much. Add an audit-log row for
+the gap. Then you may continue, so that later goals can still be tested,
+but record in that entry, once you finish, how many lines you wrote, how
+many API symbols you used that no page names, and what sources you read.
+Every later result that depends on that work is “reached past a persona
+limit”.
+
 # Mission
 
 Audit the OFFICIAL Simplicity documentation corpus by attempting a realistic
@@ -42,9 +79,12 @@ Start here and stay here unless a page explicitly links outward:
 - https://docs.simplicity-lang.org/llms-full.txt
 
 Also in-corpus:
-- Pages linked from the site navigation or from llms.txt
+- Every page served under docs.simplicity-lang.org, whether or not the site
+  navigation or llms.txt links to it. Where a page sits in the navigation
+  is not a signal of its quality or status. Record how you found each page.
 - GitHub repositories ONLY when an official docs page links them as the
-  source of a contract, tool, or example (cite the linking doc page)
+  source of a contract, tool, or example, or otherwise asks you to clone
+  them (cite the linking doc page)
 - github.io documentation pages or sites ONLY when an official docs page
   links them as documentation for a contract, tool, or example (cite
   the linking doc page)
@@ -59,10 +99,25 @@ must be logged as “left official docs”:
 If you leave the corpus, you must still try to complete the step, but the
 step CANNOT be scored “docs sufficient.”
 
+The site's search box is backed by
+https://docs.simplicity-lang.org/search/search_index.json. You may search
+that file as a reader would use the search box. Record your queries.
+
+# Worked examples for a different contract
+
+The docs may give a step-by-step worked example built around the unmodified
+contract, not the adapted one G2 asks for. If they do, use that example as
+the basis for G2 onwards and follow every one of its steps with your adapted
+contract. Where a step's files, parameters, output order, manifest, tests,
+or UI don't fit the adapted contract, change them, and log whether the docs
+told you how. A step that doesn't match is an adaptation task, not a reason
+to skip the step, and not a reason to drop the adaptation and run the
+example unmodified.
+
 # Goals (attempt in this order; checkpoint after each)
 
 For every goal:
-1. Search the official docs / llms.txt first. Record queries.
+1. Search the official docs / llms.txt / search index first. Record queries.
 2. Follow in-docs links only, until blocked.
 3. Attempt the work using only what those pages specify.
 4. Write the audit row(s) BEFORE starting the next goal.
@@ -144,6 +199,32 @@ Rules:
   and paste real command output. If it is not available, say
   “not executed — docs-only reconstruction” and do not fake transcripts.
 
+# No browser and no operator
+
+You have no graphical browser, and no human will run steps for you. Reading
+web content via tools is totally fine. Where the docs ask the reader to use
+a browser for its browser-specific functionality (loading an extension,
+opening a page, pressing buttons), do everything up to that point instead:
+
+- Build every artifact the browser would load, such as the web page and an
+  unpacked browser extension, and leave them in place in your run
+  directory.
+- Write down, in LOG.md, exactly what the reader would do in the browser and
+  what the docs say they should see at each point.
+- Don't mark a browser step as done. Mark it “built, not run in a browser”.
+
+Anything the docs let you do without a browser, such as deploying,
+funding, or spending the contract on Liquid testnet with a command-line
+tool, do for real. Record the txid of every transaction you broadcast, so
+that a grader can check it on chain.
+
+Pace your requests to Esplora and the faucet. If blockstream.info returns
+HTTP 429, stop sending it requests for the rest of the run and use
+`https://liquid.network/liquidtestnet/api`, which serves the same API;
+retrying blockstream.info, even slowly, can extend its block. If any response
+that normally takes under a second takes more than about five, wait a
+minute and halve your request rate.
+
 # Required output structure
 
 ## 0. Method
@@ -152,6 +233,21 @@ Rules:
 - Search terms that found nothing
 - Tools actually executed (or “none”)
 - Whether you left the official corpus (list URLs)
+- For each page that shaped your plan, how you found it (link from which
+  page, site navigation, llms.txt, search query, or guess)
+- Txids of every transaction you broadcast, with what each one did
+
+If you used a worked example for the unmodified contract (see “Worked
+examples for a different contract”), add a table with one row per step of
+that example, in its order:
+
+- followed as written
+- adapted: what you changed, and which page told you how
+- blocked: the audit-log id
+- built, not run in a browser
+- skipped: the reason, and the audit-log id
+
+A skipped step without an audit-log row makes the run incomplete.
 
 ## 1. Goal-by-goal results
 For each goal G1–G11:
@@ -205,6 +301,31 @@ impact on G1–G11, not by how easy they are to write.
 Adapted contract, tests, UI sketch, indexer spec, txmanifest draft —
 each annotated with SOURCE / CONFIDENCE as above.
 
+## 6. Persona fidelity
+One row per `PRIOR KNOWLEDGE:` entry in LOG.md, plus any you notice only
+afterwards (mark those “noticed afterwards”):
+
+- where: goal and step
+- what you knew, and what you did with it
+- where a reader in the persona would get it: the persona's background as
+  listed under Role / a cited docs page / neither
+- whether the docs alone would have got you through without it: yes /
+  with friction (audit-log id) / no (audit-log id)
+
+Then one row per `PERSONA LIMIT:` entry in LOG.md, plus any supporting work
+of that kind you didn't stop for (mark those “not stopped”):
+
+- where: goal and step
+- what was missing, and what you built, patched, or read instead
+- lines written, API symbols that no page names, sources read
+- the goals whose results depend on it
+
+A goal that depended on knowledge marked “neither”, or that was reached
+past a persona limit, cannot be scored “Docs sufficient” in section 1.
+
+Then, in a few sentences, judge how closely the run as a whole matched the
+persona, and name the goals where it diverged most.
+
 # Where to record the run
 
 Record the run in its own directory on the `experiments` branch of this
@@ -226,7 +347,7 @@ Inside the run directory:
 
 - `LOG.md`: the chronological log, written as you go. Start it with the
   date, the commit hash of this file, and your model ID.
-- `REPORT.md`: the required output structure, sections 0 to 5. You may put
+- `REPORT.md`: the required output structure, sections 0 to 6. You may put
   section 2 in a separate `AUDIT.md`.
 - `artifacts/`: the files for section 5.
 - Anything else (downloads, build trees, fetched pages, wallets) wherever
@@ -243,6 +364,8 @@ inside the run directory. Add your run to the table in
 # Anti-patterns (do not do these)
 
 - Do not upgrade your persona mid-task.
+- Do not build a missing tool, library, or workaround to keep going
+  without logging a `PERSONA LIMIT:` entry first.
 - Do not treat a blog post or Office Hours recording as official docs.
 - Do not mark a step “done” because you could imagine an implementation.
 - Do not collapse G7–G11 into one paragraph.
