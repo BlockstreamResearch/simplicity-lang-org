@@ -13,8 +13,8 @@ shaped the way it is, see [`EXPLANATION.md`](EXPLANATION.md).
 - [Chain access](#chain-access)
 - [Other ways to drive the same contract](#other-ways-to-drive-the-same-contract)
 
-The Humid sections describe Humid 1.1.4 (`a6d211d`), and their file paths are relative to a
-Humid checkout. Humid changes quickly, so check a newer release against its source.
+The Humid sections describe [Humid](../../glossary.md#humid) 1.1.4 (`a6d211d`), and their
+file paths are relative to a Humid checkout. Humid changes quickly, so check a newer release against its source.
 
 ## Errors and what causes them
 
@@ -22,6 +22,8 @@ Humid checkout. Humid changes quickly, so check a newer release against its sour
 |---|---|---|
 | `{"reject": "unimplemented-construct"}` on any withdrawal | the relative-timelock bug | apply the patch from Step 11, rebuild, reload the extension |
 | `"FullWithdraw" pays nothing, so there is nothing to build.` | the change-only-output bug | same patch |
+| `cannot be built because it requires rustc 1.91.0 or newer` | Rust is older than Simplex needs | `rustup update stable`, then install again |
+| `No available targets are compatible with triple "wasm32-unknown-unknown"` | the `clang` on your `PATH` has no WebAssembly backend | install LLVM from your package manager, or from Homebrew on macOS, and put its `clang` first on your `PATH` |
 | `reject: shortfall`, with `This account holds 0 of the … needed` | Humid's funds are unconfirmed, or it is on mainnet | wait a minute for the funding to confirm; check the network menu says **Liquid Testnet** |
 | `Unlock the wallet to continue.` | the wallet is locked | open it from the Extensions button and enter the password; it re-locks periodically |
 | `X is neither a parameter nor an argument of this action` | usually `instance` single-nested instead of double-nested | see the nesting rule below |
@@ -146,7 +148,7 @@ invoke("getWalletDescriptor", {
 ```
 
 `descriptors[0].branchDescriptors` holds `elwpkh([fingerprint/84h/1h/0h]xpub…/0/*)` for
-`branch: "external"`, which is plain BIP-84 segwit v0 rather than [Taproot](../../glossary.md#taproot).
+`branch: "external"`, which is plain BIP84 segwit v0 rather than [Taproot](../../glossary.md#taproot).
 
 For `BENEFICIARY_KEY`: the xpub is already at `m/84'/1'/0'`, so take two non-hardened
 `CKDpub` steps, `/0` for the external chain then `/0` for the first address, and drop the
@@ -219,7 +221,8 @@ only one of the two.
 is `todo!()`, so it panics if left in place, and `simf/p2pk.simf` alongside it. It names
 the package after the directory with a `simplex_` prefix, so tests import the generated
 code from `simplex_allowance_example::artifacts`. It declares only `smplx-std`, while a
-test in the style of the Simplex repository's own examples also needs `anyhow`.
+test in the style of the [Simplex](../../glossary.md#simplex) repository's own examples
+also needs `anyhow`.
 
 ## Chain access
 
@@ -255,8 +258,8 @@ wallet cannot already do for it, and worth reading in any case, because it shows
 which work stays yours once the contract itself is handed over. What it gives up is the
 ability to check anything: with no compiler it takes the covenant address from the funding
 transaction or from a handoff blob, on the benefactor's word.
-[`EXPLANATION.md`](EXPLANATION.md#who-signs-and-what-that-changes) covers
-where that matters.
+[`EXPLANATION.md`, "Who signs, and what that
+changes"](EXPLANATION.md#who-signs-and-what-that-changes) covers where that matters.
 
 **`simc` and `hal-simplicity`.** `cargo install simplicityhl` gives `simc`, which compiles
 a `.simf` with concrete parameters to a base64 program plus its [CMR](../../glossary.md#cmr).

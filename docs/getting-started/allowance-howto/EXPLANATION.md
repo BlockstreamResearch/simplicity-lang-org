@@ -162,9 +162,10 @@ all.
 
 An instance file holds one allowance's fixed terms, written once at funding and read by
 every later action. A state file records where the current UTXO is and changes on every
-spend. The engine in
-[`REFERENCE.md`](REFERENCE.md#other-ways-to-drive-the-same-contract) uses files for both; the browser pages keep the
-equivalent in `localStorage` and rediscover the UTXO from the chain.
+spend. The CLI engine in [`REFERENCE.md`, "Other ways to drive the same
+contract"](REFERENCE.md#other-ways-to-drive-the-same-contract) uses files for both;
+the browser pages keep the equivalent in `localStorage` and rediscover the UTXO from the
+chain.
 
 For the page rather than the manifest,
 [`examples/allowance-lwk/README.md`](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/examples/allowance-lwk/README.md) walks its seven
@@ -195,8 +196,8 @@ checks. If the contract compares output 0's script hash against its own, that ou
 Target the dialect of the engine that will read it. The two known implementations disagree
 on `manifest_version` and on where `confidential` may appear, and both are moving targets,
 so confirm against the engine's own fixtures before concluding a manifest is wrong.
-[`REFERENCE.md`](REFERENCE.md#the-two-manifest-dialects-here) records the current
-divergence.
+[`REFERENCE.md`, "The two manifest dialects
+here"](REFERENCE.md#the-two-manifest-dialects-here) records the current divergence.
 
 ### Checking a manifest you did not write
 
@@ -217,16 +218,16 @@ known-good manifest for a different contract.
 The page used in the HOWTO carries both signers, and they are two ends of a range rather
 than rival technologies to pick between.
 
-**In the page**, through LWK compiled to wasm: the page loads the library, compiles the
-contract, derives the address, builds the transaction and signs it with a key in
-`localStorage`. Steps 4 to 10 work this way.
+**In the page**, through [LWK](../../glossary.md#lwk) compiled to wasm: the page loads the
+library, compiles the contract, derives the address, builds the transaction and signs it
+with a key in `localStorage`. Steps 4 to 10 work this way.
 
-**In a wallet**, through a manifest: the page hands Humid `txmanifest.humid.json` and the
-contract source, and the extension compiles, builds, signs and broadcasts, showing the
-user its own confirmation. Step 11 works this way.
+**In a wallet**, through a manifest: the page hands [Humid](../../glossary.md#humid)
+`txmanifest.humid.json` and the contract source, and the extension compiles, builds, signs
+and broadcasts, showing the user its own confirmation. Step 11 works this way.
 
 The two produce different covenant addresses for the same stated terms, because Humid signs
-with its own BIP-84 key and so supplies a different `BENEFICIARY_KEY`. A single allowance
+with its own BIP84 key and so supplies a different `BENEFICIARY_KEY`. A single allowance
 therefore belongs to one signer or the other for its whole life.
 
 A real project would take the useful half of each: **a manifest to a wallet for anything
@@ -324,7 +325,8 @@ reads. Descriptions in a manifest are shown to the user and are therefore untrus
 What protects a user is that the amounts are not taken from the manifest. The wallet tags
 every displayed value with its origin, and the ones a user sees as amounts are computed by
 the wallet from the chain. A manifest can name and describe itself freely and cannot alter
-the numbers. [`REFERENCE.md`](REFERENCE.md#how-humid-treats-a-manifest) has the specifics.
+the numbers. [`REFERENCE.md`, "How Humid treats a
+manifest"](REFERENCE.md#how-humid-treats-a-manifest) has the specifics.
 
 ### The ELIPs this rests on
 

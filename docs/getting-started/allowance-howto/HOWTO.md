@@ -7,9 +7,10 @@ schedule, and close it out, driven from a web page you can edit.
 
 **Scope**: a local regtest network and Liquid testnet only.
 
-**Tested with**: Simplex 0.1.0 with `smplx-std` 0.1.1, Rust 1.91.1, `wasm-pack` 0.15.0,
-Bun 1.4.3, LWK at commit `7ad29620`, and Humid 1.1.4 at commit `a6d211d` with the patch
-from Step 11, in Chromium.
+**Tested with**: [Simplex](../../glossary.md#simplex) 0.2.0 with `smplx-std` 0.2.0, Rust
+1.91.1, `wasm-pack` 0.15.0, Bun 1.4.3, [LWK](../../glossary.md#lwk) at commit `7ad29620`,
+and [Humid](../../glossary.md#humid) 1.1.4 at commit `a6d211d` with the patch from
+Step 11, in Chromium.
 
 ## Get the files
 
@@ -136,7 +137,10 @@ can take some time to compile:
 ```bash
 git clone https://github.com/BlockstreamResearch/smplx
 cargo install --path smplx/crates/cli --locked
+simplex --version
 ```
+
+You should see `Simplex` followed by a version number.
 
 Then set up the project and run the tests:
 
@@ -185,7 +189,7 @@ Confirm the feature really compiled in, then copy the two files the page loads:
 ```bash
 grep -q SimplicityProgram lwk/lwk_wasm/pkg-web/lwk_wasm.d.ts \
     && echo "Simplicity feature: present" \
-    || echo "Simplicity feature: MISSING, rebuild with --features simplicity"
+    || echo "Simplicity feature: MISSING. Check that wasm-pack finished without errors and that you included --features simplicity"
 mkdir -p examples/allowance-lwk/vendor
 cp lwk/lwk_wasm/pkg-web/lwk_wasm.js lwk/lwk_wasm/pkg-web/lwk_wasm_bg.wasm \
    examples/allowance-lwk/vendor/
@@ -201,8 +205,9 @@ Open a second terminal in `allowance-web` and start a web server for the page:
 python3 -m http.server 8099 --directory examples/allowance-lwk
 ```
 
-Leave it running through Step 11, then stop it with Ctrl-C. If it prints `Address already
-in use`, run it again with another port number and use that port below.
+You should see `Serving HTTP on … port 8099`. Leave it running through Step 11, then stop
+it with Ctrl-C. If it prints `Address already in use`, run it again with another port
+number and use that port below.
 
 Open <http://localhost:8099/>. The page doesn't work opened as a file. Keep the same port
 throughout, because the page stores its wallet and key per origin.
@@ -232,10 +237,6 @@ its private half can withdraw.
 
 You should see 64 hex characters.
 
-The key is 32 random bytes in `localStorage`, and the wallet's mnemonic doesn't cover
-it. Clearing this site's data leaves any allowance made out to it permanently
-unclaimable.
-
 With two people, the beneficiary does this on their own machine and sends the benefactor
 those 64 characters. Testing on your own, return to the benefactor tab and press **Use my
 own key (single-wallet test)**, which fills the field from the key you just generated.
@@ -246,8 +247,8 @@ On the benefactor tab, fill in the three values that get compiled into the contr
 
 - **Beneficiary's public key**, from Step 5.
 - **Withdrawable per period**, which is `ALLOWANCE_AMOUNT` in sats. Keep it well above
-  500: the page pays a fixed 500-sat fee out of every withdrawal, so it can't withdraw an
-  allowance of 500 or less.
+  500: the page uses a fixed fee of 500 sats for every withdrawal and pays it out of the
+  allowance, so it can't withdraw an allowance of 500 or less.
 - **Blocks between withdrawals**, which is `MIN_DISTANCE`. `3` means about three
   minutes, convenient for a first run; 1440 is about a day.
 
@@ -292,15 +293,17 @@ the [fee](../../glossary.md#fee), with nothing broadcast.
 
 Now select **Broadcast for real** and press **Fund** again.
 
-You should see a txid. Check it on chain:
+You should see a txid. The transaction's output at the covenant address is the first
+allowance instance: coins locked at the covenant address.
 
-```bash
-curl -s "https://blockstream.info/liquidtestnet/api/tx/<fund-txid>" | python3 -m json.tool
-```
+??? example "Check it on chain"
 
-One output has type `v1_p2tr` and the value you locked. That output is the first
-allowance instance: coins locked at the covenant address. Its position among the outputs
-can vary.
+    ```bash
+    curl -s "https://blockstream.info/liquidtestnet/api/tx/<fund-txid>" | python3 -m json.tool
+    ```
+
+    One output has type `v1_p2tr` and the value you locked. Its position among the
+    outputs can vary.
 
 ## 8. Watch the allowance
 
@@ -322,21 +325,23 @@ Open the **I'm the beneficiary** tab and press **Refresh status**. The instance 
 the withdrawal controls live on that tab, and Steps 9 and 10 stay there.
 
 You should see one instance listed with a balance, a timelock countdown, and either
-`PartialWithdraw` or `FullWithdraw` as its action. The same query by hand:
+`PartialWithdraw` or `FullWithdraw` as its action. Each [UTXO](../../glossary.md#utxo) at
+the covenant address is a separate allowance with its own timelock.
 
-```bash
-ADDR=<covenant-address>
-curl -s "https://blockstream.info/liquidtestnet/api/address/$ADDR/utxo"
-curl -s "https://blockstream.info/liquidtestnet/api/blocks/tip/height"
-```
+??? example "Run the same query by hand"
 
-You should see a JSON array with one entry per instance, each with a `value` and a
-`status.block_height`, then the tip height as a bare number.
+    ```bash
+    ADDR=<covenant-address>
+    curl -s "https://blockstream.info/liquidtestnet/api/address/$ADDR/utxo"
+    curl -s "https://blockstream.info/liquidtestnet/api/blocks/tip/height"
+    ```
 
-Each [UTXO](../../glossary.md#utxo) at that address is a separate allowance with its own
-timelock. Compute `depth = tip - block_height + 1`; it becomes spendable once `depth >= MIN_DISTANCE`. The
-action follows the balance: `FullWithdraw` when `value <= ALLOWANCE_AMOUNT`, otherwise
-`PartialWithdraw`.
+    You should see a JSON array with one entry per instance, each with a `value` and a
+    `status.block_height`, then the tip height as a bare number.
+
+    Compute `depth = tip - block_height + 1`; an instance becomes spendable once
+    `depth >= MIN_DISTANCE`. The action follows the balance: `FullWithdraw` when
+    `value <= ALLOWANCE_AMOUNT`, otherwise `PartialWithdraw`.
 
 [`REFERENCE.md`, "Chain access"](REFERENCE.md#chain-access) lists the endpoints the page
 uses.
@@ -352,23 +357,25 @@ press **Claim** and read the confirmation panel, which lists every output before
 is signed.
 
 For a `PartialWithdraw` you should see output 0 returning the remainder to the covenant
-address, output 1 paying you, and output 2 as the 500-sat fee. A `FullWithdraw` has no remainder,
-so output 0 pays you and output 1 is the fee. Confirm it.
+address, output 1 paying you, and output 2 as the fee. A `FullWithdraw` has no
+remainder, so output 0 pays you and output 1 is the fee. Confirm it.
 
 You should see a broadcast txid, and after a minute a new instance holding the
-remainder, with its timelock counting again from that block. Verify the payout:
+remainder.
 
-```bash
-curl -s "https://blockstream.info/liquidtestnet/api/tx/<withdraw-txid>" | python3 -m json.tool
-```
+??? example "Check the payout on chain"
 
-In `vout`, you should see an output whose `scriptpubkey_address` is the address in the
-payout field, with a `value` of `ALLOWANCE_AMOUNT` minus 500 for a `PartialWithdraw`, or
-the instance's whole balance minus 500 for a `FullWithdraw`. The last output has
-`scriptpubkey_type` `fee` and a `value` of 500.
+    ```bash
+    curl -s "https://blockstream.info/liquidtestnet/api/tx/<withdraw-txid>" | python3 -m json.tool
+    ```
 
-A refusal reading `non-BIP68-final` means not enough blocks have passed, so the timelock
-is doing its job. One reading `insufficient fee, rejecting replacement` means an earlier
+    In `vout`, you should see an output whose `scriptpubkey_address` is the address in
+    the payout field, with a `value` of `ALLOWANCE_AMOUNT` minus the 500-sat fee for a
+    `PartialWithdraw`, or the instance's whole balance minus the fee for a
+    `FullWithdraw`. The last output, with `scriptpubkey_type` `fee`, is the fee.
+
+A refusal reading `non-BIP68-final` means not enough blocks have passed; wait and claim
+again. One reading `insufficient fee, rejecting replacement` means an earlier
 attempt already reached the mempool and probably succeeded. For anything else, the error
 [table at the top of `REFERENCE.md`](REFERENCE.md#errors-and-what-causes-them) lists each
 message with its cause and fix.
@@ -382,23 +389,25 @@ After each claim, the page refreshes the list: the instance you just spent shows
 **Spent**, and the new one holding the remainder appears as **Unconfirmed**, then
 **Timelocked**, then **Claim** once its own timelock has passed.
 
-You should see an empty instance list once it confirms, and the locked amount, less 500
-sats per withdrawal, at your payout address. Confirm that the covenant address doesn't
-hold anything, and that the payouts arrived:
+You should see an empty instance list once it confirms, and the locked amount, less the
+fee for each withdrawal, at your payout address. A later payment to the covenant address
+would start a separate allowance.
 
-```bash
-ADDR=<covenant-address>
-curl -s "https://blockstream.info/liquidtestnet/api/address/$ADDR/utxo"
-# -> []
-curl -s "https://blockstream.info/liquidtestnet/api/address/<payout-address>/utxo"
-```
+??? example "Check on chain"
 
-The second command's list should include the payouts sent to that address, each `value`
-matching a payout from Step 9. An empty array for the covenant address means every instance is spent. A later payment to
-that address would start a separate allowance.
+    ```bash
+    ADDR=<covenant-address>
+    curl -s "https://blockstream.info/liquidtestnet/api/address/$ADDR/utxo"
+    # -> []
+    curl -s "https://blockstream.info/liquidtestnet/api/address/<payout-address>/utxo"
+    ```
 
-To reach this faster on a second run, lock an amount at or below `ALLOWANCE_AMOUNT` in
-Step 7, which makes the first withdrawal a `FullWithdraw`.
+    An empty array for the covenant address means every instance is spent. The second
+    command's list should include the payouts sent to that address, each `value`
+    matching a payout from Step 9.
+
+To reach this faster on a second run, lock an amount at or below `ALLOWANCE_AMOUNT` but
+above 500 sats in Step 7, which makes the first withdrawal a `FullWithdraw`.
 
 ## 11. Run the same contract through the wallet
 
@@ -407,7 +416,7 @@ Humid browser extension as a manifest, and the extension compiles it, builds the
 transaction, signs it and broadcasts it, showing you its own confirmation.
 
 !!! warning "This creates a second, separate allowance"
-    Humid signs with its own BIP-84 key, so `BENEFICIARY_KEY` differs, and a different
+    Humid signs with its own BIP84 key, so `BENEFICIARY_KEY` differs, and a different
     key means a different covenant address. The allowance from Steps 6 to 10 cannot be
     driven from here.
 
@@ -420,8 +429,8 @@ Clone with `--recursive`, and build both WebAssembly modules before `bun install
 git clone --recursive https://github.com/BlockstreamResearch/humid
 (
   cd humid
-  bun run build:wasm:lwk        # can take a while; wasm-opt re-optimizes a large module
-  bun run build:wasm:smplx      # likewise
+  bun run build:wasm:lwk
+  bun run build:wasm:smplx
   bun install
   git apply ../examples/allowance-humid/humid-allowance-fixes.patch
   bun run build
@@ -429,7 +438,7 @@ git clone --recursive https://github.com/BlockstreamResearch/humid
 ```
 
 The patch is what lets Humid build this contract's withdrawals. If `git apply` rejects a
-hunk, see [`REFERENCE.md`](REFERENCE.md#building-humid).
+hunk, see [`REFERENCE.md`, "Building Humid"](REFERENCE.md#building-humid).
 
 You should see `bun run build` finish by writing `humid/dist/`. If it stops at a
 `check:wasm` step, rerun the module build that failed and read its error, which names the
@@ -454,7 +463,7 @@ You should see Humid listed and enabled.
 
 Under "Who signs", select **Humid extension**, then press **Check for Humid**.
 
-You should see the page report that Humid is injecting. The page's own wallet and key
+You should see `Humid is available on this page.` The page's own wallet and key
 sections disappear, along with the results from Steps 4 to 10, because none of them apply
 to Humid.
 
@@ -506,7 +515,8 @@ is this one, not Step 6's.
 
 You should see a response carrying `txid`, `feeSats` and `transactionHex`, with
 `broadcast: false`. Nothing was sent.
-[`REFERENCE.md`](REFERENCE.md#processconfidentialtransaction) documents the call.
+[`REFERENCE.md`, "`processConfidentialTransaction`"](REFERENCE.md#processconfidentialtransaction)
+documents the call.
 
 Fund for real, wait out `MIN_DISTANCE`, then claim through Humid as in Step 9, and keep
 claiming as in Step 10 until the allowance closes. There is no payout field in this mode,
@@ -545,6 +555,5 @@ the same contract"](REFERENCE.md#other-ways-to-drive-the-same-contract).
 
 ## If something here is wrong
 
-Check [`REFERENCE.md`](REFERENCE.md#errors-and-what-causes-them) first: its
-error-to-cause table may already name the message. If not, report the exact error text,
-the step you were on, and the file and line if you can find it.
+Report the exact error text, the step you were on, and the file and line if you can find
+it.
