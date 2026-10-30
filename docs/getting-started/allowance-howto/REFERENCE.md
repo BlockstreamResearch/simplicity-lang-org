@@ -185,7 +185,7 @@ wallet. `examples/allowance/txmanifest.json` is `0.3.0`, for the CLI engine belo
 describe the same contract.
 
 `examples/allowance/txmanifest.schema.json` is the machine-checkable form of the `0.3.0`
-dialect only. ⚠️ Validating the `0.1.0` manifest against it reports exactly one error, on
+dialect only. Validating the `0.1.0` manifest against it reports exactly one error, on
 `utxo_types.allowance`:
 
 ```

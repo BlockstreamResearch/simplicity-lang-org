@@ -5,7 +5,7 @@
 bitcoin (tLBTC) in it on [Liquid](../../glossary.md#liquid) testnet, withdraw from it on a
 schedule, and close it out, driven from a web page you can edit.
 
-**Scope**: a local regtest network and Liquid testnet only. No step here costs money.
+**Scope**: a local regtest network and Liquid testnet only.
 
 **Tested with**: Simplex 0.1.0 with `smplx-std` 0.1.1, Rust 1.91.1, `wasm-pack` 0.15.0,
 Bun 1.4.3, LWK at commit `7ad29620`, and Humid 1.1.4 at commit `a6d211d` with the patch
@@ -32,10 +32,10 @@ the tools below as well:
 
 | Tool | Needed by | How to get it |
 |---|---|---|
-| A browser | Step 4 onwards; Step 11 needs one that can load this extension | currently Chromium or Google Chrome; most other browsers cannot load it |
+| A browser | Step 4 onward; Step 11 needs one that can load this extension | currently Chromium or Google Chrome; most other browsers cannot load it |
 | Rust and `cargo` | Steps 2, 3 and 11 | `apt install rustup` or `brew install rustup`, then `rustup default stable` |
 | `simplex` | Step 2 only | Step 2 installs it |
-| Bun | Step 11 only | `npm install -g bun` or `brew install oven-sh/bun/bun` |
+| Bun | Step 11 only | `npm install -g bun` (needs npm) or `brew install oven-sh/bun/bun` |
 | `wasm-pack` | Steps 3 and 11 | `cargo install wasm-pack` |
 | LLVM `clang` targeting wasm32, with `llvm-ar` | Steps 3 and 11 | your distribution's `llvm` and `clang` packages; `brew install llvm` on macOS |
 
@@ -57,8 +57,9 @@ clang -print-targets | grep -q wasm32 \
 You should see a version from each tool, with `cargo` at 1.91 or newer and `bun` at 1.3.14
 or newer, and `clang wasm32 target: present` on the last line.
 
-Install Rust through `rustup` rather than a distribution `rustc`: LWK pins its own
-toolchain in `rust-toolchain.toml`, which only `rustup` honors.
+[Install Rust](https://rust-lang.org/tools/install/) through `rustup` rather than a
+distribution `rustc`: LWK pins its own toolchain in `rust-toolchain.toml`, which only
+`rustup` honors.
 
 If your system has neither `apt` nor Homebrew, both projects publish a shell installer:
 
@@ -69,7 +70,7 @@ curl -fsSL https://bun.sh/install | bash                          # Bun
 
 For LLVM, the package names are the same across the common distributions: `apt install llvm clang`, `dnf install llvm clang`, or `pacman -S llvm clang`.
 
-???+ "`clang` on macOS"
+!!! note "`clang` on macOS"
     The system `clang` has no WebAssembly backend. Install LLVM from Homebrew and put its `clang` first on your `PATH`.
 
 There are two companion documents, neither of which is required to complete these steps.
@@ -128,11 +129,9 @@ For what each function enforces, see
 
 ## 2. Run the contract's tests on regtest
 
-`simplex` runs SimplicityHL integration tests against a local [Elements](../../glossary.md#elements)
-regtest node that it starts and funds for you, so this step checks the
-contract's behavior before anything touches a real chain.
-
-Install Simplex, which takes several minutes to compile:
+Install Simplex, which runs SimplicityHL integration tests against a local
+[Elements](../../glossary.md#elements) regtest node that it starts and funds for you. It
+can take some time to compile:
 
 ```bash
 git clone https://github.com/BlockstreamResearch/smplx
@@ -167,9 +166,9 @@ more tests to write yourself.
 
 ## 3. Build what the page needs
 
-The page compiles the contract and builds transactions itself, through LWK compiled to
-wasm. The published builds leave out the Simplicity feature, so build it from source. The
-`wasm-pack` build runs for several minutes, often without printing anything.
+Build LWK, the library the page uses to compile the contract and build transactions, for
+wasm with its Simplicity feature, which the published builds leave out. The `wasm-pack`
+build can take some time, often without printing anything.
 
 If you haven't already, run the check in [What you need](#what-you-need).
 
@@ -196,9 +195,6 @@ You should see `Simplicity feature: present`.
 
 ## 4. Serve the page and fund its wallet
 
-This puts the page in front of you and gives it a funded testnet wallet to lock coins
-from.
-
 Open a second terminal in `allowance-web` and start a web server for the page:
 
 ```bash
@@ -215,11 +211,14 @@ You should see `Simplicity API: present` in the Library box. If the build lacks 
 feature, the box instead starts `This build is missing:`, and the build in Step 3 needs
 redoing.
 
-The page carries its own single-key wallet. On the **I'm the benefactor** tab, leave the
-mnemonic box blank, press **Open wallet**, then **Request testnet funds**.
+The page carries its own single-key wallet.
 
-The mnemonic will be stored in `localStorage` in plaintext, so use this demo flow only
-for testnet funds and don't reuse a mnemonic from elsewhere.
+!!! warning "The mnemonic is stored in plaintext"
+    The page keeps its mnemonic in `localStorage` in plaintext. Use it only for testnet
+    funds, and don't paste in a mnemonic from elsewhere.
+
+On the **I'm the benefactor** tab, leave the mnemonic box blank, press **Open wallet**,
+then **Request testnet funds**.
 
 You should see a balance within about a minute. Press **Sync & show balance** to check
 again. If it stays at zero, use the [web form](https://liquidtestnet.com/faucet) with the
@@ -227,10 +226,9 @@ address the page shows.
 
 ## 5. Generate the beneficiary's key
 
-The contract needs a BIP340 x-only public key before it can be compiled, and the only way
-to withdraw is a signature from its private half.
-
-Open the **I'm the beneficiary** tab and press **Generate / show my key**.
+Open the **I'm the beneficiary** tab and press **Generate / show my key**. This creates
+the BIP340 x-only public key that gets compiled into the contract; only a signature from
+its private half can withdraw.
 
 You should see 64 hex characters.
 
@@ -244,39 +242,33 @@ own key (single-wallet test)**, which fills the field from the key you just gene
 
 ## 6. Set the terms and compile the contract
 
-Your three chosen terms become a compiled contract and the covenant address they
-produce.
-
 On the benefactor tab, fill in the three values that get compiled into the contract:
 
 - **Beneficiary's public key**, from Step 5.
 - **Withdrawable per period**, which is `ALLOWANCE_AMOUNT` in sats. Keep it well above
   500: the page pays a fixed 500-sat fee out of every withdrawal, so it can't withdraw an
   allowance of 500 or less.
-- **Blocks between withdrawals**, which is `MIN_DISTANCE`. Three means about three
+- **Blocks between withdrawals**, which is `MIN_DISTANCE`. `3` means about three
   minutes, convenient for a first run; 1440 is about a day.
 
 Press **Compile & derive address**.
 
-<details markdown="1">
-<summary>The code behind that button</summary>
+??? example "The code behind that button"
 
-```js
-const args = new L.SimplicityArguments()
-  .addValue("BENEFICIARY_KEY", L.SimplicityTypedValue.fromU256Hex(params.benkey))
-  .addValue("ALLOWANCE_AMOUNT", L.SimplicityTypedValue.fromU64(params.allowance))
-  .addValue("MIN_DISTANCE", L.SimplicityTypedValue.fromU16(params.mindist));
+    ```js
+    const args = new L.SimplicityArguments()
+      .addValue("BENEFICIARY_KEY", L.SimplicityTypedValue.fromU256Hex(params.benkey))
+      .addValue("ALLOWANCE_AMOUNT", L.SimplicityTypedValue.fromU64(params.allowance))
+      .addValue("MIN_DISTANCE", L.SimplicityTypedValue.fromU16(params.mindist));
 
-const program = L.SimplicityProgram.load(source, args);
-const address = program.createP2trAddress(
-  L.XOnlyPublicKey.fromString(NUMS_INTERNAL_KEY), network);
-```
+    const program = L.SimplicityProgram.load(source, args);
+    const address = program.createP2trAddress(
+      L.XOnlyPublicKey.fromString(NUMS_INTERNAL_KEY), network);
+    ```
 
-</details>
-
-You should see the [CMR](../../glossary.md#cmr) and a `tex1p…` covenant address. All three values are baked
-into that address, so changing any of them gives a different and unrelated allowance
-somewhere else.
+You should see the [CMR](../../glossary.md#cmr) and a `tex1p…` covenant address. Your
+three terms are now a compiled contract, and this address is derived from it, so changing
+any of the terms gives a different and unrelated allowance at a different address.
 
 Press **Copy** under "Hand the terms to the beneficiary" to get the blob a beneficiary
 needs. Their page re-derives the address from those three values and refuses to continue
@@ -284,28 +276,19 @@ if it disagrees with the address in the blob.
 
 ## 7. Fund the allowance
 
-This locks coins at the covenant address, which creates the first allowance instance.
-
 Set the amount to lock, leave **Broadcast for real** unchecked, and press **Fund**.
 
-<details markdown="1">
-<summary>The code behind that button</summary>
+??? example "The code behind that button"
 
-```js
-const pset = new L.TxBuilder(network)
-  .addExplicitRecipient(c.address, amount, policyAsset)
-  .finish(wollet);
-const tx = wollet.finalize(signer.sign(pset)).extractTx();
-```
-
-</details>
+    ```js
+    const pset = new L.TxBuilder(network)
+      .addExplicitRecipient(c.address, amount, policyAsset)
+      .finish(wollet);
+    const tx = wollet.finalize(signer.sign(pset)).extractTx();
+    ```
 
 You should see a dry run reporting the txid it would have sent, the output count and
 the [fee](../../glossary.md#fee), with nothing broadcast.
-
-The code uses `addExplicitRecipient`, not `addLbtcRecipient`. The contract reads its own
-[asset](../../glossary.md#asset) and amount, so a [confidential](../../glossary.md#confidential)
-output to a covenant address can never be spent.
 
 Now select **Broadcast for real** and press **Fund** again.
 
@@ -315,17 +298,15 @@ You should see a txid. Check it on chain:
 curl -s "https://blockstream.info/liquidtestnet/api/tx/<fund-txid>" | python3 -m json.tool
 ```
 
-One output has type `v1_p2tr` and the value you locked: that is the covenant. Its
-position among the outputs can vary.
+One output has type `v1_p2tr` and the value you locked. That output is the first
+allowance instance: coins locked at the covenant address. Its position among the outputs
+can vary.
 
 ## 8. Watch the allowance
 
-Watching means reading the chain for the live allowance instances and working out which
-of them can be withdrawn yet.
-
-Steps 8 to 10 walk this loop. A partial withdrawal pays the beneficiary and recreates the
-covenant with the remainder, so the timelock starts again from the block that confirmed
-it.
+Steps 8 to 10 follow the loop below; this step monitors the chain for live allowance
+instances. A partial withdrawal pays the beneficiary and recreates the covenant with the
+remainder, so the timelock starts again from the block that confirmed it.
 
 ```mermaid
 flowchart TD
@@ -362,12 +343,8 @@ uses.
 
 ## 9. Withdraw
 
-This spends one instance: it pays the beneficiary and recreates the covenant holding the
-remainder.
-
 Wait for the timelock. The button reads **Timelocked** until then, and **Claim** once the
-instance is old enough: with 3 blocks between withdrawals, about three minutes after the
-funding transaction confirms. The page refreshes the list about once a minute; press
+instance is old enough. The page refreshes the list about once a minute; press
 **Refresh status** to check sooner.
 
 On the beneficiary tab, press **Use my wallet address** to set where the payout goes, then
@@ -398,15 +375,12 @@ message with its cause and fix.
 
 ## 10. Close it out
 
-The last withdrawal empties the allowance and ends the covenant.
-
-Each withdrawal spends one instance and creates a new one at the same address. The page
-refreshes the list after each claim: the instance you just spent shows **Spent**, and the
-new one holding the remainder appears as **Unconfirmed**, then **Timelocked**, then
-**Claim** once its own timelock has passed.
-
 Repeat Step 9 until the balance is at or below `ALLOWANCE_AMOUNT`. The action then shows
 `FullWithdraw`, which takes everything remaining and ends the covenant.
+
+After each claim, the page refreshes the list: the instance you just spent shows
+**Spent**, and the new one holding the remainder appears as **Unconfirmed**, then
+**Timelocked**, then **Claim** once its own timelock has passed.
 
 You should see an empty instance list once it confirms, and the locked amount, less 500
 sats per withdrawal, at your payout address. Confirm that the covenant address doesn't
@@ -432,21 +406,21 @@ Steps 4 to 10 kept the key in the browser. This step hands the same contract to 
 Humid browser extension as a manifest, and the extension compiles it, builds the
 transaction, signs it and broadcasts it, showing you its own confirmation.
 
-???+ warning "This creates a second, separate allowance"
+!!! warning "This creates a second, separate allowance"
     Humid signs with its own BIP-84 key, so `BENEFICIARY_KEY` differs, and a different
     key means a different covenant address. The allowance from Steps 6 to 10 cannot be
     driven from here.
 
 ### 11a. Build the extension
 
-The two `build:wasm` scripts each run for several minutes, often without printing
-anything. Clone with `--recursive`, and build both WebAssembly modules before `bun install`:
+The two `build:wasm` scripts can each take some time, often without printing anything.
+Clone with `--recursive`, and build both WebAssembly modules before `bun install`:
 
 ```bash
 git clone --recursive https://github.com/BlockstreamResearch/humid
 (
   cd humid
-  bun run build:wasm:lwk        # minutes; wasm-opt re-optimizes a large module
+  bun run build:wasm:lwk        # can take a while; wasm-opt re-optimizes a large module
   bun run build:wasm:smplx      # likewise
   bun install
   git apply ../examples/allowance-humid/humid-allowance-fixes.patch
@@ -470,7 +444,7 @@ To create a wallet, click the puzzle piece in the top right of the browser, then
 Humid. Write the seed phrase on paper: the setup window closes if you switch to another
 application.
 
-???+ warning "Switch Humid to Liquid Testnet"
+!!! warning "Switch Humid to Liquid Testnet"
     Humid starts on Liquid mainnet. Use the network menu at the top left of the Humid
     panel to select **Liquid Testnet**.
 
@@ -497,18 +471,15 @@ transaction …`. You should see the payment in Humid's balance within about a m
 Humid spends only confirmed funds, so wait for it before pressing **Get my key from
 Humid**.
 
-<details markdown="1">
-<summary>The call behind that button</summary>
+??? example "The call behind that button"
 
-```js
-await invokeHumid("getWalletDescriptor", {
-  descriptorType: "publicWalletDescriptor",
-  descriptorFormat: [{ format: "bip380-split-branches" }],
-});
-// then two non-hardened CKDpub steps, /0 then /0, dropping the parity byte
-```
-
-</details>
+    ```js
+    await invokeHumid("getWalletDescriptor", {
+      descriptorType: "publicWalletDescriptor",
+      descriptorFormat: [{ format: "bip380-split-branches" }],
+    });
+    // then two non-hardened CKDpub steps, /0 then /0, dropping the parity byte
+    ```
 
 The first call raises Humid's "Connect this dapp?" prompt; approve it. From then on, every
 Fund and claim shows Humid's own "Perform a contract action?" confirmation, which is where
@@ -522,19 +493,16 @@ unchecked. The covenant address is new, which is the separate allowance the warn
 describes. With two people, the beneficiary loads the new terms and checks that the address
 is this one, not Step 6's.
 
-<details markdown="1">
-<summary>The call behind Fund in this mode</summary>
+??? example "The call behind Fund in this mode"
 
-```js
-await invokeHumid("processConfidentialTransaction", {
-  manifest, contractSources: { "./allowance.simf": source },
-  action: "Fund",
-  params: { BENEFICIARY_KEY, ALLOWANCE_AMOUNT, MIN_DISTANCE, amount_sat },
-  broadcast: false,
-});
-```
-
-</details>
+    ```js
+    await invokeHumid("processConfidentialTransaction", {
+      manifest, contractSources: { "./allowance.simf": source },
+      action: "Fund",
+      params: { BENEFICIARY_KEY, ALLOWANCE_AMOUNT, MIN_DISTANCE, amount_sat },
+      broadcast: false,
+    });
+    ```
 
 You should see a response carrying `txid`, `feeSats` and `transactionHex`, with
 `broadcast: false`. Nothing was sent.
