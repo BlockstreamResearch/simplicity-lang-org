@@ -68,6 +68,9 @@ A software tool that provides various pieces of Simplicity-related functionality
 ## Height
 (Also "block height".) The number of blocks that currently exist on a specific blockchain, or that existed as of a [transaction](./glossary.md#transaction) of interest. Since blockchains normally add blocks at a predictable rate, the height can be used as a measurement of the current date and time, providing one mechanism for [contracts](./glossary.md#contract) to refer to and enforce conditions related to the dates before or after which certain events may or must occur. For example, Liquid mainnet block height 3634700 occurred at 2025-11-21 02:23:10 UTC, and Liquid adds blocks at a rate of 1 per minute, so the date 2026-05-01 can be indicated by adding about 232000 minutes to this height, giving height 3866700 as a reference to a time a little later in the morning on that date.
 
+## Humid
+A [Liquid](./glossary.md#liquid) wallet with Simplicity transaction support, implemented as a browser plugin, for testing and development purposes.
+
 ## Input
 In Bitcoin or Elements, a funding source that contributes [assets](./glossary.md#asset) to a particular [transaction](./glossary.md#transaction).
 
@@ -88,6 +91,9 @@ The list of jets and their specific behaviors is fixed at the time of integratio
 
 ## Liquid
 A specific [Elements](./glossary.md#elements)-based network, the [Liquid Network](https://liquid.net/), that is the first blockchain to have native support for Simplicity. Most Simplicity examples as of 2026 assume that a program is running on the Liquid mainnet or Liquid testnet, although other integrations are planned.
+
+## LWK
+Liquid Wallet Kit, Blockstream's open-source Rust toolkit for building Liquid wallets and applications. It provides tools for transaction signing, blockchain sync, and other tasks, with bindings for several other languages.
 
 ## Manifest
 (Also "`txmanifest`", the full name of the manifest file format.) A JSON file that describes an individual [smart contract](./glossary.md#smart-contract) in detail, helping wallet applications identify instances of the contract on-chain and build [transactions](./glossary.md#transaction) to interact with it, thereby invoking user-selected actions within the contract's logic.

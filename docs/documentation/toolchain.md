@@ -17,8 +17,9 @@ The SimplicityHL toolchain consists of the command-line tools `simc` (the Simpli
     tooling, not `simc` and `hal-simplicity`. (The other libraries and
     tooling share some of their code with these command-line tools.)
 
-    The [Liquid Wallet Kit
-    (LWK)](https://docs.liquid.net/docs/lwk-overview-and-examples)
+    The [Liquid Wallet
+    Kit](https://docs.liquid.net/docs/lwk-overview-and-examples)
+    ([LWK](../glossary.md#lwk))
     also provides tools for building witnesses and transactions from
     high-level languages other than Rust, facilitating an analogous
     workflow for those languages.
