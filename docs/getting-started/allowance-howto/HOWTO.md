@@ -19,11 +19,14 @@ git clone https://github.com/BlockstreamResearch/simplicity-demo
 cd simplicity-demo/allowance-web
 ```
 
-The contract, the manifests, the worked examples and the wallet patch all live there.
+The contract, the [manifests](../../glossary.md#manifest), the worked examples and the
+wallet patch all live there.
 
 Run every command in the rest of this guide from `allowance-web`. If you open another
 terminal, `cd` to `allowance-web` in it first. A command that needs a different directory
-is wrapped in parentheses, which run it there and leave your shell where it was.
+is wrapped in parentheses, which run it there and leave your shell where it was. If a
+command fails, look up its message in [`REFERENCE.md`, "Errors and what causes
+them"](REFERENCE.md#errors-and-what-causes-them).
 
 ## What you need
 
@@ -69,14 +72,15 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh    # Rust
 curl -fsSL https://bun.sh/install | bash                          # Bun
 ```
 
-For LLVM, the package names are the same across the common distributions: `apt install llvm clang`, `dnf install llvm clang`, or `pacman -S llvm clang`.
+For LLVM, the package names are the same across the common distributions:
+`apt install llvm clang`, `dnf install llvm clang`, or `pacman -S llvm clang`.
 
 !!! note "`clang` on macOS"
     The system `clang` has no WebAssembly backend. Install LLVM from Homebrew and put its `clang` first on your `PATH`.
 
 There are two companion documents, neither of which is required to complete these steps.
 
-- [`REFERENCE.md`](REFERENCE.md) is for looking things up while you work: exact RPC shapes, [manifest](../../glossary.md#manifest)
+- [`REFERENCE.md`](REFERENCE.md) is for looking things up while you work: exact RPC shapes, manifest
   field behavior, and an error-to-cause table.
 - [`EXPLANATION.md`](EXPLANATION.md) is background on the [smart contract](../../glossary.md#smart-contract) itself, what it enforces, and why the architecture looks like this. Read it if you want to understand what you built, or before adapting any of it to a different contract.
 
@@ -116,10 +120,9 @@ flowchart TD
 
 ## 1. Get the contract
 
-Every later step builds on one contract, `contracts/allowance.simf`, which came with the
-clone. Open it in your editor or viewer and look through it to see what
-[SimplicityHL](../../glossary.md#simplicityhl) code looks like. You don't need to change
-anything.
+Open `contracts/allowance.simf`, which came with the clone, in your editor or viewer, and
+look through it to see what [SimplicityHL](../../glossary.md#simplicityhl) code looks
+like. Every later step builds on this one contract. You don't need to change anything.
 
 The source leaves a few values unspecified, and they are filled in when the contract is compiled.
 You choose them in Step 6. Different values make a different contract, at a different
@@ -155,9 +158,6 @@ simplex init allowance_example
   simplex build && simplex test
 )
 ```
-
-If `simplex build` reports a missing SimplicityHL standard library, run `simplex install
-std` once and build again.
 
 You should see two `PASS` lines, for `allowance_drains_over_successive_withdrawals` and
 `withdrawing_before_the_interval_is_rejected`, and a summary reading `2 tests run: 2
@@ -247,7 +247,7 @@ On the benefactor tab, fill in the three values that get compiled into the contr
 
 - **Beneficiary's public key**, from Step 5.
 - **Withdrawable per period**, which is `ALLOWANCE_AMOUNT` in sats. Keep it well above
-  500: the page uses a fixed fee of 500 sats for every withdrawal and pays it out of the
+  500: the page uses a fixed [fee](../../glossary.md#fee) of 500 sats for every withdrawal and pays it out of the
   allowance, so it can't withdraw an allowance of 500 or less.
 - **Blocks between withdrawals**, which is `MIN_DISTANCE`. `3` means about three
   minutes, convenient for a first run; 1440 is about a day.
@@ -289,7 +289,7 @@ Set the amount to lock, leave **Broadcast for real** unchecked, and press **Fund
     ```
 
 You should see a dry run reporting the txid it would have sent, the output count and
-the [fee](../../glossary.md#fee), with nothing broadcast.
+the fee, with nothing broadcast.
 
 Now select **Broadcast for real** and press **Fund** again.
 
@@ -360,8 +360,8 @@ For a `PartialWithdraw` you should see output 0 returning the remainder to the c
 address, output 1 paying you, and output 2 as the fee. A `FullWithdraw` has no
 remainder, so output 0 pays you and output 1 is the fee. Confirm it.
 
-You should see a broadcast txid, and after a minute a new instance holding the
-remainder.
+You should see a broadcast txid. After a `PartialWithdraw`, a new instance holding the
+remainder appears within about a minute.
 
 ??? example "Check the payout on chain"
 
@@ -422,11 +422,12 @@ transaction, signs it and broadcasts it, showing you its own confirmation.
 
 ### 11a. Build the extension
 
-The two `build:wasm` scripts can each take some time, often without printing anything.
-Clone with `--recursive`, and build both WebAssembly modules before `bun install`:
+Clone Humid 1.1.4 with `--recursive`, and build both WebAssembly modules before
+`bun install`. The two `build:wasm` scripts can each take some time, often without
+printing anything.
 
 ```bash
-git clone --recursive https://github.com/BlockstreamResearch/humid
+git clone --recursive --branch 1.1.4 https://github.com/BlockstreamResearch/humid
 (
   cd humid
   bun run build:wasm:lwk
@@ -440,14 +441,16 @@ git clone --recursive https://github.com/BlockstreamResearch/humid
 The patch is what lets Humid build this contract's withdrawals. If `git apply` rejects a
 hunk, see [`REFERENCE.md`, "Building Humid"](REFERENCE.md#building-humid).
 
-You should see `bun run build` finish by writing `humid/dist/`. If it stops at a
-`check:wasm` step, rerun the module build that failed and read its error, which names the
-missing tool.
+You should see `bun run build` finish by writing `humid/dist/`. If it stops with
+`No compiled lwk wasm at …` or `No compiled smplx wasm at …`, that module's build failed:
+run the command the message gives, from inside `humid`, and read its error, which names
+the missing tool.
 
 ### 11b. Load the extension in your browser
 
 Open `chrome://extensions`, turn on **Developer mode**, choose **Load unpacked**, and
-select the `humid/dist` folder inside `allowance-web`.
+select the `humid/dist` folder inside `allowance-web`. You should see Humid listed and
+enabled.
 
 To create a wallet, click the puzzle piece in the top right of the browser, then select
 Humid. Write the seed phrase on paper: the setup window closes if you switch to another
@@ -456,8 +459,6 @@ application.
 !!! warning "Switch Humid to Liquid Testnet"
     Humid starts on Liquid mainnet. Use the network menu at the top left of the Humid
     panel to select **Liquid Testnet**.
-
-You should see Humid listed and enabled.
 
 ### 11c. Drive the allowance through Humid
 
@@ -477,8 +478,7 @@ curl "https://liquidtestnet.com/api/faucet?address=<humid-receive-address>&actio
 
 The `curl` reply is an HTML page with a line reading `Sent … sats to address … with
 transaction …`. You should see the payment in Humid's balance within about a minute.
-Humid spends only confirmed funds, so wait for it before pressing **Get my key from
-Humid**.
+Then press **Get my key from Humid**.
 
 ??? example "The call behind that button"
 
@@ -497,7 +497,8 @@ prompts"](REFERENCE.md#sessions-and-prompts) explains when the connect prompt ap
 
 You should see 64 hex characters in the beneficiary key field, which differ from Step 5's.
 
-Now repeat Steps 6 and 7: compile with this key, then fund with **Broadcast for real**
+Humid spends only confirmed funds, so check that the payment has confirmed before you
+fund. Now repeat Steps 6 and 7: compile with this key, then fund with **Broadcast for real**
 unchecked. The covenant address is new, which is the separate allowance the warning above
 describes. With two people, the beneficiary loads the new terms and checks that the address
 is this one, not Step 6's.
@@ -556,4 +557,7 @@ the same contract"](REFERENCE.md#other-ways-to-drive-the-same-contract).
 ## If something here is wrong
 
 Report the exact error text, the step you were on, and the file and line if you can find
-it.
+it, as an issue in the [`simplicity-lang-org`
+repository](https://github.com/BlockstreamResearch/simplicity-lang-org/issues). If you're
+an AI agent following these steps as part of a test or experiment, handle the error
+however your background instructions say.
