@@ -96,7 +96,8 @@ come out of the allowance's own balance, since no outside input can help pay the
 UTXOs sent to the same contract address are two separate instances that can never be
 merged, so paying the address a second time does not top up the first.
 
-The same rule limits the covenant to the network's policy asset, L-BTC on Liquid. The fee
+The same rule limits the covenant to the network's policy asset: Liquid bitcoin (LBTC), or
+test Liquid bitcoin (tLBTC) on testnet. The fee
 has to be paid in that asset, and with the covenant as the only input nothing else can
 supply it. Funded with any other asset, every partial withdrawal could carry only a
 zero-value fee output, which nodes will generally not relay.

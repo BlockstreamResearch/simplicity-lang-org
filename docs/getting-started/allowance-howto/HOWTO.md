@@ -1,13 +1,15 @@
 # Run an allowance covenant end to end
 
-**Goal**: lock testnet L-BTC in a [Simplicity](../../glossary.md#simplicity) covenant, withdraw from it on a schedule, and
-close it out, driven from a web page you can edit.
+**Goal**: test a [Simplicity](../../glossary.md#simplicity)
+[covenant](../../glossary.md#covenant) on a local regtest network, then lock test Liquid
+bitcoin (tLBTC) in it on [Liquid](../../glossary.md#liquid) testnet, withdraw from it on a
+schedule, and close it out, driven from a web page you can edit.
 
-**Scope**: [Liquid](../../glossary.md#liquid) testnet only. No step here costs money.
+**Scope**: a local regtest network and Liquid testnet only. No step here costs money.
 
 **Tested with**: Simplex 0.1.0 with `smplx-std` 0.1.1, Rust 1.91.1, `wasm-pack` 0.15.0,
 Bun 1.4.3, LWK at commit `7ad29620`, and Humid 1.1.4 at commit `a6d211d` with the patch
-from Step 3c, in Chromium.
+from Step 11, in Chromium.
 
 ## Get the files
 
@@ -25,19 +27,19 @@ is wrapped in parentheses, which run it there and leave your shell where it was.
 ## What you need
 
 `git`, `curl` and `python3` are assumed, and are already present on most Unix desktops.
-Python is used only to serve static files. Step 3 builds WebAssembly modules and a
-browser extension from source, so you need the tools below as well:
+Steps 3 and 11 build WebAssembly modules and a browser extension from source, so you need
+the tools below as well:
 
 | Tool | Needed by | How to get it |
 |---|---|---|
 | A browser | Step 4 onwards; Step 11 needs one that can load this extension | currently Chromium or Google Chrome; most other browsers cannot load it |
-| Rust and `cargo` | Steps 2 and 3 | `apt install rustup` or `brew install rustup`, then `rustup default stable` |
+| Rust and `cargo` | Steps 2, 3 and 11 | `apt install rustup` or `brew install rustup`, then `rustup default stable` |
 | `simplex` | Step 2 only | Step 2 installs it |
-| Bun | Step 3c only | `npm install -g bun` or `brew install oven-sh/bun/bun` |
-| `wasm-pack` | Step 3 | `cargo install wasm-pack` |
-| LLVM `clang` targeting wasm32, with `llvm-ar` | Step 3 | your distribution's `llvm` and `clang` packages; `brew install llvm` on macOS |
+| Bun | Step 11 only | `npm install -g bun` or `brew install oven-sh/bun/bun` |
+| `wasm-pack` | Steps 3 and 11 | `cargo install wasm-pack` |
+| LLVM `clang` targeting wasm32, with `llvm-ar` | Steps 3 and 11 | your distribution's `llvm` and `clang` packages; `brew install llvm` on macOS |
 
-Steps 2, 3b and 3c clone `smplx`, `lwk` and `humid` into `allowance-web`; you can delete
+Steps 2, 3 and 11 clone `smplx`, `lwk` and `humid` into `allowance-web`; you can delete
 them when you are done.
 
 Check what you already have:
@@ -46,13 +48,14 @@ Check what you already have:
 git --version && curl --version | head -1 && python3 --version
 cargo --version          # 1.91 or newer, which Step 2 requires
 wasm-pack --version      # no pinned minimum; a current release is fine
-bun --version            # 1.3.14 or newer, which Step 3c requires
+bun --version            # 1.3.14 or newer, which Step 11 requires
 clang -print-targets | grep -q wasm32 \
     && echo "clang wasm32 target: present" \
     || echo "clang wasm32 target: MISSING, install LLVM from your package manager"
 ```
 
-Every line should give output, the two pinned versions should be satisfied, and the last line should say that `wasm32` is present.
+You should see a version from each tool, with `cargo` at 1.91 or newer and `bun` at 1.3.14
+or newer, and `clang wasm32 target: present` on the last line.
 
 Install Rust through `rustup` rather than a distribution `rustc`: LWK pins its own
 toolchain in `rust-toolchain.toml`, which only `rustup` honors.
@@ -78,7 +81,7 @@ There are two companion documents, neither of which is required to complete thes
 ## The pieces
 
 Reads come straight from the chain. Writes are signed either in the page, by the library
-built in 3b, or by a wallet handed a manifest. The manifest is what lets a wallet handle a
+built in Step 3, or by a wallet handed a manifest. The manifest is what lets a wallet handle a
 covenant it has never seen.
 
 ```mermaid
@@ -106,13 +109,6 @@ flowchart TD
   chain -->|"UTXOs, tip height<br/>via Esplora"| index
   index -->|"which action is valid now"| form
 ```
-
-Every piece here is provided as a worked example, so these steps don't have you write anything.
-In a project of your own, the compiling, address derivation and signing are the parts you
-get from a library or a wallet; the contract, the manifest, the interface and the indexer
-would all be yours. Which of those a larger project can avoid writing is in
-[`EXPLANATION.md`, "Who signs, and what that
-changes"](EXPLANATION.md#who-signs-and-what-that-changes).
 
 ---
 
@@ -160,33 +156,22 @@ simplex init allowance_example
 If `simplex build` reports a missing SimplicityHL standard library, run `simplex install
 std` once and build again.
 
-You should see two passing tests. One walks a full lifecycle; the other attempts a
-withdrawal before the [timelock](../../glossary.md#timelock) and is rejected by the node under BIP68.
-
-```bash
-(cd allowance_example && simplex test -- -vv)    # traces every jet call with its real values
-```
+You should see two `PASS` lines, for `allowance_drains_over_successive_withdrawals` and
+`withdrawing_before_the_interval_is_rejected`, and a summary reading `2 tests run: 2
+passed, 0 skipped`. The first test walks a full lifecycle. The second attempts a
+withdrawal before the [timelock](../../glossary.md#timelock), which the node rejects
+under BIP68.
 
 [`examples/allowance-simplex/README.md`](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/examples/allowance-simplex/README.md) describes
 more tests to write yourself.
 
 ## 3. Build what the page needs
 
-Two things get built here: the Liquid library the page itself calls, and the browser
-extension the page can hand a manifest to. Neither has a prebuilt download that carries
-what this contract needs, so both come from source. The `wasm-pack` build and the two
-`build:wasm` scripts each run for several minutes, often without printing anything.
-
-### 3a. Confirm the build tooling
+The page compiles the contract and builds transactions itself, through LWK compiled to
+wasm. The published builds leave out the Simplicity feature, so build it from source. The
+`wasm-pack` build runs for several minutes, often without printing anything.
 
 If you haven't already, run the check in [What you need](#what-you-need).
-
-You should see a version from each tool, and a line confirming `wasm32` is present.
-
-### 3b. Build the Liquid library the page calls
-
-The page compiles the contract and builds transactions itself, through LWK compiled to
-wasm. The published builds leave out the Simplicity feature, so build it:
 
 ```bash
 git clone https://github.com/Blockstream/lwk
@@ -209,66 +194,26 @@ cp lwk/lwk_wasm/pkg-web/lwk_wasm.js lwk/lwk_wasm/pkg-web/lwk_wasm_bg.wasm \
 
 You should see `Simplicity feature: present`.
 
-### 3c. Build the extension
-
-The extension is what Step 11 hands a manifest to. Steps 4 to 10 don't use it, so this
-build and 3d can wait until then if you would rather see the contract running first.
-
-Clone with `--recursive`, and build both WebAssembly modules before `bun install`:
-
-```bash
-git clone --recursive https://github.com/BlockstreamResearch/humid
-(
-  cd humid
-  bun run build:wasm:lwk        # minutes; wasm-opt re-optimizes a large module
-  bun run build:wasm:smplx      # likewise
-  bun install
-  git apply ../examples/allowance-humid/humid-allowance-fixes.patch
-  bun run build
-)
-```
-
-The patch is what lets Humid build this contract's withdrawals. If `git apply` rejects a
-hunk, see [`REFERENCE.md`](REFERENCE.md#installing-and-running-simplex).
-
-You should see `bun run build` finish by writing `humid/dist/`. If it stops at a
-`check:wasm` step, rerun the module build that failed and read its error, which names the
-missing tool.
-
-### 3d. Load the extension in your browser
-
-Open `chrome://extensions`, turn on **Developer mode**, choose **Load unpacked**, and
-select the `humid/dist` folder inside `allowance-web`.
-
-To create a wallet, click the puzzle piece in the top right of the browser, then select
-Humid. Write the seed phrase on paper: the setup window closes if you switch to another
-application.
-
-???+ warning "Switch Humid to Liquid Testnet"
-    Humid starts on Liquid mainnet. Use the network menu at the top left of the Humid
-    panel to select **Liquid Testnet**.
-
-You should see Humid listed and enabled.
-
 ## 4. Serve the page and fund its wallet
 
 This puts the page in front of you and gives it a funded testnet wallet to lock coins
 from.
 
+Open a second terminal in `allowance-web` and start a web server for the page:
+
 ```bash
-PORT=8099
-python3 -m http.server "$PORT" --directory examples/allowance-lwk &
+python3 -m http.server 8099 --directory examples/allowance-lwk
 ```
 
-Leave it running through Step 11, then stop it with `pkill -f "http.server $PORT"`. If it
-prints `Address already in use`, set `PORT` to another number and run it again.
+Leave it running through Step 11, then stop it with Ctrl-C. If it prints `Address already
+in use`, run it again with another port number and use that port below.
 
-Open `http://localhost:$PORT/`, which is <http://localhost:8099/> unless you changed it.
-The page doesn't work opened as a file. Keep the same port throughout, because the page
-stores its wallet and key per origin.
+Open <http://localhost:8099/>. The page doesn't work opened as a file. Keep the same port
+throughout, because the page stores its wallet and key per origin.
 
 You should see `Simplicity API: present` in the Library box. If the build lacks the
-feature, the box instead starts `This build is missing:`, and the build in 3b needs redoing.
+feature, the box instead starts `This build is missing:`, and the build in Step 3 needs
+redoing.
 
 The page carries its own single-key wallet. On the **I'm the benefactor** tab, leave the
 mnemonic box blank, press **Open wallet**, then **Request testnet funds**.
@@ -367,7 +312,7 @@ Now select **Broadcast for real** and press **Fund** again.
 You should see a txid. Check it on chain:
 
 ```bash
-curl -s "https://liquid.network/liquidtestnet/api/tx/<fund-txid>" | python3 -m json.tool
+curl -s "https://blockstream.info/liquidtestnet/api/tx/<fund-txid>" | python3 -m json.tool
 ```
 
 One output has type `v1_p2tr` and the value you locked: that is the covenant. Its
@@ -400,12 +345,15 @@ You should see one instance listed with a balance, a timelock countdown, and eit
 
 ```bash
 ADDR=<covenant-address>
-curl -s "https://liquid.network/liquidtestnet/api/address/$ADDR/utxo"
-curl -s "https://liquid.network/liquidtestnet/api/blocks/tip/height"
+curl -s "https://blockstream.info/liquidtestnet/api/address/$ADDR/utxo"
+curl -s "https://blockstream.info/liquidtestnet/api/blocks/tip/height"
 ```
 
-Each [UTXO](../../glossary.md#utxo) at that address is a separate allowance with its own timelock. Compute
-`depth = tip - block_height + 1`; it becomes spendable once `depth >= MIN_DISTANCE`. The
+You should see a JSON array with one entry per instance, each with a `value` and a
+`status.block_height`, then the tip height as a bare number.
+
+Each [UTXO](../../glossary.md#utxo) at that address is a separate allowance with its own
+timelock. Compute `depth = tip - block_height + 1`; it becomes spendable once `depth >= MIN_DISTANCE`. The
 action follows the balance: `FullWithdraw` when `value <= ALLOWANCE_AMOUNT`, otherwise
 `PartialWithdraw`.
 
@@ -434,8 +382,13 @@ You should see a broadcast txid, and after a minute a new instance holding the
 remainder, with its timelock counting again from that block. Verify the payout:
 
 ```bash
-curl -s "https://liquid.network/liquidtestnet/api/tx/<withdraw-txid>" | python3 -m json.tool
+curl -s "https://blockstream.info/liquidtestnet/api/tx/<withdraw-txid>" | python3 -m json.tool
 ```
+
+In `vout`, you should see an output whose `scriptpubkey_address` is the address in the
+payout field, with a `value` of `ALLOWANCE_AMOUNT` minus 500 for a `PartialWithdraw`, or
+the instance's whole balance minus 500 for a `FullWithdraw`. The last output has
+`scriptpubkey_type` `fee` and a `value` of 500.
 
 A refusal reading `non-BIP68-final` means not enough blocks have passed, so the timelock
 is doing its job. One reading `insufficient fee, rejecting replacement` means an earlier
@@ -445,7 +398,7 @@ message with its cause and fix.
 
 ## 10. Close it out
 
-The last withdrawal empties the allowance and ends the covenant for good.
+The last withdrawal empties the allowance and ends the covenant.
 
 Each withdrawal spends one instance and creates a new one at the same address. The page
 refreshes the list after each claim: the instance you just spent shows **Spent**, and the
@@ -455,18 +408,19 @@ new one holding the remainder appears as **Unconfirmed**, then **Timelocked**, t
 Repeat Step 9 until the balance is at or below `ALLOWANCE_AMOUNT`. The action then shows
 `FullWithdraw`, which takes everything remaining and ends the covenant.
 
-You should see an empty instance list once it confirms, and the whole balance back in
-your wallet. Confirm that the covenant address doesn't hold anything, and that your own wallet
-grew:
+You should see an empty instance list once it confirms, and the locked amount, less 500
+sats per withdrawal, at your payout address. Confirm that the covenant address doesn't
+hold anything, and that the payouts arrived:
 
 ```bash
 ADDR=<covenant-address>
-curl -s "https://liquid.network/liquidtestnet/api/address/$ADDR/utxo"
+curl -s "https://blockstream.info/liquidtestnet/api/address/$ADDR/utxo"
 # -> []
-curl -s "https://liquid.network/liquidtestnet/api/address/<your-wallet-address>/utxo"
+curl -s "https://blockstream.info/liquidtestnet/api/address/<payout-address>/utxo"
 ```
 
-An empty array for the covenant address means every instance is spent. A later payment to
+The second command's list should include the payouts sent to that address, each `value`
+matching a payout from Step 9. An empty array for the covenant address means every instance is spent. A later payment to
 that address would start a separate allowance.
 
 To reach this faster on a second run, lock an amount at or below `ALLOWANCE_AMOUNT` in
@@ -475,15 +429,54 @@ Step 7, which makes the first withdrawal a `FullWithdraw`.
 ## 11. Run the same contract through the wallet
 
 Steps 4 to 10 kept the key in the browser. This step hands the same contract to the
-Humid extension built in 3c as a manifest, and the extension compiles it, builds the
+Humid browser extension as a manifest, and the extension compiles it, builds the
 transaction, signs it and broadcasts it, showing you its own confirmation.
-[`EXPLANATION.md`](EXPLANATION.md#who-signs-and-what-that-changes) covers why a real
-deployment signs this way.
 
 ???+ warning "This creates a second, separate allowance"
     Humid signs with its own BIP-84 key, so `BENEFICIARY_KEY` differs, and a different
     key means a different covenant address. The allowance from Steps 6 to 10 cannot be
     driven from here.
+
+### 11a. Build the extension
+
+The two `build:wasm` scripts each run for several minutes, often without printing
+anything. Clone with `--recursive`, and build both WebAssembly modules before `bun install`:
+
+```bash
+git clone --recursive https://github.com/BlockstreamResearch/humid
+(
+  cd humid
+  bun run build:wasm:lwk        # minutes; wasm-opt re-optimizes a large module
+  bun run build:wasm:smplx      # likewise
+  bun install
+  git apply ../examples/allowance-humid/humid-allowance-fixes.patch
+  bun run build
+)
+```
+
+The patch is what lets Humid build this contract's withdrawals. If `git apply` rejects a
+hunk, see [`REFERENCE.md`](REFERENCE.md#building-humid).
+
+You should see `bun run build` finish by writing `humid/dist/`. If it stops at a
+`check:wasm` step, rerun the module build that failed and read its error, which names the
+missing tool.
+
+### 11b. Load the extension in your browser
+
+Open `chrome://extensions`, turn on **Developer mode**, choose **Load unpacked**, and
+select the `humid/dist` folder inside `allowance-web`.
+
+To create a wallet, click the puzzle piece in the top right of the browser, then select
+Humid. Write the seed phrase on paper: the setup window closes if you switch to another
+application.
+
+???+ warning "Switch Humid to Liquid Testnet"
+    Humid starts on Liquid mainnet. Use the network menu at the top left of the Humid
+    panel to select **Liquid Testnet**.
+
+You should see Humid listed and enabled.
+
+### 11c. Drive the allowance through Humid
 
 Under "Who signs", select **Humid extension**, then press **Check for Humid**.
 
@@ -499,7 +492,10 @@ page's wallet, either [from the faucet web site](https://liquidtestnet.com/fauce
 curl "https://liquidtestnet.com/api/faucet?address=<humid-receive-address>&action=lbtc"
 ```
 
-Wait about a minute for it to confirm, because Humid spends only confirmed funds. Then press **Get my key from Humid**.
+The `curl` reply is an HTML page with a line reading `Sent … sats to address … with
+transaction …`. You should see the payment in Humid's balance within about a minute.
+Humid spends only confirmed funds, so wait for it before pressing **Get my key from
+Humid**.
 
 <details markdown="1">
 <summary>The call behind that button</summary>
@@ -549,21 +545,17 @@ claiming as in Step 10 until the allowance closes. There is no payout field in t
 because Humid pays to its own change address.
 
 You should see Humid's own confirmation screen describing each withdrawal, and a broadcast
-txid once you approve it. The first claim is a `PartialWithdraw` and the last a
-`FullWithdraw`.
+txid once you approve it. If you locked more than `ALLOWANCE_AMOUNT`, the first claim is a
+`PartialWithdraw`; the last is always a `FullWithdraw`.
 
 ## Going further
 
-Every piece here is a worked example meant to be taken apart. Where to look to make your
-own:
+Read [`EXPLANATION.md`](EXPLANATION.md) next. It covers what the contract enforces, who
+signs and what that changes, and what would have to change before a mainnet deployment.
+Don't run any of this against Liquid mainnet.
 
-- **The contract.** [`EXPLANATION.md`, "What the contract
-  enforces"](EXPLANATION.md#what-the-contract-enforces) goes through this one function by
-  function, which is the quickest way to see how a covenant states its checks. For
-  SimplicityHL itself, [docs.simplicity-lang.org](https://docs.simplicity-lang.org/) is
-  the project's documentation, covering the language, the jets and the surrounding
-  tooling; the [quickstart](https://docs.simplicity-lang.org/getting-started/quickstart)
-  is the place to start.
+To adapt a piece for your own contract:
+
 - **The tests.**
   [`examples/allowance-simplex/README.md`](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/examples/allowance-simplex/README.md) describes
   ten more tests to write yourself, with what each one would prove.
@@ -580,17 +572,8 @@ own:
   two Esplora calls, the depth arithmetic, and the balance comparison that picks the
   action.
 
-Building something real on this: what a wallet does and does not do for you, which library
-capabilities a larger project cannot avoid, and why a product needs its own indexer.
-[`EXPLANATION.md`, "Who signs, and what that
-changes"](EXPLANATION.md#who-signs-and-what-that-changes) onwards.
-
-Deploying to Liquid mainnet: do not run any of this against mainnet. What would have to
-change first is in
-[`EXPLANATION.md`](EXPLANATION.md#what-a-mainnet-deployment-would-require).
-
-Other ways to drive the same contract, including a CLI engine that doesn't need a browser:
-[`REFERENCE.md`](REFERENCE.md#other-ways-to-drive-the-same-contract).
+To drive the same contract without a browser, see [`REFERENCE.md`, "Other ways to drive
+the same contract"](REFERENCE.md#other-ways-to-drive-the-same-contract).
 
 ## If something here is wrong
 

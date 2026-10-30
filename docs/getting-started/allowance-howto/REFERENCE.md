@@ -20,7 +20,7 @@ Humid checkout. Humid changes quickly, so check a newer release against its sour
 
 | Message | Cause | Fix |
 |---|---|---|
-| `{"reject": "unimplemented-construct"}` on any withdrawal | the relative-timelock bug | apply the patch from Step 3c, rebuild, reload the extension |
+| `{"reject": "unimplemented-construct"}` on any withdrawal | the relative-timelock bug | apply the patch from Step 11, rebuild, reload the extension |
 | `"FullWithdraw" pays nothing, so there is nothing to build.` | the change-only-output bug | same patch |
 | `reject: shortfall`, with `This account holds 0 of the … needed` | Humid's funds are unconfirmed, or it is on mainnet | wait a minute for the funding to confirm; check the network menu says **Liquid Testnet** |
 | `Unlock the wallet to continue.` | the wallet is locked | open it from the Extensions button and enter the password; it re-locks periodically |
@@ -84,6 +84,13 @@ read-only methods the page requested, such as `getWalletDescriptor`, and ticks t
 default. `processConfidentialTransaction` can't be pre-approved, so it never appears there
 (`methodPolicyPresentation.ts`): every call shows Humid's own "Perform a contract action?"
 confirmation, which is where you review and approve the transaction.
+
+### Building Humid
+
+If `git apply` rejects a hunk of the Humid patch, that fix has landed upstream already.
+Apply the rest with `git apply --reject`, or check which of the two refusal strings the
+patch header quotes still appear in the Humid source and skip the hunk that no longer
+applies. The patch header describes both fixes well enough to redo by hand.
 
 ## `processConfidentialTransaction`
 
@@ -207,11 +214,6 @@ binary has to come from the repository or the installer script.
 type error about `Program::new`. `simplex init` writes the newest `smplx-std` from
 crates.io regardless of the binary's version, so a mismatch is easy to create by pinning
 only one of the two.
-
-**If `git apply` rejects a hunk of the Humid patch,** that fix has landed upstream
-already. Apply the rest with `git apply --reject`, or check which of the two refusal
-strings the patch header quotes still appear in the Humid source and skip the hunk that
-no longer applies. The patch header describes both fixes well enough to redo by hand.
 
 **What `simplex init` leaves you to fix.** It scaffolds `tests/p2pk_test.rs` whose body
 is `todo!()`, so it panics if left in place, and `simf/p2pk.simf` alongside it. It names
