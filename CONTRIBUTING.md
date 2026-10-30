@@ -24,7 +24,7 @@ If you’re unsure it belongs here, it probably does. Submit the PR.
 * **One idea per section.** If your page does too much, split it.
 * **Name things consistently.** Match code, error messages, and UI.
 * **Show, don’t tell.** Prefer runnable examples to paragraphs.
-* **Call out risk.** Use “⚠️” notes for foot‑guns and security pitfalls.
+* **Call out risk.** Use a `!!! warning` admonition for foot‑guns and security pitfalls; Material for MkDocs supplies its warning icon. A “⚠️” note is acceptable where an admonition can’t go, such as in a table cell.
 * **Cite sources** for claims and specs where useful.
 * **Focus on technology, not the author.** Avoid the first person (I, we, our).
 * **Avoid duplication.** Set out facts in the most appropriate place; if relevant elsewhere, link rather than repeating.
