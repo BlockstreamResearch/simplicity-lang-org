@@ -65,7 +65,7 @@ That scope is the [Liquid](../../glossary.md#liquid) testnet CAIP-2 id, from
 Ten chain methods are registered (`liquidRpcMethods.ts`): `getBalance`,
 `getIdentityPublicKey`, `getIdentitySharedKey`, `getUTXOs`, `getWalletDescriptor`,
 `processConfidentialTransaction`, `sendTransfer`, `signIdentity`, `signMessage`,
-`signPset`. There is no `getAddress`, so a page cannot ask the wallet where to send funds.
+`signPset`. There is no `getAddress`, so a page can't ask the wallet where to send funds.
 
 ### Sessions and prompts
 
@@ -106,7 +106,7 @@ Parameters, Zod-validated in `packages/tx-manifest/src/request/validation.ts`:
 `contractSources` keys must match the path the [manifest](../../glossary.md#manifest) names for the source, for example
 `{"./allowance.simf": "<source text>"}`.
 
-**`instance` is double-nested and `state` is not.** `normaliseInstance()` reads
+**`instance` is double-nested and `state` isn't.** `normaliseInstance()` reads
 `raw.instance.fields`:
 
 ```js
@@ -166,11 +166,11 @@ Humid never fetches a manifest. It arrives in the RPC call, validated only as be
 object. There is no origin binding, no hash pinning, and no registry of known protocols.
 
 `manifest_version` is read and never validated; the corpus tests delete the field to prove
-it is not load-bearing. Both the `contract_templates` and the older `classes` container are
+it isn't load-bearing. Both the `contract_templates` and the older `classes` container are
 accepted.
 
 `document/registry.ts` is a machine-readable list of which fields this build reads, shows,
-ignores, or has not implemented. It is the fastest way to check a manifest for fields that
+ignores, or hasn't implemented. It is the fastest way to check a manifest for fields that
 will be silently dropped.
 
 `attestation_version` is unread. In the registry's own words it is "a signature slot that
@@ -208,7 +208,7 @@ therefore normally wins, silently replacing the one `simplexup` manages. `simple
 warns when it notices this.
 
 **Only the library is on crates.io.** `smplx-std`, which the generated project depends
-on, is published; `smplx-cli`, which provides the `simplex` command, is not, so the
+on, is published; `smplx-cli`, which provides the `simplex` command, isn't, so the
 binary has to come from the repository or the installer script.
 
 **The binary and the library must be the same release.** `simplex` generates the code in
@@ -244,7 +244,7 @@ Waterfalls operator learns the wallet's addresses.
 
 The faucet at `liquidtestnet.com/api/faucet?address=…&action=lbtc` doesn't send any CORS headers. A
 browser can dispatch the request with `mode: "no-cors"` and the faucet receives it, but the
-reply cannot be read. Confirm by checking the balance instead.
+reply can't be read. Confirm by checking the balance instead.
 
 ## Other ways to drive the same contract
 
@@ -254,7 +254,7 @@ is the one to copy for an application.
 **`examples/allowance-humid-only/`.** The wallet half of that page with the library taken
 out: no wasm, no build step, no Rust, under 1,000 lines. It hands a manifest to Humid for
 every operation and keeps its own indexer. Worth copying when a page doesn't need to do anything a
-wallet cannot already do for it, and worth reading in any case, because it shows exactly
+wallet can't already do for it, and worth reading in any case, because it shows exactly
 which work stays yours once the contract itself is handed over. What it gives up is the
 ability to check anything: with no compiler it takes the covenant address from the funding
 transaction or from a handoff blob, on the benefactor's word.

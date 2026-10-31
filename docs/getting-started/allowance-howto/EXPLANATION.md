@@ -79,14 +79,14 @@ Anyone can issue an [Elements](../../glossary.md#elements) [asset](../../glossar
 alone is satisfiable with worthless tokens. `partial_withdrawal()` reads both the
 covenant's balance and output 0's amount through `same_asset()`, which asserts the two are
 denominated in the same asset and returns the amounts from that same call. The amounts
-cannot be read without the asset check having happened.
+can't be read without the asset check having happened.
 
 ### `recursive_covenant()`
 
 Reached only from the partial-withdrawal path, it pins that path's transaction shape:
 exactly 3 outputs, output 0's script hash equal to the currently-executing script's own
 hash (the recursive part, since it recreates itself), and output 2 an Elements explicit
-fee output. It does not pin output 1's identity or amount. That slack is what lets a
+fee output. It doesn't pin output 1's identity or amount. That slack is what lets a
 wallet with no `fee` keyword still build a correct withdrawal.
 
 ### `enforce_single_input()`
@@ -94,7 +94,7 @@ wallet with no `fee` keyword still build a correct withdrawal.
 Exactly one input, always. Two consequences shape everything downstream. Fees can only
 come out of the allowance's own balance, since no outside input can help pay them. And two
 UTXOs sent to the same contract address are two separate instances that can never be
-merged, so paying the address a second time does not top up the first.
+merged, so paying the address a second time doesn't top up the first.
 
 The same rule limits the covenant to the network's policy asset: Liquid bitcoin (LBTC), or
 test Liquid bitcoin (tLBTC) on testnet. The fee
@@ -115,14 +115,14 @@ scheduled signers rather than proof-of-work search, so block time is about one m
 very low variance and "N blocks" translates reliably to "about N minutes".
 
 The timelock measures the age of one UTXO. The contract counts blocks since whichever
-transaction created it, and cannot distinguish the benefactor's deposit from the
+transaction created it, and can't distinguish the benefactor's deposit from the
 continuation output of a previous withdrawal. The clock therefore restarts after every
 partial withdrawal.
 
 ## Confidential and explicit outputs
 
 Liquid outputs can hide their asset and amount. That default is the right one in general,
-but a covenant that reasons about its own value cannot read a blinded amount: this
+but a covenant that reasons about its own value can't read a blinded amount: this
 contract panics on one. A confidential output sent to the covenant address permanently
 strands the funds.
 
@@ -134,7 +134,7 @@ The decision is per output rather than per transaction:
 | The fee output at index 2 | explicit | Elements fee outputs always are |
 | The beneficiary payout at index 1 | either | the contract never inspects it |
 
-So the privacy cost is narrower than "covenants cannot be confidential". It is confined to
+So the privacy cost is narrower than "covenants can't be confidential". It is confined to
 the covenant's own value, and the payout could be blinded. For this contract that buys
 less than it appears to, because the covenant balance is public at every step, so
 differencing consecutive balances recovers each withdrawal amount regardless. What
@@ -183,7 +183,7 @@ get baked into the address, so a missing field or wrong type produces a *differe
 address* rather than a broken transaction, which is how funds end up somewhere nothing can
 spend them from.
 
-One action per spend path the contract implements, plus any action that is not a covenant
+One action per spend path the contract implements, plus any action that isn't a covenant
 spend. Count branches in the contract rather than intents in your UI.
 
 Where the contract selects its branch from on-chain state rather than from the witness,
@@ -199,10 +199,10 @@ so confirm against the engine's own fixtures before concluding a manifest is wro
 [`REFERENCE.md`, "The two manifest dialects
 here"](REFERENCE.md#the-two-manifest-dialects-here) records the current divergence.
 
-### Checking a manifest you did not write
+### Checking a manifest you didn't write
 
 Drafting a manifest from contract source is mechanical enough to delegate, including to an
-AI assistant. Reviewing it is not optional. A wrong manifest fails safe in the best case,
+AI assistant. Reviewing it isn't optional. A wrong manifest fails safe in the best case,
 where the engine refuses to build anything, and unsafely in the worst, where an incorrect
 `amount_sat` expression still satisfies the contract's checks. Check that the generated
 actions match the contract's real branches, that pinned output positions and amounts
@@ -253,10 +253,10 @@ a 15 MB wasm module has to be in the page at all:
 - **Key and signature handling is already library work today**, even on the path with no
   wasm: that page imports three JavaScript packages for BIP32 and secp256k1. "No wasm" has
   never meant "no libraries".
-- **Indexing is not library work and never becomes it.** Neither LWK nor the wallet offers
+- **Indexing isn't library work and never becomes it.** Neither LWK nor the wallet offers
   an address-based UTXO lookup, so listing what is live at a covenant address stays the
   application's own code against an explorer API on every architecture. It is the largest
-  single piece of the wallet-driven example, and choosing a different library does not
+  single piece of the wallet-driven example, and choosing a different library doesn't
   shrink it.
 
 Raw JavaScript doesn't run out in general. Two specific capabilities, compiling and
@@ -264,7 +264,7 @@ transaction parsing, have no JavaScript substitute, and a project needing either
 bring a library that provides them. Everything else is a size-and-dependency judgment:
 narrow JS libraries where they suffice, wasm where only it will do.
 
-### What the examples are not
+### What the examples aren't
 
 These are testnet demos, and two of their choices would be wrong for real money.
 
@@ -275,12 +275,12 @@ is the strongest reason to treat the wallet as permanent architecture rather tha
 convenience.
 
 **Knowing what exists.** What the manifest format does today is *review*: given one
-proposed action, describe its consequences to the user accurately enough that they are not
-blind-signing. What it does not do is *planning*: look at every unspent output and work out
+proposed action, describe its consequences to the user accurately enough that they aren't
+blind-signing. What it doesn't do is *planning*: look at every unspent output and work out
 which actions would currently succeed or fail. Those are different jobs, and only the first
 is in scope for a wallet as the format stands.
 
-So the wallet is handed one position and one action and asked to build that. It does not
+So the wallet is handed one position and one action and asked to build that. It doesn't
 tell a user which contract positions they hold or which actions are available on them.
 `resolveActionRequirements` requires the caller to supply both `instance` and `state` on
 every withdrawal, because the wallet neither remembers a previous `Fund`'s terms nor scans
@@ -322,9 +322,9 @@ The wallet never fetches a manifest; it arrives from the calling page, and nothi
 it. The format reserves `attestation_version` for a signature slot that no implementation
 reads. Descriptions in a manifest are shown to the user and are therefore untrusted text.
 
-What protects a user is that the amounts are not taken from the manifest. The wallet tags
+What protects a user is that the amounts aren't taken from the manifest. The wallet tags
 every displayed value with its origin, and the ones a user sees as amounts are computed by
-the wallet from the chain. A manifest can name and describe itself freely and cannot alter
+the wallet from the chain. A manifest can name and describe itself freely and can't alter
 the numbers. [`REFERENCE.md`, "How Humid treats a
 manifest"](REFERENCE.md#how-humid-treats-a-manifest) has the specifics.
 
@@ -335,7 +335,7 @@ dApp-to-wallet RPC transport. The
 [Tx Manifest ELIP](https://github.com/ElementsProject/ELIPs/pull/41) is the JSON format
 above. The [Simplicity Clear Signing ELIP](https://github.com/ElementsProject/ELIPs/pull/40)
 is what the wallet's review layer implements: showing a user what an unfamiliar covenant's
-transaction does, and refusing to build rather than misbuilding when it cannot establish
+transaction does, and refusing to build rather than misbuilding when it can't establish
 that.
 
 ## What a mainnet deployment would require

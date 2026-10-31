@@ -36,7 +36,7 @@ You also need the tools below, most of them for building from source in Steps 2,
 
 | Tool | Needed by | How to get it |
 |---|---|---|
-| A browser | Step 4 onward; Step 11 needs one that can load this extension | currently Chromium or Google Chrome; most other browsers cannot load it |
+| A browser | Step 4 onward; Step 11 needs one that can load this extension | currently Chromium or Google Chrome; most other browsers can't load it |
 | Rust and `cargo` | Steps 2, 3 and 11 | `apt install rustup` or `brew install rustup`, then `rustup default stable` |
 | `simplex` | Step 2 only | Step 2 installs it |
 | Bun | Step 11 only | `npm install -g bun` (needs npm) or `brew install oven-sh/bun/bun` |
@@ -410,7 +410,7 @@ transaction, signs it and broadcasts it, showing you its own confirmation.
 
 !!! warning "This creates a second, separate allowance"
     Humid signs with its own BIP84 key, so `BENEFICIARY_KEY` differs, and a different
-    key means a different covenant address. The allowance from Steps 6 to 10 cannot be
+    key means a different covenant address. The allowance from Steps 6 to 10 can't be
     driven from here.
 
 ### 11a. Build the extension
@@ -534,8 +534,8 @@ To adapt a piece for your own contract:
 - **The manifest.** [`EXPLANATION.md`, "Writing a manifest for a different
   contract"](EXPLANATION.md#writing-a-manifest-for-a-different-contract) gives the mapping
   to work out from any contract's source, and
-  ["Checking a manifest you did not
-  write"](EXPLANATION.md#checking-a-manifest-you-did-not-write) covers reviewing one,
+  ["Checking a manifest you didn't
+  write"](EXPLANATION.md#checking-a-manifest-you-didnt-write) covers reviewing one,
   including one an AI assistant drafted.
 - **The page.** [`examples/allowance-lwk/README.md`](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/examples/allowance-lwk/README.md)
   walks its seven parts in order, with the wasm ownership rules for editing its library
