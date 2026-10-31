@@ -59,6 +59,9 @@ The standard command line user interface for creating and querying blocks, trans
 ## elementsd
 The software used to create an [Elements](./glossary.md#elements) network node, including a [Liquid](./glossary.md#liquid) Network node, which maintains and verifies an up-to-date copy of the blockchain of the network in question.
 
+## Esplora
+An open-source block explorer and HTTP REST API, developed by Blockstream, for querying blockchain data such as blocks, [transactions](./glossary.md#transaction), [addresses](./glossary.md#address), and [UTXOs](./glossary.md#utxo), and for broadcasting transactions. It works with both Bitcoin and Elements-based networks such as Liquid, and powers Blockstream’s public explorer at [blockstream.info](https://blockstream.info/). Developer tools often use an Esplora API server to read chain data without running and querying their own full node; in practice, "Esplora" usually refers to this API rather than the web interface.
+
 ## Fee
 Resources intentionally paid to miners as part of a [transaction](./glossary.md#transaction) in order to compensate them for producing blocks. In Elements, block production is practically free so the fee market serves as an anti-denial-of-service measure and as a way to prioritize transactions for inclusion in blocks.
 
@@ -167,13 +170,16 @@ In public-key cryptography, a public value to which a specific [private key](./g
 ## Recursive covenant
 A [covenant](./glossary.md#covenant) that, in at least some circumstances, requires an [asset](./glossary.md#asset) to be sent back to the same contract, or to a [contract](./glossary.md#contract) that continues to enforce a particular rule on downstream [transactions](./glossary.md#transaction).
 
+## Regtest
+A blockchain, usually run locally on a single machine, that follows the same software and consensus rules as a real public blockchain, but that lets its operator create new blocks on-demand. Its coins have no value and can be generated at will, so transactions can be confirmed immediately, and tests can be reset and repeated. A regtest network is normally private, unlike a [signet](./glossary.md#signet). [Simplex](./glossary.md#simplex) supports creating a local regtest automatically to run local integration tests on a [smart contract](./glossary.md#smart-contract).
+
 ## Sighash
 A cryptographic hash of relevant data to be signed as part of a Bitcoin or [Elements](./glossary.md#elements) [transaction](./glossary.md#transaction) by some party in order to approve the transaction. For example, this may be a hash of a list of all inputs and outputs of the transaction.
 
 In some contexts, the term "sighash" is used to describe the set of relevant data that goes into computing this hash, rather than the hashed value itself.
 
 ## Signet
-A form of test network described in [BIP 325](https://github.com/bitcoin/bips/blob/master/bip-0325.mediawiki) which performs mining without proof-of-work. In Simplicity, this typically refers to the [Simplicity Signet](https://signet.simplicity-lang.org/), a public signet instance available since September 2026.
+A form of test network described in [BIP 325](https://github.com/bitcoin/bips/blob/master/bip-0325.mediawiki) which allows only specific authorized signers to create blocks, without relying on proof-of-work to gate the creation of new blocks. In Simplicity, this typically refers to the [Simplicity Signet](https://signet.simplicity-lang.org/), a public signet instance, available since September 2026, that runs Bitcoin Inquisition with Simplicity enabled. Unlike a [regtest](./glossary.md#regtest), a signet is typically long-lived and may be shared publicly.
 
 ## simc
 Blockstream's Simplicity compiler, which translates [SimplicityHL](./glossary.md#simplicityhl) to [Simplicity](./glossary.md#simplicity), as well as serializing [witness](./glossary.md#witness)es for inclusion on a blockchain.

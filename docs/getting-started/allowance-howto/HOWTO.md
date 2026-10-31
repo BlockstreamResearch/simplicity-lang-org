@@ -1,9 +1,10 @@
 # Run an allowance covenant end to end
 
 **Goal**: test a [Simplicity](../../glossary.md#simplicity)
-[covenant](../../glossary.md#covenant) on a local regtest network, then lock test Liquid
-bitcoin (tLBTC) in it on [Liquid](../../glossary.md#liquid) testnet, withdraw from it on a
-schedule, and close it out, driven from a web page you can edit.
+[covenant](../../glossary.md#covenant) on a local [regtest](../../glossary.md#regtest)
+network, then lock test Liquid bitcoin (tLBTC) in it on [Liquid](../../glossary.md#liquid)
+testnet, withdraw from it on a schedule, and close it out, driven from a web page you can
+edit.
 
 **Scope**: a local regtest network and Liquid testnet only.
 
@@ -31,8 +32,7 @@ them"](REFERENCE.md#errors-and-what-causes-them).
 ## What you need
 
 `git`, `curl` and `python3` are assumed, and are already present on most Unix desktops.
-Steps 3 and 11 build WebAssembly modules and a browser extension from source, so you need
-the tools below as well:
+You also need the tools below, most of them for building from source in Steps 2, 3 and 11:
 
 | Tool | Needed by | How to get it |
 |---|---|---|
@@ -43,8 +43,8 @@ the tools below as well:
 | `wasm-pack` | Steps 3 and 11 | `cargo install wasm-pack` |
 | LLVM `clang` targeting wasm32, with `llvm-ar` | Steps 3 and 11 | your distribution's `llvm` and `clang` packages; `brew install llvm` on macOS |
 
-Steps 2, 3 and 11 clone `smplx`, `lwk` and `humid` into `allowance-web`; you can delete
-them when you are done.
+Steps 2, 3 and 11 clone `smplx`, `lwk` and `humid` into `allowance-web`, and Step 2 also
+creates `allowance_example` there; you can delete all four when you are done.
 
 Check what you already have:
 
@@ -77,12 +77,6 @@ For LLVM, the package names are the same across the common distributions:
 
 !!! note "`clang` on macOS"
     The system `clang` has no WebAssembly backend. Install LLVM from Homebrew and put its `clang` first on your `PATH`.
-
-There are two companion documents, neither of which is required to complete these steps.
-
-- [`REFERENCE.md`](REFERENCE.md) is for looking things up while you work: exact RPC shapes, manifest
-  field behavior, and an error-to-cause table.
-- [`EXPLANATION.md`](EXPLANATION.md) is background on the [smart contract](../../glossary.md#smart-contract) itself, what it enforces, and why the architecture looks like this. Read it if you want to understand what you built, or before adapting any of it to a different contract.
 
 ## The pieces
 
@@ -125,8 +119,7 @@ look through it to see what [SimplicityHL](../../glossary.md#simplicityhl) code 
 like. Every later step builds on this one contract. You don't need to change anything.
 
 The source leaves a few values unspecified, and they are filled in when the contract is compiled.
-You choose them in Step 6. Different values make a different contract, at a different
-address.
+You choose them in Step 6.
 
 For what each function enforces, see
 [`EXPLANATION.md`, "What the contract enforces"](EXPLANATION.md#what-the-contract-enforces).
@@ -248,7 +241,7 @@ On the benefactor tab, fill in the three values that get compiled into the contr
 - **Beneficiary's public key**, from Step 5.
 - **Withdrawable per period**, which is `ALLOWANCE_AMOUNT` in sats. Keep it well above
   500: the page uses a fixed [fee](../../glossary.md#fee) of 500 sats for every withdrawal and pays it out of the
-  allowance, so it can't withdraw an allowance of 500 or less.
+  allowance, so an allowance of 500 sats or less can't be withdrawn.
 - **Blocks between withdrawals**, which is `MIN_DISTANCE`. `3` means about three
   minutes, convenient for a first run; 1440 is about a day.
 
@@ -271,9 +264,9 @@ You should see the [CMR](../../glossary.md#cmr) and a `tex1p…` covenant addres
 three terms are now a compiled contract, and this address is derived from it, so changing
 any of the terms gives a different and unrelated allowance at a different address.
 
-Press **Copy** under "Hand the terms to the beneficiary" to get the blob a beneficiary
-needs. Their page re-derives the address from those three values and refuses to continue
-if it disagrees with the address in the blob.
+With two people, press **Copy** under "Hand the terms to the beneficiary" to get the blob
+the beneficiary needs. Their page re-derives the address from those three values and
+refuses to continue if it disagrees with the address in the blob.
 
 ## 7. Fund the allowance
 
@@ -294,7 +287,7 @@ the fee, with nothing broadcast.
 Now select **Broadcast for real** and press **Fund** again.
 
 You should see a txid. The transaction's output at the covenant address is the first
-allowance instance: coins locked at the covenant address.
+allowance instance.
 
 ??? example "Check it on chain"
 
@@ -302,8 +295,8 @@ allowance instance: coins locked at the covenant address.
     curl -s "https://blockstream.info/liquidtestnet/api/tx/<fund-txid>" | python3 -m json.tool
     ```
 
-    One output has type `v1_p2tr` and the value you locked. Its position among the
-    outputs can vary.
+    You should see one output with `scriptpubkey_type` `v1_p2tr` and the value you
+    locked. Its position among the outputs can vary.
 
 ## 8. Watch the allowance
 
@@ -376,9 +369,9 @@ remainder appears within about a minute.
 
 A refusal reading `non-BIP68-final` means not enough blocks have passed; wait and claim
 again. One reading `insufficient fee, rejecting replacement` means an earlier
-attempt already reached the mempool and probably succeeded. For anything else, the error
-[table at the top of `REFERENCE.md`](REFERENCE.md#errors-and-what-causes-them) lists each
-message with its cause and fix.
+attempt already reached the mempool and probably succeeded. For anything else, look up
+the message in [`REFERENCE.md`, "Errors and what causes
+them"](REFERENCE.md#errors-and-what-causes-them).
 
 ## 10. Close it out
 
@@ -491,17 +484,17 @@ Then press **Get my key from Humid**.
     ```
 
 The first call raises Humid's "Connect this dapp?" prompt; approve it. From then on, every
-Fund and claim shows Humid's own "Perform a contract action?" confirmation, which is where
-you approve each transaction. [`REFERENCE.md`, "Sessions and
+press of **Fund** or **Claim** shows Humid's own "Perform a contract action?"
+confirmation, which is where you approve each transaction. [`REFERENCE.md`, "Sessions and
 prompts"](REFERENCE.md#sessions-and-prompts) explains when the connect prompt appears again.
 
 You should see 64 hex characters in the beneficiary key field, which differ from Step 5's.
 
-Humid spends only confirmed funds, so check that the payment has confirmed before you
-fund. Now repeat Steps 6 and 7: compile with this key, then fund with **Broadcast for real**
-unchecked. The covenant address is new, which is the separate allowance the warning above
-describes. With two people, the beneficiary loads the new terms and checks that the address
-is this one, not Step 6's.
+Humid spends only confirmed funds, so check that the payment shows in Humid's balance
+before you fund the allowance. Now repeat Steps 6 and 7: compile with this key, then fund
+the allowance with **Broadcast for real** unchecked. The covenant address is new, which is
+the separate allowance the warning above describes. With two people, the beneficiary loads
+the new terms and checks that the address is this one, not Step 6's.
 
 ??? example "The call behind Fund in this mode"
 
@@ -519,9 +512,9 @@ You should see a response carrying `txid`, `feeSats` and `transactionHex`, with
 [`REFERENCE.md`, "`processConfidentialTransaction`"](REFERENCE.md#processconfidentialtransaction)
 documents the call.
 
-Fund for real, wait out `MIN_DISTANCE`, then claim through Humid as in Step 9, and keep
-claiming as in Step 10 until the allowance closes. There is no payout field in this mode,
-because Humid pays to its own change address.
+Fund the allowance for real, wait out `MIN_DISTANCE`, then claim through Humid as in
+Step 9, and keep claiming as in Step 10 until the allowance closes. There is no payout
+field in this mode, because Humid pays to its own change address.
 
 You should see Humid's own confirmation screen describing each withdrawal, and a broadcast
 txid once you approve it. If you locked more than `ALLOWANCE_AMOUNT`, the first claim is a
@@ -548,8 +541,8 @@ To adapt a piece for your own contract:
   walks its seven parts in order, with the wasm ownership rules for editing its library
   calls.
 - **The indexer.** [Step 8](#8-watch-the-allowance) has the whole algorithm already:
-  two Esplora calls, the depth arithmetic, and the balance comparison that picks the
-  action.
+  two [Esplora](../../glossary.md#esplora) calls, the depth arithmetic, and the balance
+  comparison that picks the action.
 
 To drive the same contract without a browser, see [`REFERENCE.md`, "Other ways to drive
 the same contract"](REFERENCE.md#other-ways-to-drive-the-same-contract).
