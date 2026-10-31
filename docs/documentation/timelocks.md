@@ -2,7 +2,7 @@
 
 Timelocks are a scripting feature of Bitcoin and inherited by [Elements](../glossary.md#elements). Timelocks can be used in Simplicity and SimplicityHL to enforce a rule that a [transaction](../glossary.md#transaction) may only happen after a specified amount of time has passed.
 
-This is useful for *timeout* logic. Contracts will often have a timeout branch as a fallback mechanism. This timeout branch can allow parties to receive a refund of their assets if the [contract](../glossary.md#contract) is not successfully completed. For example, an atomic swap contract has a timeout where the initiator can be refunded if the other party doesn't complete the swap in a specified period of time.
+This is useful for *timeout* logic. Contracts will often have a timeout branch as a fallback mechanism. This timeout branch can allow parties to receive a refund of their assets if the [contract](../glossary.md#contract) isn't successfully completed. For example, an atomic swap contract has a timeout where the initiator can be refunded if the other party doesn't complete the swap in a specified period of time.
 
 A [vault contract](../glossary.md#vault) can also use timelocks to require a series of transactions, with a specific time delay between them, in order to achieve a withdrawal.
 
@@ -76,9 +76,9 @@ Thus, Simplicity logic checks "is my timelock rule satisfied by this transaction
 
 Enforcing an absolute timelock in SimplicityHL uses the jets `check_lock_height` (for absolute block height) or `check_lock_time` (for absolute Unix time).
 
-`jet::check_lock_height(min_height: Height)`: Assert that the transaction's locktime is a block height greater than or equal to the provided value. Such a transaction cannot be included on the blockchain prior to that block height.
+`jet::check_lock_height(min_height: Height)`: Assert that the transaction's locktime is a block height greater than or equal to the provided value. Such a transaction can't be included on the blockchain prior to that block height.
 
-`jet::check_lock_time(min_time: Time)`: Assert that the transaction's locktime is a Unix timestamp strictly greater than or equal to the provided value. Such a transaction cannot be included on the blockchain prior to that timestamp.
+`jet::check_lock_time(min_time: Time)`: Assert that the transaction's locktime is a Unix timestamp strictly greater than or equal to the provided value. Such a transaction can't be included on the blockchain prior to that timestamp.
 
 ## Relative timelock in SimplicityHL
 
@@ -109,7 +109,7 @@ fn enforce_relative_distance(min_distance: Distance) {
         Some(actual_data: Either<Distance, Duration>) => match actual_data {
             // Is the actual distance greater than or equal to the specified min_distance?
             Left(actual_distance: Distance) => assert!(jet::le_16(min_distance, actual_distance)),
-            // A duration is not acceptable in this context.
+            // A duration isn't acceptable in this context.
             Right(actual_duration: Duration) => assert!(false),
         },
     }
@@ -136,7 +136,7 @@ fn enforce_relative_duration(min_duration: Duration) {
         // This is either a distance or a duration, but only a duration is
         // acceptable here.
         Some(actual_data: Either<Distance, Duration>) => match actual_data {
-            // A distance is not acceptable in this context.
+            // A distance isn't acceptable in this context.
             Left(actual_distance: Distance) => assert!(false),
             // Is the actual duration greater than or equal to the specified min_duration?
             Right(actual_duration: Duration) => assert!(jet::le_16(min_duration, actual_duration)),
@@ -159,7 +159,7 @@ Transactions that consume UTXOs with timelock conditions must be constructed app
 | Relative time | `Duration` | `nSequence = 0x00400000` + desired `Duration` (`0` ... `0xffff`) |
 
 !!! note "More details"
-    The values in the table above are simple heuristics for common timelock assertions and do not include all scenarios and options.
+    The values in the table above are simple heuristics for common timelock assertions and don't include all scenarios and options.
 
     For more details on timelock implementation and semantics, please see the Bitcoin timelock specifications in [BIP-65](https://github.com/bitcoin/bips/blob/master/bip-0065.mediawiki), [BIP-68](https://github.com/bitcoin/bips/blob/master/bip-0068.mediawiki), and [BIP-112](https://github.com/bitcoin/bips/blob/master/bip-0112.mediawiki).
 
@@ -168,7 +168,7 @@ Transactions that consume UTXOs with timelock conditions must be constructed app
 ## No maximum time constraints
 
 !!! warning "Timelocks enforce minimum transaction times, not maximum times"
-    In some smart contracts, one might be tempted to use timelock jets to require a transaction to happen *before* a certain time rather than *after*. However, this is not supported. **Architecturally, timelocks in Simplicity contracts can only be usefully used to enforce minimum times, not maximum times, when transactions can occur.**
+    In some smart contracts, one might be tempted to use timelock jets to require a transaction to happen *before* a certain time rather than *after*. However, this isn't supported. **Architecturally, timelocks in Simplicity contracts can only be usefully used to enforce minimum times, not maximum times, when transactions can occur.**
 
     This section further discusses this limitation.
 
@@ -178,9 +178,9 @@ For example, if a contract was funded with a specific input at block height 5000
 
 ### A workaround: state updates and preemption
 
-Because permitted transactions cannot automatically expire or become forbidden, Simplicity requires a different approach to enforce deadlines. Instead, you can achieve an *effective* maximum time for an action using a preemption pattern.
+Because permitted transactions can't automatically expire or become forbidden, Simplicity requires a different approach to enforce deadlines. Instead, you can achieve an *effective* maximum time for an action using a preemption pattern.
 
-The core logic is simple: you can make it impossible to perform an action by removing the assets or state that it relies upon. This requires some party to proactively submit a transaction that performs the preempting action after some time limit has passed. It does not happen automatically.
+The core logic is simple: you can make it impossible to perform an action by removing the assets or state that it relies upon. This requires some party to proactively submit a transaction that performs the preempting action after some time limit has passed. It doesn't happen automatically.
 
 A simple example is a timeout-and-refund mechanism. A contract can provide that, after a certain time period, assets may be transferred back to their original senders. Once a sender proactively claims such a refund, no further actions can be taken with the associated assets because the contract no longer holds them.
 

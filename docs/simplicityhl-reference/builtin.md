@@ -163,7 +163,7 @@ A simple example of `unwrap()` appears in [`last_will.simf`](https://github.com/
 assert!(unwrap(jet::output_is_fee(1)));
 ```
 
-`jet::output_is_fee()` returns `Option<bool>` to handle the case where the specified output does not exist. That is, the jet returns `None` if the specified output doesn't exist, `Some(true)` if the specified output is a fee output, and `Some(false)` if the specified output is a non-fee output.
+`jet::output_is_fee()` returns `Option<bool>` to handle the case where the specified output doesn't exist. That is, the jet returns `None` if the specified output doesn't exist, `Some(true)` if the specified output is a fee output, and `Some(false)` if the specified output is a non-fee output.
 
 The code above requires that the return value is `Some(true)`. `unwrap()` panics if the return value is `None`, while `assert!()` panics if the unwrapped value returned by `unwrap()` is `false`.
 

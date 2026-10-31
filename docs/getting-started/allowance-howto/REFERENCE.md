@@ -152,8 +152,8 @@ invoke("getWalletDescriptor", {
 
 For `BENEFICIARY_KEY`: the xpub is already at `m/84'/1'/0'`, so take two non-hardened
 `CKDpub` steps, `/0` for the external chain then `/0` for the first address, and drop the
-leading parity byte for the 64-hex x-only key. Decoding the receive address instead does
-not work, because P2WPKH commits to `HASH160(pubkey)`.
+leading parity byte for the 64-hex x-only key. Decoding the receive address instead doesn't
+work, because P2WPKH commits to `HASH160(pubkey)`.
 
 For a receive address, which the wallet exposes no method for: P2WPKH of
 `HASH160(pubkey)`, bech32 ([witness](../../glossary.md#witness) v0, so bech32 rather than the bech32m used for the
@@ -176,8 +176,8 @@ will be silently dropped.
 `attestation_version` is unread. In the registry's own words it is "a signature slot that
 does not exist, and read by no implementation including the reference one".
 
-Descriptions shown to the user come from the manifest and are untrusted text. Amounts do
-not: `confirmation/provenance.ts` tags every displayed value as `verified`, `chain`,
+Descriptions shown to the user come from the manifest and are untrusted text. Amounts
+don't: `confirmation/provenance.ts` tags every displayed value as `verified`, `chain`,
 `computed` or `dapp`, and the amounts a user sees are `computed` by the wallet.
 
 ### The two manifest dialects here

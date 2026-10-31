@@ -141,13 +141,13 @@ This approach provides a way for a contract to maintain state (the values of spe
 
 ## Wallet-side state storage and on-chain verification
 
-This means that the actual state data is not directly stored "inside of" the contract; the contract possesses a reliable way to *verify* state that is provided to it, but that state information is typically physically stored inside of a user's wallet software, and passed back to the contract whenever a new transaction involving the contract is constructed. Web developers may recognize this pattern as akin to digitally signed tokens (such as [JWT](https://www.jwt.io/introduction#what-is-json-web-token)) provided by clients to web applications. In the web application setting, the physical storage of the state information can be offloaded to the client, and a digital signature proves that the client didn't modify its contents. The "client" (the wallet or other software that is constructing future transactions) similarly has the responsibility to store and provide the state information back to the contract, under a form of cryptographic authentication preventing modification, although the exact cryptographic details are different from the JWT analogy.
+This means that the actual state data isn't directly stored "inside of" the contract; the contract possesses a reliable way to *verify* state that is provided to it, but that state information is typically physically stored inside of a user's wallet software, and passed back to the contract whenever a new transaction involving the contract is constructed. Web developers may recognize this pattern as akin to digitally signed tokens (such as [JWT](https://www.jwt.io/introduction#what-is-json-web-token)) provided by clients to web applications. In the web application setting, the physical storage of the state information can be offloaded to the client, and a digital signature proves that the client didn't modify its contents. The "client" (the wallet or other software that is constructing future transactions) similarly has the responsibility to store and provide the state information back to the contract, under a form of cryptographic authentication preventing modification, although the exact cryptographic details are different from the JWT analogy.
 
 In the Simplicity context, the cryptographic commitment to the state is actually used as part of the contract's on-chain address, so performing a state update will actually mean deriving an updated address for the same contract (or a specifically chosen successor contract), and committing a transaction that forwards assets from the contract's prior address to the updated address. Those forwarded assets' spending conditions are then controlled by the updated version of the contract, which is cryptographically bound to the updated version of the state information.
 
 Whenever a [covenant](../glossary.md#covenant) performs a state update, it sends assets to a new copy of itself with a *different on-chain address* encoding a reference to the updated state data. A transaction can update state without moving any assets in or out of the contract, merely sending them to the new copy with the new address. Client software meant to interact with the contract must be programmed to observe that this has happened so that new transactions are always performed with the most current updated copy.
 
-Although wallet software should generally store contract state in order to provide it back to the contract when performing subsequent transactions, this information could be recalculated if necessary by examining blockchain history, because all Simplicity program execution is deterministic and based on public information. Thus, state information isn't generally confidential; locally replaying the evolution of a contract will ordinarily reveal what the expected state for the next transaction should be. (An initial state commitment when a copy of a program receives assets for the first time could require witness values that have not yet been publicly revealed anywhere, much as the code of the program may not have been publicly revealed. Storing state in a Merkle tree also optionally permits the state to be partially revealed as it is actually needed. For example, state of one branch of the program could be stored in one branch of the Merkle tree and state of another branch could be stored in another branch. The program could be designed so that the witness only reveals the part of the state that is actually used.)
+Although wallet software should generally store contract state in order to provide it back to the contract when performing subsequent transactions, this information could be recalculated if necessary by examining blockchain history, because all Simplicity program execution is deterministic and based on public information. Thus, state information isn't generally confidential; locally replaying the evolution of a contract will ordinarily reveal what the expected state for the next transaction should be. (An initial state commitment when a copy of a program receives assets for the first time could require witness values that haven't yet been publicly revealed anywhere, much as the code of the program may not have been publicly revealed. Storing state in a Merkle tree also optionally permits the state to be partially revealed as it is actually needed. For example, state of one branch of the program could be stored in one branch of the Merkle tree and state of another branch could be stored in another branch. The program could be designed so that the witness only reveals the part of the state that is actually used.)
 
 ## Basic state management mechanism
 
@@ -166,22 +166,22 @@ This example contract, `third_time.simf`, uses the state management mechanism de
 ???+ "Click to hide source code"
     ```simplicityhl
     /*
-    * "Third Time's The Charm" covenant demonstrating Simplicity state management 
+    * "Third Time's The Charm" covenant demonstrating Simplicity state management
     *
     * This covenant requires three transactions in a row in order to release the
     * locked coins. It counts how many of these transactions have been seen so
     * far using the witness::STATE value.
     *
     * State management:
-    * Computes the "State Commitment" — the expected Script PubKey (address) 
+    * Computes the "State Commitment" — the expected Script PubKey (address)
     * for a specific state value.
     *
     * HOW IT WORKS:
-    * In Simplicity/Liquid, state is not stored in a dedicated database. Instead, 
+    * In Simplicity/Liquid, state isn't stored in a dedicated database. Instead,
     * it is verified via a "Commitment Scheme" inside the Taproot tree of the UTXO.
     *
-    * This function reconstructs the Taproot structure to validate that the provided 
-    * witness data (state_data) was indeed cryptographically embedded into the 
+    * This function reconstructs the Taproot structure to validate that the provided
+    * witness data (state_data) was indeed cryptographically embedded into the
     * transaction output that is currently being spent.
     *
     * LOGIC FLOW:
@@ -194,7 +194,7 @@ This example contract, `third_time.simf`, uses the state management mechanism de
     * USAGE:
     * - For load(), we verify: CalculatedHash(witness::STATE) == input_script_hash.
     * - For store(), we verify: CalculatedHash(updated_state) == output_script_hash.
-    * - This assertion proves that the UTXO is "locked" not just by the code, 
+    * - This assertion proves that the UTXO is "locked" not just by the code,
     *   but specifically by THIS instance of the state data. So the on-chain address
     *   necessarily changes after each state-updating transaction in order to reflect
     *   a cryptographic commitment to the appropriate state data.
@@ -228,7 +228,7 @@ This example contract, `third_time.simf`, uses the state management mechanism de
         // Compute a taptweak using this.
         let bip0341_key: u256 = 0x50929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac0;
         let tweaked_key: u256 = jet::build_taptweak(bip0341_key, tap_node);
-        
+
         // Turn the taptweak into a script hash
         let hash_ctx1: Ctx8 = jet::sha_256_ctx_8_init();
         let hash_ctx2: Ctx8 = jet::sha_256_ctx_8_add_2(hash_ctx1, 0x5120); // Segwit v1, length 32
@@ -274,8 +274,8 @@ This example contract, `third_time.simf`, uses the state management mechanism de
        // transaction (corresponding to the new contract and the network fee
        // payment). Without this logic, the updater could cause coins to leak out
        // of the covenant by sending some of the input value to an uncontrolled
-       // output address that is not a copy of this contract. (Even with this
-       // logic, the fee amount itself is not constrained here, and the updater
+       // output address that isn't a copy of this contract. (Even with this
+       // logic, the fee amount itself isn't constrained here, and the updater
        // could choose to give away some or all of the stored value to miners in
        // the form of an excessive fee.)
        assert!(jet::eq_32(jet::num_outputs(), 2));
@@ -328,7 +328,7 @@ The `update()` function in this example enforces further constraints on outputs,
 
 A real financial application may need to include logic to enforce a variety of further constraints. For example:
 
-* The contract may be designed to deal with a specified [asset](../glossary.md#asset), such as Liquid bitcoin (LBTC). Since [Liquid](../glossary.md#liquid) supports a variety of assets, the contract should inspect the assets being transferred to confirm that they always of the expected kinds. In most contexts, payments should not be allowed to be made with arbitrary assets.
+* The contract may be designed to deal with a specified [asset](../glossary.md#asset), such as Liquid bitcoin (LBTC). Since [Liquid](../glossary.md#liquid) supports a variety of assets, the contract should inspect the assets being transferred to confirm that they always of the expected kinds. In most contexts, payments shouldn't be allowed to be made with arbitrary assets.
 <!-- Let's figure out a clearer way to talk about this issue, as we don't have a concrete example relevant to it here, or a description of how this situation can arise:
 * If the same contract controls several different UTXOs, it may need to enforce that *all* relevant value is transferred by certain actions, not just a portion of the value controlled by the contract.
 -->

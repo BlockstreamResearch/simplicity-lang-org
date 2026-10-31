@@ -10,7 +10,7 @@ is downloaded on the first Run; after that, each Run is immediate.
 
 ## Assertions
 
-A SimplicityHL program does not return a value. It either holds or it does not. A
+A SimplicityHL program doesn't return a value. It either holds or it doesn't. A
 transaction spending a SimplicityHL-locked output is valid exactly when the program
 holds.
 

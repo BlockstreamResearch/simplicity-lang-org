@@ -10,7 +10,7 @@ For wallet developers, `txmanifest` provides a way to add UI and transaction fun
 
 ## Online documentation
 
-The `txmanifest` format is work-in-progress and has not yet been frozen as a released specification, but versions of it have been integrated with several Liquid wallets. Detailed documentation for the `txmanifest` format is available in the [*txmanifest book*](https://stringhandler.github.io/tx_manifest_book/).
+The `txmanifest` format is work-in-progress and hasn't yet been frozen as a released specification, but versions of it have been integrated with several Liquid wallets. Detailed documentation for the `txmanifest` format is available in the [*txmanifest book*](https://stringhandler.github.io/tx_manifest_book/).
 
 ## Reference implementation
 
@@ -20,7 +20,7 @@ You can use `txmanifest-wallet` to debug and experiment with manifest files desc
 
 ## Security considerations
 
-The `txmanifest` format does not include a means to confirm or verify the correctness of descriptions.
+The `txmanifest` format doesn't include a means to confirm or verify the correctness of descriptions.
 
 Trusting an inaccurate or deceptive manifest file can result in wallets misinterpreting the meaning or effect of transactions, and misdescribing them to users. This could allow users' assets to be lost or stolen because the users approve transactions with undesired or unintended effects, including transferring assets to an attacker's control.
 

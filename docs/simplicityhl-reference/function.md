@@ -38,7 +38,7 @@ The only branching that is available is via [match expressions](./match_expressi
 
 SimplicityHL has no support for recursive function calls.
 A function can be called inside a function body if it has been defined before.
-This means that a function cannot call itself.
+This means that a function can't call itself.
 Loops, where `f` calls `g` and `g` calls `f`, are also impossible.
 
 What _is_ possible are stratified function definitions, where level-0 functions depend on nothing, level-1 functions depend on level-0 functions, and so on.

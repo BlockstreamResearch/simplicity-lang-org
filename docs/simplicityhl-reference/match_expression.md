@@ -122,4 +122,4 @@ Differently from Rust, the `match` expression only allows two match arms (branch
 For example, it is currently not possible to match `Left(Left(x: u8))`, `Left(Right(x: u8)`, `Right(Left(x: u8))`, and `Right(Right(x: u8))` as arms of a single `match` expression.
 Matching these four possibilities instead requires two nested `match` expressions.
 
-This limitation does not apply to the `enum` matching described above. A `match` on an `enum` type should contain exactly one branch for each declared value of that `enum` type, regardless of how many values the `enum` type can take on.
+This limitation doesn't apply to the `enum` matching described above. A `match` on an `enum` type should contain exactly one branch for each declared value of that `enum` type, regardless of how many values the `enum` type can take on.

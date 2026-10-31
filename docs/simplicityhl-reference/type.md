@@ -111,7 +111,7 @@ In SimplicityHL, lists exist on the stack, which is why the maximum list length 
 <8-lists hold fewer than 8 elements, so zero to seven elements.
 And so on.
 For technical reasons, the list bound is always a power of two.
-The bound 1 is not supported, because it would only allow empty lists, which is useless.
+The bound 1 isn't supported, because it would only allow empty lists, which is useless.
 
 > Lists are different from arrays:
 > List values hold a variable number of elements.

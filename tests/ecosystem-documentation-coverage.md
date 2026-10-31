@@ -9,9 +9,9 @@ this evaluation.
 
 Background you MAY use without looking it up:
 - Typical full-stack web development (TypeScript/React, REST, a bit of Rust
-  reading ability but you do not write Rust daily).
+  reading ability but you don't write Rust daily).
 - Moderate classic Bitcoin: UTXOs, addresses, signatures, fees, testnet vs
-  mainnet. You have not shipped Liquid, Elements, Taproot covenants, PSET,
+  mainnet. You haven't shipped Liquid, Elements, Taproot covenants, PSET,
   confidential assets, or Simplicity before.
 
 Background you must NOT pretend to have:
@@ -19,7 +19,7 @@ Background you must NOT pretend to have:
   asset issuance, LWK internals, Humid APIs, txmanifest schema, Unchained
   cosigner protocols.
 
-If the official docs do not explain a concept in terms you can act on, log it.
+If the official docs don't explain a concept in terms you can act on, log it.
 Do not fill the gap from training data and then call the docs sufficient.
 
 You can't forget what you already know, so this evaluation asks you to
@@ -42,7 +42,7 @@ unsure whether something falls under that background, log it.
 
 The same applies to effort. Code that a goal asks for (the adapted
 contract, tests, UI, indexer, manifest) is expected work. Supporting work
-that no page tells you to do is not, for example:
+that no page tells you to do isn't, for example:
 - writing a tool, library, wrapper, or script to fill a gap, such as a
   signer, a transaction builder, or a converter between formats;
 - developing your own patch or workaround for a bug in a dependency;
@@ -81,7 +81,7 @@ Start here and stay here unless a page explicitly links outward:
 Also in-corpus:
 - Every page served under docs.simplicity-lang.org, whether or not the site
   navigation or llms.txt links to it. Where a page sits in the navigation
-  is not a signal of its quality or status. Record how you found each page.
+  isn't a signal of its quality or status. Record how you found each page.
 - GitHub repositories ONLY when an official docs page links them as the
   source of a contract, tool, or example, or otherwise asks you to clone
   them (cite the linking doc page)
@@ -123,7 +123,7 @@ For every goal:
 4. Write the audit row(s) BEFORE starting the next goal.
 5. If blocked, produce the best partial artifact and label invented pieces.
 
-G1. Locate the official Allowance covenant example (do not assume the
+G1. Locate the official Allowance covenant example (don't assume the
     filename). Identify compile-time params, spend-time witnesses, the
     recursive covenant rule, and the explicit-vs-confidential funding
     constraint.
@@ -198,7 +198,7 @@ Rules:
 - If two official pages disagree, implement neither silently; log the
   conflict and pick one, citing both.
 - If a CLI / compiler is actually available in this environment, run it
-  and paste real command output. If it is not available, say
+  and paste real command output. If it isn't available, say
   “not executed — docs-only reconstruction” and do not fake transcripts.
 
 # No browser and no operator
@@ -255,7 +255,7 @@ A skipped step without an audit-log row makes the run incomplete.
 For each goal G1–G11:
 - Status: Docs sufficient / Docs partial / Docs missing / Product not shipped
 - What you produced (paths or snippets)
-- What you still could not decide from docs
+- What you still couldn't decide from docs
 
 ## 2. Documentation Audit Log
 One row per friction point, dead link, missing reference, contradiction,
@@ -278,7 +278,7 @@ or duplication. Use this schema exactly:
   (or "none")
 
 Also log positive findings when a page unblocked you — otherwise the
-report only contains complaints and cannot prioritize.
+report only contains complaints and can't prioritize.
 
 ## 3. Coverage scorecard (0–5, integer)
 Score the official corpus, not the ecosystem as a whole.
@@ -323,7 +323,7 @@ of that kind you didn't stop for (mark those “not stopped”):
 - the goals whose results depend on it
 
 A goal that depended on knowledge marked “neither”, or that was reached
-past a persona limit, cannot be scored “Docs sufficient” in section 1.
+past a persona limit, can't be scored “Docs sufficient” in section 1.
 
 Then, in a few sentences, judge how closely the run as a whole matched the
 persona, and name the goals where it diverged most.

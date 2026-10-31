@@ -4,7 +4,7 @@ The SimplicityHL toolchain consists of the command-line tools `simc` (the Simpli
 
 !!! Note
 
-    The toolchain is useful for learning about Simplicity and SimplicityHL and for testing and debugging purposes. However, **most application developers will use a workflow that does not emphasize the use
+    The toolchain is useful for learning about Simplicity and SimplicityHL and for testing and debugging purposes. However, **most application developers will use a workflow that doesn't emphasize the use
     of these tools**.
 
     A typical smart contract development workflow is focused on a
@@ -215,7 +215,7 @@ The second argument is a JSON string consisting of a list of JSON objects mappin
 
 where `<addr>` is a destination address, `<assetid>` is a hexadecimal Liquid asset ID, `<amt>` is a floating-point amount, and `<feeamt>` is a floating-point amount.
 
-If the asset is not specified, it is assumed by default to be the asset corresponding to Liquid bitcoin (LBTC). Network fees are currently always automatically paid in LBTC.
+If the asset isn't specified, it is assumed by default to be the asset corresponding to Liquid bitcoin (LBTC). Network fees are currently always automatically paid in LBTC.
 
 The output of the command is a JSON object whose attribute `pset` contains the new PSET in base64 format.
 
@@ -334,4 +334,4 @@ The output can contain the following fields:
 
 * `blinding_pubkey` and `unconfidential`: for a confidential address only, its blinding public key and the same address without the blinding key.
 
-An address that cannot be parsed makes the command exit with a Rust panic message instead of a JSON error object.
+An address that can't be parsed makes the command exit with a Rust panic message instead of a JSON error object.

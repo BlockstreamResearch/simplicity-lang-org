@@ -3,7 +3,7 @@
 The SimplicityHL compiler, wrapped for the browser. This is what makes `simplicityhl,run`
 fences on the docs site actually compile and execute, with no server involved.
 
-A thin `wasm-bindgen` shell over the published `simplicityhl` crate — it does not vendor
+A thin `wasm-bindgen` shell over the published `simplicityhl` crate — it doesn't vendor
 the compiler itself. `Cargo.lock` is committed and is what pins the version readers get.
 
 ## Build

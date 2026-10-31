@@ -18,7 +18,7 @@ the program sees exactly what it would see on-chain.
 
 ## Which input am I?
 
-A SimplicityHL program does not run once per transaction — it runs once **per input**, for
+A SimplicityHL program doesn't run once per transaction — it runs once **per input**, for
 the input whose spending condition it guards. So the very first thing worth knowing is
 where you are:
 
@@ -39,7 +39,7 @@ either way.
 
 ## Reading the amount
 
-Here is where Liquid differs from Bitcoin. An amount is not simply a number, because
+Here is where Liquid differs from Bitcoin. An amount isn't simply a number, because
 Liquid amounts can be **confidential** — hidden behind a cryptographic commitment. So
 `jet::current_amount()` returns a pair of `Either` values:
 
@@ -50,7 +50,7 @@ Liquid amounts can be **confidential** — hidden behind a cryptographic commitm
      Right = explicit            Right = explicit
 ```
 
-`Left` carries a commitment you cannot read. `Right` carries the value in the clear. You
+`Left` carries a commitment you can't read. `Right` carries the value in the clear. You
 have to handle both, and the type system makes sure you do:
 
 ```simplicityhl,run,tx txid="0440094a1c5d16ccae819750a19b5f2e926760de112c6f88d81361c0b48f57c2" title="What is this input worth?"
@@ -74,7 +74,7 @@ Switch between input 0 and input 1 — they hold different amounts of **differen
 !!! note
 
     This is why a contract that checks amounts only works on unblinded outputs, or must be
-    written to accept a commitment and verify a range proof instead. The `Either` is not
+    written to accept a commitment and verify a range proof instead. The `Either` isn't
     ceremony; it is the confidentiality of the chain showing up in the type system.
 
 ## Reading other inputs
@@ -85,7 +85,7 @@ an `Option`:
 
 ```simplicityhl,run,tx txid="0440094a1c5d16ccae819750a19b5f2e926760de112c6f88d81361c0b48f57c2" title="Looking at input 1 from anywhere"
 fn main() {
-    // `unwrap` fails the program if input 1 does not exist.
+    // `unwrap` fails the program if input 1 doesn't exist.
     let (_, amount): (Either<(u1, u256), u256>, Either<(u1, u256), u64>) =
         unwrap(jet::input_amount(1));
 
@@ -167,7 +167,7 @@ fn main() {
 
 ## What is still a placeholder
 
-Running against a real transaction does not make *everything* real. Your edited program has
+Running against a real transaction doesn't make *everything* real. Your edited program has
 a different CMR than whatever actually locked those coins, so there is no genuine taproot
 spend path to model. Jets reading the **internal key**, **tapleaf version**, or **tappath**
 still return placeholder values. Everything that reads the transaction itself — amounts,

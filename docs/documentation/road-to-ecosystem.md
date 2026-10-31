@@ -7,7 +7,7 @@ There could be useful protocols that enable better saving strategies,
 life insurance, payments, lending, options, tokenization, and many other on-chain financial applications.
 At the same time, an open ecosystem also introduces malicious websites and misleading interfaces.
 
-In an open ecosystem, malicious protocols cannot be prevented from appearing,
+In an open ecosystem, malicious protocols can't be prevented from appearing,
 because no single party controls the ecosystem. Someone can always create a contract and misrepresent its
 nature or effects, or even present a malicious contract to a counterparty.
 The best available approach is to help the user understand what is going on before they sign and pay.
@@ -79,7 +79,7 @@ whether that request is understandable and safe enough to show to the user.
 A wallet has two responsibilities at the same time:
 
 1. It must be useful enough to participate in protocols.
-2. It must be strict enough to protect the user from signing something they do not understand.
+2. It must be strict enough to protect the user from signing something they don't understand.
 
 This creates the first major branch of the ecosystem:
 
@@ -107,13 +107,13 @@ to ensure that a transaction received from a third party is understandable befor
 A third-party protocol may prepare a request for the wallet.
 That protocol could be a lending application, an options protocol, a payment application, a savings strategy, a DEX,
 or any other contract that can be implemented on-chain.
-The wallet should not blindly sign the transaction just because the request came through a supported transport layer.
+The wallet shouldn't blindly sign the transaction just because the request came through a supported transport layer.
 
 The wallet should interpret the transaction.
 
-By default, if the wallet cannot interpret an input or output,
+By default, if the wallet can't interpret an input or output,
 it should reject the whole transaction. This is the safest default.
-If a transaction cannot be explained, it should not be signed.
+If a transaction can't be explained, it shouldn't be signed.
 
 When the wallet can interpret everything, it should perform checks and validations to verify that the transaction
 matches what the user intended. For example, the wallet should display asset details correctly,
@@ -135,7 +135,7 @@ show the amounts involved, explain fees, identify the protocol, and describe wha
 This becomes especially important for Simplicity contracts.
 
 Simplicity covenants are complex, which makes wallet display much harder.
-A transaction locked behind a Simplicity covenant can encode behavior that is not obvious from the transaction shape alone.
+A transaction locked behind a Simplicity covenant can encode behavior that isn't obvious from the transaction shape alone.
 The wallet needs additional structure to explain what the covenant means, what the user is allowed to do, and what the user is committing to.
 
 Therefore, clear signing has another branch:
@@ -177,7 +177,7 @@ Together, these standards describe different parts of the same tree:
         * Liquid Clear Signing Profile
     * Receives a signed transaction only after user approval
 
-These standards are not separate ideas; they are different layers of one user-safety model.
+These standards aren't separate ideas; they are different layers of one user-safety model.
 
 The application wants the user to participate in a protocol.
 The wallet wants to protect the user.
@@ -191,7 +191,7 @@ The phrase:
 
 points to the reason the user is paying.
 
-The user is not paying because a website asked for a signature.
+The user isn't paying because a website asked for a signature.
 The user is paying for something: a good, a service, a position in a protocol, a contract, a transfer, or a financial action.
 
 Examples include:
@@ -208,7 +208,7 @@ Examples include:
     * Other on-chain applications
 
 These protocols are outside the wallet.
-The wallet does not need to implement every protocol internally, and it should not be expected to understand every website by default.
+The wallet doesn't need to implement every protocol internally, and it shouldn't be expected to understand every website by default.
 
 However, the wallet must still understand enough to protect the user before signing.
 
@@ -251,14 +251,14 @@ Liquid adds an important complication: confidentiality.
 
 Liquid supports Confidential Transactions.
 Confidentiality means that funds can be transferred without revealing the asset ID and amount to the public blockchain observer.
-Because of this, a wallet should not disclose balances, [UTXOs](../glossary.md#utxo), or view material to a counterparty unless the user has explicitly agreed to that disclosure.
+Because of this, a wallet shouldn't disclose balances, [UTXOs](../glossary.md#utxo), or view material to a counterparty unless the user has explicitly agreed to that disclosure.
 
 The best privacy-preserving path is described by the Wallet ABI approach.
 
 The Wallet ABI Transaction Creation Protocol allows an application to express an application-level
 intent while keeping wallet-owned UTXOs, balances, and internal selection state private to the wallet.
 
-In this model, the application does not need to know everything about the wallet.
+In this model, the application doesn't need to know everything about the wallet.
 Instead, the application tells the wallet what kind of transaction is needed,
 and the wallet constructs or completes the transaction using its own private state.
 
@@ -296,7 +296,7 @@ The Liquid profile needs to account for Liquid-specific details:
 This approach is useful when the user chooses interoperability and convenience over maximum confidentiality.
 
 Disclosure should be explicit.
-A wallet should not leak wallet-private information merely to make an application easier to build.
+A wallet shouldn't leak wallet-private information merely to make an application easier to build.
 
 ## Clear Signing as the Center
 
@@ -320,7 +320,7 @@ But clear signing is what ties everything back to the motto.
     * understands for what they are paying
 
 Without clear signing, the ecosystem becomes unsafe.
-The user may technically approve a transaction, but they do not know what they approved.
+The user may technically approve a transaction, but they don't know what they approved.
 
 With clear signing, the wallet becomes an interpreter between complex protocol logic and human understanding.
 
@@ -346,7 +346,7 @@ RPC methods for cases where the user explicitly agrees to disclose wallet inform
 and clear signing metadata that lets the wallet explain complex Simplicity contracts to the user.
 
 Clear signing is the most ambitious part of this vision.
-It requires more than good UI. It requires standards, registries, validation logic, contract metadata, asset metadata, and wallet implementations that reject what they cannot understand.
+It requires more than good UI. It requires standards, registries, validation logic, contract metadata, asset metadata, and wallet implementations that reject what they can't understand.
 
 This is the secure road to an open Simplicity ecosystem:
 

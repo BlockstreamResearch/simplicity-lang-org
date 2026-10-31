@@ -123,7 +123,7 @@ fn partial_withdrawal() {
         same_asset(jet::current_amount(), unwrap(jet::output_amount(0)));
 
     let (borrow, difference): (bool, u64) = jet::subtract_64(remaining_amount, param::ALLOWANCE_AMOUNT);// (7)!
-    // Ensure calculated amount did not go negative.
+    // Ensure calculated amount didn't go negative.
     assert!(not(borrow));
     // Ensure retained amount is large enough.
     assert!(jet::le_64(difference, retained_amount));

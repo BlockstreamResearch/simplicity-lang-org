@@ -51,13 +51,13 @@ The lack of Turing completeness contributes to the language's simplicity and ana
 
 ### State model
 
-Unlike EVM contracts that can access key-value data stores to maintain state across transactions, Simplicity has no state. Simplicity is a purely functional, expression-based language. Every Simplicity expression fundamentally denotes a function mapping input values to output values. It cannot directly express values; instead, it expresses constant functions that always produce the same output.
+Unlike EVM contracts that can access key-value data stores to maintain state across transactions, Simplicity has no state. Simplicity is a purely functional, expression-based language. Every Simplicity expression fundamentally denotes a function mapping input values to output values. It can't directly express values; instead, it expresses constant functions that always produce the same output.
 
 Simplicity operates within the Bitcoin UTXO (Unspent Transaction Output) model. In this model, funds are controlled by small programs. When you spend coins, you essentially provide evidence (witness data) that the program guarding those funds evaluates to true, allowing the transaction to proceed.
 
 ### Formal verification workflow
 
-You do not perform formal proofs in Haskell or Simplicity directly. Simplicity's formal specification and verification of its core language and semantics take place in the Coq proof assistant.
+You don't perform formal proofs in Haskell or Simplicity directly. Simplicity's formal specification and verification of its core language and semantics take place in the Coq proof assistant.
 
 The proof process works as follows:
 
@@ -65,13 +65,13 @@ The proof process works as follows:
 
 * You can directly prove correctness properties about your specific smart contract written in Simplicity using formal methods within the Coq framework. This means you can formally verify every step.  
 
-* This approach allows developers to create formal proofs of correctness for their smart contracts before deployment, addressing the immutability problem of blockchain smart contracts where mistakes cannot be corrected once deployed. For instance, you can prove that coins cannot be moved without a specific signature, or that a program won't exceed a memory threshold.  
+* This approach allows developers to create formal proofs of correctness for their smart contracts before deployment, addressing the immutability problem of blockchain smart contracts where mistakes can't be corrected once deployed. For instance, you can prove that coins can't be moved without a specific signature, or that a program won't exceed a memory threshold.  
 
 * The Haskell implementation is primarily used for constructing and prototyping Simplicity programs. These programs are then the *subject* of formal proofs conducted in Coq. There is no formalized connection between the Haskell library and Simplicity's formal semantics in Coq, so the Haskell library is intended for experimental development, not production where formal proofs are critical.
 
 ### Higher-level language abstractions
 
-While Simplicity is an extremely low-level language, akin to assembler, you are not expected to write contracts directly in it for most applications.
+While Simplicity is an extremely low-level language, akin to assembler, you aren't expected to write contracts directly in it for most applications.
 
 Higher-level languages and tools are available. SimplicityHL is a developer-friendly "front-end" language that compiles down to Simplicity assembly; it has a syntax similar to Rust, abstracting away some of Simplicity's functional programming details to make it more accessible. The [Simplicity Codespace](https://github.com/codespaces/new/blockstream/simplicity-codespace) lets you start experimenting with SimplicityHL in your browser, and includes example programs and pre-installed developer tools.
 
@@ -99,7 +99,7 @@ Simplicity programs interact with data through explicit mechanisms. The `witness
 
 Simplicity also includes primitive expressions that allow programs to read data from the transaction context where they are executed, including details about the transaction's inputs and outputs, locktime, and the commitment Merkle root of the program itself.
 
-The `assert` and `fail` expressions allow programs to halt execution if certain conditions are not met, similar to Bitcoin Script's `OP_VERIFY` or Ethereum's `STOP` opcode, and are used for checks like digital signature verification.
+The `assert` and `fail` expressions allow programs to halt execution if certain conditions aren't met, similar to Bitcoin Script's `OP_VERIFY` or Ethereum's `STOP` opcode, and are used for checks like digital signature verification.
 
 ### Program structure
 
@@ -119,7 +119,7 @@ All types in Simplicity are combinations of just three basic forms:
 * **Product type (A × B)**: composes a pair of types using an "and" operation, similar to tuples or records.
 * **Sum type (A + B)**: combines two types in an "or" operation, similar to `Either` types in functional languages or tagged unions.
 
-All types in Simplicity are finite. This means infinite or recursive types are not possible, ensuring termination and enabling rigorous analysis and verification.
+All types in Simplicity are finite. This means infinite or recursive types aren't possible, ensuring termination and enabling rigorous analysis and verification.
 
 Simplicity has neither function types nor higher-order functions. It also has no named variables, relying on combinators to avoid binders and environments for bound variables.
 

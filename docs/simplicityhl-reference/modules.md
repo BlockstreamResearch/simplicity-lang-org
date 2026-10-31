@@ -12,7 +12,7 @@ The SimplicityHL modules mechanism also supports the [SimplicityHL standard libr
 
 ## Exporting with `pub`
 
-The objects that can be exported and imported in SimplicityHL are functions and type aliases. SimplicityHL does not currently have any way to declare module-level constants, so these cannot be exported or imported.
+The objects that can be exported and imported in SimplicityHL are functions and type aliases. SimplicityHL doesn't currently have any way to declare module-level constants, so these can't be exported or imported.
 
 By default, every function and type alias is private to the file (or the `mod` block, see below) that declares it. To make a function, type alias, `mod` block, or `use` import visible to other files, put `pub` in front of its declaration. A `pub use` is a *re-export*; see [Re-exporting](#re-exporting-with-pub-use) below.
 
@@ -57,7 +57,7 @@ fn main() {
 
 A `use` declaration is required to reach a sibling `mod` block's items even when both are defined in the same file. `pub`/`use` visibility rules don't distinguish between "same file" and "different file".
 
-As a special case, `enum` declarations cannot be placed inside any `mod` block, and (independently of modules) can only appear in the compiler's entry file, not in any other local file or in a dependency. (Enum identity is currently tied to the compiler's internal file-numbering, which is not guaranteed stable once other files are involved; see [Enum Types](type.md#enum-types).)
+As a special case, `enum` declarations can't be placed inside any `mod` block, and (independently of modules) can only appear in the compiler's entry file, not in any other local file or in a dependency. (Enum identity is currently tied to the compiler's internal file-numbering, which isn't guaranteed stable once other files are involved; see [Enum Types](type.md#enum-types).)
 
 ### Aliasing with `as`
 
@@ -73,7 +73,7 @@ use crate::math::foo::bar as baz;
 use crate::math::foo::{bar, baz as qux};
 ```
 
-imports both `bar` and `baz` (renamed to `qux`) from the same file or `mod` block via a single declaration; aliasing with `as` works per item inside the list. There is no wildcard/glob form (the Rust-like form `use crate::math::foo::*;` is not supported). Every imported name must be listed explicitly, either on its own or inside a `{ }` list.
+imports both `bar` and `baz` (renamed to `qux`) from the same file or `mod` block via a single declaration; aliasing with `as` works per item inside the list. There is no wildcard/glob form (the Rust-like form `use crate::math::foo::*;` isn't supported). Every imported name must be listed explicitly, either on its own or inside a `{ }` list.
 
 ### Re-exporting with `pub use`
 
@@ -111,4 +111,4 @@ simc -Z imports --dep CONTEXT:NAME=PATH main.simf
 
 This restricts the `NAME` alias so it only resolves for files located under `CONTEXT` (a path relative to, or equal to, the project root); files outside `CONTEXT` don't see `NAME` as a valid dependency at all. This lets different parts of a larger project map the same alias name to different targets, or limit which of your own files are allowed to see a given dependency. A plain `NAME=PATH` (no `CONTEXT:`) makes the alias available to every file in the project.
 
-A file cannot be imported both as a local (`crate::`) file and, through a `--dep` alias, as if it were external to the project. The compiler rejects this as an error.
+A file can't be imported both as a local (`crate::`) file and, through a `--dep` alias, as if it were external to the project. The compiler rejects this as an error.

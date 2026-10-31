@@ -25,7 +25,7 @@ These are the parameters of the lending contract:
 * **Lending Term** - moment in the future (UNIX time, block number, etc.) before which Borrower should repay the Loan Amount in asset B to the Lender.
 * **Loan Amount** - the amount of the loan asset Borrower would like to borrow.
 * **Collateral Amount** - locked by the Borrower, the collateral amount for the Loan Amount.
-* **Liquidation** - if the Loan is not repaid after the Lending Term, the Lender can claim the collateral.
+* **Liquidation** - if the Loan isn't repaid after the Lending Term, the Lender can claim the collateral.
 * **Loan Fee** - fixed fee paid in loan asset B from Borrower to Lender for the Loan after the loan is originated. Can represent interest payment for a fixed-term loan.
 * **Origination Fee** - fixed fee paid in collateral asset A from Borrower to Lender for the Loan for loan origination.
 * **Protocol Fee (Reserve Factor)** - fee paid in loan asset B to the Protocol Address for the Loan after the loan repayment. The fee is calculated as a percentage of the Loan Fee.
@@ -76,7 +76,7 @@ The Borrower should fully repay the loan plus the Loan Fee at any moment before 
 
 #### Liquidation
 
-If the Borrower did not repay the full Loan Amount before the Lending Term, the Lender can claim the full collateral amount.
+If the Borrower didn't repay the full Loan Amount before the Lending Term, the Lender can claim the full collateral amount.
 
 ### P2P Lending Contract with Mock Price Oracle and Partial Loan Repayment
 
@@ -110,7 +110,7 @@ During the Lending Term, Borrower can choose a partial loan repayment to avoid a
 
 #### Liquidation
 
-In case of a default on the loan (if the Borrower did not repay the full Loan Amount plus the Loan Fee before the Lending Term), the Lender can claim the full collateral amount. (But see below for a partial liquidation alternative.)
+In case of a default on the loan (if the Borrower didn't repay the full Loan Amount plus the Loan Fee before the Lending Term), the Lender can claim the full collateral amount. (But see below for a partial liquidation alternative.)
 
 Liquidation at any moment (before or after Lending Term) by a Third Party Liquidator is possible if the following equation is true:
 
@@ -160,7 +160,7 @@ During the Lending Term Borrower can choose a partial loan repayment to avoid a 
 
 #### Liquidation
 
-If the Borrower did not repay the full Loan Amount plus the accrued Interest Rate before the Lending Term, the Lender can claim the full collateral amount.
+If the Borrower didn't repay the full Loan Amount plus the accrued Interest Rate before the Lending Term, the Lender can claim the full collateral amount.
 
 Liquidation at any moment (before or after Lending Term) by the Third Party Liquidator is possible provided that the following equation is true:
 
@@ -211,7 +211,7 @@ Two distinct tokens are required to store the current protocol state:
     | \[25..49\] | Base Principal Amount | 25-bit integer representing the principal amount without decimals |
     | \[50\] | Free Space | - |
 
-Since the amount in a single [UTXO](../glossary.md#utxo) cannot exceed $21,000,000 \times 10^8$, the number of bits required to encode the parameters can be reduced:
+Since the amount in a single [UTXO](../glossary.md#utxo) can't exceed $21,000,000 \times 10^8$, the number of bits required to encode the parameters can be reduced:
 
 - Decimals mantissa (4 bits): This field occupies only 4 bits because assets with more than 8 decimals can't be created on Liquid.
 - Base amount (25 bits): The base amount occupies 25 bits, allowing for a maximum value of 33,554,432. When combined with the decimals mantissa, it can represent any value from 0 up to the maximum possible supply.

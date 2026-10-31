@@ -5,7 +5,7 @@ description: Run your first SimplicityHL program in the browser and learn what a
 
 # Your first program
 
-Every SimplicityHL program is a **predicate**. It does not return a value or print anything —
+Every SimplicityHL program is a **predicate**. It doesn't return a value or print anything —
 it either succeeds or it fails. A transaction spending a SimplicityHL-locked output is valid
 exactly when the program succeeds.
 
@@ -28,11 +28,11 @@ the hash that commits to this program's structure. The CMR is what an address en
 
 Now change `jet::eq_32(2, 2)` to `jet::eq_32(2, 3)` and Run again.
 
-The program compiles perfectly well — it is valid, well-typed code — but the assertion does not
+The program compiles perfectly well — it is valid, well-typed code — but the assertion doesn't
 hold, so execution fails. This is the distinction to internalise early:
 
-- A **compile error** means your program is not valid SimplicityHL.
-- A **failed assertion** means your program is valid but the spending condition was not met.
+- A **compile error** means your program isn't valid SimplicityHL.
+- A **failed assertion** means your program is valid but the spending condition wasn't met.
 
 On-chain, the second case is a rejected transaction.
 
@@ -81,11 +81,11 @@ argument, you can drop it around any subexpression without restructuring your co
 !!! note
 
     `dbg!` is a compile-time debugging aid. It has no effect on the CMR and costs nothing
-    on-chain, because the debug symbols it relies on are not part of the committed program.
+    on-chain, because the debug symbols it relies on aren't part of the committed program.
 
 ## Try it yourself
 
-The program below does not compile. Run it to see the error, then fix it.
+The program below doesn't compile. Run it to see the error, then fix it.
 
 ```simplicityhl,run,expect=compile-error title="Fix the type error"
 fn main() {
