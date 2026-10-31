@@ -328,7 +328,7 @@ The `update()` function in this example enforces further constraints on outputs,
 
 A real financial application may need to include logic to enforce a variety of further constraints. For example:
 
-* The contract may be designed to deal with a specified [asset](../glossary.md#asset), such as Liquid bitcoin (LBTC). Since [Liquid](../glossary.md#liquid) supports a variety of assets, the contract should inspect the assets being transferred to confirm that they always of the expected kinds. In most contexts, payments shouldn't be allowed to be made with arbitrary assets.
+* The contract may be designed to deal with a specified [asset](../glossary.md#asset), such as Liquid bitcoin (LBTC). Since [Liquid](../glossary.md#liquid) supports a variety of assets, the contract should inspect the assets being transferred to confirm that they're always of the expected kinds. In most contexts, payments shouldn't be allowed to be made with arbitrary assets.
 <!-- Let's figure out a clearer way to talk about this issue, as we don't have a concrete example relevant to it here, or a description of how this situation can arise:
 * If the same contract controls several different UTXOs, it may need to enforce that *all* relevant value is transferred by certain actions, not just a portion of the value controlled by the contract.
 -->
