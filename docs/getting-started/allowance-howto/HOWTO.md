@@ -156,7 +156,7 @@ You should see two `PASS` lines, for `allowance_drains_over_successive_withdrawa
 `withdrawing_before_the_interval_is_rejected`, and a summary reading `2 tests run: 2
 passed, 0 skipped`. The first test walks a full lifecycle. The second attempts a
 withdrawal before the [timelock](../../glossary.md#timelock), which the node rejects
-under BIP68.
+under [BIP68](https://github.com/bitcoin/bips/blob/master/bip-0068.mediawiki).
 
 [`examples/allowance-simplex/README.md`](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/examples/allowance-simplex/README.md) describes
 more tests to write yourself.
