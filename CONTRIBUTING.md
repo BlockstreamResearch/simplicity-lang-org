@@ -20,6 +20,7 @@ If you’re unsure it belongs here, it probably does. Submit the PR.
 
 * **Be direct and precise.** Use short sentences, active voice, and exact terminology. Write with detail that expert adopters expect, but remain accessible by avoiding unexplained jargon.
 * **Keep it grounded.** Don't exaggerate, oversimplify, or use slang. Avoid casual crypto hype and generic marketing fluff; let the technology speak for itself.
+* **Use contractions.** Write common contractions such as “can’t”, “don’t”, “isn’t” and “didn’t” wherever they’re idiomatic. Keep the full form in quotations and exact error text, in all‑caps specification keywords such as “MUST NOT”, and in a “Do not” that opens an important warning.
 * **Front‑load the “how”.** Show a working snippet before deep theory.
 * **One idea per section.** If your page does too much, split it.
 * **Name things consistently.** Match code, error messages, and UI.
