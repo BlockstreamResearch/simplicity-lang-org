@@ -31,7 +31,7 @@ file paths are relative to a Humid checkout. Humid changes quickly, so check a n
 | `No handler for method` | a chain method called directly | tunnel it through `wallet_invokeMethod` |
 | `non-BIP68-final` | not enough blocks have passed | wait; the [timelock](../../glossary.md#timelock) is working |
 | `insufficient fee, rejecting replacement` | a previous attempt already reached the mempool | check the explorer before retrying; it probably succeeded |
-| `window.humid is missing` | extension disabled, wrong profile, or page opened as `file://` | enable it and serve over `http://` |
+| `window.humid is missing` | extension disabled, wrong profile, page opened as `file://`, or page already open when Humid was loaded, enabled or reloaded | enable it, serve over `http://`, and reload the page |
 | `Import #0 "wbg": module is not an object or function` | a web-target wasm build overwrote the bundler-target `pkg/` | rebuild `pkg/` with `--target bundler` |
 | `null pointer passed to rust` | a wasm handle used after a call consumed it | build a fresh `TxOut` per call; reassign after every builder step |
 | `Expected a blinded address but got a non-blinded one` | `Address.parse` requires a [confidential](../../glossary.md#confidential) address | use `new Address(s)` and check the network with `isMainnet()` |

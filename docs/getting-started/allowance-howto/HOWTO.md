@@ -443,7 +443,8 @@ the missing tool.
 
 Open `chrome://extensions`, turn on **Developer mode**, choose **Load unpacked**, and
 select the `humid/dist` folder inside `allowance-web`. You should see Humid listed and
-enabled.
+enabled. Then reload the allowance page, because the browser adds the extension only to
+pages loaded after it.
 
 To create a wallet, click the puzzle piece in the top right of the browser, then select
 Humid. Write the seed phrase on paper: the setup window closes if you switch to another
