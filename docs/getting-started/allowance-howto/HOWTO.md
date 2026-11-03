@@ -6,6 +6,11 @@ network, then lock test Liquid bitcoin (tLBTC) in it on [Liquid](../../glossary.
 testnet, withdraw from it on a schedule, and close it out, driven from a web page you can
 edit.
 
+<figure markdown="span">
+  ![The allowance page listing two allowance instances: one ready to claim with a PartialWithdraw, the other timelocked with one block left](../../assets/allowance-page.png)
+  <figcaption>The page you'll build, for claiming testnet coins locked by a Simplicity contract: one allowance can be claimed now, the other unlocks in one block.</figcaption>
+</figure>
+
 ## What you need
 
 You need a Chromium-compatible browser.
