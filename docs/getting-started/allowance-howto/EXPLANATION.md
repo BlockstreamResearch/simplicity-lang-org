@@ -6,12 +6,12 @@ reasoning, see [`REFERENCE.md`](REFERENCE.md).
 
 ## What a Simplicity covenant is, at the level needed here
 
-The contract compiles to a single [Taproot](../../glossary.md#taproot) leaf script. Spending a [UTXO](../../glossary.md#utxo) locked to it means
+The [contract](../../glossary.md#contract) compiles to a single [Taproot](../../glossary.md#taproot) leaf script. Spending a [UTXO](../../glossary.md#utxo) locked to it means
 satisfying that script, and this contract's logic makes that conditional on a valid
-signature, on the shape of the spending transaction's own outputs, and on how much time
+signature, on the shape of the spending [transaction](../../glossary.md#transaction)'s own [outputs](../../glossary.md#output), and on how much time
 has passed since the UTXO was created.
 
-Three values are fixed at compile time and baked into the address: `BENEFICIARY_KEY` (a
+Three values are fixed at compile time and baked into the [address](../../glossary.md#address): `BENEFICIARY_KEY` (a
 BIP340 x-only pubkey), `ALLOWANCE_AMOUNT` (satoshis withdrawable per period), and
 `MIN_DISTANCE` (blocks between withdrawals). Change any of them and you have a different,
 unrelated allowance at a different address. The [witness](../../glossary.md#witness) is a single `SIGNATURE`, checked
@@ -19,7 +19,7 @@ against `BENEFICIARY_KEY` by `checksig()`; no other spending key exists.
 
 Vocabulary used throughout: the **benefactor** funds an allowance, the **beneficiary**
 draws it down and holds the only key that can, and an **instance** is one funded
-allowance. One UTXO at the covenant address is exactly one instance.
+allowance. One UTXO at the [covenant](../../glossary.md#covenant) address is exactly one instance.
 
 ## What the contract enforces
 
@@ -91,7 +91,7 @@ wallet with no `fee` keyword still build a correct withdrawal.
 
 ### `enforce_single_input()`
 
-Exactly one input, always. Two consequences shape everything downstream. Fees can only
+Exactly one [input](../../glossary.md#input), always. Two consequences shape everything downstream. Fees can only
 come out of the allowance's own balance, since no outside input can help pay them. And two
 UTXOs sent to the same contract address are two separate instances that can never be
 merged, so paying the address a second time doesn't top up the first.
@@ -100,7 +100,7 @@ The same rule limits the covenant to the network's policy asset: Liquid bitcoin 
 test Liquid bitcoin (tLBTC) on testnet. The fee
 has to be paid in that asset, and with the covenant as the only input nothing else can
 supply it. Funded with any other asset, every partial withdrawal could carry only a
-zero-value fee output, which nodes will generally not relay.
+zero-value fee output, which [nodes](../../glossary.md#node) will generally not relay.
 
 ### `enforce_relative_distance()`
 
@@ -110,7 +110,7 @@ outright, and it requires transaction version 2 or later.
 
 `MIN_DISTANCE` is a count of blocks. The contract checks that the spending transaction's
 `nSequence` field encodes at least that many, and the node enforces the encoded distance
-against the funding UTXO's own confirmation height under BIP68. [Liquid](../../glossary.md#liquid) blocks come from
+against the funding UTXO's own confirmation [height](../../glossary.md#height) under BIP68. [Liquid](../../glossary.md#liquid) blocks come from
 scheduled signers rather than proof-of-work search, so block time is about one minute with
 very low variance and "N blocks" translates reliably to "about N minutes".
 
@@ -123,7 +123,7 @@ partial withdrawal.
 
 Liquid outputs can hide their asset and amount. That default is the right one in general,
 but a covenant that reasons about its own value can't read a blinded amount: this
-contract panics on one. A confidential output sent to the covenant address permanently
+contract panics on one. A [confidential](../../glossary.md#confidential) output sent to the covenant address permanently
 strands the funds.
 
 The decision is per output rather than per transaction:
@@ -154,7 +154,7 @@ manifest says what a transaction for this covenant looks like, so the page doesn
 say it in code.
 
 `utxo_types.allowance` names the UTXO shape the contract produces, pointing at the `.simf`
-source and mapping compile-time parameter names to where their values come from.
+source and mapping compile-time [parameter](../../glossary.md#parameter) names to where their values come from.
 `contract_templates.allowance_contract.fields` declares the three parameters with types.
 Then three actions: the contract's two spend paths, plus `Fund`, which is an ordinary
 wallet payment to the covenant address and corresponds to no branch of the contract at
@@ -242,7 +242,7 @@ does", and it is worth being precise about which parts, because the answer decid
 a 15 MB wasm module has to be in the page at all:
 
 - **Compiling the contract and deriving its address is the irreducible one.** Nothing in
-  plain JavaScript computes a [CMR](../../glossary.md#cmr) or a Taproot output key for a [SimplicityHL](../../glossary.md#simplicityhl) program.
+  plain JavaScript computes a [CMR](../../glossary.md#cmr) or a Taproot output key for a [SimplicityHL](../../glossary.md#simplicityhl) [program](../../glossary.md#program).
   Any feature that verifies terms, shows a user which contract they are about to fund, or
   supports more than one set of compile-time parameters needs this, and needs it in the
   page.
@@ -344,7 +344,7 @@ Do not run any of this against mainnet. Moving this design to mainnet involves t
 of change: some mechanical, some that need real engineering, and some parts that stay the
 same.
 
-Mechanical swaps: the chain parameter, the Esplora and Waterfalls endpoints, the real LBTC asset id
+Mechanical swaps: the chain parameter, the [Esplora](../../glossary.md#esplora) and Waterfalls endpoints, the real LBTC asset id
 (confirmed live from a trusted source at deploy time, since it is security-critical), and
 the address encodings.
 
@@ -361,7 +361,7 @@ Five things are engineering rather than configuration:
 - **An indexer.** It needs infrastructure the deploying party controls, rather than a shared
   public Esplora instance.
 
-Unchanged: the contract source, since Simplicity covenants are chain-parameter-agnostic at
+Unchanged: the contract source, since [Simplicity](../../glossary.md#simplicity) covenants are chain-parameter-agnostic at
 the script level; the transaction shapes; and the core indexer logic.
 
 ---

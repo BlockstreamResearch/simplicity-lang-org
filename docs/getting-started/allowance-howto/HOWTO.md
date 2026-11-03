@@ -29,9 +29,10 @@ Other tools get installed during individual steps below.
 
 ## The pieces
 
-Reads come straight from the blockchain. Writes are signed either in the page, by the library
-built in Step 3, or by a wallet handed a manifest. The manifest is what lets a wallet handle a
-covenant it has never seen.
+The page reads the chain directly and gets each [transaction](../../glossary.md#transaction) signed in one of two ways: by
+the [LWK](../../glossary.md#lwk) library inside the page (Steps 4 to 10), or by the
+[Humid](../../glossary.md#humid) wallet extension, which works from a
+[manifest](../../glossary.md#manifest) (Step 11).
 
 ```mermaid
 flowchart TD
@@ -68,7 +69,7 @@ git clone https://github.com/BlockstreamResearch/simplicity-demo
 cd simplicity-demo/allowance-web
 ```
 
-The contract, the [manifests](../../glossary.md#manifest), the worked examples and the
+The [contract](../../glossary.md#contract), the manifests, the worked examples and the
 wallet patch all live there.
 
 Run every command in the rest of this guide from `allowance-web`. If you open another
@@ -86,8 +87,8 @@ For what each function enforces, see
 
 ## 2. Run the contract's tests on regtest
 
-Install Simplex, which runs SimplicityHL integration tests against a local
-[Elements](../../glossary.md#elements) regtest node that it starts and funds for you. It
+Install [Simplex](../../glossary.md#simplex), which runs SimplicityHL integration tests against a local
+[Elements](../../glossary.md#elements) regtest [node](../../glossary.md#node) that it starts and funds for you. It
 can take some time to compile:
 
 ```bash
@@ -192,12 +193,12 @@ then **Request testnet funds**.
 
 You should see a balance within about a minute. Press **Sync & show balance** to check
 again. If it stays at zero, use the [web form](https://liquidtestnet.com/faucet) with the
-address the page shows.
+[address](../../glossary.md#address) the page shows.
 
 ## 5. Generate the beneficiary's key
 
 Open the **I'm the beneficiary** tab and press **Generate / show my key**. This creates
-the BIP340 x-only public key that gets compiled into the contract; only a signature from
+the BIP340 x-only [public key](../../glossary.md#public-key) that gets compiled into the contract; only a signature from
 its private half can withdraw.
 
 You should see 64 hex characters.
@@ -232,13 +233,11 @@ Press **Compile & derive address**.
       L.XOnlyPublicKey.fromString(NUMS_INTERNAL_KEY), network);
     ```
 
-You should see the [CMR](../../glossary.md#cmr) and a `tex1p…` covenant address. Your
-three terms are now a compiled contract, and this address is derived from it, so changing
-any of the terms gives a different and unrelated allowance at a different address.
+You should see the [CMR](../../glossary.md#cmr) and a `tex1p…` covenant address. Changing
+any of the terms gives a different allowance at a different address.
 
 With two people, press **Copy** under "Hand the terms to the beneficiary" to get the blob
-the beneficiary needs. Their page re-derives the address from those three values and
-refuses to continue if it disagrees with the address in the blob.
+the beneficiary needs.
 
 ## 7. Fund the allowance
 
@@ -253,7 +252,7 @@ Set the amount to lock, leave **Broadcast for real** unchecked, and press **Fund
     const tx = wollet.finalize(signer.sign(pset)).extractTx();
     ```
 
-You should see a dry run reporting the txid it would have sent, the output count and
+You should see a dry run reporting the txid it would have sent, the [output](../../glossary.md#output) count and
 the fee, with nothing broadcast.
 
 Now select **Broadcast for real** and press **Fund** again.
@@ -302,14 +301,11 @@ the covenant address is a separate allowance with its own timelock.
     ```
 
     You should see a JSON array with one entry per instance, each with a `value` and a
-    `status.block_height`, then the tip height as a bare number.
+    `status.block_height`, then the tip [height](../../glossary.md#height) as a bare number.
 
     Compute `depth = tip - block_height + 1`; an instance becomes spendable once
     `depth >= MIN_DISTANCE`. The action follows the balance: `FullWithdraw` when
     `value <= ALLOWANCE_AMOUNT`, otherwise `PartialWithdraw`.
-
-[`REFERENCE.md`, "Chain access"](REFERENCE.md#chain-access) lists the endpoints the page
-uses.
 
 ## 9. Withdraw
 
@@ -371,9 +367,6 @@ would start a separate allowance.
     command's list should include the payouts sent to that address, each `value`
     matching a payout from Step 9.
 
-To reach this faster on a second run, lock an amount at or below `ALLOWANCE_AMOUNT` but
-above 500 sats in Step 7, which makes the first withdrawal a `FullWithdraw`.
-
 ## 11. Run the same contract through the wallet
 
 Steps 4 to 10 kept the key in the browser. This step hands the same contract to the
@@ -381,9 +374,8 @@ Humid browser extension as a manifest, and the extension compiles it, builds the
 transaction, signs it and broadcasts it, showing you its own confirmation.
 
 !!! warning "This creates a second, separate allowance"
-    Humid signs with its own BIP84 key, so `BENEFICIARY_KEY` differs, and a different
-    key means a different covenant address. The allowance from Steps 6 to 10 can't be
-    driven from here.
+    Humid signs with its own key, so this allowance gets a new covenant address. The
+    allowance from Steps 6 to 10 can't be driven from here.
 
 ### 11a. Build the extension
 
@@ -472,8 +464,7 @@ You should see 64 hex characters in the beneficiary key field, which differ from
 
 Humid spends only confirmed funds, so check that the payment shows in Humid's balance
 before you fund the allowance. Now repeat Steps 6 and 7: compile with this key, then fund
-the allowance with **Broadcast for real** unchecked. The covenant address is new, which is
-the separate allowance the warning above describes. With two people, the beneficiary loads
+the allowance with **Broadcast for real** unchecked. With two people, the beneficiary loads
 the new terms and checks that the address is this one, not Step 6's.
 
 ??? example "The call behind Fund in this mode"

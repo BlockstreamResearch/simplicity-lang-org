@@ -22,7 +22,7 @@ file paths are relative to a Humid checkout. Humid changes quickly, so check a n
 |---|---|---|
 | `{"reject": "unimplemented-construct"}` on any withdrawal | the relative-timelock bug | apply the patch from Step 11, rebuild, reload the extension |
 | `"FullWithdraw" pays nothing, so there is nothing to build.` | the change-only-output bug | same patch |
-| `cannot be built because it requires rustc 1.91.0 or newer` | Rust is older than Simplex needs | `rustup update stable`, then install again |
+| `cannot be built because it requires rustc 1.91.0 or newer` | Rust is older than [Simplex](../../glossary.md#simplex) needs | `rustup update stable`, then install again |
 | `No available targets are compatible with triple "wasm32-unknown-unknown"` | the `clang` on your `PATH` has no WebAssembly backend | install LLVM from your package manager, or from Homebrew on macOS, and put its `clang` first on your `PATH` |
 | `reject: shortfall`, with `This account holds 0 of the … needed` | Humid's funds are unconfirmed, or it is on mainnet | wait a minute for the funding to confirm; check the network menu says **Liquid Testnet** |
 | `Unlock the wallet to continue.` | the wallet is locked | open it from the Extensions button and enter the password; it re-locks periodically |
@@ -34,7 +34,7 @@ file paths are relative to a Humid checkout. Humid changes quickly, so check a n
 | `window.humid is missing` | extension disabled, wrong profile, page opened as `file://`, or page already open when Humid was loaded, enabled or reloaded | enable it, serve over `http://`, and reload the page |
 | `Import #0 "wbg": module is not an object or function` | a web-target wasm build overwrote the bundler-target `pkg/` | rebuild `pkg/` with `--target bundler` |
 | `null pointer passed to rust` | a wasm handle used after a call consumed it | build a fresh `TxOut` per call; reassign after every builder step |
-| `Expected a blinded address but got a non-blinded one` | `Address.parse` requires a [confidential](../../glossary.md#confidential) address | use `new Address(s)` and check the network with `isMainnet()` |
+| `Expected a blinded address but got a non-blinded one` | `Address.parse` requires a [confidential](../../glossary.md#confidential) [address](../../glossary.md#address) | use `new Address(s)` and check the network with `isMainnet()` |
 
 ## Talking to the Humid wallet
 
@@ -85,7 +85,7 @@ A separate second layer: each method has its own grant. The connect screen lists
 read-only methods the page requested, such as `getWalletDescriptor`, and ticks them by
 default. `processConfidentialTransaction` can't be pre-approved, so it never appears there
 (`methodPolicyPresentation.ts`): every call shows Humid's own "Perform a contract action?"
-confirmation, which is where you review and approve the transaction.
+confirmation, which is where you review and approve the [transaction](../../glossary.md#transaction).
 
 ### Building Humid
 
@@ -134,8 +134,8 @@ data. So "refused" versus "built but not sent" is "did it throw" versus "did it 
 with `broadcast: false`".
 
 `transactionHex` is the full raw transaction, which is enough to read the [covenant](../../glossary.md#covenant) address
-locally: a taproot `scriptPubKey` is the fixed pattern `22·5120·<32 bytes>`, and bech32m
-encodes it with the `tex` HRP on testnet. Identify the output by shape rather than
+locally: a [taproot](../../glossary.md#taproot) `scriptPubKey` is the fixed pattern `22·5120·<32 bytes>`, and bech32m
+encodes it with the `tex` HRP on testnet. Identify the [output](../../glossary.md#output) by shape rather than
 position, since the wallet chooses the order of a funding transaction's outputs.
 
 ## Deriving keys and addresses from the wallet
@@ -148,7 +148,7 @@ invoke("getWalletDescriptor", {
 ```
 
 `descriptors[0].branchDescriptors` holds `elwpkh([fingerprint/84h/1h/0h]xpub…/0/*)` for
-`branch: "external"`, which is plain BIP84 segwit v0 rather than [Taproot](../../glossary.md#taproot).
+`branch: "external"`, which is plain BIP84 segwit v0 rather than Taproot.
 
 For `BENEFICIARY_KEY`: the xpub is already at `m/84'/1'/0'`, so take two non-hardened
 `CKDpub` steps, `/0` for the external chain then `/0` for the first address, and drop the
@@ -184,7 +184,7 @@ don't: `confirmation/provenance.ts` tags every displayed value as `verified`, `c
 
 `examples/allowance-humid-only/txmanifest.json` is `manifest_version 0.1.0`, for the
 wallet. `examples/allowance/txmanifest.json` is `0.3.0`, for the CLI engine below. They
-describe the same contract.
+describe the same [contract](../../glossary.md#contract).
 
 `examples/allowance/txmanifest.schema.json` is the machine-checkable form of the `0.3.0`
 dialect only. Validating the `0.1.0` manifest against it reports exactly one error, on
@@ -221,7 +221,7 @@ only one of the two.
 is `todo!()`, so it panics if left in place, and `simf/p2pk.simf` alongside it. It names
 the package after the directory with a `simplex_` prefix, so tests import the generated
 code from `simplex_allowance_example::artifacts`. It declares only `smplx-std`, while a
-test in the style of the [Simplex](../../glossary.md#simplex) repository's own examples
+test in the style of the Simplex repository's own examples
 also needs `anyhow`.
 
 ## Chain access
@@ -237,9 +237,9 @@ to wait, and stop when nothing is pending.
 Sync the page's wallet through Waterfalls at
 `https://waterfalls.liquidwebwallet.org/liquidtestnet/api`, with a client created as
 `new EsploraClient(network, url, true, 1, false)`, where `true` enables Waterfalls. A plain
-Esplora scan sends one request per address, 40 or more per sync, while Waterfalls returns the
+[Esplora](../../glossary.md#esplora) scan sends one request per address, 40 or more per sync, while Waterfalls returns the
 whole wallet's history in one request. The server sends CORS headers but isn't a full Esplora,
-so covenant lookups, the tip height and broadcasts still go to `blockstream.info`. The
+so covenant lookups, the tip [height](../../glossary.md#height) and broadcasts still go to `blockstream.info`. The
 Waterfalls operator learns the wallet's addresses.
 
 The faucet at `liquidtestnet.com/api/faucet?address=…&action=lbtc` doesn't send any CORS headers. A
@@ -262,7 +262,7 @@ transaction or from a handoff blob, on the benefactor's word.
 changes"](EXPLANATION.md#who-signs-and-what-that-changes) covers where that matters.
 
 **`simc` and `hal-simplicity`.** `cargo install simplicityhl` gives `simc`, which compiles
-a `.simf` with concrete parameters to a base64 program plus its [CMR](../../glossary.md#cmr).
+a `.simf` with concrete [parameters](../../glossary.md#parameter) to a base64 [program](../../glossary.md#program) plus its [CMR](../../glossary.md#cmr).
 `cargo install hal-simplicity` inspects programs and can build a [PSET](../../glossary.md#pset) by hand. Neither
 path in the HOWTO needs them, but running `simc` once confirms that the toolchain works and
 the contract compiles, before you suspect anything else. The
@@ -282,7 +282,7 @@ tx-manifest-wallet run <manifest> <Action> --wallet w.json --params p.json
 ```
 
 That exercises the real compile and witness path without spending anything, and it is the
-only path here that runs without a browser. It still prompts for a fee rate, so it needs a
+only path here that runs without a browser. It still prompts for a [fee](../../glossary.md#fee) rate, so it needs a
 terminal. Use 0.3.0 or a later 0.3.x release: this engine checks `manifest_version` at
 parse time against its own `FORMAT_VERSION`, citing ELIP-205, unlike Humid, and a 0.2.x
 release rejects the `0.3.0` manifest outright. Its README says not to use it with real funds.
