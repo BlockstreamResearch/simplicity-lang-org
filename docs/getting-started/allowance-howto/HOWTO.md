@@ -14,7 +14,7 @@ Make sure you have [Rust](https://rust-lang.org/tools/install/) 1.91 or newer an
 
 You'll need LLVM `clang` targeting wasm32, with `llvm-ar`. On Linux, install your distribution's `clang` and `llvm` packages.
 
-!!! warning `clang` on macOS
+!!! warning "`clang` on macOS"
     On macOS, install from `brew install llvm`, as the system `clang` doesn't support wasm.
     Homebrew doesn't put this LLVM on your `PATH`, so run this in every terminal you use for
     the tutorial:
