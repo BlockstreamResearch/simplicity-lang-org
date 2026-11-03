@@ -132,7 +132,7 @@ Exit Status: 0
 
 The first test walks a full lifecycle. The second attempts a
 withdrawal before the [timelock](../../glossary.md#timelock), which the node rejects
-under [BIP68](https://github.com/bitcoin/bips/blob/master/bip-0068.mediawiki).
+under [BIP68](../../documentation/timelocks.md#timelock-enforcement-mechanisms).
 
 [`examples/allowance-simplex/README.md`](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/examples/allowance-simplex/README.md) describes
 more tests to write yourself.
