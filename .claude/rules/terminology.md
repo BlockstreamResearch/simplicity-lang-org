@@ -31,4 +31,6 @@ The same logic applies to Liquid Bitcoin:
 
 `docs/glossary.md` defines terms likely to be unfamiliar to at least part of this site's audience, and glossary links render as a mouseover preview rather than a plain jump-away link. Whenever documentation uses a term defined there — especially an acronym (CMR, PSET, UTXO, and similar) — link the glossary entry on first use of that term per page: `[CMR](../glossary.md#cmr)` (adjust the relative path to the page's depth).
 
+Link the first use *in the sense the glossary defines*. Many entries are ordinary words with a technical meaning, such as address, height, node, output and transaction. A use in another sense isn't a use of the term, so don't link it, and link the next use that has the defined sense. Quoted error text and other literal output stay unlinked even when they contain the term: in `Address already in use`, "address" refers to a network port, not a blockchain address.
+
 Because the glossary link already carries the full expansion and definition, there's no need to also spell an acronym out inline before using it — the glossary link does that job. Don't re-link the same term on later uses within the same page, unless the page is very long, in which case it can be relinked on first use within each section.

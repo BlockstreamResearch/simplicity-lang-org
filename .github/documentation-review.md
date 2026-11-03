@@ -83,7 +83,7 @@ An explanation or reference page that includes a command or code example still n
 9. **Clarity and economy:**
     * Flag passive voice that hides who or what acts, generic management-speak, and marketing fluff. Apply the patterns listed in `.claude/rules/contentstyle.md`.
     * Steps must begin with a verb, not context.
-    * The first use of a Simplicity-specific term on a page must link to its glossary entry or its reference page.
+    * The first use on a page of a term defined in the glossary, in the sense the glossary defines, must link to its glossary entry or its reference page. Apply `.claude/rules/terminology.md`, "Link unfamiliar terms to the glossary". Don't flag a use of the word in another sense, or in quoted error text, for lacking a link.
     * Advisory: flag sentences longer than about 20 words that are hard to follow. List these under **Advisory** in the output. They don't affect the verdict on their own.
 
 10. **Failure and recovery:** If a step can fail, are the error messages and fixes documented?
