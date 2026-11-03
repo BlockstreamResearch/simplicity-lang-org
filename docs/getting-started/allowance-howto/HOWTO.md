@@ -78,7 +78,7 @@ are wrapped in parentheses, which run it there and leave your shell where it was
 command fails, look up its message in [`REFERENCE.md`, "Errors and what causes
 them"](REFERENCE.md#errors-and-what-causes-them).
 
-Open `contracts/allowance.simf`, which came with the clone, in your editor or viewer, and
+Open `contracts/allowance.simf` in your editor or viewer, and
 look through it to see what [SimplicityHL](../../glossary.md#simplicityhl) code looks
 like. Every later step builds on this one contract. You don't need to change anything.
 
@@ -155,7 +155,7 @@ git clone https://github.com/Blockstream/lwk
 )
 ```
 
-You should see a successful build process. When the compilation is done, copy the two files the page loads:
+When the build finishes, copy the two files the page loads:
 
 ```bash
 mkdir -p examples/allowance-lwk/vendor
@@ -296,7 +296,7 @@ the covenant address is a separate allowance with its own timelock.
 
     ```bash
     ADDR=<covenant-address>
-    curl -s "https://blockstream.info/liquidtestnet/api/address/$ADDR/utxo"
+    curl -s "https://blockstream.info/liquidtestnet/api/address/$ADDR/utxo" | python3 -m json.tool
     curl -s "https://blockstream.info/liquidtestnet/api/blocks/tip/height"
     ```
 
@@ -358,9 +358,9 @@ would start a separate allowance.
 
     ```bash
     ADDR=<covenant-address>
-    curl -s "https://blockstream.info/liquidtestnet/api/address/$ADDR/utxo"
+    curl -s "https://blockstream.info/liquidtestnet/api/address/$ADDR/utxo" | python3 -m json.tool
     # -> []
-    curl -s "https://blockstream.info/liquidtestnet/api/address/<payout-address>/utxo"
+    curl -s "https://blockstream.info/liquidtestnet/api/address/<payout-address>/utxo" | python3 -m json.tool
     ```
 
     An empty array for the covenant address means every instance is spent. The second
@@ -370,8 +370,8 @@ would start a separate allowance.
 ## 11. Run the same contract through the wallet
 
 Steps 4 to 10 kept the key in the browser. This step hands the same contract to the
-Humid browser extension as a manifest, and the extension compiles it, builds the
-transaction, signs it and broadcasts it, showing you its own confirmation.
+Humid extension as a manifest, which tells Humid how to build each transaction. Humid
+signs each one and shows you its own confirmation.
 
 !!! warning "This creates a second, separate allowance"
     Humid signs with its own key, so this allowance gets a new covenant address. The
@@ -386,8 +386,7 @@ npm install -g bun
 bun --version
 ```
 
-Then clone Humid 1.1.4 with `--recursive`, and build both WebAssembly modules before
-`bun install`. The two `build:wasm` scripts can each take some time, often without
+Then clone and build Humid 1.1.4. The two `build:wasm` scripts can each take some time, often without
 printing anything.
 
 ```bash
@@ -443,6 +442,7 @@ curl "https://liquidtestnet.com/api/faucet?address=<humid-receive-address>&actio
 
 The `curl` reply is an HTML page with a line reading `Sent … sats to address … with
 transaction …`. You should see the payment in Humid's balance within about a minute.
+Humid spends only confirmed funds, so wait for it there before you fund the allowance.
 Then press **Get my key from Humid**.
 
 ??? example "The call behind that button"
@@ -462,8 +462,7 @@ prompts"](REFERENCE.md#sessions-and-prompts) explains when the connect prompt ap
 
 You should see 64 hex characters in the beneficiary key field, which differ from Step 5's.
 
-Humid spends only confirmed funds, so check that the payment shows in Humid's balance
-before you fund the allowance. Now repeat Steps 6 and 7: compile with this key, then fund
+Now repeat Steps 6 and 7: compile with this key, then fund
 the allowance with **Broadcast for real** unchecked. With two people, the beneficiary loads
 the new terms and checks that the address is this one, not Step 6's.
 
