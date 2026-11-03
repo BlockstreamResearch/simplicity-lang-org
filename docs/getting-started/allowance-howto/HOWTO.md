@@ -1,4 +1,4 @@
-# Run an allowance covenant end to end
+# Build a complete Simplicity application, from contract to web to wallet
 
 **Goal**: test a [Simplicity](../../glossary.md#simplicity)
 [covenant](../../glossary.md#covenant) on a local [regtest](../../glossary.md#regtest)
@@ -6,81 +6,30 @@ network, then lock test Liquid bitcoin (tLBTC) in it on [Liquid](../../glossary.
 testnet, withdraw from it on a schedule, and close it out, driven from a web page you can
 edit.
 
-**Scope**: a local regtest network and Liquid testnet only.
-
-**Tested with**: [Simplex](../../glossary.md#simplex) 0.2.0 with `smplx-std` 0.2.0, Rust
-1.91.1, `wasm-pack` 0.15.0, Bun 1.4.3, [LWK](../../glossary.md#lwk) at commit `7ad29620`,
-and [Humid](../../glossary.md#humid) 1.1.4 at commit `a6d211d` with the patch from
-Step 11, in Chromium.
-
-## Get the files
-
-```bash
-git clone https://github.com/BlockstreamResearch/simplicity-demo
-cd simplicity-demo/allowance-web
-```
-
-The contract, the [manifests](../../glossary.md#manifest), the worked examples and the
-wallet patch all live there.
-
-Run every command in the rest of this guide from `allowance-web`. If you open another
-terminal, `cd` to `allowance-web` in it first. A command that needs a different directory
-is wrapped in parentheses, which run it there and leave your shell where it was. If a
-command fails, look up its message in [`REFERENCE.md`, "Errors and what causes
-them"](REFERENCE.md#errors-and-what-causes-them).
-
 ## What you need
 
+You need a Chromium-compatible browser.
+
+Make sure you have [Rust](https://rust-lang.org/tools/install/) 1.91 or newer and `cargo`, from `rustup`; also make sure you have [npm](https://docs.npmjs.com/cli/v12/configuring-npm/install), which only Step 11 needs.
+
+You'll need LLVM `clang` targeting wasm32, with `llvm-ar`. On Linux, install your distribution's `clang` and `llvm` packages.
+
+!!! warning `clang` on macOS
+    On macOS, install from `brew install llvm`, as the system `clang` doesn't support wasm.
+    Homebrew doesn't put this LLVM on your `PATH`, so run this in every terminal you use for
+    the tutorial:
+
+    ```bash
+    export PATH="$(brew --prefix llvm)/bin:$PATH"
+    ```
+
 `git`, `curl` and `python3` are assumed, and are already present on most Unix desktops.
-You also need the tools below, most of them for building from source in Steps 2, 3 and 11:
 
-| Tool | Needed by | How to get it |
-|---|---|---|
-| A browser | Step 4 onward; Step 11 needs one that can load this extension | currently Chromium or Google Chrome; most other browsers can't load it |
-| Rust and `cargo` | Steps 2, 3 and 11 | `apt install rustup` or `brew install rustup`, then `rustup default stable` |
-| `simplex` | Step 2 only | Step 2 installs it |
-| Bun | Step 11 only | `npm install -g bun` (needs npm) or `brew install oven-sh/bun/bun` |
-| `wasm-pack` | Steps 3 and 11 | `cargo install wasm-pack` |
-| LLVM `clang` targeting wasm32, with `llvm-ar` | Steps 3 and 11 | your distribution's `llvm` and `clang` packages; `brew install llvm` on macOS |
-
-Steps 2, 3 and 11 clone `smplx`, `lwk` and `humid` into `allowance-web`, and Step 2 also
-creates `allowance_example` there; you can delete all four when you are done.
-
-Check what you already have:
-
-```bash
-git --version && curl --version | head -1 && python3 --version
-cargo --version          # 1.91 or newer, which Step 2 requires
-wasm-pack --version      # no pinned minimum; a current release is fine
-bun --version            # 1.3.14 or newer, which Step 11 requires
-clang -print-targets | grep -q wasm32 \
-    && echo "clang wasm32 target: present" \
-    || echo "clang wasm32 target: MISSING, install LLVM from your package manager"
-```
-
-You should see a version from each tool, with `cargo` at 1.91 or newer and `bun` at 1.3.14
-or newer, and `clang wasm32 target: present` on the last line.
-
-[Install Rust](https://rust-lang.org/tools/install/) through `rustup` rather than a
-distribution `rustc`: LWK pins its own toolchain in `rust-toolchain.toml`, which only
-`rustup` honors.
-
-If your system has neither `apt` nor Homebrew, both projects publish a shell installer:
-
-```bash
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh    # Rust
-curl -fsSL https://bun.sh/install | bash                          # Bun
-```
-
-For LLVM, the package names are the same across the common distributions:
-`apt install llvm clang`, `dnf install llvm clang`, or `pacman -S llvm clang`.
-
-!!! note "`clang` on macOS"
-    The system `clang` has no WebAssembly backend. Install LLVM from Homebrew and put its `clang` first on your `PATH`.
+Other tools get installed during individual steps below.
 
 ## The pieces
 
-Reads come straight from the chain. Writes are signed either in the page, by the library
+Reads come straight from the blockchain. Writes are signed either in the page, by the library
 built in Step 3, or by a wallet handed a manifest. The manifest is what lets a wallet handle a
 covenant it has never seen.
 
@@ -112,14 +61,25 @@ flowchart TD
 
 ---
 
-## 1. Get the contract
+## 1. Get the files
+
+```bash
+git clone https://github.com/BlockstreamResearch/simplicity-demo
+cd simplicity-demo/allowance-web
+```
+
+The contract, the [manifests](../../glossary.md#manifest), the worked examples and the
+wallet patch all live there.
+
+Run every command in the rest of this guide from `allowance-web`. If you open another
+terminal, `cd` to `allowance-web` in it first. All commands that need a different directory
+are wrapped in parentheses, which run it there and leave your shell where it was. If a
+command fails, look up its message in [`REFERENCE.md`, "Errors and what causes
+them"](REFERENCE.md#errors-and-what-causes-them).
 
 Open `contracts/allowance.simf`, which came with the clone, in your editor or viewer, and
 look through it to see what [SimplicityHL](../../glossary.md#simplicityhl) code looks
 like. Every later step builds on this one contract. You don't need to change anything.
-
-The source leaves a few values unspecified, and they are filled in when the contract is compiled.
-You choose them in Step 6.
 
 For what each function enforces, see
 [`EXPLANATION.md`, "What the contract enforces"](EXPLANATION.md#what-the-contract-enforces).
@@ -152,24 +112,41 @@ simplex init allowance_example
 )
 ```
 
-You should see two `PASS` lines, for `allowance_drains_over_successive_withdrawals` and
-`withdrawing_before_the_interval_is_rejected`, and a summary reading `2 tests run: 2
-passed, 0 skipped`. The first test walks a full lifecycle. The second attempts a
+You should see both tests `PASS`:
+
+```console
+[...]
+    Starting 2 tests across 2 binaries
+        PASS [  20.046s] simplex_allowance_example::allowance_test allowance_drains_over_successive_withdrawals__smplx_test
+        PASS [   1.564s] simplex_allowance_example::allowance_test withdrawing_before_the_interval_is_rejected__smplx_test
+────────────
+     Summary [  21.611s] 2 tests run: 2 passed, 0 skipped
+Exit Status: 0
+```
+
+The first test walks a full lifecycle. The second attempts a
 withdrawal before the [timelock](../../glossary.md#timelock), which the node rejects
 under [BIP68](https://github.com/bitcoin/bips/blob/master/bip-0068.mediawiki).
 
 [`examples/allowance-simplex/README.md`](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/examples/allowance-simplex/README.md) describes
 more tests to write yourself.
 
-## 3. Build what the page needs
+## 3. Build webpage dependencies
 
-Build LWK, the library the page uses to compile the contract and build transactions, for
+This build needs `clang` with the wasm32 target. Check that yours has it:
+
+```bash
+clang -print-targets | grep -q wasm32 && echo present || echo MISSING
+```
+
+If you see `MISSING`, install LLVM as described in [What you need](#what-you-need).
+
+Then install `wasm-pack` and build LWK, the library the page uses to compile the contract and build transactions, for
 wasm with its Simplicity feature, which the published builds leave out. The `wasm-pack`
 build can take some time, often without printing anything.
 
-If you haven't already, run the check in [What you need](#what-you-need).
-
 ```bash
+cargo install wasm-pack
 git clone https://github.com/Blockstream/lwk
 (
   cd lwk/lwk_wasm
@@ -177,18 +154,13 @@ git clone https://github.com/Blockstream/lwk
 )
 ```
 
-Confirm the feature really compiled in, then copy the two files the page loads:
+You should see a successful build process. When the compilation is done, copy the two files the page loads:
 
 ```bash
-grep -q SimplicityProgram lwk/lwk_wasm/pkg-web/lwk_wasm.d.ts \
-    && echo "Simplicity feature: present" \
-    || echo "Simplicity feature: MISSING. Check that wasm-pack finished without errors and that you included --features simplicity"
 mkdir -p examples/allowance-lwk/vendor
 cp lwk/lwk_wasm/pkg-web/lwk_wasm.js lwk/lwk_wasm/pkg-web/lwk_wasm_bg.wasm \
    examples/allowance-lwk/vendor/
 ```
-
-You should see `Simplicity feature: present`.
 
 ## 4. Serve the page and fund its wallet
 
@@ -415,7 +387,14 @@ transaction, signs it and broadcasts it, showing you its own confirmation.
 
 ### 11a. Build the extension
 
-Clone Humid 1.1.4 with `--recursive`, and build both WebAssembly modules before
+Install Bun, which builds the extension. You need 1.3.14 or newer:
+
+```bash
+npm install -g bun
+bun --version
+```
+
+Then clone Humid 1.1.4 with `--recursive`, and build both WebAssembly modules before
 `bun install`. The two `build:wasm` scripts can each take some time, often without
 printing anything.
 

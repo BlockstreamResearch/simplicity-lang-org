@@ -2,7 +2,7 @@
 
 Lookup material, organized for finding one fact rather than for reading through.
 
-**To run it yourself, start with [Run an allowance covenant end to end](HOWTO.md).** For why any of this is
+**To run it yourself, start with [Build a complete Simplicity application, from contract to web to wallet](HOWTO.md).** For why any of this is
 shaped the way it is, see [`EXPLANATION.md`](EXPLANATION.md).
 
 - [Errors and what causes them](#errors-and-what-causes-them)

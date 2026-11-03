@@ -1,6 +1,6 @@
 # How the allowance covenant works, and why it is built this way
 
-Background reading. **To run it yourself, start with [Run an allowance covenant end to end](HOWTO.md)**: none of this
+Background reading. **To run it yourself, start with [Build a complete Simplicity application, from contract to web to wallet](HOWTO.md)**: none of this
 is needed to complete the HOWTO. For exact shapes and field behavior rather than
 reasoning, see [`REFERENCE.md`](REFERENCE.md).
 
@@ -368,6 +368,6 @@ the script level; the transaction shapes; and the core indexer logic.
 
 ## Doing it
 
-The steps that put this on chain are in [Run an allowance covenant end to end](HOWTO.md). If you are adapting the contract
+The steps that put this on chain are in [Build a complete Simplicity application, from contract to web to wallet](HOWTO.md). If you are adapting the contract
 or writing a manifest for a different one, the sections above on what the contract
 enforces and on writing a manifest are the two to reread first.
