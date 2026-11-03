@@ -50,8 +50,8 @@ If you’re unsure it belongs here, it probably does. Submit the PR.
 
 * Keep examples **minimal** and **correct**.
 * Prefer full, copy‑pasteable blocks over fragments.
-* State the version an example was tested against when behavior could plausibly differ across versions (e.g., "tested with SimplicityHL 0.3.0").
-* Tutorials and how-to guides state, at the top of the page, the network they target (Liquid testnet or Bitcoin Signet) and the tool versions they were tested with.
+* Tutorials and how-to guides state, at the top of the page, the network they target (Liquid testnet or Bitcoin Signet).
+* By default, state a version only when a specific version is known to be required or expected, for example because a feature first appeared in it or a later release changed the behavior. Put the note inline, at the step or example it affects, using the `(0.3.0+)` form above. A page-level "Tested with" list isn't required, and most pages don't need one.
 
 ### Errors
 

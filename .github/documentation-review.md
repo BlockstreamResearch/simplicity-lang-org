@@ -72,7 +72,7 @@ An explanation or reference page that includes a command or code example still n
 
 4. **Prerequisites and setup:** Are installation commands or version checks restated on the page, or are they linked once and assumed? Flag repeated `cargo install` or package-manager commands.
 
-5. **Versioning and network:** Do tutorials and how-to guides state at the top of the page which network they target (Liquid testnet or Bitcoin Signet) and which tool versions they were tested with (for example Simplex or `hal-simplicity`)? A page that covers only one network is acceptable; don't flag it for not covering the other.
+5. **Versioning and network:** Do tutorials and how-to guides state at the top of the page which network they target (Liquid testnet or Bitcoin Signet)? A page that covers only one network is acceptable; don't flag it for not covering the other. Where a specific tool version is known to be required, is it stated inline at the step it affects? Don't flag a page for not listing the versions it was tested with.
 
 6. **Repetition:** Identify instructions, warnings, or explanations that appear more than once. The standard is: set out facts in the most appropriate place, and link rather than repeat.
 
