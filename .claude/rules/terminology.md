@@ -33,4 +33,6 @@ The same logic applies to Liquid Bitcoin:
 
 Link the first use *in the sense the glossary defines*. Many entries are ordinary words with a technical meaning, such as address, height, node, output and transaction. A use in another sense isn't a use of the term, so don't link it, and link the next use that has the defined sense. Quoted error text and other literal output stay unlinked even when they contain the term: in `Address already in use`, "address" refers to a network port, not a blockchain address.
 
+Figure captions (`<figcaption>`), Mermaid diagram labels and code don't count as a first use, because links don't render in them. Headings don't count either. Link the first use in body text instead.
+
 Because the glossary link already carries the full expansion and definition, there's no need to also spell an acronym out inline before using it — the glossary link does that job. Don't re-link the same term on later uses within the same page, unless the page is very long, in which case it can be relinked on first use within each section.
