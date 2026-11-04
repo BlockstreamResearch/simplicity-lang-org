@@ -41,6 +41,11 @@ write instead.
   headings or in prose. "Pieces" can also suggest that something is broken.
   - Avoid: "the pieces of the app", "talking to the wallet".
   - Prefer: "the components of the app", "calling the wallet's API".
+  - This includes verbs for technical actions.
+  - Avoid: "drive the contract from a page", "baked into the address", "hand the wallet a
+    manifest".
+  - Prefer: "use the contract from a page", "compiled into the address", "pass the wallet
+    a manifest".
 - **Don't reach for rhetorical list rhythm.** A three-item asyndetic list ("No X, no Y,
   no Z.") used purely for cadence reads as ad copy. If three items are the natural
   count, list them plainly; don't add or trim items to hit a rhetorical pattern.
