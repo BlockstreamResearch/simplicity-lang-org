@@ -6,12 +6,12 @@ Lookup material, organized for finding one fact rather than for reading through.
 shaped the way it is, see [`EXPLANATION.md`](EXPLANATION.md).
 
 - [Errors and what causes them](#errors-and-what-causes-them)
-- [Talking to the Humid wallet](#talking-to-the-humid-wallet)
+- [Humid wallet API](#humid-wallet-api)
 - [`processConfidentialTransaction`](#processconfidentialtransaction)
 - [Deriving keys and addresses from the wallet](#deriving-keys-and-addresses-from-the-wallet)
 - [How Humid treats a manifest](#how-humid-treats-a-manifest)
 - [Chain access](#chain-access)
-- [Other ways to drive the same contract](#other-ways-to-drive-the-same-contract)
+- [Other clients for the same contract](#other-clients-for-the-same-contract)
 
 The Humid sections describe [Humid](../../glossary.md#humid) 1.1.4 (`a6d211d`), and their
 file paths are relative to a Humid checkout. Humid changes quickly, so check a newer release against its source.
@@ -20,23 +20,28 @@ file paths are relative to a Humid checkout. Humid changes quickly, so check a n
 
 | Message | Cause | Fix |
 |---|---|---|
-| `{"reject": "unimplemented-construct"}` on any withdrawal | the relative-timelock bug | apply the patch from Step 11, rebuild, reload the extension |
+| `asks for a relative timelock, and this wallet sets one sequence for the whole transaction — which would time-lock the outputs funding it as well`, with `reject: unimplemented-construct`, on any withdrawal | the relative-timelock bug in unpatched Humid | apply the patch from Step 11a, rebuild, reload the extension |
+| `would inherit that wait`, with `reject: unimplemented-construct`, on a withdrawal in Humid mode | the instance holds less than the amount Humid reserves for the fee, so Humid would add a coin from its own wallet, and that coin can't share the instance's timelock | Humid can claim this instance only when its fee rate falls low enough, which may not happen for a small balance; to avoid it, lock a whole multiple of the allowance, as in Step 6 |
+| `FullWithdraw failed: This instance holds less than the fee.` | the instance holds 500 sats or less, which the page's fixed 500-sat fee would use up | the page can't claim this instance; to avoid it, lock a whole multiple of the allowance, as in Step 6 |
 | `"FullWithdraw" pays nothing, so there is nothing to build.` | the change-only-output bug | same patch |
 | `cannot be built because it requires rustc 1.91.0 or newer` | Rust is older than [Simplex](../../glossary.md#simplex) needs | `rustup update stable`, then install again |
+| ``no `ProgramSignature` in `transaction` `` and ``the `?` operator cannot be applied to type `u64` `` from `simplex test` | the project's `smplx-std` is older than 0.2.0, the release `allowance_test.rs` is written for | in `allowance_example`, run `cargo add smplx-std@` followed by the version `simplex --version` prints, then test again |
 | `No available targets are compatible with triple "wasm32-unknown-unknown"` | the `clang` on your `PATH` has no WebAssembly backend | install LLVM from your package manager, or from Homebrew on macOS, and put its `clang` first on your `PATH` |
-| `reject: shortfall`, with `This account holds 0 of the … needed` | Humid's funds are unconfirmed, or it is on mainnet | wait a minute for the funding to confirm; check the network menu says **Liquid Testnet** |
+| `npm error code EACCES` from `npm install -g bun`, with `permission denied, mkdir '…/lib/node_modules'` | npm's global install directory belongs to the system, not to your user | point npm at a directory you own with `npm config set prefix ~/.npm-global`, add `~/.npm-global/bin` to your `PATH`, and install again; see npm's [guide to `EACCES` errors](https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally) |
+| `reject: shortfall`, with `This account holds 0 of the … needed` | Humid's funds are unconfirmed, or it is on mainnet | wait a minute for the funding to confirm; check that **Liquid Testnet** is selected in Humid's network menu |
 | `Unlock the wallet to continue.` | the wallet is locked | open it from the Extensions button and enter the password; it re-locks periodically |
 | `X is neither a parameter nor an argument of this action` | usually `instance` single-nested instead of double-nested | see the nesting rule below |
 | `[object Object]` instead of a message | the real text is in the thrown error's data | read `reject` and `reason` off it |
 | `No handler for method` | a chain method called directly | tunnel it through `wallet_invokeMethod` |
 | `non-BIP68-final` | not enough blocks have passed | wait; the [timelock](../../glossary.md#timelock) is working |
+| `Expecting value: line 1 column 1 (char 0)` from `python3 -m json.tool` | Esplora replied with an error message instead of JSON, usually because a placeholder such as `<fund-txid>` is still in the command, or because of a rate limit | run the `curl` command on its own, without `python3 -m json.tool`, to see Esplora's reply; replace the placeholder with the value the page showed, or after an HTTP 429, see "Chain access" |
 | `insufficient fee, rejecting replacement` | a previous attempt already reached the mempool | check the explorer before retrying; it probably succeeded |
 | `window.humid is missing` | extension disabled, wrong profile, page opened as `file://`, or page already open when Humid was loaded, enabled or reloaded | enable it, serve over `http://`, and reload the page |
 | `Import #0 "wbg": module is not an object or function` | a web-target wasm build overwrote the bundler-target `pkg/` | rebuild `pkg/` with `--target bundler` |
 | `null pointer passed to rust` | a wasm handle used after a call consumed it | build a fresh `TxOut` per call; reassign after every builder step |
 | `Expected a blinded address but got a non-blinded one` | `Address.parse` requires a [confidential](../../glossary.md#confidential) [address](../../glossary.md#address) | use `new Address(s)` and check the network with `isMainnet()` |
 
-## Talking to the Humid wallet
+## Humid wallet API
 
 The injected provider is `window.humid`, with `request({method, params})`. Its content
 script matches `file://`, `http://` and `https://`, with no pairing step.
@@ -78,11 +83,11 @@ method first and create a session only if the call is refused.
 `wallet_getSession` is read-only and never prompts. `{sessionScopes: {}}` means no scopes
 are granted.
 
-Sessions carry a 30-day TTL, but they live in the account model and require the wallet
+Sessions have a 30-day TTL, but they're stored in the account model and require the wallet
 unlocked, so in practice they expire far sooner.
 
 A separate second layer: each method has its own grant. The connect screen lists only the
-read-only methods the page requested, such as `getWalletDescriptor`, and ticks them by
+read-only methods the page requested, such as `getWalletDescriptor`, and selects them by
 default. `processConfidentialTransaction` can't be pre-approved, so it never appears there
 (`methodPolicyPresentation.ts`): every call shows Humid's own "Perform a contract action?"
 confirmation, which is where you review and approve the [transaction](../../glossary.md#transaction).
@@ -204,7 +209,7 @@ other error is worth investigating.
 
 **Two installations can collide.** `cargo install` puts `simplex` in `~/.cargo/bin`;
 `simplexup` puts it in `~/.simplex/bin` and appends that to `PATH`. The cargo copy
-therefore normally wins, silently replacing the one `simplexup` manages. `simplexup`
+therefore normally takes precedence, silently replacing the one `simplexup` manages. `simplexup`
 warns when it notices this.
 
 **Only the library is on crates.io.** `smplx-std`, which the generated project depends
@@ -246,18 +251,18 @@ The faucet at `liquidtestnet.com/api/faucet?address=…&action=lbtc` doesn't sen
 browser can dispatch the request with `mode: "no-cors"` and the faucet receives it, but the
 reply can't be read. Confirm by checking the balance instead.
 
-## Other ways to drive the same contract
+## Other clients for the same contract
 
 Each of these is useful for one thing. The page used in the HOWTO, `examples/allowance-lwk/`,
 is the one to copy for an application.
 
 **`examples/allowance-humid-only/`.** The wallet half of that page with the library taken
-out: no wasm, no build step, no Rust, under 1,000 lines. It hands a manifest to Humid for
-every operation and keeps its own indexer. Worth copying when a page doesn't need to do anything a
+out. It doesn't use wasm, a build step or Rust, and it's under 1,000 lines. It passes a manifest to Humid for
+every operation and keeps its own indexer. It's worth copying when a page doesn't need to do anything a
 wallet can't already do for it, and worth reading in any case, because it shows exactly
-which work stays yours once the contract itself is handed over. What it gives up is the
+which work stays yours once the contract itself is provided. What it gives up is the
 ability to check anything: with no compiler it takes the covenant address from the funding
-transaction or from a handoff blob, on the benefactor's word.
+transaction or from the terms the benefactor sends, on the benefactor's word.
 [`EXPLANATION.md`, "Who signs, and what that
 changes"](EXPLANATION.md#who-signs-and-what-that-changes) covers where that matters.
 
@@ -266,7 +271,7 @@ a `.simf` with concrete [parameters](../../glossary.md#parameter) to a base64 [p
 `cargo install hal-simplicity` inspects programs and can build a [PSET](../../glossary.md#pset) by hand. Neither
 path in the HOWTO needs them, but running `simc` once confirms that the toolchain works and
 the contract compiles, before you suspect anything else. The
-[quickstart](https://docs.simplicity-lang.org/getting-started/quickstart) has the exact
+[quickstart](../../getting-started/quickstart.md) has the exact
 invocation.
 
 **`tx-manifest-wallet`.** A prebuilt CLI engine that reads a manifest and runs the whole
@@ -285,4 +290,4 @@ That exercises the real compile and witness path without spending anything, and 
 only path here that runs without a browser. It still prompts for a [fee](../../glossary.md#fee) rate, so it needs a
 terminal. Use 0.3.0 or a later 0.3.x release: this engine checks `manifest_version` at
 parse time against its own `FORMAT_VERSION`, citing ELIP-205, unlike Humid, and a 0.2.x
-release rejects the `0.3.0` manifest outright. Its README says not to use it with real funds.
+release rejects the `0.3.0` manifest. Its README says not to use it with real funds.

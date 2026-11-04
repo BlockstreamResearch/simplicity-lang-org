@@ -4,14 +4,14 @@ Background reading. **To run it yourself, start with [Build a complete Simplicit
 is needed to complete the HOWTO. For exact shapes and field behavior rather than
 reasoning, see [`REFERENCE.md`](REFERENCE.md).
 
-## What a Simplicity covenant is, at the level needed here
+## Simplicity covenants
 
 The [contract](../../glossary.md#contract) compiles to a single [Taproot](../../glossary.md#taproot) leaf script. Spending a [UTXO](../../glossary.md#utxo) locked to it means
 satisfying that script, and this contract's logic makes that conditional on a valid
 signature, on the shape of the spending [transaction](../../glossary.md#transaction)'s own [outputs](../../glossary.md#output), and on how much time
 has passed since the UTXO was created.
 
-Three values are fixed at compile time and baked into the [address](../../glossary.md#address): `BENEFICIARY_KEY` (a
+Three values are fixed at compile time and compiled into the [address](../../glossary.md#address): `BENEFICIARY_KEY` (a
 BIP340 x-only pubkey), `ALLOWANCE_AMOUNT` (satoshis withdrawable per period), and
 `MIN_DISTANCE` (blocks between withdrawals). Change any of them and you have a different,
 unrelated allowance at a different address. The [witness](../../glossary.md#witness) is a single `SIGNATURE`, checked
@@ -105,8 +105,8 @@ zero-value fee output, which [nodes](../../glossary.md#node) will generally not 
 ### `enforce_relative_distance()`
 
 The BIP68 check. It requires `jet::parse_sequence` to decode the spending transaction's
-sequence as a block-distance encoding specifically, rejecting a time-based BIP68 encoding
-outright, and it requires transaction version 2 or later.
+sequence as a block-distance encoding specifically, rejecting a time-based BIP68 encoding,
+and it requires transaction version 2 or later.
 
 `MIN_DISTANCE` is a count of blocks. The contract checks that the spending transaction's
 `nSequence` field encodes at least that many, and the node enforces the encoded distance
@@ -140,7 +140,7 @@ less than it appears to, because the covenant balance is public at every step, s
 differencing consecutive balances recovers each withdrawal amount regardless. What
 blinding the payout hides is the destination.
 
-The two mistakes are badly asymmetric. Getting it wrong on a covenant output strands the
+The two mistakes have very different consequences. Getting it wrong on a covenant output strands the
 funds silently and permanently; getting it wrong elsewhere raises a confusing error. The
 transferable rule is to ask, for each output, whether the contract reads it.
 
@@ -162,24 +162,24 @@ all.
 
 An instance file holds one allowance's fixed terms, written once at funding and read by
 every later action. A state file records where the current UTXO is and changes on every
-spend. The CLI engine in [`REFERENCE.md`, "Other ways to drive the same
-contract"](REFERENCE.md#other-ways-to-drive-the-same-contract) uses files for both;
+spend. The CLI engine in [`REFERENCE.md`, "Other clients for the same
+contract"](REFERENCE.md#other-clients-for-the-same-contract) uses files for both;
 the browser pages keep the equivalent in `localStorage` and rediscover the UTXO from the
 chain.
 
 For the page rather than the manifest,
-[`examples/allowance-lwk/README.md`](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/examples/allowance-lwk/README.md) walks its seven
-parts in order, with the library's ownership rules that cost the most time to discover.
+[`examples/allowance-lwk/README.md`](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/examples/allowance-lwk/README.md) describes its seven
+parts in order, along with the library's ownership rules.
 
 ### Writing a manifest for a different contract
 
-Work out the same mapping from that contract's source. Six things to get right:
+Derive the same mapping from that contract's source, covering these six points:
 
 One `utxo_types` entry per distinct UTXO shape the contract produces, each mapping
 `compile_params` onto the contract's real `param::` names.
 
 One `contract_templates` entry with a typed field for every compile-time parameter. These
-get baked into the address, so a missing field or wrong type produces a *different
+are compiled into the address, so a missing field or wrong type produces a *different
 address* rather than a broken transaction, which is how funds end up somewhere nothing can
 spend them from.
 
@@ -209,20 +209,20 @@ actions match the contract's real branches, that pinned output positions and amo
 correspond to what the contract enforces, and that nothing was invented to fill a gap.
 
 A draft produced from the schema alone tends to be structurally valid and semantically
-wrong, which is the expensive failure mode. Hand over the contract source, the
+wrong, which is the expensive failure mode. Provide the contract source, the
 [txmanifest book](https://stringhandler.github.io/tx_manifest_book/), the schema, and one
 known-good manifest for a different contract.
 
 ### Who signs, and what that changes
 
-The page used in the HOWTO carries both signers, and they are two ends of a range rather
+The page used in the HOWTO supports both signers, and they are two ends of a range rather
 than rival technologies to pick between.
 
 **In the page**, through [LWK](../../glossary.md#lwk) compiled to wasm: the page loads the
 library, compiles the contract, derives the address, builds the transaction and signs it
 with a key in `localStorage`. Steps 4 to 10 work this way.
 
-**In a wallet**, through a manifest: the page hands [Humid](../../glossary.md#humid)
+**In a wallet**, through a manifest: the page passes [Humid](../../glossary.md#humid)
 `txmanifest.humid.json` and the contract source, and the extension compiles, builds, signs
 and broadcasts, showing the user its own confirmation. Step 11 works this way.
 
@@ -232,18 +232,18 @@ therefore belongs to one signer or the other for its whole life.
 
 A real project would take the useful half of each: **a manifest to a wallet for anything
 involving a key, plus a library in the page for the application's own work.** Delegating
-signing is the part worth keeping permanently, since it is what keeps a user's keys in the
+signing is the part worth keeping permanently, since it is what keeps users' keys in the
 wallet where they belong and puts the wallet's review screen in front of them. Signing in
 the page, as Steps 4 to 10 do, is a way to exercise the library, not an architecture to
 copy.
 
 What a larger project would want from the library is narrower than "everything the wallet
 does", and it is worth being precise about which parts, because the answer decides whether
-a 15 MB wasm module has to be in the page at all:
+a wasm module of about 15 MB has to be in the page at all:
 
 - **Compiling the contract and deriving its address is the irreducible one.** Nothing in
   plain JavaScript computes a [CMR](../../glossary.md#cmr) or a Taproot output key for a [SimplicityHL](../../glossary.md#simplicityhl) [program](../../glossary.md#program).
-  Any feature that verifies terms, shows a user which contract they are about to fund, or
+  Any feature that verifies terms, shows users which contract they are about to fund, or
   supports more than one set of compile-time parameters needs this, and needs it in the
   page.
 - **Parsing Elements transactions properly is the next one.** The wallet-driven example
@@ -264,24 +264,24 @@ transaction parsing, have no JavaScript substitute, and a project needing either
 bring a library that provides them. Everything else is a size-and-dependency judgment:
 narrow JS libraries where they suffice, wasm where only it will do.
 
-### What the examples aren't
+### Limitations of the examples
 
 These are testnet demos, and two of their choices would be wrong for real money.
 
 **Custody.** Signing in the page means a mnemonic and a bare Schnorr key in
-`localStorage`, in plaintext. That is fine for play money and unacceptable for anything
+`localStorage`, in plaintext. That is acceptable for testnet funds and unacceptable for anything
 else. Real funds need a real wallet, which is what the manifest path already is, and this
 is the strongest reason to treat the wallet as permanent architecture rather than as a
 convenience.
 
 **Knowing what exists.** What the manifest format does today is *review*: given one
-proposed action, describe its consequences to the user accurately enough that they aren't
-blind-signing. What it doesn't do is *planning*: look at every unspent output and work out
+proposed action, describe its consequences to users accurately enough that they aren't
+blind-signing. What it doesn't do is *planning*: examine every unspent output and determine
 which actions would currently succeed or fail. Those are different jobs, and only the first
 is in scope for a wallet as the format stands.
 
 So the wallet is handed one position and one action and asked to build that. It doesn't
-tell a user which contract positions they hold or which actions are available on them.
+tell users which contract positions they hold or which actions are available on them.
 `resolveActionRequirements` requires the caller to supply both `instance` and `state` on
 every withdrawal, because the wallet neither remembers a previous `Fund`'s terms nor scans
 the chain for the right UTXO.
@@ -306,7 +306,7 @@ and the expression language is small enough that a bare `fee` reference in an am
 unimplemented. Carrying eligibility rules would be a real expansion of what the format
 expresses, not just more user interface on top of it.
 
-Planning is therefore more likely to land in a library or service that several
+Planning is therefore more likely to be implemented in a library or service that several
 applications share than inside wallets. Today it is the application's work, and none of
 the architectural choices above make it smaller.
 
@@ -328,7 +328,7 @@ the wallet from the chain. A manifest can name and describe itself freely and ca
 the numbers. [`REFERENCE.md`, "How Humid treats a
 manifest"](REFERENCE.md#how-humid-treats-a-manifest) has the specifics.
 
-### The ELIPs this rests on
+### Related ELIPs
 
 The [Wallet RPC ELIP](https://github.com/ElementsProject/ELIPs/pull/36) is a generic
 dApp-to-wallet RPC transport. The
@@ -348,7 +348,7 @@ Mechanical swaps: the chain parameter, the [Esplora](../../glossary.md#esplora) 
 (confirmed live from a trusted source at deploy time, since it is security-critical), and
 the address encodings.
 
-Five things are engineering rather than configuration:
+Five requirements need engineering rather than configuration:
 
 - **Key custody.** None of the paths here has custody fit for real funds: the page keeps a
   mnemonic and signing key in `localStorage` in plaintext. Delegating signing to a wallet
@@ -366,7 +366,7 @@ the script level; the transaction shapes; and the core indexer logic.
 
 ---
 
-## Doing it
+## Next steps
 
 The steps that put this on chain are in [Build a complete Simplicity application, from contract to web to wallet](HOWTO.md). If you are adapting the contract
 or writing a manifest for a different one, the sections above on what the contract
