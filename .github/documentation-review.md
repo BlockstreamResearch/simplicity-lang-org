@@ -32,6 +32,16 @@ When material belongs somewhere else, prefer recommending deletion or relocation
 
 The review produces recommendations. Don't restructure, split, or move pages as part of the review; raise those as proposals.
 
+## Completeness and the verdict
+
+A review must find every failure on the page, not a representative sample. Anyone who runs this review again on the same text should get the same findings, apart from judgment calls.
+
+* Sweep the whole page, section by section, for each checklist item and each formatting rule. Report every instance, not just the first or the most prominent ones.
+* Account for every checklist item and every formatting rule in the **Coverage** table, including the ones that pass.
+* A verdict applies only to the exact text reviewed. Record the commit, or "working tree" for uncommitted changes.
+* Fixing the listed items doesn't by itself make a page pass. Only a fresh, full review of the revised page can give a Pass. Don't declare a Pass from a review of the edits alone, or from a check that earlier findings were fixed.
+* A re-review starts from scratch on the whole page, including any text the fixes added.
+
 ## The review process
 
 ### 1. Classification (required first step)
@@ -67,6 +77,8 @@ An explanation or reference page that includes a command or code example still n
 1. **Single job (Diátaxis):** Does the page do only one thing? List any material that belongs in a different quadrant and name the destination.
 
 2. **Shortest path:** What is the minimum sequence that achieves the stated goal? Flag any "build the world first" content, or repeated installation content not required for the immediate task.
+    * The goal at the top of the page says what the reader will have, or be able to do, when they finish. Flag a goal that summarizes the steps instead.
+    * Get the reader to the first real action quickly. Flag requirements listed at the top of the page that the first steps don't need. Introduce each tool or requirement in the step that first uses it.
 
 3. **Context switching (DX):** Count the distinct environments the reader must juggle (for example a Node server terminal, a node CLI, the Web IDE, a browser). Flag excessive context switching.
 
@@ -106,9 +118,19 @@ Produce this structure for each page reviewed:
 ## Classification
 
 * Page: `docs/...`
+* Reviewed text: [commit hash, or "working tree"]
 * Primary type: [Tutorial | How-to | Reference | Explanation | Reduced review]
 * User need served: [one sentence]
 * Structural problems: [list, or "none"]
+
+## Coverage
+
+| Item | Result |
+| --- | --- |
+| 1. Single job | [Pass | N/A | Fail (number of instances)] |
+| ... | ... |
+| 13. Accuracy | ... |
+| Formatting: [each rule in `CONTRIBUTING.md`, one row per rule] | ... |
 
 ## Failures
 
@@ -119,7 +141,7 @@ Produce this structure for each page reviewed:
 * Action: [Delete | Move to X | Rewrite]
 * Recommendation: ...
 
-(Repeat for each failure found.)
+(Repeat for every instance found. Group instances of the same problem under one heading, but quote each one.)
 
 ## Advisory
 
@@ -131,7 +153,7 @@ Produce this structure for each page reviewed:
 
 ## Verdict
 
-[Exactly one of: Pass (ready to publish) | Conditional pass (fix the listed items) | Fail (requires structural rewrite)]
+[Exactly one of: Pass (ready to publish) | Conditional pass (fix the listed items, then run a fresh full review) | Fail (requires structural rewrite)]
 
 Priority fixes (top 3):
 

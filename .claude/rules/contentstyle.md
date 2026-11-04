@@ -33,6 +33,14 @@ write instead.
 - **Headers name the topic, not a claim about it.** Use plain noun phrases, not epigrams.
   - Avoid: "Overflow is a value, not a surprise."
   - Prefer: "Arithmetic overflow."
+- **Headings use standard software terms.** Name a section with the term a developer
+  expects for it, rather than a casual one.
+  - Avoid: "The pieces", "Talking to the Humid wallet".
+  - Prefer: "Architecture" or "Components", "Humid wallet API".
+- **Keep a professional register.** Don't use casual words for technical things, in
+  headings or in prose. "Pieces" can also suggest that something is broken.
+  - Avoid: "the pieces of the app", "talking to the wallet".
+  - Prefer: "the components of the app", "calling the wallet's API".
 - **Don't reach for rhetorical list rhythm.** A three-item asyndetic list ("No X, no Y,
   no Z.") used purely for cadence reads as ad copy. If three items are the natural
   count, list them plainly; don't add or trim items to hit a rhetorical pattern.
