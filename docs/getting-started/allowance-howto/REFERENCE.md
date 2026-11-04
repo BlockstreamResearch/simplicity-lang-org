@@ -24,7 +24,7 @@ file paths are relative to a Humid checkout. Humid changes quickly, so check a n
 | `would inherit that wait`, with `reject: unimplemented-construct`, on a withdrawal in Humid mode | the instance holds less than the amount Humid reserves for the fee, so Humid would add a coin from its own wallet, and that coin can't share the instance's timelock | Humid can claim this instance only when its fee rate falls low enough, which may not happen for a small balance; to avoid it, lock a whole multiple of the allowance, as in Step 6 |
 | `FullWithdraw failed: This instance holds less than the fee.` | the instance holds 500 sats or less, which the page's fixed 500-sat fee would use up | the page can't claim this instance; to avoid it, lock a whole multiple of the allowance, as in Step 6 |
 | `"FullWithdraw" pays nothing, so there is nothing to build.` | the change-only-output bug | same patch |
-| `cannot be built because it requires rustc 1.91.0 or newer` | Rust is older than [Simplex](../../glossary.md#simplex) needs | `rustup update stable`, then install again |
+| `cannot be built because it requires rustc 1.91.0 or newer` | Rust is older than `smplx-std`, the [Simplex](../../glossary.md#simplex) library the tests build against, needs | `rustup update stable`, then run `simplex build` again |
 | ``no `ProgramSignature` in `transaction` `` and ``the `?` operator cannot be applied to type `u64` `` from `simplex test` | the project's `smplx-std` is older than 0.2.0, the release `allowance_test.rs` is written for | in `allowance_example`, run `cargo add smplx-std@` followed by the version `simplex --version` prints, then test again |
 | `No available targets are compatible with triple "wasm32-unknown-unknown"` | the `clang` on your `PATH` has no WebAssembly backend | install LLVM from your package manager, or from Homebrew on macOS, and put its `clang` first on your `PATH` |
 | `npm error code EACCES` from `npm install -g bun`, with `permission denied, mkdir '…/lib/node_modules'` | npm's global install directory belongs to the system, not to your user | point npm at a directory you own with `npm config set prefix ~/.npm-global`, add `~/.npm-global/bin` to your `PATH`, and install again; see npm's [guide to `EACCES` errors](https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally) |
@@ -207,10 +207,16 @@ other error is worth investigating.
 
 ## Installing and running Simplex
 
-**Two installations can collide.** `cargo install` puts `simplex` in `~/.cargo/bin`;
-`simplexup` puts it in `~/.simplex/bin` and appends that to `PATH`. The cargo copy
-therefore normally takes precedence, silently replacing the one `simplexup` manages. `simplexup`
-warns when it notices this.
+**`simplex test` needs more than `simplex`.** It runs `smplx-nextest`, `elementsd` and
+`electrs`, all found through `PATH`. `simplexup` installs them in `~/.simplex/bin` with
+`simplex` itself. Building the command from the repository with `cargo install` provides
+only `simplex`, so a source build needs the other three installed separately.
+
+**Two installations can collide.** `cargo install` puts `simplex` in `~/.cargo/bin`, and
+`simplexup` puts it in `~/.simplex/bin`. Whichever directory comes first in `PATH` takes
+precedence. Step 2 puts `~/.simplex/bin` first. The `simplexup` install script on the
+Simplex site appends it instead, so there a cargo copy takes precedence. `simplexup` warns
+when it notices this.
 
 **Only the library is on crates.io.** `smplx-std`, which the generated project depends
 on, is published; `smplx-cli`, which provides the `simplex` command, isn't, so the

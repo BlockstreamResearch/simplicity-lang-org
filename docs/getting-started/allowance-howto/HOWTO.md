@@ -80,19 +80,31 @@ For what each function enforces, see
 ## 2. Run the contract's tests on regtest
 
 Make sure you have [Rust](https://rust-lang.org/tools/install/) 1.91 or newer and `cargo`,
-from `rustup`.
+from `rustup`, and `jq`, which the Simplex installer uses: `apt install jq` or
+`brew install jq`.
 
-Install [Simplex](../../glossary.md#simplex), which runs SimplicityHL integration tests against a local
-[Elements](../../glossary.md#elements) regtest [node](../../glossary.md#node) that it starts and supplies with test coins. It
-can take some time to compile:
+Install [Simplex](../../glossary.md#simplex), which runs SimplicityHL integration tests
+against a local [Elements](../../glossary.md#elements) regtest
+[node](../../glossary.md#node) that it starts and supplies with test coins. Its installer,
+`simplexup`, also installs the regtest tools the tests use. Download the installer, read it
+if you want to, then run it:
 
 ```bash
-git clone https://github.com/BlockstreamResearch/smplx
-cargo install --path smplx/crates/cli --locked
+export SIMPLEX_DIR="$HOME/.simplex"
+mkdir -p "$SIMPLEX_DIR/bin"
+curl -fsSL -o "$SIMPLEX_DIR/bin/simplexup" \
+    https://raw.githubusercontent.com/BlockstreamResearch/smplx/master/simplexup/simplexup
+chmod +x "$SIMPLEX_DIR/bin/simplexup"
+export PATH="$SIMPLEX_DIR/bin:$PATH"
+simplexup
 simplex --version
 ```
 
-You should see `Simplex` followed by a version number, 0.2.0 or newer.
+You should see `Simplex` followed by a version number, 0.2.0 or newer. The two `export`
+lines apply only to this terminal, so run them again in any new terminal you use for this
+step. To keep `simplex` available after the tutorial, add
+`export PATH="$HOME/.simplex/bin:$PATH"` to your shell's startup file, such as `~/.bashrc`
+or `~/.zshrc`.
 
 Then set up the project and run the tests:
 
