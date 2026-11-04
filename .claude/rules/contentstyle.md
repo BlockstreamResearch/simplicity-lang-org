@@ -46,6 +46,13 @@ write instead.
     manifest".
   - Prefer: "use the contract from a page", "compiled into the address", "pass the wallet
     a manifest".
+  - This rule covers documentation. On-screen text in a demo application stands in for
+    end-user software, so its labels, hints and messages can use a friendlier product
+    voice ("Top it up from the faucet", "Testing on your own, press it above"). Even
+    there, avoid developer slang ("nuke the wallet", "the faucet is borked", "fire off the
+    claim") and jargon the user may not know ("paste the blob", "the handoff is step 5").
+    When documentation quotes on-screen text, quote it exactly, and don't hold the
+    quotation to this rule.
 - **Don't reach for rhetorical list rhythm.** A three-item asyndetic list ("No X, no Y,
   no Z.") used purely for cadence reads as ad copy. If three items are the natural
   count, list them plainly; don't add or trim items to hit a rhetorical pattern.
