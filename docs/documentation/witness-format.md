@@ -1,12 +1,15 @@
 # `.wit` File Reference
 
-This reference covers the practical mechanics of building witness data for a SimplicityHL contract: the `.wit` file format, compiling it with `simc`, other ways to build witness data, and how to format every SimplicityHL type as a witness value. For an explanation of what a witness is and why it exists, see [Witnesses in SimplicityHL development](witness.md).
+This reference covers the practical mechanics of building witness data for a SimplicityHL contract: the `.wit` file format, compiling it with `simc`, other ways to build witness data, and how to format common SimplicityHL types as a witness value. For an explanation of what a witness is and why it exists, see [Witnesses in SimplicityHL development](witness.md).
+
+!!! note "Witness data in a Simplex project"
+    [Simplex generates Rust bindings](simplex.md#building-artifacts) for your contract's witness values. Application code supplies the values through those bindings without a separate `.wit` file or `simc` serialization step. The file format below is useful when working directly with the command-line toolchain.
 
 ## Command-line development with `.wit` files
 
 The [simc](../glossary.md#simc) compiler is able to compile (in this context, "serialize") a witness using a contract-specific text file called a `.wit` file. The output is a base64 string which can then be provided to other tools like `hal-simplicity pset finalize` to be incorporated into a complete transaction.
 
-A `.wit` file is a JSON file consisting of key-value string pairs. Each entry name corresponds to a variable name expected by the SimplicityHL program, and the string value contains the Rust-like data representation:
+A `.wit` file is a JSON object keyed by witness names. Each entry is either a string containing a SimplicityHL value expression or an object with `"value"` and `"type"` fields, as shown below:
 
 ```json
 {
@@ -18,10 +21,10 @@ A `.wit` file is a JSON file consisting of key-value string pairs. Each entry na
 
 This witness provides two integer values, available to a SimplicityHL program as `witness::amount` and `witness::x`, and a boolean value available as `witness::yes_or_no`. The `simc` compiler infers the required type for each entry automatically from the program source code.
 
-Note that all values, including numbers and booleans, are represented as JSON strings within the `.wit` file (`"100"`, not `100`; `"false"`, not `false`).
+Write all value expressions as JSON strings, including numeric and boolean literals (`"100"`, not `100`; `"false"`, not `false`). In an explicitly typed entry, `"value"` contains this expression as a string and `"type"` is also a string.
 
 !!! note "Explicit type annotations (optional)"
-    By default, `simc` infers types directly from your contract logic. If you want to explicitly declare or enforce a type for primitive values, tuples, arrays, alias types, or sum types in your `.wit` file, you can use an explicit type annotation syntax, providing a JSON object with `"type"` and `"value"` fields:
+    By default, `simc` infers types directly from your contract logic. If you want to explicitly declare or enforce a type for primitive values, tuples, arrays, built-in alias types, or sum types in your `.wit` file, you can use an explicit type annotation syntax, providing a JSON object with `"type"` and `"value"` fields:
 
     ```json
     {
@@ -68,7 +71,7 @@ By including both the program source code `p2ms.simf` and the witness file `p2ms
 
 Witness data doesn't necessarily need to be written to disk as a `.wit` file; it can be assembled in memory by client applications.
 
-* **Rust Integration:** Developers using Rust can build witness structures directly. Tools like [Simplex](../simplex/) generate native Rust witness-building code directly from `.simf` files. Explicit witness-building examples are also available in [`simplicity-contracts`](https://github.com/BlockstreamResearch/simplicity-contracts/tree/main/crates/contracts/src).
+* **Rust Integration:** Developers using Rust can build witness structures directly. Tools like [Simplex](simplex.md) generate native Rust witness-building code directly from `.simf` files. Explicit witness-building examples are also available in [`simplicity-contracts`](https://github.com/BlockstreamResearch/simplicity-contracts/tree/main/crates/contracts/src).
 
 * **Liquid Wallet Kit (LWK):** The [Liquid Wallet Kit](https://github.com/Blockstream/lwk) SDK ("`lwk`") allows building witnesses in Python, JavaScript, and Rust without creating intermediate `.wit` files.
 
@@ -165,7 +168,7 @@ Tuples and arrays group multiple values into a single witness item.
 
 ```simplicityhl
 let mypair: (bool, u16) = witness::MYPAIR;
-let four_sigs: [Signature; 4] = witness::FOUR_SIGS;
+let four_values: [u16; 4] = witness::FOUR_VALUES;
 ```
 
 **Witness file (`witness.wit`):**
@@ -173,11 +176,11 @@ let four_sigs: [Signature; 4] = witness::FOUR_SIGS;
 ```json
 {
     "MYPAIR": "(true, 376)",
-    "FOUR_SIGS": "[0x8a3584f8..., 0xf74b3ca5..., 0xdf5dc2e2..., 0x29dbeab5...]"
+    "FOUR_VALUES": "[1, 2, 3, 4]"
 }
 ```
 
-Values inside tuples and arrays can be accessed in SimplicityHL via tuple destructuring (`let (a, b): (bool, u16) = witness::mypair;`) or array indexing (`witness::FOUR_SIGS[0]`).
+Use tuple destructuring to access tuple values in SimplicityHL (`let (a, b): (bool, u16) = witness::MYPAIR;`).
 
 ### Tagged sum types
 

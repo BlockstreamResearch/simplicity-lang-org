@@ -8,19 +8,19 @@ Because Simplicity and Elements are open source, developers have the flexibility
 
 ## Tooling (contract compilation and transaction generation)
 
-### Command line
-
-[Command-line tools for developing, testing, and exploration](../toolchain/) (`simc` and `hal-simplicity`) are available.
-
-### SimplicityHL, rust-simplicity, and Simplex
+### Rust application projects {#simplicityhl-rust-simplicity-and-simplex}
 
 The recommended development environment for building production applications that directly interact with Simplicity contracts is based on Rust. Three projects are most relevant to Rust developers.
+
+* [Simplex](simplex.md) provides the project workflow: create a Rust project, fetch SimplicityHL dependencies, generate contract bindings, and run local integration and fuzz tests. It uses the SimplicityHL compiler library directly.
 
 * The [SimplicityHL](https://github.com/BlockstreamResearch/SimplicityHL) project includes a Rust library that lets you compile SimplicityHL to low-level Simplicity from inside a Rust program. The compilation logic is the same as in the `simc` compiler, but doesn't require a command-line invocation.
 
 * The [`rust-simplicity`](https://github.com/BlockstreamResearch/rust-simplicity) library provides low-level functionality related to building witnesses and transactions. It can also derive on-chain addresses from a compiled Simplicity program.
 
-* The [Simplex](../simplex/) orchestration tool can automatically generate code artifacts in Rust, compatible with `rust-simplicity`, that provide basic witness and transaction-building logic for a specified SimplicityHL program. It also provides other useful project management functionality such as dependency management and a test framework.
+### Command line
+
+The [toolchain reference](toolchain.md) covers `simc` and `hal-simplicity` for manual compilation, transaction construction, and debugging.
 
 ### LWK
 

@@ -2,20 +2,16 @@
 
 The SimplicityHL toolchain consists of the command-line tools `simc` (the SimplicityHL compiler) and `hal-simplicity` (a multipurpose command-line utility for inspecting and creating objects relevant to Simplicity programs and on-chain transactions).
 
-!!! Note
+!!! note "Rust application projects"
 
-    The toolchain is useful for learning about Simplicity and SimplicityHL and for testing and debugging purposes. However, **most application developers will use a workflow that doesn't emphasize the use
-    of these tools**.
+    Use [Simplex](simplex.md) to create a Rust project, manage SimplicityHL
+    dependencies, generate contract bindings, and run local tests. Simplex
+    uses the SimplicityHL compiler library directly. Its project workflow
+    handles compilation without a separate `simc` invocation.
 
-    A typical smart contract development workflow is focused on a
-    high-level language (usually Rust) in which application software is
-    developed alongside the SimplicityHL contract in a single project. See
-    [simplicity-contracts](https://github.com/BlockstreamResearch/simplicity-contracts)
-    for examples of such projects. In this workflow, SimplicityHL programs
-    are compiled, addresses are derived, and witnesses and transactions
-    are built from within Rust applications using other libraries and
-    tooling, not `simc` and `hal-simplicity`. (The other libraries and
-    tooling share some of their code with these command-line tools.)
+    The command-line tools on this page support manual compilation,
+    transaction construction, and debugging. For Rust application examples,
+    see [simplicity-contracts](https://github.com/BlockstreamResearch/simplicity-contracts).
 
     The [Liquid Wallet
     Kit](https://docs.liquid.net/docs/lwk-overview-and-examples)
@@ -36,9 +32,7 @@ The SimplicityHL toolchain consists of the command-line tools `simc` (the Simpli
     * Search: In the search field, type `SimplicityHL`.
     * Install: Click the Install button for the extension provided by Blockstream.
 
-## Typical workflow
-
-**As noted above, most SimplicityHL developers will use a different workflow using other tools.**
+## Manual command-line workflow {#typical-workflow}
 
 The most basic workflow for on-chain transactions with the command-line toolchain is:
 
