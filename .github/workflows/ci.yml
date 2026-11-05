@@ -9,10 +9,17 @@ on:
   # before it reaches the site rather than after.
   pull_request:
 
+# Only the `deploy` job, which runs nothing but GitHub's own Pages actions, gets the
+# permissions that can publish the site.
 permissions:
-  contents: read  # Adjusted from 'write'
-  pages: write    # Added
-  id-token: write # Added
+  contents: read
+
+# Rust caches: each key ends in a hash of the crate sources it covers, so a run where
+# those didn't change gets an exact hit and saves nothing, and a run where they did
+# restores the newest cache for the same compiler and saves a fresh one. `RUSTC` (a
+# hash of `rustc -vV`) keeps a runner-image toolchain update from restoring build
+# artifacts the new compiler can't reuse. Every key prefix is distinct and none is a
+# prefix of another, so a fallback never restores a different job's cache.
 
 jobs:
   # Executes every `simplicityhl,run` fence under docs/ and checks it behaves as its
@@ -22,16 +29,17 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       # Ubuntu runners ship a rustup toolchain, so nothing to install for a host build.
+      - run: echo "RUSTC=$(rustc -vV | sha256sum | cut -c1-12)" >> "$GITHUB_ENV"
       - uses: actions/cache@v6
         with:
-          key: cargo-${{ hashFiles('crates/simplicity-runner/Cargo.lock', 'crates/tx-fixtures/Cargo.lock') }}
+          key: snippets-${{ env.RUSTC }}-${{ hashFiles('crates/*/Cargo.toml', 'crates/*/Cargo.lock', 'crates/*/src/**', 'crates/simplicity-runner/tests/*.rs') }}
           path: |
             ~/.cargo/registry
             ~/.cargo/git
             crates/simplicity-runner/target
             crates/tx-fixtures/target
           restore-keys: |
-            cargo-
+            snippets-${{ env.RUSTC }}-
       # Most content here lands via a direct commit to `main`, not a PR, so a missing
       # fixture must not freeze deployment of the entire site over one example: fetch
       # whatever isn't already checked in, from the same live explorer the browser
@@ -46,7 +54,7 @@ jobs:
 
       # A non-blocking nudge, not a build gate: catches "referenced a new txid (or
       # changed a tx-*.hex fixture) but didn't commit the fixture and/or its exported
-      # JSON" early, on the commit itself, rather than only in the deploy job's own
+      # JSON" early, on the commit itself, rather than only in the build job's own
       # (also non-blocking) re-run of this same step. Compares against a freshly
       # regenerated copy rather than re-parsing every `tx txid="…"` fence a second time
       # — cheaper, and doesn't duplicate the fence syntax `hooks/runnable.py` owns.
@@ -59,44 +67,50 @@ jobs:
             git status --porcelain -- $paths
           fi
 
-  deploy:
-    # A page whose snippet no longer compiles must not reach the site.
-    needs: snippets
+  # Builds the site alongside `snippets` rather than after it. Nothing is published
+  # until `deploy`, which waits for both.
+  build:
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
-    # Serialise deploys only; PR runs are free to overlap.
-    concurrency:
-      group: github-pages
-      cancel-in-progress: false
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }} # Retrieved from deploy-pages action
+    env:
+      # Pinned release binary. To upgrade, change the version and take the new
+      # tarball's sha256 from https://github.com/wasm-bindgen/wasm-pack/releases (shown
+      # beside each asset). Dependabot doesn't track this.
+      WASM_PACK_VERSION: 0.15.1
+      WASM_PACK_SHA256: 410101009739b9d01c7d5affaaad6e9c9a24b4cba6791a4805db8e89b9bf7af2
     steps:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
+      - run: echo "RUSTC=$(rustc -vV | sha256sum | cut -c1-12)" >> "$GITHUB_ENV"
 
       # --- the compiler readers run in their browser --------------------------------
       # Built here rather than committed, so no 2 MB binary accumulates in git history.
       # It must land in docs/wasm/pkg/ before mkdocs runs, since mkdocs copies docs/
       # verbatim into the site.
-      - run: rustup target add wasm32-unknown-unknown
-      - uses: actions/cache@v6
+      #
+      # The package depends only on the crate itself (its tests read docs/ at run
+      # time, and there is no build script), so a docs-only push restores it whole
+      # and skips the toolchain setup, the wasm-pack install and the build.
+      - id: wasm-pkg
+        uses: actions/cache@v6
         with:
-          key: cargo-wasm-${{ hashFiles('crates/simplicity-runner/Cargo.lock') }}
+          key: wasm-pkg-${{ env.WASM_PACK_VERSION }}-${{ hashFiles('crates/simplicity-runner/Cargo.toml', 'crates/simplicity-runner/Cargo.lock', 'crates/simplicity-runner/src/**') }}
+          path: docs/wasm/pkg
+      - if: steps.wasm-pkg.outputs.cache-hit != 'true'
+        run: rustup target add wasm32-unknown-unknown
+      - if: steps.wasm-pkg.outputs.cache-hit != 'true'
+        uses: actions/cache@v6
+        with:
+          key: wasm-target-${{ env.RUSTC }}-${{ hashFiles('crates/simplicity-runner/Cargo.toml', 'crates/simplicity-runner/Cargo.lock', 'crates/simplicity-runner/src/**') }}
           path: |
             ~/.cargo/registry
             ~/.cargo/git
             crates/simplicity-runner/target
           restore-keys: |
-            cargo-wasm-
-      # Pinned release binary. To upgrade, change the version and take the new tarball's
-      # sha256 from https://github.com/wasm-bindgen/wasm-pack/releases (shown beside
-      # each asset). Dependabot doesn't track this.
+            wasm-target-${{ env.RUSTC }}-
       - name: Install wasm-pack
-        env:
-          WASM_PACK_VERSION: 0.15.1
-          WASM_PACK_SHA256: 410101009739b9d01c7d5affaaad6e9c9a24b4cba6791a4805db8e89b9bf7af2
+        if: steps.wasm-pkg.outputs.cache-hit != 'true'
         run: |
           name="wasm-pack-v${WASM_PACK_VERSION}-x86_64-unknown-linux-musl"
           curl -sSfL -o "$RUNNER_TEMP/wasm-pack.tar.gz" \
@@ -105,28 +119,30 @@ jobs:
           tar -xzf "$RUNNER_TEMP/wasm-pack.tar.gz" -C "$RUNNER_TEMP"
           install -m 755 "$RUNNER_TEMP/${name}/wasm-pack" "$HOME/.cargo/bin/wasm-pack"
           wasm-pack --version
-      - run: wasm-pack build crates/simplicity-runner --target web --out-dir ../../docs/wasm/pkg --release
+      - if: steps.wasm-pkg.outputs.cache-hit != 'true'
+        run: wasm-pack build crates/simplicity-runner --target web --out-dir ../../docs/wasm/pkg --release
       # wasm-pack also emits npm packaging and type declarations; only the loader and the
       # binary are served, and the rest would otherwise be published with the site.
-      - run: rm -f docs/wasm/pkg/{.gitignore,package.json,README.md,*.d.ts}
+      - if: steps.wasm-pkg.outputs.cache-hit != 'true'
+        run: rm -f docs/wasm/pkg/{.gitignore,package.json,README.md,*.d.ts}
 
       # --- preset transaction data for the `tx` snippets ------------------------------
       # `tx-fixtures` is a separate crate from `simplicity-runner` (see the comment atop
       # crates/tx-fixtures/src/bin/add_tx_fixture.rs) — no wasm target/toolchain needed
-      # for either step here, just the host-native cargo already set up above.
+      # for either step here, just the host-native cargo the runner ships.
       #
       # Fetches whatever referenced txid isn't already a checked-in fixture (this job
       # runs in its own fresh checkout, so the `snippets` job's own fetch, if any,
       # doesn't carry over) — see the comment on the same step in `snippets` above.
       - uses: actions/cache@v6
         with:
-          key: cargo-tx-fixtures-${{ hashFiles('crates/tx-fixtures/Cargo.lock') }}
+          key: tx-fixtures-${{ env.RUSTC }}-${{ hashFiles('crates/tx-fixtures/Cargo.toml', 'crates/tx-fixtures/Cargo.lock', 'crates/tx-fixtures/src/**') }}
           path: |
             ~/.cargo/registry
             ~/.cargo/git
             crates/tx-fixtures/target
           restore-keys: |
-            cargo-tx-fixtures-
+            tx-fixtures-${{ env.RUSTC }}-
       - run: cargo run --manifest-path crates/tx-fixtures/Cargo.toml --bin add_tx_fixture
       # Exported from the (now-complete) fixtures so the tutorial's own worked examples
       # load instantly and don't depend on the live Esplora API being reachable; a
@@ -138,6 +154,7 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: 3.x
+          cache: pip
       - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
       - uses: actions/cache@v6
         with:
@@ -146,13 +163,30 @@ jobs:
           restore-keys: |
             mkdocs-material-
       - run: pip install -r requirements.txt
-      - run: mkdocs build                      # Adjusted from 'mkdocs gh-deploy'
+      - run: mkdocs build
       # Fail loudly if the compiler is missing rather than deploying a site whose every
       # Run button 404s.
       - run: test -s site/wasm/pkg/simplicity_runner_bg.wasm
-      - uses: actions/configure-pages@v6       # Added
-      - uses: actions/upload-pages-artifact@v5 # Added
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: 'site/'
-      - uses: actions/deploy-pages@v5          # Added
+
+  deploy:
+    # A page whose snippet no longer compiles must not reach the site.
+    needs: [snippets, build]
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    # Serialize deploys only; PR runs are free to overlap.
+    concurrency:
+      group: github-pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/configure-pages@v6
+      - uses: actions/deploy-pages@v5
         id: deployment
