@@ -24,8 +24,9 @@ file paths are relative to a Humid checkout. Humid changes quickly, so check a n
 | `would inherit that wait`, with `reject: unimplemented-construct`, on a withdrawal in Humid mode | the instance holds less than the amount Humid reserves for the fee, so Humid would add a coin from its own wallet, and that coin can't share the instance's timelock | Humid can claim this instance only when its fee rate falls low enough, which may not happen for a small balance; to avoid it, lock a whole multiple of the allowance, as in Step 6 |
 | `FullWithdraw failed: This instance holds less than the fee.` | the instance holds 500 sats or less, which the page's fixed 500-sat fee would use up | the page can't claim this instance; to avoid it, lock a whole multiple of the allowance, as in Step 6 |
 | `"FullWithdraw" pays nothing, so there is nothing to build.` | the change-only-output bug | same patch |
+| `unsupported platform: …` from `simplexup` | the Simplex installer supports only Linux and macOS | run the tutorial on Linux or macOS |
 | `cannot be built because it requires rustc 1.91.0 or newer` | Rust is older than `smplx-std`, the [Simplex](../../glossary.md#simplex) library the tests build against, needs | `rustup update stable`, then run `simplex build` again |
-| ``no `ProgramSignature` in `transaction` `` and ``the `?` operator cannot be applied to type `u64` `` from `simplex test` | the project's `smplx-std` is older than 0.2.0, the release `allowance_test.rs` is written for | in `allowance_example`, run `cargo add smplx-std@` followed by the version `simplex --version` prints, then test again |
+| ``no `ProgramSignature` in `transaction` `` and ``the `?` operator cannot be applied to type `u64` `` from `simplex test` | the project's `smplx-std` isn't 0.2.0, the release `allowance_test.rs` is written for | in `allowance_example`, run `cargo add smplx-std@0.2.0`, then test again |
 | `No available targets are compatible with triple "wasm32-unknown-unknown"` | the `clang` on your `PATH` has no WebAssembly backend | install LLVM from your package manager, or from Homebrew on macOS, and put its `clang` first on your `PATH` |
 | `npm error code EACCES` from `npm install -g bun`, with `permission denied, mkdir '…/lib/node_modules'` | npm's global install directory belongs to the system, not to your user | point npm at a directory you own with `npm config set prefix ~/.npm-global`, add `~/.npm-global/bin` to your `PATH`, and install again; see npm's [guide to `EACCES` errors](https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally) |
 | `fatal: destination path '…' already exists and is not an empty directory`, or a similar complaint from `simplex init`, `rm` or `git apply`, when you run a step's block again | the first run already created that directory, removed that file or applied that patch | harmless; check the result the step says you should see, which comes from the block's last command |
@@ -38,7 +39,7 @@ file paths are relative to a Humid checkout. Humid changes quickly, so check a n
 | `Expecting value: line 1 column 1 (char 0)` from `python3 -m json.tool` | Esplora replied with an error message instead of JSON, usually because a placeholder such as `<fund-txid>` is still in the command, or because of a rate limit | run the `curl` command on its own, without `python3 -m json.tool`, to see Esplora's reply; replace the placeholder with the value the page showed, or after an HTTP 429, see "Chain access" |
 | `insufficient fee, rejecting replacement` | a previous attempt already reached the mempool | check the explorer before retrying; it probably succeeded |
 | `window.humid is missing` | extension disabled, wrong profile, page opened as `file://`, or page already open when Humid was loaded, enabled or reloaded | enable it, serve over `http://`, and reload the page |
-| `Manifest file is missing or unreadable` from **Load unpacked** | the folder selected isn't `humid/dist`, or Step 11a's `bun run build` didn't finish | run Step 11a again until `bun run build` writes `humid/dist/`, then select that folder |
+| `Manifest file is missing or unreadable` from **Load unpacked** | the folder selected isn't `humid/dist`, or Step 11a's `bun run build` didn't finish | run Step 11a again until `bun run build` writes `humid/dist`, then select that folder |
 | `Import #0 "wbg": module is not an object or function` | a web-target wasm build overwrote the bundler-target `pkg/` | rebuild `pkg/` with `--target bundler` |
 | `null pointer passed to rust` | a wasm handle used after a call consumed it | build a fresh `TxOut` per call; reassign after every builder step |
 | `Expected a blinded address but got a non-blinded one` | `Address.parse` requires a [confidential](../../glossary.md#confidential) [address](../../glossary.md#address) | use `new Address(s)` and check the network with `isMainnet()` |
@@ -233,7 +234,11 @@ binary has to come from the repository or the installer script.
 `src/artifacts/`, so an older library rejects what a newer binary writes, failing with a
 type error about `Program::new`. `simplex init` writes the newest `smplx-std` from
 crates.io regardless of the binary's version, so a mismatch is easy to create by pinning
-only one of the two.
+only one of the two. Step 2 pins both to 0.2.0.
+
+**Step 2 makes 0.2.0 the active version.** If you already had a newer Simplex from
+`simplexup`, `simplex` in `~/.simplex/bin` is now 0.2.0. `simplexup --list` shows the
+installed versions, and `simplexup --use` followed by a version switches to it.
 
 **What `simplex init` leaves you to fix.** It scaffolds `tests/p2pk_test.rs` whose body
 is `todo!()`, so it panics if left in place, and `simf/p2pk.simf` alongside it. It names
