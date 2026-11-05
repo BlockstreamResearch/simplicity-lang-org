@@ -344,7 +344,7 @@ Do not run any of this against mainnet. Moving this design to mainnet involves t
 of change: some mechanical, some that need real engineering, and some parts that stay the
 same.
 
-Mechanical swaps: the chain parameter, the [Esplora](../../glossary.md#esplora) and Waterfalls endpoints, the real LBTC asset id
+Mechanical swaps: the chain parameter, the [Esplora](../../glossary.md#esplora) endpoint, the real LBTC asset id
 (confirmed live from a trusted source at deploy time, since it is security-critical), and
 the address encodings.
 

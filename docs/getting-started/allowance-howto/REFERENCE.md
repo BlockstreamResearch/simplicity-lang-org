@@ -25,6 +25,7 @@ file paths are relative to a Humid checkout. Humid changes quickly, so check a n
 | `FullWithdraw failed: This instance holds less than the fee.` | the instance holds 500 sats or less, which the page's fixed 500-sat fee would use up | the page can't claim this instance; to avoid it, lock a whole multiple of the allowance, as in Step 6 |
 | `"FullWithdraw" pays nothing, so there is nothing to build.` | the change-only-output bug | same patch |
 | `unsupported platform: …` from `simplexup` | the Simplex installer supports only Linux and macOS | run the tutorial on Linux or macOS |
+| ``error: linker `cc` not found``, or `failed to find tool "cc"` from `secp256k1-sys` or `simplicity-sys` | there isn't a C compiler and linker installed, which Rust builds need and `rustup` doesn't provide | install your system's C build tools, such as `build-essential` on Debian or Ubuntu, or the Xcode Command Line Tools on macOS with `xcode-select --install`, then run the command again |
 | `cannot be built because it requires rustc 1.91.0 or newer` | Rust is older than `smplx-std`, the [Simplex](../../glossary.md#simplex) library the tests build against, needs | `rustup update stable`, then run `simplex build` again |
 | ``no `ProgramSignature` in `transaction` `` and ``the `?` operator cannot be applied to type `u64` `` from `simplex test` | the project's `smplx-std` isn't 0.2.0, the release `allowance_test.rs` is written for | in `allowance_example`, run `cargo add smplx-std@0.2.0`, then test again |
 | `No available targets are compatible with triple "wasm32-unknown-unknown"` | the `clang` on your `PATH` has no WebAssembly backend | install LLVM from your package manager, or from Homebrew on macOS, and put its `clang` first on your `PATH` |
@@ -37,6 +38,7 @@ file paths are relative to a Humid checkout. Humid changes quickly, so check a n
 | `No handler for method` | a chain method called directly | tunnel it through `wallet_invokeMethod` |
 | `non-BIP68-final` | not enough blocks have passed | wait; the [timelock](../../glossary.md#timelock) is working |
 | `Expecting value: line 1 column 1 (char 0)` from `python3 -m json.tool` | Esplora replied with an error message instead of JSON, usually because a placeholder such as `<fund-txid>` is still in the command, or because of a rate limit | run the `curl` command on its own, without `python3 -m json.tool`, to see Esplora's reply; replace the placeholder with the value the page showed, or after an HTTP 429, see "Chain access" |
+| `Esplora is rate-limiting this page (HTTP 429)`, or `Esplora is throttling requests, so the page won't scan the wallet…` | `blockstream.info` is refusing requests from your address after a burst | wait a few minutes before pressing **Sync & show balance** or **Refresh status** again |
 | `insufficient fee, rejecting replacement` | a previous attempt already reached the mempool | check the explorer before retrying; it probably succeeded |
 | `window.humid is missing` | extension disabled, wrong profile, page opened as `file://`, or page already open when Humid was loaded, enabled or reloaded | enable it, serve over `http://`, and reload the page |
 | `Manifest file is missing or unreadable` from **Load unpacked** | the folder selected isn't `humid/dist`, or Step 11a's `bun run build` didn't finish | run Step 11a again until `bun run build` writes `humid/dist`, then select that folder |
@@ -82,6 +84,10 @@ any existing session for that origin first
 (`extension-background/dapp-authorization/createDappAuthorization.ts`). Calling it before
 each action destroys a working authorization and re-approves it every time. Attempt the
 method first and create a session only if the call is refused.
+
+A session covers only the methods named when it was created, and Humid refuses any other
+method with `Method "…" is not authorized for this session.`, so the page names every
+method it uses when it creates one.
 
 `wallet_getSession` is read-only and never prompts. `{sessionScopes: {}}` means no scopes
 are granted.
@@ -257,13 +263,11 @@ which serves the same API.
 that address for a long time, so pace automatic refreshing against how long there is left
 to wait, and stop when nothing is pending.
 
-Sync the page's wallet through Waterfalls at
-`https://waterfalls.liquidwebwallet.org/liquidtestnet/api`, with a client created as
-`new EsploraClient(network, url, true, 1, false)`, where `true` enables Waterfalls. A plain
-[Esplora](../../glossary.md#esplora) scan sends one request per address, 40 or more per sync, while Waterfalls returns the
-whole wallet's history in one request. The server sends CORS headers but isn't a full Esplora,
-so covenant lookups, the tip [height](../../glossary.md#height) and broadcasts still go to `blockstream.info`. The
-Waterfalls operator learns the wallet's addresses.
+The page syncs its wallet through the same [Esplora](../../glossary.md#esplora), with a
+client created as `new EsploraClient(network, url, false, 1, false)`. A sync sends one
+request per wallet address, 40 or more, one after another, so the page runs one sync at a
+time and doesn't start one while it's backing off after a 429. Covenant lookups, the tip
+[height](../../glossary.md#height) and broadcasts go to the same server.
 
 The faucet at `liquidtestnet.com/api/faucet?address=…&action=lbtc` doesn't send any CORS headers. A
 browser can dispatch the request with `mode: "no-cors"` and the faucet receives it, but the

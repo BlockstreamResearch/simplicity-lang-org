@@ -28,8 +28,8 @@ for it.
 
 ## Architecture
 
-The page doesn't have a backend. It reads the chain from public
-[Esplora](../../glossary.md#esplora) and Waterfalls servers. It gets each
+The page doesn't have a backend. It reads the chain from a public
+[Esplora](../../glossary.md#esplora) server. It gets each
 [transaction](../../glossary.md#transaction) signed in one of two ways: by the
 [LWK](../../glossary.md#lwk) library inside the page (Steps 7 to 10), or by the Humid
 wallet extension, which works from a [manifest](../../glossary.md#manifest) (Step 11).
@@ -57,7 +57,7 @@ flowchart TD
   l -->|"signed transaction<br/>via Esplora"| chain
   w -->|"signed transaction"| chain
   chain -->|"UTXOs, tip height<br/>via Esplora"| index
-  chain -->|"wallet balance<br/>via Waterfalls"| l
+  chain -->|"wallet balance<br/>via Esplora"| l
   index -->|"which action is valid now"| form
 ```
 
@@ -231,8 +231,8 @@ again. If it stays at zero, use the [Liquid testnet faucet](https://liquidtestne
 
 Open the **I'm the beneficiary** tab and press **Generate / show my key**. This shows the
 BIP340 x-only [public key](../../glossary.md#public-key) that the page generated for you
-when it loaded. The page compiles it into the contract in Step 6, and only a signature
-from its private half can withdraw.
+when it loaded. The page compiles it into the contract in Step 6, and the contract accepts
+a withdrawal only with a signature from its private half.
 
 You should see 64 hex characters.
 
@@ -276,7 +276,7 @@ any of the terms gives a different allowance at a different address.
 ## 7. Fund the allowance
 
 Set the amount to lock, a whole multiple of the allowance as Step 6 describes, leave
-**Broadcast for real** unchecked, and press **Fund**.
+**Broadcast for real** cleared, and press **Fund**.
 
 ??? example "The code behind that button"
 
@@ -329,7 +329,7 @@ transaction confirms, and then shows a timelock countdown. Each
 [UTXO](../../glossary.md#utxo) at the covenant address is a separate allowance instance
 with its own timelock.
 
-??? example "Run the same query by hand"
+??? example "Check the instances on chain"
 
     ```bash
     ADDR=<covenant-address>
@@ -355,9 +355,15 @@ On the **I'm the beneficiary** tab, press **Use my wallet address** to set where
 Then press **Claim** and read the confirmation panel, which lists every output before the page
 signs anything.
 
-For a `PartialWithdraw` you should see output 0 returning the remainder to the covenant
-address, output 1 paying you, and output 2 as the fee. A `FullWithdraw` has no
-remainder, so output 0 pays you and output 1 is the fee. Confirm it.
+You should see these outputs:
+
+| Output | `PartialWithdraw` | `FullWithdraw` |
+| --- | --- | --- |
+| 0 | the remainder, back to the covenant address | the payout to you |
+| 1 | the payout to you | the fee |
+| 2 | the fee | |
+
+Confirm it.
 
 You should see a broadcast txid. After a `PartialWithdraw`, a new instance holding the
 remainder appears within about a minute.
@@ -370,12 +376,12 @@ remainder appears within about a minute.
 
     In `vout`, you should see an output whose `scriptpubkey_address` is the address in
     the payout field. For a `PartialWithdraw`, its `value` is `ALLOWANCE_AMOUNT` minus the
-    500-sat fee; for a `FullWithdraw`, it's the instance's whole balance minus the fee.
+    500-sat fee. For a `FullWithdraw`, it's the instance's whole balance minus the fee.
     The last output, with `scriptpubkey_type` `fee`, is the fee.
 
-A refusal reading `non-BIP68-final` means not enough blocks have passed; wait and claim
-again. One reading `insufficient fee, rejecting replacement` means an earlier
-attempt already reached the mempool and probably succeeded. For anything else, look up
+If the claim fails with `non-BIP68-final`, not enough blocks have passed; wait and claim
+again. If it fails with `insufficient fee, rejecting replacement`, an earlier attempt
+already reached the mempool and probably succeeded. For anything else, look up
 the message in [`REFERENCE.md`, "Errors and what causes
 them"](REFERENCE.md#errors-and-what-causes-them).
 
@@ -388,8 +394,8 @@ After each claim, the page refreshes the list. The button of the instance you ju
 shows **Spent**, and the new one holding the remainder appears as **Unconfirmed**, then
 **Timelocked**, then **Claim** once its own timelock has passed.
 
-You should see an empty instance list once it confirms, and the locked amount, less the
-fee for each withdrawal, at your payout address. The covenant address still works:
+You should see an empty instance list once the `FullWithdraw` confirms. The locked amount,
+less the fee for each withdrawal, is then at your payout address. The covenant address still works:
 a later payment to it starts a separate allowance instance, as in Step 8.
 
 ??? example "Check the close-out on chain"
@@ -397,11 +403,11 @@ a later payment to it starts a separate allowance instance, as in Step 8.
     ```bash
     ADDR=<covenant-address>
     curl -s "https://blockstream.info/liquidtestnet/api/address/$ADDR/utxo" | python3 -m json.tool
-    # -> []
     curl -s "https://blockstream.info/liquidtestnet/api/address/<payout-address>/utxo" | python3 -m json.tool
     ```
 
-    An empty array for the covenant address means every instance is spent. The second
+    You should see an empty array for the covenant address, meaning every instance is
+    spent. The second
     command's list should include the payouts sent to that address, each `value`
     matching a payout from Step 9.
 
@@ -459,8 +465,8 @@ select the `humid/dist` folder inside `allowance-web`. You should see Humid list
 enabled. Then reload the allowance page, because the browser adds the extension only to
 pages loaded after it.
 
-To create a wallet, click the puzzle piece in the top right of the browser and select
-**Humid**. Don't switch to another application during setup, because the setup window
+Click the puzzle piece in the top right of the browser and select **Humid** to create a
+wallet. Don't switch to another application during setup, because the setup window
 closes. Press **Create wallet**, write the 12 words on the **Recovery phrase** panel on
 paper, press **I saved it**, and then enter the words it asks for. Then enter a password
 twice and press **Create wallet**.
@@ -501,16 +507,19 @@ Then press **Get my key from Humid**.
 
 The first call opens Humid's `Connect this dapp?` prompt; press **Connect**. From then on,
 every press of **Fund** or **Claim** opens Humid's own `Perform a contract action?`
-confirmation, which describes the transaction. Humid offers **Sign** for a dry run and
-**Sign and send** for a real one. **Fund** broadcasts only when **Broadcast for real** is
-selected. **Claim** broadcasts unless **Dry run** is selected on the **I'm the
-beneficiary** tab. [`REFERENCE.md`, "Sessions and
+confirmation, which describes the transaction. [`REFERENCE.md`, "Sessions and
 prompts"](REFERENCE.md#sessions-and-prompts) explains when the connect prompt appears again.
+
+Whether a press broadcasts depends on the button:
+
+- **Fund** broadcasts only when **Broadcast for real** is selected.
+- **Claim** broadcasts unless **Dry run** is selected on the **I'm the beneficiary** tab.
+- In Humid's confirmation, **Sign** is a dry run and **Sign and send** sends.
 
 You should see 64 hex characters in the **Beneficiary's public key** field, which differ from Step 5's.
 
 Repeat Steps 6 and 7: compile with this key, then fund
-the allowance with **Broadcast for real** unchecked.
+the allowance with **Broadcast for real** cleared.
 
 ??? example "The call behind **Fund** in this mode"
 
@@ -524,7 +533,7 @@ the allowance with **Broadcast for real** unchecked.
     ```
 
 You should see a response carrying `txid`, `feeSats` and `transactionHex`, with
-`broadcast: false`. Humid didn't broadcast it.
+`broadcast: false`, meaning Humid signed the transaction without sending it.
 [`REFERENCE.md`, "`processConfidentialTransaction`"](REFERENCE.md#processconfidentialtransaction)
 documents the call.
 
@@ -544,8 +553,8 @@ the withdrawal to its own change address, so this mode doesn't have a payout fie
 5. Repeat from 1 with each new instance, until you've claimed the `FullWithdraw`.
 
 You should see `PartialWithdraw broadcast by Humid.` or `FullWithdraw broadcast by Humid.`
-with a txid for each withdrawal, and an empty instance list once the `FullWithdraw`
-confirms.
+with a txid for each withdrawal. Once the `FullWithdraw` confirms, the instance list is
+empty.
 
 ## Reporting problems
 
