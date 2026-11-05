@@ -12,8 +12,8 @@ patterns for a financial application of your own.
 
 **Goal**: finish with a [covenant](../../glossary.md#covenant) that you've tested on a
 local [regtest](../../glossary.md#regtest) network and used for two allowances on Liquid
-testnet, funding, withdrawing from and closing one by signing in the page and the other
-with the [Humid](../../glossary.md#humid) wallet.
+testnet, one signed in the page and one with the [Humid](../../glossary.md#humid) wallet,
+each funded, withdrawn from and closed.
 
 <figure markdown="span">
   ![The allowance page listing two allowance instances: one ready to claim with a PartialWithdraw, the other timelocked with one block left](../../assets/allowance-page.png)
@@ -70,8 +70,8 @@ git clone https://github.com/BlockstreamResearch/simplicity-demo
 cd simplicity-demo/allowance-web
 ```
 
-The contract, the manifests, the worked examples and the
-wallet patch are all there.
+You should now be in `allowance-web`, which holds the contract, the manifests, the worked
+examples and the wallet patch.
 
 Run every command in the rest of this tutorial from `allowance-web`. If you open another
 terminal, `cd` to `allowance-web` in it first. This tutorial wraps each command that needs
@@ -88,8 +88,8 @@ For what each function enforces, see
 
 ## 2. Run the contract's tests on regtest
 
-Check that you have [Rust](https://rust-lang.org/tools/install/) 1.91 or newer, with
-`cargo`, from `rustup`, a C compiler, and `jq`:
+Check that you have [Rust](https://rust-lang.org/tools/install/) 1.91 or newer, installed
+with `rustup` (which provides `cargo`), a C compiler and `jq`:
 
 ```bash
 rustup --version
@@ -98,7 +98,7 @@ cc --version
 jq --version
 ```
 
-You should see a version from each. `rustc` should be 1.91 or later; if it's older, run
+You should see a version from each. `rustc` should be 1.91 or newer; if it's older, run
 `rustup update stable`. If `cc` isn't found, install your system's C build tools, such as
 `build-essential` on Debian or Ubuntu, or the Xcode Command Line Tools on macOS with
 `xcode-select --install`. If `jq` isn't found, install it with `apt install jq` or
@@ -179,8 +179,9 @@ Linux, install your distribution's `clang` and `llvm` packages.
     export PATH="$(brew --prefix llvm)/bin:$PATH"
     ```
 
-Then install `wasm-pack` and build LWK, the library the page uses to compile the contract and build transactions, for
-wasm with its Simplicity feature, which LWK's own published builds leave out. The `wasm-pack`
+Then install `wasm-pack` and build LWK for wasm with its Simplicity feature, which LWK's own
+published builds leave out. LWK is the library the page uses to compile the contract and
+build transactions. The `wasm-pack`
 build can take some time, often without printing anything.
 
 ```bash
@@ -281,8 +282,8 @@ any of the terms gives a different allowance at a different address.
 ## 7. Fund the allowance
 
 Set the amount to lock to a whole multiple of **Withdrawable per period**, such as `15000`
-for an allowance of `5000`, so that the last withdrawal also takes a full allowance. Leave
-**Broadcast for real** cleared, and press **Fund**.
+for an allowance of `5000`, so that the last withdrawal also takes a full allowance. Then
+press **Fund**.
 
 ??? example "The code behind **Fund**"
 
@@ -293,10 +294,10 @@ for an allowance of `5000`, so that the last withdrawal also takes a full allowa
     const tx = wollet.finalize(signer.sign(pset)).extractTx();
     ```
 
-You should see a dry run reporting the txid it would have sent, the [output](../../glossary.md#output) count and
-the fee, with nothing broadcast.
-
-Select **Broadcast for real** and press **Fund** again.
+**Broadcast for real** is selected, so the page first shows what it will send: the amount,
+the covenant address, the terms, the fee and the [output](../../glossary.md#output) count.
+Check them and press **Sign & broadcast**. To try it without sending anything, clear
+**Broadcast for real** first; the page then reports the txid it would have sent.
 
 You should see a txid. The transaction's output at the covenant address is the first
 allowance instance.
@@ -327,10 +328,10 @@ flowchart TD
 ```
 
 Open the **I'm the beneficiary** tab and press **Refresh status**. The instance list and
-the withdrawal controls are on that tab, and Steps 9 and 10 stay there.
+the withdrawal controls are on that tab.
 
 You should see one instance listed with a balance and either `PartialWithdraw` or
-`FullWithdraw` as its action. Its status reads `unconfirmed (~1 min)` until the funding
+`FullWithdraw` as its action. Its **Timelock** column reads `unconfirmed (~1 min)` until the funding
 transaction confirms, and then shows a timelock countdown. Each
 [UTXO](../../glossary.md#utxo) at the covenant address is a separate allowance instance
 with its own timelock.
@@ -357,8 +358,8 @@ with its own timelock.
 Wait until the button reads **Claim**. With a short `MIN_DISTANCE` such as `3`, the page
 refreshes the list about once a minute; press **Refresh status** to check sooner.
 
-On the **I'm the beneficiary** tab, press **Use my wallet address** to set where the payout goes.
-Then press **Claim** and read the confirmation panel, which lists every output before the page
+Steps 9 and 10 stay on the **I'm the beneficiary** tab. Press **Use my wallet address** to
+set where the payout goes. Then press **Claim** and read the confirmation panel, which lists every output before the page
 signs anything.
 
 You should see these outputs:
@@ -401,7 +402,8 @@ After each claim, the page refreshes the list. The button of the instance you ju
 shows **Spent**, and the new one holding the remainder appears as **Unconfirmed**, then
 **Timelocked**, then **Claim** once its own timelock has passed.
 
-You should see an empty instance list once the `FullWithdraw` confirms. The locked amount,
+After the `FullWithdraw`, you should see `No live instances at …` in place of the list.
+Once it confirms, the locked amount,
 less the fee for each withdrawal, is then at your payout address.
 
 ??? example "Check the close-out on chain"
@@ -414,7 +416,7 @@ less the fee for each withdrawal, is then at your payout address.
 
     You should see an empty array for the covenant address: every instance is spent. The
     second command's list should include the payouts sent to that address, each `value`
-    matching a payout from Step 9.
+    matching a payout from Steps 9 and 10.
 
 ## 11. Run the same contract through the wallet
 
@@ -424,7 +426,7 @@ build each transaction. Humid then signs each one.
 
 !!! warning "This creates a second, separate allowance"
     Humid signs with its own key, so this allowance gets a new covenant address. In
-    Humid mode, the page can't claim the allowance from Steps 6 to 10.
+    Humid mode, the page can't claim an allowance compiled with the page's own key.
 
 ### 11a. Build the extension
 
@@ -440,8 +442,8 @@ bun --version
 If it prints an older version, a Bun installed another way comes first on your `PATH`.
 Run `type -a bun` to find it, then update or remove that copy.
 
-Then clone and build Humid 1.1.4. The two `build:wasm` scripts can each take some time, often without
-printing anything.
+Then clone and build Humid 1.1.4. The `build:wasm:lwk` and `build:wasm:smplx` scripts can
+each take some time, often without printing anything.
 
 ```bash
 git clone --recursive --branch 1.1.4 https://github.com/BlockstreamResearch/humid
@@ -473,12 +475,12 @@ browser adds the extension only to pages loaded after it.
 
 Click the **Extensions** button (the puzzle-piece icon) in the top right of the browser
 and select **Humid** to create a wallet. Don't switch to another application during setup,
-because the setup window closes. If it does, open Humid again and start over. It shows a
-new recovery phrase, so write down the new words and discard the old ones.
+because the setup window closes. If it does, open Humid again and start over. Humid then
+shows a new recovery phrase, so write down the new words and discard the old ones.
 
-Press **Create wallet**, write the 12 words on the **Recovery phrase** panel on paper, press
-**I saved it**, and then enter the words it asks for. Then enter a password twice and press
-**Create wallet**.
+Press **Create wallet**, write down on paper the 12 words the **Recovery phrase** panel
+shows, press **I saved it**, and then enter the words it asks for. Then enter a password
+twice and press **Create wallet**.
 
 You should see Humid's account panel, with a network menu reading **Liquid** at the top
 left, a balance, and **Receive** and **Send** buttons.
@@ -502,8 +504,8 @@ You should see `Humid is available on this page.`
 Fund Humid first: send testnet coins to the `tlq1…` address on Humid's **Receive** panel,
 not to the page's wallet, using the [Liquid testnet faucet](https://liquidtestnet.com/faucet).
 
-You should see the payment in Humid's balance within about a minute.
-Humid spends only confirmed funds, so wait for it there before you fund the allowance.
+You should see the payment in Humid within about a minute, marked **Pending**. Humid spends
+only confirmed funds, so wait until it shows **Confirmed** before you fund the allowance.
 
 Press **Get my key from Humid**. The first call opens Humid's `Connect this dapp?` prompt;
 press **Connect**. [`REFERENCE.md`, "Sessions and prompts"](REFERENCE.md#sessions-and-prompts)
@@ -524,16 +526,16 @@ from Step 5's.
 
 From now on, every press of **Fund** or **Claim** opens Humid's own `Perform a contract
 action?` confirmation, which describes the transaction. Whether it broadcasts depends on
-the page's button:
+the page's settings:
 
-- **Fund** broadcasts only when **Broadcast for real** is selected.
+- **Fund** broadcasts unless **Broadcast for real** is cleared.
 - **Claim** broadcasts unless **Dry run** is selected on the **I'm the beneficiary** tab.
 
 Humid's confirmation button reads **Sign** for a dry run and **Sign and send** when the page
 asked it to broadcast.
 
-Repeat Steps 6 and 7: compile with this key, then fund the allowance with **Broadcast for
-real** cleared.
+Repeat Step 6 to compile with this key. Then set the amount to lock as in Step 7, press
+**Fund**, and approve it in Humid with **Sign and send**.
 
 ??? example "The call behind **Fund** in Humid mode"
 
@@ -542,18 +544,18 @@ real** cleared.
       manifest, contractSources: { "./allowance.simf": source },
       action: "Fund",
       params: { BENEFICIARY_KEY, ALLOWANCE_AMOUNT, MIN_DISTANCE, amount_sat },
-      broadcast: false,
+      broadcast: true,
     });
     ```
 
-You should see a response carrying `txid`, `feeSats` and `transactionHex`, with
-`broadcast: false`. Humid signed the transaction but didn't send it.
-[`REFERENCE.md`, "`processConfidentialTransaction`"](REFERENCE.md#processconfidentialtransaction)
-documents the call.
+    Humid's response carries `txid`, `feeSats` and `transactionHex`, with `broadcast: true`
+    once Humid has sent the transaction. With **Broadcast for real** cleared, the page sends
+    `broadcast: false`, and Humid signs the transaction without sending it.
+    [`REFERENCE.md`, "`processConfidentialTransaction`"](REFERENCE.md#processconfidentialtransaction)
+    documents the call.
 
-Fund the allowance with **Broadcast for real** selected. Once you approve it in Humid, you
-should see `Humid broadcast the funding transaction.` and a txid, and the new instance
-under **Refresh status** on the **I'm the beneficiary** tab.
+You should see `Humid broadcast the funding transaction.` and a txid. Press **Refresh
+status** on the **I'm the beneficiary** tab to see the new instance.
 
 Then withdraw until the allowance closes. Humid sets the fee for each withdrawal and pays
 the withdrawal to its own change address, so this mode doesn't have a payout field. On the
@@ -567,8 +569,7 @@ the withdrawal to its own change address, so this mode doesn't have a payout fie
 5. Repeat from 1 with each new instance, until you've claimed the `FullWithdraw`.
 
 You should see `PartialWithdraw broadcast by Humid.` or `FullWithdraw broadcast by Humid.`
-with a txid for each withdrawal. Once the `FullWithdraw` confirms, the instance list is
-empty.
+with a txid for each withdrawal, and `No live instances at …` after the `FullWithdraw`.
 
 ## Reporting problems
 
