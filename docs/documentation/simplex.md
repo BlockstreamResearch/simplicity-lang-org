@@ -1,6 +1,8 @@
 # Simplex
 
-Simplex is a development framework and orchestration tool for [SimplicityHL](../glossary.md#simplicityhl) smart contracts. It assumes a Rust development environment, and helps you create applications and tools in Rust to interact with the underlying contract.
+Use Simplex to create a Rust project for [SimplicityHL](../glossary.md#simplicityhl) smart contracts, generate Rust bindings, and run local tests. It requires a Rust development environment.
+
+Simplex uses the SimplicityHL compiler library directly. `simplex build` handles contract compilation and [artifact](../glossary.md#artifacts) generation; you don't need to invoke `simc` separately for this workflow.
 
 Simplex defines and runs realistic smart contract integration tests in Rust. It runs the tests against a local instance of [`elementsd`](../glossary.md#elementsd), which provides a customizable [Liquid Network](../glossary.md#liquid)-like environment for test transactions, so the tests don't broadcast any transactions on Liquid testnet.
 
@@ -21,9 +23,19 @@ When Simplex is installed with `simplexup`, you can rerun `simplexup` at any tim
 
 ### Creating a project
 
-Run `simplex init` at the top-level directory of the project. This is ordinarily the same as the top-level directory of the associated Rust project (where the `Cargo.toml` file is found).
+Create a project in a new directory, then enter it:
 
-This step will add a complete starter project in place: `Cargo.toml` (already depending on `smplx-std`), `Simplex.toml`, `src/lib.rs` to let Rust code reference generated [artifacts](../glossary.md#artifacts), and starter contracts and tests.
+```bash
+simplex init my_contract
+cd my_contract
+```
+
+Simplex prints `Config written to:` followed by the new `Simplex.toml` path. Choose a directory name that doesn't already exist. If `my_contract` already exists, `simplex init my_contract` reports `entity already exists`; choose another name.
+
+The new directory contains `Cargo.toml` (already depending on `smplx-std`), `Simplex.toml`, `src/lib.rs` to let Rust code reference generated artifacts, `.gitignore`, a starter contract at `simf/p2pk.simf`, and a test template at `tests/p2pk_test.rs`.
+
+!!! warning "Initializing in place overwrites starter files"
+    Running `simplex init` without a name writes these files into the current directory and overwrites existing files at those paths. Use it only in an empty directory. To add Simplex to an existing Rust project, create the starter project separately and merge the required files and dependency into your project.
 
 Add or replace SimplicityHL source files in `simf/` as you go so Simplex can find them.
 

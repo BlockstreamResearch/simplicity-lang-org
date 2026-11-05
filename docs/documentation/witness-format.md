@@ -2,6 +2,9 @@
 
 This reference covers the practical mechanics of building witness data for a SimplicityHL contract: the `.wit` file format, compiling it with `simc`, other ways to build witness data, and how to format every SimplicityHL type as a witness value. For an explanation of what a witness is and why it exists, see [Witnesses in SimplicityHL development](witness.md).
 
+!!! note "Witness data in a Simplex project"
+    [Simplex generates Rust bindings](simplex.md#building-artifacts) for your contract's witness values. Application code supplies the values through those bindings without a separate `.wit` file or `simc` serialization step. The file format below is useful when working directly with the command-line toolchain.
+
 ## Command-line development with `.wit` files
 
 The [simc](../glossary.md#simc) compiler is able to compile (in this context, "serialize") a witness using a contract-specific text file called a `.wit` file. The output is a base64 string which can then be provided to other tools like `hal-simplicity pset finalize` to be incorporated into a complete transaction.
@@ -68,7 +71,7 @@ By including both the program source code `p2ms.simf` and the witness file `p2ms
 
 Witness data doesn't necessarily need to be written to disk as a `.wit` file; it can be assembled in memory by client applications.
 
-* **Rust Integration:** Developers using Rust can build witness structures directly. Tools like [Simplex](../simplex/) generate native Rust witness-building code directly from `.simf` files. Explicit witness-building examples are also available in [`simplicity-contracts`](https://github.com/BlockstreamResearch/simplicity-contracts/tree/main/crates/contracts/src).
+* **Rust Integration:** Developers using Rust can build witness structures directly. Tools like [Simplex](simplex.md) generate native Rust witness-building code directly from `.simf` files. Explicit witness-building examples are also available in [`simplicity-contracts`](https://github.com/BlockstreamResearch/simplicity-contracts/tree/main/crates/contracts/src).
 
 * **Liquid Wallet Kit (LWK):** The [Liquid Wallet Kit](https://github.com/Blockstream/lwk) SDK ("`lwk`") allows building witnesses in Python, JavaScript, and Rust without creating intermediate `.wit` files.
 
