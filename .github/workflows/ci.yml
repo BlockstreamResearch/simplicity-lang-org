@@ -20,9 +20,9 @@ jobs:
   snippets:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       # Ubuntu runners ship a rustup toolchain, so nothing to install for a host build.
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           key: cargo-${{ hashFiles('crates/simplicity-runner/Cargo.lock', 'crates/tx-fixtures/Cargo.lock') }}
           path: |
@@ -72,7 +72,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }} # Retrieved from deploy-pages action
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -81,7 +81,7 @@ jobs:
       # It must land in docs/wasm/pkg/ before mkdocs runs, since mkdocs copies docs/
       # verbatim into the site.
       - run: rustup target add wasm32-unknown-unknown
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           key: cargo-wasm-${{ hashFiles('crates/simplicity-runner/Cargo.lock') }}
           path: |
@@ -90,7 +90,21 @@ jobs:
             crates/simplicity-runner/target
           restore-keys: |
             cargo-wasm-
-      - run: curl -sSf https://rustwasm.github.io/wasm-pack/installer/init.sh | sh
+      # Pinned release binary. To upgrade, change the version and take the new tarball's
+      # sha256 from https://github.com/wasm-bindgen/wasm-pack/releases (shown beside
+      # each asset). Dependabot doesn't track this.
+      - name: Install wasm-pack
+        env:
+          WASM_PACK_VERSION: 0.15.1
+          WASM_PACK_SHA256: 410101009739b9d01c7d5affaaad6e9c9a24b4cba6791a4805db8e89b9bf7af2
+        run: |
+          name="wasm-pack-v${WASM_PACK_VERSION}-x86_64-unknown-linux-musl"
+          curl -sSfL -o "$RUNNER_TEMP/wasm-pack.tar.gz" \
+            "https://github.com/wasm-bindgen/wasm-pack/releases/download/v${WASM_PACK_VERSION}/${name}.tar.gz"
+          echo "${WASM_PACK_SHA256}  $RUNNER_TEMP/wasm-pack.tar.gz" | sha256sum -c -
+          tar -xzf "$RUNNER_TEMP/wasm-pack.tar.gz" -C "$RUNNER_TEMP"
+          install -m 755 "$RUNNER_TEMP/${name}/wasm-pack" "$HOME/.cargo/bin/wasm-pack"
+          wasm-pack --version
       - run: wasm-pack build crates/simplicity-runner --target web --out-dir ../../docs/wasm/pkg --release
       # wasm-pack also emits npm packaging and type declarations; only the loader and the
       # binary are served, and the rest would otherwise be published with the site.
@@ -104,7 +118,7 @@ jobs:
       # Fetches whatever referenced txid isn't already a checked-in fixture (this job
       # runs in its own fresh checkout, so the `snippets` job's own fetch, if any,
       # doesn't carry over) — see the comment on the same step in `snippets` above.
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           key: cargo-tx-fixtures-${{ hashFiles('crates/tx-fixtures/Cargo.lock') }}
           path: |
@@ -121,11 +135,11 @@ jobs:
       - run: cargo run --manifest-path crates/tx-fixtures/Cargo.toml --bin export_tx_fixtures
 
       # --- the site ------------------------------------------------------------------
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: 3.x
       - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           key: mkdocs-material-${{ env.cache_id }}
           path: .cache
@@ -136,9 +150,9 @@ jobs:
       # Fail loudly if the compiler is missing rather than deploying a site whose every
       # Run button 404s.
       - run: test -s site/wasm/pkg/simplicity_runner_bg.wasm
-      - uses: actions/configure-pages@v5       # Added
-      - uses: actions/upload-pages-artifact@v3 # Added
+      - uses: actions/configure-pages@v6       # Added
+      - uses: actions/upload-pages-artifact@v5 # Added
         with:
           path: 'site/'
-      - uses: actions/deploy-pages@v4          # Added
+      - uses: actions/deploy-pages@v5          # Added
         id: deployment

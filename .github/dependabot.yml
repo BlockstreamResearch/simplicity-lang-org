@@ -1,0 +1,12 @@
+version: 2
+updates:
+  # Keeps the `uses:` versions in .github/workflows/ current. Grouped so a round of
+  # bumps arrives as one PR rather than one per action.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      github-actions:
+        patterns:
+          - "*"
