@@ -73,11 +73,10 @@ cd simplicity-demo/allowance-web
 The contract, the manifests, the worked examples and the
 wallet patch are all there.
 
-Run every command in the rest of this guide from `allowance-web`. If you open another
-terminal, `cd` to `allowance-web` in it first. This guide wraps each command that needs a
-different directory in parentheses, so it runs in a subshell there and your shell stays
-where it was. If a
-command fails, look up its message in [`REFERENCE.md`, "Errors and what causes
+Run every command in the rest of this tutorial from `allowance-web`. If you open another
+terminal, `cd` to `allowance-web` in it first. This tutorial wraps each command that needs
+a different directory in parentheses, so it runs in a subshell there and your shell stays
+where it was. If a command fails, look up its message in [`REFERENCE.md`, "Errors and what causes
 them"](REFERENCE.md#errors-and-what-causes-them).
 
 Open `contracts/allowance.simf` in your editor or viewer, and
@@ -90,15 +89,20 @@ For what each function enforces, see
 ## 2. Run the contract's tests on regtest
 
 Check that you have [Rust](https://rust-lang.org/tools/install/) 1.91 or newer, with
-`cargo`, from `rustup`, and `jq`:
+`cargo`, from `rustup`, a C compiler, and `jq`:
 
 ```bash
+rustup --version
 rustc --version
+cc --version
 jq --version
 ```
 
-You should see `rustc 1.91` or a later version, and a `jq` version. If `jq` isn't found,
-install it with `apt install jq` or `brew install jq`.
+You should see a version from each. `rustc` should be 1.91 or later; if it's older, run
+`rustup update stable`. If `cc` isn't found, install your system's C build tools, such as
+`build-essential` on Debian or Ubuntu, or the Xcode Command Line Tools on macOS with
+`xcode-select --install`. If `jq` isn't found, install it with `apt install jq` or
+`brew install jq`.
 
 Install [Simplex](../../glossary.md#simplex), which runs SimplicityHL integration tests
 against a local [Elements](../../glossary.md#elements) regtest
@@ -119,7 +123,9 @@ simplex --version
 ```
 
 You should see `Simplex 0.2.0`. The two `export` lines apply only to this terminal, so run
-them again in any new terminal you use for this step.
+them again in any new terminal you use for this step. If you already had a newer Simplex,
+[`REFERENCE.md`, "Installing and running
+Simplex"](REFERENCE.md#installing-and-running-simplex) explains how to switch back to it.
 
 Then set up the project and run the tests:
 
@@ -227,12 +233,13 @@ You should see a balance within about a minute. Press **Sync & show balance** to
 again. If it stays at zero, use the [Liquid testnet faucet](https://liquidtestnet.com/faucet) with the
 [address](../../glossary.md#address) the page shows.
 
-## 5. Generate the beneficiary's key
+## 5. Show the beneficiary's key
 
 Open the **I'm the beneficiary** tab and press **Generate / show my key**. This shows the
 BIP340 x-only [public key](../../glossary.md#public-key) that the page generated for you
 when it loaded. The page compiles it into the contract in Step 6, and the contract accepts
-a withdrawal only with a signature from its private half.
+a withdrawal only with a signature from the matching
+[private key](../../glossary.md#private-key).
 
 You should see 64 hex characters.
 
@@ -249,15 +256,13 @@ Open the **I'm the benefactor** tab and fill in the three values the page compil
 - **Withdrawable per period**, which is `ALLOWANCE_AMOUNT` in sats. Keep it well above
   500. The page uses a fixed [fee](../../glossary.md#fee) of 500 sats for every withdrawal
   and pays it out of the allowance, so an allowance of 500 sats or less can't be
-  withdrawn. In Step 7, lock a whole
-  multiple of this amount, such as `15000` for an allowance of `5000`, so that the last
-  withdrawal also takes a full allowance.
+  withdrawn.
 - **Blocks between withdrawals**, which is `MIN_DISTANCE`. `3` means about three
   minutes, convenient for a first run; `1440` is about a day.
 
 Press **Compile & derive address**.
 
-??? example "The code behind that button"
+??? example "The code behind **Compile & derive address**"
 
     ```js
     const args = new L.SimplicityArguments()
@@ -275,10 +280,11 @@ any of the terms gives a different allowance at a different address.
 
 ## 7. Fund the allowance
 
-Set the amount to lock, a whole multiple of the allowance as Step 6 describes, leave
+Set the amount to lock to a whole multiple of **Withdrawable per period**, such as `15000`
+for an allowance of `5000`, so that the last withdrawal also takes a full allowance. Leave
 **Broadcast for real** cleared, and press **Fund**.
 
-??? example "The code behind that button"
+??? example "The code behind **Fund**"
 
     ```js
     const pset = new L.TxBuilder(network)
@@ -388,15 +394,15 @@ them"](REFERENCE.md#errors-and-what-causes-them).
 ## 10. Close the allowance
 
 Repeat Step 9 until the balance is at or below `ALLOWANCE_AMOUNT`. The action then shows
-`FullWithdraw`, which takes everything remaining and ends the covenant.
+`FullWithdraw`, which takes everything remaining and ends the covenant. Claim it the same
+way.
 
 After each claim, the page refreshes the list. The button of the instance you just spent
 shows **Spent**, and the new one holding the remainder appears as **Unconfirmed**, then
 **Timelocked**, then **Claim** once its own timelock has passed.
 
 You should see an empty instance list once the `FullWithdraw` confirms. The locked amount,
-less the fee for each withdrawal, is then at your payout address. The covenant address still works:
-a later payment to it starts a separate allowance instance, as in Step 8.
+less the fee for each withdrawal, is then at your payout address.
 
 ??? example "Check the close-out on chain"
 
@@ -406,9 +412,8 @@ a later payment to it starts a separate allowance instance, as in Step 8.
     curl -s "https://blockstream.info/liquidtestnet/api/address/<payout-address>/utxo" | python3 -m json.tool
     ```
 
-    You should see an empty array for the covenant address, meaning every instance is
-    spent. The second
-    command's list should include the payouts sent to that address, each `value`
+    You should see an empty array for the covenant address: every instance is spent. The
+    second command's list should include the payouts sent to that address, each `value`
     matching a payout from Step 9.
 
 ## 11. Run the same contract through the wallet
@@ -461,15 +466,19 @@ the missing tool.
 ### 11b. Load the extension in your browser
 
 Open `chrome://extensions`, turn on **Developer mode**, choose **Load unpacked**, and
-select the `humid/dist` folder inside `allowance-web`. You should see Humid listed and
-enabled. Then reload the allowance page, because the browser adds the extension only to
-pages loaded after it.
+select the `humid/dist` folder inside `allowance-web`.
 
-Click the puzzle piece in the top right of the browser and select **Humid** to create a
-wallet. Don't switch to another application during setup, because the setup window
-closes. Press **Create wallet**, write the 12 words on the **Recovery phrase** panel on
-paper, press **I saved it**, and then enter the words it asks for. Then enter a password
-twice and press **Create wallet**.
+You should see Humid listed and enabled. Then reload the allowance page, because the
+browser adds the extension only to pages loaded after it.
+
+Click the **Extensions** button (the puzzle-piece icon) in the top right of the browser
+and select **Humid** to create a wallet. Don't switch to another application during setup,
+because the setup window closes. If it does, open Humid again and start over. It shows a
+new recovery phrase, so write down the new words and discard the old ones.
+
+Press **Create wallet**, write the 12 words on the **Recovery phrase** panel on paper, press
+**I saved it**, and then enter the words it asks for. Then enter a password twice and press
+**Create wallet**.
 
 You should see Humid's account panel, with a network menu reading **Liquid** at the top
 left, a balance, and **Receive** and **Send** buttons.
@@ -478,8 +487,10 @@ left, a balance, and **Receive** and **Send** buttons.
     Humid starts on Liquid mainnet. Open the **Liquid** menu at the top left of the panel
     and select **Liquid Testnet**.
 
-Press **Receive**. You should see a [confidential](../../glossary.md#confidential) address starting `tlq1`, the Liquid
-testnet form.
+Press **Receive**.
+
+You should see a [confidential](../../glossary.md#confidential) address starting `tlq1`,
+the Liquid testnet form.
 
 ### 11c. Fund and withdraw through Humid
 
@@ -493,9 +504,12 @@ not to the page's wallet, using the [Liquid testnet faucet](https://liquidtestne
 
 You should see the payment in Humid's balance within about a minute.
 Humid spends only confirmed funds, so wait for it there before you fund the allowance.
-Then press **Get my key from Humid**.
 
-??? example "The call behind that button"
+Press **Get my key from Humid**. The first call opens Humid's `Connect this dapp?` prompt;
+press **Connect**. [`REFERENCE.md`, "Sessions and prompts"](REFERENCE.md#sessions-and-prompts)
+explains when the connect prompt appears again.
+
+??? example "The call behind **Get my key from Humid**"
 
     ```js
     await invokeHumid("getWalletDescriptor", {
@@ -505,23 +519,23 @@ Then press **Get my key from Humid**.
     // then derive the x-only key: see REFERENCE.md, "Deriving keys and addresses from the wallet"
     ```
 
-The first call opens Humid's `Connect this dapp?` prompt; press **Connect**. From then on,
-every press of **Fund** or **Claim** opens Humid's own `Perform a contract action?`
-confirmation, which describes the transaction. [`REFERENCE.md`, "Sessions and
-prompts"](REFERENCE.md#sessions-and-prompts) explains when the connect prompt appears again.
+You should see 64 hex characters in the **Beneficiary's public key** field, which differ
+from Step 5's.
 
-Whether a press broadcasts depends on the button:
+From now on, every press of **Fund** or **Claim** opens Humid's own `Perform a contract
+action?` confirmation, which describes the transaction. Whether it broadcasts depends on
+the page's button:
 
 - **Fund** broadcasts only when **Broadcast for real** is selected.
 - **Claim** broadcasts unless **Dry run** is selected on the **I'm the beneficiary** tab.
-- In Humid's confirmation, **Sign** is a dry run and **Sign and send** sends.
 
-You should see 64 hex characters in the **Beneficiary's public key** field, which differ from Step 5's.
+Humid's confirmation button reads **Sign** for a dry run and **Sign and send** when the page
+asked it to broadcast.
 
-Repeat Steps 6 and 7: compile with this key, then fund
-the allowance with **Broadcast for real** cleared.
+Repeat Steps 6 and 7: compile with this key, then fund the allowance with **Broadcast for
+real** cleared.
 
-??? example "The call behind **Fund** in this mode"
+??? example "The call behind **Fund** in Humid mode"
 
     ```js
     await invokeHumid("processConfidentialTransaction", {
@@ -533,7 +547,7 @@ the allowance with **Broadcast for real** cleared.
     ```
 
 You should see a response carrying `txid`, `feeSats` and `transactionHex`, with
-`broadcast: false`, meaning Humid signed the transaction without sending it.
+`broadcast: false`. Humid signed the transaction but didn't send it.
 [`REFERENCE.md`, "`processConfidentialTransaction`"](REFERENCE.md#processconfidentialtransaction)
 documents the call.
 
@@ -588,7 +602,7 @@ To adapt a component for your own contract:
 - **The page.** [`examples/allowance-lwk/README.md`](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/examples/allowance-lwk/README.md)
   describes its seven parts in order, with the wasm ownership rules for editing its library
   calls.
-- **The indexer.** [Step 8](#8-watch-the-allowance) shows the core of it:
+- **The indexer.** [Step 8](#8-watch-the-allowance) shows its core logic:
   two Esplora calls, the depth arithmetic, and the balance
   comparison that picks the action.
 

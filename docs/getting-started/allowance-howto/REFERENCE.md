@@ -10,6 +10,7 @@ shaped the way it is, see [`EXPLANATION.md`](EXPLANATION.md).
 - [`processConfidentialTransaction`](#processconfidentialtransaction)
 - [Deriving keys and addresses from the wallet](#deriving-keys-and-addresses-from-the-wallet)
 - [How Humid treats a manifest](#how-humid-treats-a-manifest)
+- [Installing and running Simplex](#installing-and-running-simplex)
 - [Chain access](#chain-access)
 - [Other clients for the same contract](#other-clients-for-the-same-contract)
 
@@ -38,7 +39,8 @@ file paths are relative to a Humid checkout. Humid changes quickly, so check a n
 | `No handler for method` | a chain method called directly | tunnel it through `wallet_invokeMethod` |
 | `non-BIP68-final` | not enough blocks have passed | wait; the [timelock](../../glossary.md#timelock) is working |
 | `Expecting value: line 1 column 1 (char 0)` from `python3 -m json.tool` | Esplora replied with an error message instead of JSON, usually because a placeholder such as `<fund-txid>` is still in the command, or because of a rate limit | run the `curl` command on its own, without `python3 -m json.tool`, to see Esplora's reply; replace the placeholder with the value the page showed, or after an HTTP 429, see "Chain access" |
-| `Esplora is rate-limiting this page (HTTP 429)`, or `Esplora is throttling requests, so the page won't scan the wallet…` | `blockstream.info` is refusing requests from your address after a burst | wait a few minutes before pressing **Sync & show balance** or **Refresh status** again |
+| `Esplora is rate-limiting this page (HTTP 429)`, or `Esplora is throttling requests, so the page won't scan the wallet…` | `blockstream.info` is refusing requests from your address after a burst | stop pressing **Sync & show balance**, **Refresh status** and **Claim**, and wait; the refusal can last an hour or more, and requests sent during it may extend it |
+| `ALLOWANCE_AMOUNT is smaller than the fee.` on a claim | the allowance was compiled with an `ALLOWANCE_AMOUNT` of 500 sats or less, which the page's 500-sat fee would use up | the page can't claim from this allowance; compile a new one with a larger **Withdrawable per period**, as in Step 6 |
 | `insufficient fee, rejecting replacement` | a previous attempt already reached the mempool | check the explorer before retrying; it probably succeeded |
 | `window.humid is missing` | extension disabled, wrong profile, page opened as `file://`, or page already open when Humid was loaded, enabled or reloaded | enable it, serve over `http://`, and reload the page |
 | `Manifest file is missing or unreadable` from **Load unpacked** | the folder selected isn't `humid/dist`, or Step 11a's `bun run build` didn't finish | run Step 11a again until `bun run build` writes `humid/dist`, then select that folder |
