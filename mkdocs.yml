@@ -160,7 +160,7 @@ nav:
   - Get Started:
       - Try it in your browser: getting-started/try-it.md
       - Quickstart: getting-started/quickstart.md
-      - Build a complete application from web to wallet: getting-started/allowance-howto/HOWTO.md
+      - Build a complete application from web to wallet: getting-started/build-end-to-end-app.md
   - Learn:
       - Core Concepts:
           - Execution Model: documentation/execution-model.md

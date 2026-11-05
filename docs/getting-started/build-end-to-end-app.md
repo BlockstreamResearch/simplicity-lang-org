@@ -1,22 +1,22 @@
 # Build a complete Simplicity application, from contract to web to wallet
 
 This tutorial builds a complete application in which a
-[Simplicity](../../glossary.md#simplicity) [contract](../../glossary.md#contract) enforces a financial agreement.
-Simplicity is a [smart contract](../../glossary.md#smart-contract) language for
-Bitcoin-like blockchains, available on the [Liquid Network](../../glossary.md#liquid). The
+[Simplicity](../glossary.md#simplicity) [contract](../glossary.md#contract) enforces a financial agreement.
+Simplicity is a [smart contract](../glossary.md#smart-contract) language for
+Bitcoin-like blockchains, available on the [Liquid Network](../glossary.md#liquid). The
 agreement is an allowance: a beneficiary can withdraw a specified amount at a time, with a
 minimum wait between withdrawals, and the benefactor who funded it can't take the coins
 back. You'll read the contract's code, test it, fund and withdraw from it through a web
 page you can edit, and sign with a browser wallet. You can adapt the same tools and code
 patterns for a financial application of your own.
 
-**Goal**: finish with a [covenant](../../glossary.md#covenant) that you've tested on a
-local [regtest](../../glossary.md#regtest) network and used for two allowances on Liquid
-testnet, one signed in the page and one with the [Humid](../../glossary.md#humid) wallet,
+**Goal**: finish with a [covenant](../glossary.md#covenant) that you've tested on a
+local [regtest](../glossary.md#regtest) network and used for two allowances on Liquid
+testnet, one signed in the page and one with the [Humid](../glossary.md#humid) wallet,
 each funded, withdrawn from and closed.
 
 <figure markdown="span">
-  ![The allowance page listing two allowance instances: one ready to claim with a PartialWithdraw, the other timelocked with one block left](../../assets/allowance-page.png)
+  ![The allowance page listing two allowance instances: one ready to claim with a PartialWithdraw, the other timelocked with one block left](../assets/allowance-page.png)
   <figcaption>The page you'll build, for claiming testnet coins locked by a Simplicity contract: one allowance can be claimed now, the other unlocks in one block.</figcaption>
 </figure>
 
@@ -29,10 +29,10 @@ for it.
 ## Architecture
 
 The page doesn't have a backend. It reads the chain from a public
-[Esplora](../../glossary.md#esplora) server. It gets each
-[transaction](../../glossary.md#transaction) signed in one of two ways: by the
-[LWK](../../glossary.md#lwk) library inside the page (Steps 7 to 10), or by the Humid
-wallet extension, which works from a [manifest](../../glossary.md#manifest) (Step 11).
+[Esplora](../glossary.md#esplora) server. It gets each
+[transaction](../glossary.md#transaction) signed in one of two ways: by the
+[LWK](../glossary.md#lwk) library inside the page (Steps 7 to 10), or by the Humid
+wallet extension, which works from a [manifest](../glossary.md#manifest) (Step 11).
 
 ```mermaid
 flowchart TD
@@ -71,20 +71,23 @@ cd simplicity-demo/allowance-web
 ```
 
 You should now be in `allowance-web`, which holds the contract, the manifests, the worked
-examples and the wallet patch.
+examples and the wallet patch. It also holds [`EXPLANATION.md`](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/EXPLANATION.md), on how the
+application works and why it's built this way, and [`REFERENCE.md`](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/REFERENCE.md), with
+error messages, the Humid wallet API and setup details. This tutorial links to sections of
+both.
 
 Run every command in the rest of this tutorial from `allowance-web`. If you open another
 terminal, `cd` to `allowance-web` in it first. This tutorial wraps each command that needs
 a different directory in parentheses, so it runs in a subshell there and your shell stays
 where it was. If a command fails, look up its message in [`REFERENCE.md`, "Errors and what causes
-them"](REFERENCE.md#errors-and-what-causes-them).
+them"](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/REFERENCE.md#errors-and-what-causes-them).
 
 Open `contracts/allowance.simf` in your editor or viewer, and
-look through it to see what [SimplicityHL](../../glossary.md#simplicityhl) code looks
+look through it to see what [SimplicityHL](../glossary.md#simplicityhl) code looks
 like. Every later step builds on this one contract. You don't need to change anything.
 
 For what each function enforces, see
-[`EXPLANATION.md`, "What the contract enforces"](EXPLANATION.md#what-the-contract-enforces).
+[`EXPLANATION.md`, "What the contract enforces"](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/EXPLANATION.md#what-the-contract-enforces).
 
 ## 2. Run the contract's tests on regtest
 
@@ -104,9 +107,9 @@ You should see a version from each. `rustc` should be 1.91 or newer; if it's old
 `xcode-select --install`. If `jq` isn't found, install it with `apt install jq` or
 `brew install jq`.
 
-Install [Simplex](../../glossary.md#simplex), which runs SimplicityHL integration tests
-against a local [Elements](../../glossary.md#elements) regtest
-[node](../../glossary.md#node) that it starts and supplies with test coins. Its installer,
+Install [Simplex](../glossary.md#simplex), which runs SimplicityHL integration tests
+against a local [Elements](../glossary.md#elements) regtest
+[node](../glossary.md#node) that it starts and supplies with test coins. Its installer,
 `simplexup`, uses `jq` and also installs the regtest tools the tests use. The tests are written for
 Simplex 0.2.0, so install that release. Download the installer, read it if you want to,
 then run it:
@@ -125,7 +128,7 @@ simplex --version
 You should see `Simplex 0.2.0`. The two `export` lines apply only to this terminal, so run
 them again in any new terminal you use for this step. If you already had a newer Simplex,
 [`REFERENCE.md`, "Installing and running
-Simplex"](REFERENCE.md#installing-and-running-simplex) explains how to switch back to it.
+Simplex"](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/REFERENCE.md#installing-and-running-simplex) explains how to switch back to it.
 
 Then set up the project and run the tests:
 
@@ -154,8 +157,8 @@ Exit Status: 0
 ```
 
 The first test runs through a full lifecycle. The second attempts a
-withdrawal before the [timelock](../../glossary.md#timelock), which the node rejects
-under [BIP68](../../documentation/timelocks.md#timelock-enforcement-mechanisms).
+withdrawal before the [timelock](../glossary.md#timelock), which the node rejects
+under [BIP68](../documentation/timelocks.md#timelock-enforcement-mechanisms).
 
 [Next steps](#next-steps), at the end of this tutorial, suggests more tests you can write yourself.
 
@@ -232,15 +235,15 @@ then **Request testnet funds**.
 
 You should see a balance within about a minute. Press **Sync & show balance** to check
 again. If it stays at zero, use the [Liquid testnet faucet](https://liquidtestnet.com/faucet) with the
-[address](../../glossary.md#address) the page shows.
+[address](../glossary.md#address) the page shows.
 
 ## 5. Show the beneficiary's key
 
 Open the **I'm the beneficiary** tab and press **Generate / show my key**. This shows the
-BIP340 x-only [public key](../../glossary.md#public-key) that the page generated for you
+BIP340 x-only [public key](../glossary.md#public-key) that the page generated for you
 when it loaded. The page compiles it into the contract in Step 6, and the contract accepts
 a withdrawal only with a signature from the matching
-[private key](../../glossary.md#private-key).
+[private key](../glossary.md#private-key).
 
 You should see 64 hex characters.
 
@@ -255,7 +258,7 @@ Open the **I'm the benefactor** tab and fill in the three values the page compil
 
 - **Beneficiary's public key**, from Step 5.
 - **Withdrawable per period**, which is `ALLOWANCE_AMOUNT` in sats. Keep it well above
-  500. The page uses a fixed [fee](../../glossary.md#fee) of 500 sats for every withdrawal
+  500. The page uses a fixed [fee](../glossary.md#fee) of 500 sats for every withdrawal
   and pays it out of the allowance, so an allowance of 500 sats or less can't be
   withdrawn.
 - **Blocks between withdrawals**, which is `MIN_DISTANCE`. `3` means about three
@@ -276,7 +279,7 @@ Press **Compile & derive address**.
       L.XOnlyPublicKey.fromString(NUMS_INTERNAL_KEY), network);
     ```
 
-You should see the [CMR](../../glossary.md#cmr) and a `tex1p…` covenant address. Changing
+You should see the [CMR](../glossary.md#cmr) and a `tex1p…` covenant address. Changing
 any of the terms gives a different allowance at a different address.
 
 ## 7. Fund the allowance
@@ -295,7 +298,7 @@ press **Fund**.
     ```
 
 **Broadcast for real** is selected, so the page first shows what it will send: the amount,
-the covenant address, the terms, the fee and the [output](../../glossary.md#output) count.
+the covenant address, the terms, the fee and the [output](../glossary.md#output) count.
 Check them and press **Sign & broadcast**. To try it without sending anything, clear
 **Broadcast for real** first; the page then reports the txid it would have sent.
 
@@ -333,7 +336,7 @@ the withdrawal controls are on that tab.
 You should see one instance listed with a balance and either `PartialWithdraw` or
 `FullWithdraw` as its action. Its **Timelock** column reads `unconfirmed (~1 min)` until the funding
 transaction confirms, and then shows a timelock countdown. Each
-[UTXO](../../glossary.md#utxo) at the covenant address is a separate allowance instance
+[UTXO](../glossary.md#utxo) at the covenant address is a separate allowance instance
 with its own timelock.
 
 ??? example "Check the instances on chain"
@@ -345,7 +348,7 @@ with its own timelock.
     ```
 
     You should see a JSON array with one entry per instance, each with a `value` and a
-    `status`, then the tip [height](../../glossary.md#height) as a bare number. A confirmed
+    `status`, then the tip [height](../glossary.md#height) as a bare number. A confirmed
     entry has `status.block_height`; an unconfirmed one has `status.confirmed: false` and
     isn't spendable yet.
 
@@ -390,7 +393,7 @@ If the claim fails with `non-BIP68-final`, not enough blocks have passed; wait a
 again. If it fails with `insufficient fee, rejecting replacement`, an earlier attempt
 already reached the mempool and probably succeeded. For anything else, look up
 the message in [`REFERENCE.md`, "Errors and what causes
-them"](REFERENCE.md#errors-and-what-causes-them).
+them"](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/REFERENCE.md#errors-and-what-causes-them).
 
 ## 10. Close the allowance
 
@@ -458,7 +461,7 @@ git clone --recursive --branch 1.1.4 https://github.com/BlockstreamResearch/humi
 ```
 
 The patch lets Humid build this contract's withdrawals. If `git apply` reports
-`patch does not apply`, see [`REFERENCE.md`, "Building Humid"](REFERENCE.md#building-humid).
+`patch does not apply`, see [`REFERENCE.md`, "Building Humid"](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/REFERENCE.md#building-humid).
 
 You should see `bun run build` finish by writing `humid/dist`. If it stops with
 `No compiled lwk wasm at …` or `No compiled smplx wasm at …`, that module's build failed.
@@ -491,7 +494,7 @@ left, a balance, and **Receive** and **Send** buttons.
 
 Press **Receive**.
 
-You should see a [confidential](../../glossary.md#confidential) address starting `tlq1`,
+You should see a [confidential](../glossary.md#confidential) address starting `tlq1`,
 the Liquid testnet form.
 
 ### 11c. Fund and withdraw through Humid
@@ -508,7 +511,7 @@ You should see the payment in Humid within about a minute, marked **Pending**. H
 only confirmed funds, so wait until it shows **Confirmed** before you fund the allowance.
 
 Press **Get my key from Humid**. The first call opens Humid's `Connect this dapp?` prompt;
-press **Connect**. [`REFERENCE.md`, "Sessions and prompts"](REFERENCE.md#sessions-and-prompts)
+press **Connect**. [`REFERENCE.md`, "Sessions and prompts"](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/REFERENCE.md#sessions-and-prompts)
 explains when the connect prompt appears again.
 
 ??? example "The call behind **Get my key from Humid**"
@@ -551,7 +554,7 @@ Repeat Step 6 to compile with this key. Then set the amount to lock as in Step 7
     Humid's response carries `txid`, `feeSats` and `transactionHex`, with `broadcast: true`
     once Humid has sent the transaction. With **Broadcast for real** cleared, the page sends
     `broadcast: false`, and Humid signs the transaction without sending it.
-    [`REFERENCE.md`, "`processConfidentialTransaction`"](REFERENCE.md#processconfidentialtransaction)
+    [`REFERENCE.md`, "`processConfidentialTransaction`"](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/REFERENCE.md#processconfidentialtransaction)
     documents the call.
 
 You should see `Humid broadcast the funding transaction.` and a txid. Press **Refresh
@@ -574,17 +577,17 @@ with a txid for each withdrawal, and `No live instances at …` after the `FullW
 ## Reporting problems
 
 If a command fails with a message that isn't in [`REFERENCE.md`, "Errors and what causes
-them"](REFERENCE.md#errors-and-what-causes-them), open an issue in the
+them"](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/REFERENCE.md#errors-and-what-causes-them), open an issue in the
 [`simplicity-lang-org` repository](https://github.com/BlockstreamResearch/simplicity-lang-org/issues)
 with the exact error text and the step you were on. If you're an AI agent running these
 steps as a test, follow your own instructions instead.
 
 ## Next steps
 
-Read [`EXPLANATION.md`](EXPLANATION.md) next. It covers what the contract enforces, and
+Read [`EXPLANATION.md`](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/EXPLANATION.md) next. It covers what the contract enforces, and
 who signs and what that changes. Before you adapt any of this for real funds, read
 [`EXPLANATION.md`, "What a mainnet deployment
-would require"](EXPLANATION.md#what-a-mainnet-deployment-would-require).
+would require"](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/EXPLANATION.md#what-a-mainnet-deployment-would-require).
 
 To adapt a component for your own contract:
 
@@ -595,10 +598,10 @@ To adapt a component for your own contract:
   than the allowance, or one that tries to change the covenant's terms. Most of what they
   need is in the two tests from Step 2.
 - **The manifest.** [`EXPLANATION.md`, "Writing a manifest for a different
-  contract"](EXPLANATION.md#writing-a-manifest-for-a-different-contract) gives the mapping
+  contract"](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/EXPLANATION.md#writing-a-manifest-for-a-different-contract) gives the mapping
   to derive from any contract's source, and
   [`EXPLANATION.md`, "Checking a manifest you didn't
-  write"](EXPLANATION.md#checking-a-manifest-you-didnt-write) covers reviewing one,
+  write"](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/EXPLANATION.md#checking-a-manifest-you-didnt-write) covers reviewing one,
   including one an AI assistant drafted.
 - **The page.** [`examples/allowance-lwk/README.md`](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/examples/allowance-lwk/README.md)
   describes its seven parts in order, with the wasm ownership rules for editing its library
@@ -612,4 +615,4 @@ To run an allowance between two people, each with a separate browser, see
 parties"](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/examples/allowance-lwk/README.md#running-it-as-two-separate-parties).
 
 To use the same contract without a browser, see [`REFERENCE.md`, "Other clients for
-the same contract"](REFERENCE.md#other-clients-for-the-same-contract).
+the same contract"](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/REFERENCE.md#other-clients-for-the-same-contract).
