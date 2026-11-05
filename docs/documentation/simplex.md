@@ -56,9 +56,8 @@ Create `.rs` files in `tests/` containing your integration tests. Each such file
 
 ```rust
 #[simplex::test]
-fn test_name(context: simplex::TestContext) -> anyhow::Result<()> {
+fn test_name(context: simplex::TestContext) {
     // Test code goes here.
-    Ok(())
 }
 ```
 
@@ -74,22 +73,44 @@ Pass one or more names to run only tests whose names match. Use `--target <name>
 
 ### Fuzz tests
 
-Simplex (0.1.0+) can also run *fuzz tests*, which check a contract's logic and invariants against many randomly generated inputs instead of one hand-built transaction. Fuzz tests run entirely locally and don't start or contact `elementsd`. Simplex itself runs the contract internally in a Simplicity bit machine environment.
+Simplex can also run *fuzz tests*, which check a contract's logic and invariants against many randomly generated inputs instead of one hand-built transaction. Fuzz tests run entirely locally and don't start or contact `elementsd`. Simplex itself runs the contract internally in a Simplicity bit machine environment.
 
-A fuzz test is marked `#[simplex::fuzz]`, receives a `TestContext<FuzzMode>`, and runs a fuzz engine for one contract, named by the program, arguments, and witness types that `simplex build` generated for it:
+A fuzz test is marked `#[simplex::fuzz]` and receives a `TestContext<FuzzMode>`. It passes a `Scenario` containing the transaction and its programs to `context.engine(...)` (0.2.0+).
+
+Build the [starter project's artifacts](#building-artifacts), then save this example as `tests/p2pk_fuzz.rs` in the `my_contract` project created above:
 
 ```rust
-#[simplex::fuzz]
-fn fuzz_test_name(context: simplex::TestContext<simplex::FuzzMode>) -> anyhow::Result<()> {
-    context
-        .engine::<MyContractProgram, MyContractArguments, MyContractWitness>()
-        .run();
+use simplex::fuzz::Scenario;
+use simplex::transaction::{FinalTransaction, PartialInput, ProgramInput, ProgramSignature};
+use simplex::{FuzzMode, TestContext};
 
-    Ok(())
+use simplex_my_contract::artifacts::p2pk::P2pkProgram;
+use simplex_my_contract::artifacts::p2pk::derived_p2pk::{P2pkArguments, P2pkWitness};
+
+#[simplex::fuzz]
+fn p2pk_fuzz_test(context: TestContext<FuzzMode>) {
+    let signer = context.get_default_signer();
+    let public_key = signer.get_schnorr_public_key().serialize();
+    let program = P2pkProgram::new(P2pkArguments { public_key }).as_ref().clone();
+
+    let mut transaction = FinalTransaction::new();
+    transaction.add_program_input(
+        PartialInput::default(),
+        ProgramInput::new(Box::new(program), P2pkWitness::default()),
+        Some(ProgramSignature::new("SIGNATURE")),
+    );
+
+    let mut scenario = Scenario::new(transaction);
+    scenario
+        .add::<P2pkProgram>("p2pk")
+        .spends(0)
+        .bind_arguments(move |arguments, _| arguments.public_key = public_key);
+
+    context.engine(scenario).run();
 }
 ```
 
-For each case, the engine generates values for the contract's arguments and witness, compiles the contract with those arguments, spends it in a test transaction, and executes it. By default, a case fails if execution fails. A custom check can instead expect a particular failure, such as a failed `assert!`, to test that the contract rejects invalid transactions. A custom check can also test any other property of the transaction, arguments, witness, and execution result.
+For each case, the engine generates values for each program's arguments and witness, applies its bindings, compiles it, and executes its spends in the scenario's transaction. By default, spends must be accepted. A custom `.spec(...)` reads each `FuzzCase` before execution and returns `Expect::Accept`, `Expect::Reject`, or `Expect::Any` to state the expected result.
 
 The default strategy draws integer values from a mix of uniformly random values, boundary values (such as 0, 1, powers of two and one less than them, and the type's maximum), and integer literals that appear in the contract's source code, plus or minus one. It also sometimes copies one generated value into another field of the same case, so comparisons between fields are exercised. These choices make the fuzzer more likely to find the specific values at which a contract's behavior changes. A purely random strategy is also available.
 
