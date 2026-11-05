@@ -28,6 +28,7 @@ file paths are relative to a Humid checkout. Humid changes quickly, so check a n
 | ``no `ProgramSignature` in `transaction` `` and ``the `?` operator cannot be applied to type `u64` `` from `simplex test` | the project's `smplx-std` is older than 0.2.0, the release `allowance_test.rs` is written for | in `allowance_example`, run `cargo add smplx-std@` followed by the version `simplex --version` prints, then test again |
 | `No available targets are compatible with triple "wasm32-unknown-unknown"` | the `clang` on your `PATH` has no WebAssembly backend | install LLVM from your package manager, or from Homebrew on macOS, and put its `clang` first on your `PATH` |
 | `npm error code EACCES` from `npm install -g bun`, with `permission denied, mkdir '…/lib/node_modules'` | npm's global install directory belongs to the system, not to your user | point npm at a directory you own with `npm config set prefix ~/.npm-global`, add `~/.npm-global/bin` to your `PATH`, and install again; see npm's [guide to `EACCES` errors](https://docs.npmjs.com/resolving-eacces-permissions-errors-when-installing-packages-globally) |
+| `fatal: destination path '…' already exists and is not an empty directory`, or a similar complaint from `simplex init`, `rm` or `git apply`, when you run a step's block again | the first run already created that directory, removed that file or applied that patch | harmless; check the result the step says you should see, which comes from the block's last command |
 | `reject: shortfall`, with `This account holds 0 of the … needed` | Humid's funds are unconfirmed, or it is on mainnet | wait a minute for the funding to confirm; check that **Liquid Testnet** is selected in Humid's network menu |
 | `Unlock the wallet to continue.` | the wallet is locked | open it from the Extensions button and enter the password; it re-locks periodically |
 | `X is neither a parameter nor an argument of this action` | usually `instance` single-nested instead of double-nested | see the nesting rule below |
@@ -37,6 +38,7 @@ file paths are relative to a Humid checkout. Humid changes quickly, so check a n
 | `Expecting value: line 1 column 1 (char 0)` from `python3 -m json.tool` | Esplora replied with an error message instead of JSON, usually because a placeholder such as `<fund-txid>` is still in the command, or because of a rate limit | run the `curl` command on its own, without `python3 -m json.tool`, to see Esplora's reply; replace the placeholder with the value the page showed, or after an HTTP 429, see "Chain access" |
 | `insufficient fee, rejecting replacement` | a previous attempt already reached the mempool | check the explorer before retrying; it probably succeeded |
 | `window.humid is missing` | extension disabled, wrong profile, page opened as `file://`, or page already open when Humid was loaded, enabled or reloaded | enable it, serve over `http://`, and reload the page |
+| `Manifest file is missing or unreadable` from **Load unpacked** | the folder selected isn't `humid/dist`, or Step 11a's `bun run build` didn't finish | run Step 11a again until `bun run build` writes `humid/dist/`, then select that folder |
 | `Import #0 "wbg": module is not an object or function` | a web-target wasm build overwrote the bundler-target `pkg/` | rebuild `pkg/` with `--target bundler` |
 | `null pointer passed to rust` | a wasm handle used after a call consumed it | build a fresh `TxOut` per call; reassign after every builder step |
 | `Expected a blinded address but got a non-blinded one` | `Address.parse` requires a [confidential](../../glossary.md#confidential) [address](../../glossary.md#address) | use `new Address(s)` and check the network with `isMainnet()` |
@@ -94,10 +96,15 @@ confirmation, which is where you review and approve the [transaction](../../glos
 
 ### Building Humid
 
-If `git apply` rejects a hunk of the Humid patch, that fix has landed upstream already.
-Apply the rest with `git apply --reject`, or check which of the two refusal strings the
-patch header quotes still appear in the Humid source and skip the hunk that no longer
-applies. The patch header describes both fixes well enough to redo by hand.
+If `git apply` reports `patch does not apply` when you run Step 11a's block again, the
+patch is probably applied already. Check from inside `humid`:
+
+```bash
+git apply --reverse --check ../examples/allowance-humid/humid-allowance-fixes.patch
+```
+
+If that prints nothing, the patch is in place, and you can ignore the error. The patch
+header describes both fixes well enough to redo by hand.
 
 ## `processConfidentialTransaction`
 

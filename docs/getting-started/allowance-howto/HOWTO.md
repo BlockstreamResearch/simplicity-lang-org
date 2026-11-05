@@ -1,10 +1,19 @@
 # Build a complete Simplicity application, from contract to web to wallet
 
-**Goal**: test a [Simplicity](../../glossary.md#simplicity)
-[covenant](../../glossary.md#covenant) on a local [regtest](../../glossary.md#regtest)
-network, then lock test Liquid bitcoin (tLBTC) in it on [Liquid](../../glossary.md#liquid)
-testnet, withdraw from it on a schedule, and close it, using a web page you can
-edit.
+This tutorial builds a complete application in which a
+[Simplicity](../../glossary.md#simplicity) contract enforces a financial agreement.
+Simplicity is a [smart contract](../../glossary.md#smart-contract) language for
+Bitcoin-like blockchains, available on the [Liquid Network](../../glossary.md#liquid). The
+agreement is an allowance: a beneficiary can withdraw a specified amount at a time, with a
+minimum wait between withdrawals, and the benefactor who funded it can't take the coins
+back. You'll read the contract's code, test it, fund and withdraw from it through a web
+page you can edit, and sign with a browser wallet. You can adapt the same tools and code
+patterns for a financial application of your own.
+
+**Goal**: finish with a [covenant](../../glossary.md#covenant), tested on a local
+[regtest](../../glossary.md#regtest) network, that you've funded, withdrawn from and closed
+on Liquid testnet, signing both in the page and with the [Humid](../../glossary.md#humid)
+wallet.
 
 <figure markdown="span">
   ![The allowance page listing two allowance instances: one ready to claim with a PartialWithdraw, the other timelocked with one block left](../../assets/allowance-page.png)
@@ -22,7 +31,7 @@ The page doesn't have a server of its own. It reads the chain from public
 [Esplora](../../glossary.md#esplora) and Waterfalls servers, and gets each
 [transaction](../../glossary.md#transaction) signed in one of two ways: by
 the [LWK](../../glossary.md#lwk) library inside the page (Steps 4 to 10), or by the
-[Humid](../../glossary.md#humid) wallet extension, which works from a
+Humid wallet extension, which works from a
 [manifest](../../glossary.md#manifest) (Step 11).
 
 ```mermaid
@@ -34,7 +43,7 @@ flowchart TD
     index["indexer:<br/>list UTXOs,<br/>compare depth and balance"]
   end
   subgraph lib["lwk_wasm, loaded by the page"]
-    l["compiles the covenant and<br/>derives the address (Steps 4-11)<br/>builds and signs (Steps 4-10)"]
+    l["compiles the covenant and<br/>derives the address (Steps 6 to 11)<br/>builds and signs (Steps 7 to 10)"]
   end
   subgraph wallet["Humid extension (Step 11)"]
     w["compiles the covenant<br/>builds and signs<br/>asks the user<br/>broadcasts"]
@@ -65,8 +74,9 @@ The [contract](../../glossary.md#contract), the manifests, the worked examples a
 wallet patch are all there.
 
 Run every command in the rest of this guide from `allowance-web`. If you open another
-terminal, `cd` to `allowance-web` in it first. All commands that need a different directory
-are wrapped in parentheses, which run them there and leave your shell where it was. If a
+terminal, `cd` to `allowance-web` in it first. This guide wraps each command that needs a
+different directory in parentheses, so it runs in a subshell there and your shell stays
+where it was. If a
 command fails, look up its message in [`REFERENCE.md`, "Errors and what causes
 them"](REFERENCE.md#errors-and-what-causes-them).
 
@@ -136,9 +146,9 @@ The first test runs through a full lifecycle. The second attempts a
 withdrawal before the [timelock](../../glossary.md#timelock), which the node rejects
 under [BIP68](../../documentation/timelocks.md#timelock-enforcement-mechanisms).
 
-"Going further", at the end of this tutorial, suggests more tests you can write yourself.
+"Next steps", at the end of this tutorial, suggests more tests you can write yourself.
 
-## 3. Build webpage dependencies
+## 3. Build web page dependencies
 
 Check that you have LLVM `clang` with the wasm32 target, which this build needs:
 
@@ -202,7 +212,7 @@ Step 3.
 
 The page has its own single-key wallet.
 
-!!! warning "The mnemonic is stored in plaintext"
+!!! warning "The page stores the mnemonic in plaintext"
     The page keeps its mnemonic in `localStorage` in plaintext. Use it only for testnet
     funds, and don't paste in a mnemonic from elsewhere.
 
@@ -210,20 +220,23 @@ On the **I'm the benefactor** tab, leave the mnemonic box blank, press **Open wa
 then **Request testnet funds**.
 
 You should see a balance within about a minute. Press **Sync & show balance** to check
-again. If it stays at zero, use the [web form](https://liquidtestnet.com/faucet) with the
+again. If it stays at zero, use the [Liquid testnet faucet](https://liquidtestnet.com/faucet) with the
 [address](../../glossary.md#address) the page shows.
 
 ## 5. Generate the beneficiary's key
 
-Open the **I'm the beneficiary** tab and press **Generate / show my key**. This creates
-the BIP340 x-only [public key](../../glossary.md#public-key) that the page compiles into the contract in Step 6; only a signature from
-its private half can withdraw.
+Open the **I'm the beneficiary** tab and press **Generate / show my key**. This shows the
+BIP340 x-only [public key](../../glossary.md#public-key) that the page generated for you
+when it loaded, which the page compiles into the contract in Step 6; only a signature
+from its private half can withdraw.
 
 You should see 64 hex characters.
 
 In a real allowance, the beneficiary does this on a separate machine and sends the 64
-characters to the benefactor. Testing on your own, return to the **I'm the benefactor** tab and press **Use my
-own key (single-wallet test)**, which fills the field from the key you just generated.
+characters to the benefactor. If you're testing on your own, the benefactor's
+**Beneficiary's public key** field already holds this key. If you change that field,
+**Use my own key (single-wallet test)** on the **I'm the benefactor** tab puts the key
+back.
 
 ## 6. Set the terms and compile the contract
 
@@ -308,8 +321,8 @@ the withdrawal controls are on that tab, and Steps 9 and 10 stay there.
 You should see one instance listed with a balance and either `PartialWithdraw` or
 `FullWithdraw` as its action. Its status reads `unconfirmed (~1 min)` until the funding
 transaction confirms, and then shows a timelock countdown. Each
-[UTXO](../../glossary.md#utxo) at the covenant address is a separate allowance with its
-own timelock.
+[UTXO](../../glossary.md#utxo) at the covenant address is a separate allowance instance
+with its own timelock.
 
 ??? example "Run the same query by hand"
 
@@ -330,9 +343,8 @@ own timelock.
 
 ## 9. Withdraw
 
-Wait for the timelock. The button reads **Unconfirmed**, then **Timelocked**, and
-**Claim** once the instance is old enough. The page refreshes the list about once a minute; press
-**Refresh status** to check sooner.
+Wait until the button reads **Claim**. With a short `MIN_DISTANCE` such as 3, the page
+refreshes the list about once a minute; press **Refresh status** to check sooner.
 
 On the **I'm the beneficiary** tab, press **Use my wallet address** to set where the payout goes, then
 press **Claim** and read the confirmation panel, which lists every output before the page
@@ -373,7 +385,7 @@ After each claim, the page refreshes the list: the instance you just spent shows
 
 You should see an empty instance list once it confirms, and the locked amount, less the
 fee for each withdrawal, at your payout address. The covenant address still works:
-a later payment to it starts a separate allowance, as in Step 8.
+a later payment to it starts a separate allowance instance, as in Step 8.
 
 ??? example "Check the close-out on chain"
 
@@ -392,11 +404,11 @@ a later payment to it starts a separate allowance, as in Step 8.
 
 Steps 4 to 10 kept the key in the browser. In this step, the page passes the Humid
 extension the same contract source together with a manifest, which tells Humid how to
-build each transaction. Humid signs each one and shows you its own confirmation.
+build each transaction. Humid then signs each one.
 
 !!! warning "This creates a second, separate allowance"
     Humid signs with its own key, so this allowance gets a new covenant address. In
-    Humid mode, the page can't fund or claim the allowance from Steps 6 to 10.
+    Humid mode, the page can't claim the allowance from Steps 6 to 10.
 
 ### 11a. Build the extension
 
@@ -408,6 +420,9 @@ newer:
 npm install -g bun
 bun --version
 ```
+
+If it prints an older version, a Bun installed another way comes first on your `PATH`.
+Run `type -a bun` to find it, then update or remove that copy.
 
 Then clone and build Humid 1.1.4. The two `build:wasm` scripts can each take some time, often without
 printing anything.
@@ -424,8 +439,8 @@ git clone --recursive --branch 1.1.4 https://github.com/BlockstreamResearch/humi
 )
 ```
 
-The patch lets Humid build this contract's withdrawals. If `git apply` rejects a
-hunk, see [`REFERENCE.md`, "Building Humid"](REFERENCE.md#building-humid).
+The patch lets Humid build this contract's withdrawals. If `git apply` reports
+`patch does not apply`, see [`REFERENCE.md`, "Building Humid"](REFERENCE.md#building-humid).
 
 You should see `bun run build` finish by writing `humid/dist/`. If it stops with
 `No compiled lwk wasm at …` or `No compiled smplx wasm at …`, that module's build failed:
@@ -439,11 +454,11 @@ select the `humid/dist` folder inside `allowance-web`. You should see Humid list
 enabled. Then reload the allowance page, because the browser adds the extension only to
 pages loaded after it.
 
-To create a wallet, click the puzzle piece in the top right of the browser, select Humid,
-and press **Create wallet**. Write the 12 words on the **Recovery phrase** panel on paper,
-press **I saved it**, and enter them again when asked. Don't switch to another application
-during setup, because the setup window closes. Then enter a password twice and press
-**Create wallet**.
+To create a wallet, click the puzzle piece in the top right of the browser and select
+Humid. Don't switch to another application during setup, because the setup window
+closes. Press **Create wallet**, write the 12 words on the **Recovery phrase** panel on
+paper, press **I saved it**, and then enter the words it asks for. Then enter a password
+twice and press **Create wallet**.
 
 You should see Humid's account panel, with a network menu reading **Liquid** at the top
 left, a balance, and **Receive** and **Send** buttons.
@@ -464,7 +479,7 @@ sections disappear, along with the results from Steps 4 to 10, because none of t
 to Humid.
 
 Fund Humid first: send testnet coins to the `tlq1…` address on Humid's **Receive** panel,
-not to the page's wallet, using the [faucet website](https://liquidtestnet.com/faucet).
+not to the page's wallet, using the [Liquid testnet faucet](https://liquidtestnet.com/faucet).
 
 You should see the payment in Humid's balance within about a minute.
 Humid spends only confirmed funds, so wait for it there before you fund the allowance.
@@ -482,11 +497,13 @@ Then press **Get my key from Humid**.
 
 The first call opens Humid's `Connect this dapp?` prompt; press **Connect**. From then on,
 every press of **Fund** or **Claim** opens Humid's own `Perform a contract action?`
-confirmation, which describes the transaction. Approve it with **Sign** for a dry run, or
-**Sign and send** when **Broadcast for real** is selected. [`REFERENCE.md`, "Sessions and
+confirmation, which describes the transaction. Humid offers **Sign** for a dry run and
+**Sign and send** for a real one: a Fund is real when **Broadcast for real** is selected,
+and a claim is a dry run only when **Dry run** is selected on the **I'm the beneficiary**
+tab. [`REFERENCE.md`, "Sessions and
 prompts"](REFERENCE.md#sessions-and-prompts) explains when the connect prompt appears again.
 
-You should see 64 hex characters in the beneficiary key field, which differ from Step 5's.
+You should see 64 hex characters in the **Beneficiary's public key** field, which differ from Step 5's.
 
 Repeat Steps 6 and 7: compile with this key, then fund
 the allowance with **Broadcast for real** unchecked.
@@ -510,27 +527,32 @@ documents the call.
 Fund the allowance with **Broadcast for real** selected. Once you approve it in Humid, you should see `Humid broadcast
 the funding transaction.` and a txid, and the new instance under **Refresh status** on the **I'm the beneficiary** tab. Wait out
 `MIN_DISTANCE`, then claim through Humid as in Step 9, and keep claiming as in Step 10
-until the allowance closes. There is no payout field in this mode, because Humid pays to
+until the allowance closes. There's no payout field in this mode, because Humid pays to
 its own change address.
 
-You should see Humid's own confirmation screen describing each withdrawal, and a broadcast
-txid once you approve it. If you locked more than `ALLOWANCE_AMOUNT`, the first claim is a
-`PartialWithdraw`; the last is always a `FullWithdraw`.
+You should see a broadcast txid for each withdrawal you approve.
 
-## Going further
+## Reporting problems
+
+If a command fails with a message that isn't in [`REFERENCE.md`, "Errors and what causes
+them"](REFERENCE.md#errors-and-what-causes-them), open an issue in the
+[`simplicity-lang-org` repository](https://github.com/BlockstreamResearch/simplicity-lang-org/issues)
+with the exact error text and the step you were on. If you're an AI agent running these
+steps as a test, follow your own instructions instead.
+
+## Next steps
 
 Read [`EXPLANATION.md`](EXPLANATION.md) next. It covers what the contract enforces, who
 signs and what that changes, and what would have to change before a mainnet deployment.
 
-To adapt a piece for your own contract:
+To adapt a component for your own contract:
 
 - **The tests.**
   [`examples/allowance-simplex/README.md`](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/examples/allowance-simplex/README.md) has ten
   more tests to write yourself. Most check that the contract rejects an invalid
   withdrawal: one signed by someone other than the beneficiary, one that takes more
-  than the allowance, or one that tries to change the covenant's terms. Everything they
-  need is in the two tests from Step 2, so writing them is a good way to learn Simplex's
-  testing API.
+  than the allowance, or one that tries to change the covenant's terms. Most of what they
+  need is in the two tests from Step 2.
 - **The manifest.** [`EXPLANATION.md`, "Writing a manifest for a different
   contract"](EXPLANATION.md#writing-a-manifest-for-a-different-contract) gives the mapping
   to derive from any contract's source, and
@@ -550,11 +572,3 @@ parties"](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/all
 
 To use the same contract without a browser, see [`REFERENCE.md`, "Other clients for
 the same contract"](REFERENCE.md#other-clients-for-the-same-contract).
-
-## Reporting problems
-
-Report the exact error text, the step you were on, and the file and line if you can find
-it, as an issue in the [`simplicity-lang-org`
-repository](https://github.com/BlockstreamResearch/simplicity-lang-org/issues). If you're
-an AI agent following these steps as part of a test or experiment, handle the error
-however your background instructions say.
