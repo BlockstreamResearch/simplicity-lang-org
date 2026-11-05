@@ -1,9 +1,7 @@
 # Build a complete Simplicity application, from contract to web to wallet
 
 This tutorial builds a complete application in which a
-[Simplicity](../glossary.md#simplicity) [contract](../glossary.md#contract) enforces a financial agreement.
-Simplicity is a [smart contract](../glossary.md#smart-contract) language for
-Bitcoin-like blockchains, available on the [Liquid Network](../glossary.md#liquid). The
+[Simplicity](../glossary.md#simplicity) [contract](../glossary.md#contract) enforces a financial agreement. The
 agreement is an allowance: a beneficiary can withdraw a specified amount at a time, with a
 minimum wait between withdrawals, and the benefactor who funded it can't take the coins
 back. You'll read the contract's code, test it, fund and withdraw from it through a web
@@ -11,8 +9,8 @@ page you can edit, and sign with a browser wallet. You can adapt the same tools 
 patterns for a financial application of your own.
 
 **Goal**: finish with a [covenant](../glossary.md#covenant) that you've tested on a
-local [regtest](../glossary.md#regtest) network and used for two allowances on Liquid
-testnet, one signed in the page and one with the [Humid](../glossary.md#humid) wallet,
+local [regtest](../glossary.md#regtest) network and used for two allowances on
+[Liquid](../glossary.md#liquid) testnet, one signed in the page and one with the [Humid](../glossary.md#humid) wallet,
 each funded, withdrawn from and closed.
 
 <figure markdown="span">
