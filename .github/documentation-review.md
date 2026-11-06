@@ -78,6 +78,7 @@ An explanation or reference page that includes a command or code example still n
 
 2. **Shortest path:** What is the minimum sequence that achieves the stated goal? Flag any "build the world first" content, or repeated installation content not required for the immediate task.
     * The goal at the top of the page says what the reader will have, or be able to do, when they finish. Flag a goal that summarizes the steps instead.
+    * A tutorial or quickstart may open with a short paragraph saying what the reader will build and what they can do with it afterward, for readers who don't yet know the technology or why they'd use it. That paragraph may also state the goal, in place of a separate goal line. Don't flag it as explanation or as delaying the first action. Flag it if it makes claims of significance rather than concrete statements, or if it grows beyond a short paragraph.
     * Get the reader to the first real action quickly. Flag requirements listed at the top of the page that the first steps don't need. Introduce each tool or requirement in the step that first uses it.
 
 3. **Context switching (DX):** Count the distinct environments the reader must juggle (for example a Node server terminal, a node CLI, the Web IDE, a browser). Flag excessive context switching.
