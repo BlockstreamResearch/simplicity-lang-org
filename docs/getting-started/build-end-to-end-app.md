@@ -489,7 +489,7 @@ because the setup window closes.
 2. Write down on paper the 12 words the **Recovery phrase** panel shows, and press
    **I saved it**.
 3. Enter the three words it asks for, and press **Continue**.
-4. Enter a password twice and press **Create wallet**.
+4. Enter a password of at least 8 characters twice and press **Create wallet**.
 
 If the setup window closes partway through, open Humid and start over. It shows a new
 recovery phrase, so write down the new words and discard the old ones.
@@ -510,8 +510,8 @@ Fund Humid now, so its coins can confirm while you set up the page: use the
 [Liquid testnet faucet](https://liquidtestnet.com/faucet) to send testnet coins to that
 `tlq1…` address, not to the page's wallet.
 
-Select the [asset](../glossary.md#asset) under "TOKENS" in Humid's account panel to open its
-activity list.
+Select the [asset](../glossary.md#asset) under "TOKENS", shown as `L-BTC`, in Humid's account
+panel to open its activity list.
 
 You should see the payment within about a minute, under `PENDING`, or under a date such as
 `TODAY` once it has confirmed.
@@ -541,8 +541,9 @@ You should see 64 hex characters under "Who signs", which differ from Step 5's. 
 also puts them in the **Beneficiary's public key** field on the **I'm the benefactor** tab.
 
 From now on, every press of **Fund**, and every **Claim** you confirm on the page, opens
-Humid's own `Perform a contract action?` confirmation, which describes the transaction. Its button reads **Sign and send**,
-or **Sign** for a dry run.
+Humid's own `Perform a contract action?` confirmation, which describes the transaction. Its
+button reads **Sign and send**, or **Sign** for a dry run. If Humid has locked itself, which it
+does after 15 minutes by default, it first asks for your password in an `Unlock Humid` window.
 
 Repeat Step 6 to compile with this key. Humid spends only confirmed funds, so wait until the
 payment from Step 11b is listed under a date rather than `PENDING` in Humid's activity list.
