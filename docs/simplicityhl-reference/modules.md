@@ -1,10 +1,10 @@
 # Modules and imports reference
 
-An informal introduction to this feature is available in the [introduction to modules and imports](../../documentation/modules/).
+An informal introduction to this feature is available in the [introduction to modules and imports](../documentation/modules.md).
 
 The modules and imports feature is available experimentally since SimplicityHL 0.6.0 (compiling with `-Z imports`). Modules let you organize a program as multiple files and/or nested `mod` blocks, and let you import function and type definitions from elsewhere, whether from another file in your own project or from a separate project entirely. The syntax is a subset of that used by Rust.
 
-The SimplicityHL modules mechanism also supports the [SimplicityHL standard library](../../documentation/stdlib/).
+The SimplicityHL modules mechanism also supports the [SimplicityHL standard library](../documentation/stdlib.md).
 
 !!! warning "Unstable feature"
 

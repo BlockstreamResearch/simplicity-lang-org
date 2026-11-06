@@ -10,7 +10,7 @@ Because Simplicity and Elements are open source, developers have the flexibility
 
 ### Command line
 
-[Command-line tools for developing, testing, and exploration](../toolchain/) (`simc` and `hal-simplicity`) are available.
+[Command-line tools for developing, testing, and exploration](toolchain.md) (`simc` and `hal-simplicity`) are available.
 
 ### SimplicityHL, rust-simplicity, and Simplex
 
@@ -20,7 +20,7 @@ The recommended development environment for building production applications tha
 
 * The [`rust-simplicity`](https://github.com/BlockstreamResearch/rust-simplicity) library provides low-level functionality related to building witnesses and transactions. It can also derive on-chain addresses from a compiled Simplicity program.
 
-* The [Simplex](../simplex/) orchestration tool can automatically generate code artifacts in Rust, compatible with `rust-simplicity`, that provide basic witness and transaction-building logic for a specified SimplicityHL program. It also provides other useful project management functionality such as dependency management and a test framework.
+* The [Simplex](simplex.md) orchestration tool can automatically generate code artifacts in Rust, compatible with `rust-simplicity`, that provide basic witness and transaction-building logic for a specified SimplicityHL program. It also provides other useful project management functionality such as dependency management and a test framework.
 
 ### LWK
 

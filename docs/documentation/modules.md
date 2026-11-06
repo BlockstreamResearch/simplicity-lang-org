@@ -2,7 +2,7 @@
 
 As a SimplicityHL program grows, it's often useful to split it across multiple files, or to reuse functions that were already written for a different project. SimplicityHL has a lightweight system for this, based on two keywords: `pub` (to make something available to other files) and `use` (to bring something from another file into the one you're writing).
 
-This system is loosely based on the module system in the Rust programming language, but is much simpler. This page introduces it from scratch and doesn't assume you've used Rust modules before. For the complete, formal syntax rules, see the [modules reference page](../../simplicityhl-reference/modules/).
+This system is loosely based on the module system in the Rust programming language, but is much simpler. This page introduces it from scratch and doesn't assume you've used Rust modules before. For the complete, formal syntax rules, see the [modules reference page](../simplicityhl-reference/modules.md).
 
 !!! warning "This is an experimental feature"
 
@@ -178,5 +178,5 @@ If you've used a language with a similar-looking import system before (including
 
 ## Where to go next
 
-* The [modules reference page](../../simplicityhl-reference/modules/) covers exact syntax details related to modules and imports.
+* The [modules reference page](../simplicityhl-reference/modules.md) covers exact syntax details related to modules and imports.
 * Read more about [Simplex](simplex.md) and its package and dependency management features.

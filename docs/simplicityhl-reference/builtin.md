@@ -1,6 +1,6 @@
 # Built-in functions
 
-[SimplicityHL](../glossary.md#simplicityhl) offers several built-in functions and macros. These are additional to the hundreds of [jets](../../documentation/jets/) provided by the Simplicity Elements integration.
+[SimplicityHL](../glossary.md#simplicityhl) offers several built-in functions and macros. These are additional to the hundreds of [jets](../documentation/jets.md) provided by the Simplicity Elements integration.
 
 | <div style="width:8em">Function</div> | Description |
 |-------------|-----------------------------------|
@@ -9,7 +9,7 @@
 | `dbg!()` | Do-nothing function used as a debugger marker. |
 | `fold()` | Repeatedly apply a function to each element of a list, starting with an initial accumulator value. |
 | `for_while()` | Perform a bounded loop by repeatedly calling a function with an incrementing counter variable. Permits an explicit early exit from the loop.<br><br>**Note: can be computationally expensive.** |
-| `<T>::into()` | Perform native type conversions. See [type casting](../type_casting/) for more details. |
+| `<T>::into()` | Perform native type conversions. See [type casting](type_casting.md) for more details. |
 | `is_none<T>()` | Check whether an `Option<T>` value is `None`, returning `true` or `false`. |
 | `panic!` | Immediately abort the current program, rejecting the currently proposed transaction. |
 | `raw_hash` | (Compile with `-Z raw_hash`.) Compute a SHA256 digest over a provided tuple of integer values of possibly differing widths. |
@@ -106,7 +106,7 @@ fn not(bit: bool) -> bool {
 }
 ```
 
-See [type casting](../type_casting/) for more details.
+See [type casting](type_casting.md) for more details.
 
 ### `is_none`
 

@@ -18,7 +18,7 @@ Jets also provide [introspection](../glossary.md#introspection) of the currently
 
 ## Jet list
 
-Here is a complete list of the available jets, their [type signatures](../../simplicityhl-reference/type/), and a description of what they do.
+Here is a complete list of the available jets, their [type signatures](../simplicityhl-reference/type.md), and a description of what they do.
 
 The jet list is available both for the Elements Simplicity integration (for [Liquid Network](../glossary.md#liquid)) and for the Bitcoin integration (for [Simplicity Signet](../glossary.md#signet)); each version appears in its own tab below. About 95% of the jets are shared between these two integrations, but some differ.
 

@@ -50,7 +50,7 @@ Link to the [Simplicity DEX repository](https://github.com/Blockstream/simplicit
 
 **Taker Profit Condition**: The taker profits when the premium they receive covers any potential losses, while still retaining a guaranteed claim on either LBTC (if the option is exercised) or the USDt collateral (if the option expires unexercised).
 
- ![This graph is a combination of the Long Call by the Maker ("Graph 1") and the Short Call by the Taker ("Graph 3"). Consult Appendix B for more details](/assets/11ad966b-8507-40c2-b29d-0d1e26a6a26a.png){ width="1457" height="888" }
+ ![This graph is a combination of the Long Call by the Maker ("Graph 1") and the Short Call by the Taker ("Graph 3"). Consult Appendix B for more details](../assets/11ad966b-8507-40c2-b29d-0d1e26a6a26a.png){ width="1457" height="888" }
 
 !!! info "Option Offer Contract"
     The [Option Offer contract](https://github.com/BlockstreamResearch/simplicity-contracts/blob/main/crates/contracts/src/finance/option_offer/source_simf/option_offer.simf) enables depositing two assets (collateral + premium) into a single covenant. A counterparty can then swap their settlement asset for both deposited assets in a single atomic transaction, with amounts enforced by configurable ratios (`collateral_per_contract` and `premium_per_collateral`).
@@ -121,7 +121,7 @@ sequenceDiagram
 
 ## Appendix A: Excalidraw file
 
-[profit-loss-diagram(2).excalidraw 28916](/assets/9e9ecabd-7792-4970-a69c-28847b5e9c99.excalidraw)
+[profit-loss-diagram(2).excalidraw 28916](../assets/9e9ecabd-7792-4970-a69c-28847b5e9c99.excalidraw)
 
 
 ## Appendix B: Mapping to Traditional Options Positions
@@ -130,7 +130,7 @@ The Options contract is flexible enough to create all four standard options posi
 
 However, the current contract configuration forces the premium to be of the collateral type, not in USD.
 
- ![Standard options profit/loss profiles. The X-axis represents the underlying asset price, and the Y-axis represents profit/loss. The strike price is marked as X, and the breakeven point accounts for the option premium.](/assets/387b82dc-e7ad-4f00-99bb-50a066714ef2.jpg){ width="510" height="323" }
+ ![Standard options profit/loss profiles. The X-axis represents the underlying asset price, and the Y-axis represents profit/loss. The strike price is marked as X, and the breakeven point accounts for the option premium.](../assets/387b82dc-e7ad-4f00-99bb-50a066714ef2.jpg){ width="510" height="323" }
 
 ### The Two Determining Factors
 

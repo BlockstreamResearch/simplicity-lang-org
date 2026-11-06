@@ -57,4 +57,4 @@ Prototypes of several real financial applications on Simplicity are being specif
 
 ## Ecosystem
 
-Tools and standards for building financial applications to interact with Simplicity contracts, as well as for connecting existing wallet apps to contract flows, are in development. See "[Road to Ecosystem](../../documentation/road-to-ecosystem)" for an overview of the requirements for safely connecting wallets.
+Tools and standards for building financial applications to interact with Simplicity contracts, as well as for connecting existing wallet apps to contract flows, are in development. See "[Road to Ecosystem](../documentation/road-to-ecosystem.md)" for an overview of the requirements for safely connecting wallets.
