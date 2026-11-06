@@ -86,8 +86,8 @@ For what each function enforces, see
 
 ## 2. Run the contract's tests on regtest
 
-Check that you have [Rust](https://rust-lang.org/tools/install/) 1.91 or newer, installed
-with `rustup` (which provides `cargo`), a C compiler and `jq`:
+Check that you have [Rust](https://rust-lang.org/tools/install/), installed with `rustup`
+(which provides `cargo`), as well as a C compiler and `jq`:
 
 ```bash
 rustup --version
@@ -296,7 +296,7 @@ press **Fund**.
 **Broadcast for real** is selected, so the page first shows what it will send: the amount,
 the covenant address, the terms, the fee and the [output](../glossary.md#output) count.
 Check them and press **Sign & broadcast**. To try it without sending anything, clear
-**Broadcast for real** first; the page then reports the txid it would have sent.
+**Broadcast for real** before you press **Fund**; the page then reports the txid it would have sent.
 
 You should see a txid. The transaction's output at the covenant address is the first
 allowance instance.
@@ -397,7 +397,7 @@ Repeat Step 9 until the balance is at or below `ALLOWANCE_AMOUNT`. The action th
 way.
 
 After each claim, the page refreshes the list. The button of the instance you just spent
-shows **Spent**, and the new one holding the remainder appears as **Unconfirmed**, then
+shows **Spent**. The new instance holding the remainder appears as **Unconfirmed**, then
 **Timelocked**, then **Claim** once its own timelock has passed.
 
 After the `FullWithdraw`, you should see `No live instances at …` in place of the list.
@@ -419,7 +419,7 @@ for each withdrawal.
 
 ## 11. Run the same contract through the wallet
 
-Steps 4 to 10 kept the key in the browser. In this step, the page passes the Humid
+Steps 4 to 10 kept the keys in the page. In this step, the page passes the Humid
 extension the same contract source together with a manifest, which tells Humid how to
 build each transaction. Humid then signs each one.
 
@@ -493,18 +493,18 @@ Press **Receive**.
 You should see a [confidential](../glossary.md#confidential) address starting `tlq1`,
 the Liquid testnet form.
 
+Fund Humid now, so its coins can confirm while you set up the page: use the
+[Liquid testnet faucet](https://liquidtestnet.com/faucet) to send testnet coins to that
+`tlq1…` address, not to the page's wallet.
+
+You should see the payment in Humid within about a minute, marked `Pending`.
+
 ### 11c. Fund and withdraw through Humid
 
 Select **Humid extension** under "Who signs". The page's own wallet and key sections
 disappear, along with the results from Steps 4 to 10. Then press **Check for Humid**.
 
 You should see `Humid is available on this page.`
-
-Fund Humid first: send testnet coins to the `tlq1…` address on Humid's **Receive** panel,
-not to the page's wallet, using the [Liquid testnet faucet](https://liquidtestnet.com/faucet).
-
-You should see the payment in Humid within about a minute, marked `Pending`. Humid spends
-only confirmed funds, so wait until it shows `Confirmed` before you fund the allowance.
 
 Press **Get my key from Humid**. The first call opens Humid's `Connect this dapp?` prompt;
 press **Connect**. [`REFERENCE.md`, "Sessions and prompts"](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/REFERENCE.md#sessions-and-prompts)
@@ -527,7 +527,8 @@ From now on, every press of **Fund** or **Claim** opens Humid's own `Perform a c
 action?` confirmation, which describes the transaction. Its button reads **Sign and send**,
 or **Sign** for a dry run.
 
-Repeat Step 6 to compile with this key. Then set the amount to lock as in Step 7, press
+Repeat Step 6 to compile with this key. Humid spends only confirmed funds, so wait until the
+payment from 11b shows `Confirmed` in Humid. Then set the amount to lock as in Step 7, press
 **Fund**, and approve it in Humid with **Sign and send**.
 
 ??? example "The call behind **Fund** in Humid mode"
@@ -588,8 +589,8 @@ To adapt a component for your own contract:
   than the allowance, or one that tries to change the covenant's terms. Most of what they
   need is in the two tests from Step 2.
 - **The manifest.** [`EXPLANATION.md`, "Writing a manifest for a different
-  contract"](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/EXPLANATION.md#writing-a-manifest-for-a-different-contract) gives the mapping
-  to derive from any contract's source, and
+  contract"](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/EXPLANATION.md#writing-a-manifest-for-a-different-contract) shows how to
+  derive a manifest from any contract's source, and
   [`EXPLANATION.md`, "Checking a manifest you didn't
   write"](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/EXPLANATION.md#checking-a-manifest-you-didnt-write) covers reviewing one,
   including one an AI assistant drafted.
