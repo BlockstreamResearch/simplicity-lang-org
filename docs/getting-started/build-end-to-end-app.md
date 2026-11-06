@@ -98,8 +98,8 @@ jq --version
 
 You should see a version from each, with `rustc` at 1.91 or newer. If not:
 
-- If `rustup` isn't found, install Rust from the link above. A distribution's `rustc`
-  package doesn't include `rustup`.
+- If `rustup` isn't found, [install Rust](https://rust-lang.org/tools/install/). A
+  distribution's `rustc` package doesn't include `rustup`.
 - If `rustc` is older, run `rustup update stable`.
 - If `cc` isn't found, install your system's C build tools, such as `build-essential` on
   Debian or Ubuntu, or the Xcode Command Line Tools on macOS with `xcode-select --install`.
@@ -260,8 +260,8 @@ Open the **I'm the benefactor** tab and fill in the three values the page compil
 - **Beneficiary's public key**, from Step 5.
 - **Withdrawable per period**, which is `ALLOWANCE_AMOUNT` in sats. Keep it well above
   500. The page uses a fixed [fee](../glossary.md#fee) of 500 sats for every withdrawal
-  and pays it out of the allowance, so an allowance of 500 sats or less can't be
-  withdrawn.
+  and pays it out of the allowance, so the beneficiary can't withdraw an allowance of
+  500 sats or less.
 - **Blocks between withdrawals**, which is `MIN_DISTANCE`. `3` means about three
   minutes, convenient for a first run; `1440` is about a day.
 
@@ -286,7 +286,7 @@ any of the terms gives a different allowance at a different address.
 
 ## 7. Fund the allowance
 
-Set the amount to lock to a whole multiple of **Withdrawable per period**, such as `10000`
+Set **Amount to lock** to a whole multiple of **Withdrawable per period**, such as `10000`
 for an allowance of `5000`, so that the last withdrawal also takes a full allowance. Then
 press **Fund**.
 
@@ -404,8 +404,8 @@ Repeat Step 9, leaving the payout field as it is, until the instance's action sh
 way.
 
 After each claim, the page refreshes the list. The button of the instance you just spent
-shows **Spent**. The new instance holding the remainder appears as **Unconfirmed**, then
-**Timelocked**, then **Claim** once its own timelock has passed.
+shows `Spent`. The new instance holding the remainder appears as `Unconfirmed`, then
+`Timelocked`, then **Claim** once its own timelock has passed.
 
 Within about a minute of the `FullWithdraw`, you should see `No live instances at …` in place
 of the list.
@@ -437,10 +437,9 @@ build each transaction. Humid then signs each one.
 
 ### 11a. Build the extension
 
-Install Bun, which builds the extension, with
-[`npm`](https://docs.npmjs.com/cli/v12/configuring-npm/install). You need Bun 1.3.14 or
-newer. If `npm --version` doesn't print a version, install Node.js, which provides `npm`,
-first.
+Install Bun with [`npm`](https://docs.npmjs.com/cli/v12/configuring-npm/install). Bun builds
+the extension, and you need Bun 1.3.14 or newer. If `npm --version` doesn't print a
+version, install Node.js, which provides `npm`, first.
 
 ```bash
 npm --version
@@ -495,11 +494,11 @@ because the setup window closes.
 If the setup window closes partway through, open Humid and start over. It shows a new
 recovery phrase, so write down the new words and discard the old ones.
 
-You should see Humid's account panel, with a network menu reading **Liquid** at the top
+You should see Humid's account panel, with a network menu reading **LIQUID** at the top
 left, a balance, and **Receive** and **Send** buttons.
 
 !!! warning "Switch Humid to Liquid Testnet"
-    Humid starts on Liquid mainnet. Open the **Liquid** menu at the top left of the panel
+    Humid starts on Liquid mainnet. Open the **LIQUID** menu at the top left of the panel
     and select **Liquid Testnet**.
 
 Press **Receive**.
@@ -511,7 +510,11 @@ Fund Humid now, so its coins can confirm while you set up the page: use the
 [Liquid testnet faucet](https://liquidtestnet.com/faucet) to send testnet coins to that
 `tlq1…` address, not to the page's wallet.
 
-You should see the payment in Humid within about a minute, marked `Pending`.
+Select the [asset](../glossary.md#asset) under "TOKENS" in Humid's account panel to open its
+activity list.
+
+You should see the payment within about a minute, under `PENDING`, or under a date such as
+`TODAY` once it has confirmed.
 
 ### 11c. Fund and withdraw through Humid
 
@@ -537,12 +540,13 @@ explains when the connect prompt appears again.
 You should see 64 hex characters under "Who signs", which differ from Step 5's. The page
 also puts them in the **Beneficiary's public key** field on the **I'm the benefactor** tab.
 
-From now on, every press of **Fund** or **Claim** opens Humid's own `Perform a contract
-action?` confirmation, which describes the transaction. Its button reads **Sign and send**,
+From now on, every press of **Fund**, and every **Claim** you confirm on the page, opens
+Humid's own `Perform a contract action?` confirmation, which describes the transaction. Its button reads **Sign and send**,
 or **Sign** for a dry run.
 
 Repeat Step 6 to compile with this key. Humid spends only confirmed funds, so wait until the
-payment from Step 11b shows `Confirmed` in Humid. Then set the amount to lock as in Step 7, press
+payment from Step 11b is listed under a date rather than `PENDING` in Humid's activity list.
+Then set **Amount to lock** as in Step 7, press
 **Fund**, and approve it in Humid with **Sign and send**.
 
 ??? example "The call behind **Fund** in Humid mode"
