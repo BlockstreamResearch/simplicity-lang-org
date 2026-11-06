@@ -16,10 +16,11 @@ permissions:
 
 # Rust caches: each key ends in a hash of the crate sources it covers, so a run where
 # those didn't change gets an exact hit and saves nothing, and a run where they did
-# restores the newest cache for the same compiler and saves a fresh one. `RUSTC` (a
-# hash of `rustc -vV`) keeps a runner-image toolchain update from restoring build
-# artifacts the new compiler can't reuse. Every key prefix is distinct and none is a
-# prefix of another, so a fallback never restores a different job's cache.
+# restores the newest cache for the same compiler and saves a fresh one. `RUSTC_HASH`
+# (a hash of `rustc -vV`) keeps a runner-image toolchain update from restoring build
+# artifacts the new compiler can't reuse. Don't name it `RUSTC`: cargo reads that
+# variable as the path of the compiler to run. Every key prefix is distinct and none is
+# a prefix of another, so a fallback never restores a different job's cache.
 
 jobs:
   # Executes every `simplicityhl,run` fence under docs/ and checks it behaves as its
@@ -29,17 +30,17 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       # Ubuntu runners ship a rustup toolchain, so nothing to install for a host build.
-      - run: echo "RUSTC=$(rustc -vV | sha256sum | cut -c1-12)" >> "$GITHUB_ENV"
+      - run: echo "RUSTC_HASH=$(rustc -vV | sha256sum | cut -c1-12)" >> "$GITHUB_ENV"
       - uses: actions/cache@v6
         with:
-          key: snippets-${{ env.RUSTC }}-${{ hashFiles('crates/*/Cargo.toml', 'crates/*/Cargo.lock', 'crates/*/src/**', 'crates/simplicity-runner/tests/*.rs') }}
+          key: snippets-${{ env.RUSTC_HASH }}-${{ hashFiles('crates/*/Cargo.toml', 'crates/*/Cargo.lock', 'crates/*/src/**', 'crates/simplicity-runner/tests/*.rs') }}
           path: |
             ~/.cargo/registry
             ~/.cargo/git
             crates/simplicity-runner/target
             crates/tx-fixtures/target
           restore-keys: |
-            snippets-${{ env.RUSTC }}-
+            snippets-${{ env.RUSTC_HASH }}-
       # Most content here lands via a direct commit to `main`, not a PR, so a missing
       # fixture must not freeze deployment of the entire site over one example: fetch
       # whatever isn't already checked in, from the same live explorer the browser
@@ -82,7 +83,7 @@ jobs:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-      - run: echo "RUSTC=$(rustc -vV | sha256sum | cut -c1-12)" >> "$GITHUB_ENV"
+      - run: echo "RUSTC_HASH=$(rustc -vV | sha256sum | cut -c1-12)" >> "$GITHUB_ENV"
 
       # --- the compiler readers run in their browser --------------------------------
       # Built here rather than committed, so no 2 MB binary accumulates in git history.
@@ -102,13 +103,13 @@ jobs:
       - if: steps.wasm-pkg.outputs.cache-hit != 'true'
         uses: actions/cache@v6
         with:
-          key: wasm-target-${{ env.RUSTC }}-${{ hashFiles('crates/simplicity-runner/Cargo.toml', 'crates/simplicity-runner/Cargo.lock', 'crates/simplicity-runner/src/**') }}
+          key: wasm-target-${{ env.RUSTC_HASH }}-${{ hashFiles('crates/simplicity-runner/Cargo.toml', 'crates/simplicity-runner/Cargo.lock', 'crates/simplicity-runner/src/**') }}
           path: |
             ~/.cargo/registry
             ~/.cargo/git
             crates/simplicity-runner/target
           restore-keys: |
-            wasm-target-${{ env.RUSTC }}-
+            wasm-target-${{ env.RUSTC_HASH }}-
       - name: Install wasm-pack
         if: steps.wasm-pkg.outputs.cache-hit != 'true'
         run: |
@@ -136,13 +137,13 @@ jobs:
       # doesn't carry over) — see the comment on the same step in `snippets` above.
       - uses: actions/cache@v6
         with:
-          key: tx-fixtures-${{ env.RUSTC }}-${{ hashFiles('crates/tx-fixtures/Cargo.toml', 'crates/tx-fixtures/Cargo.lock', 'crates/tx-fixtures/src/**') }}
+          key: tx-fixtures-${{ env.RUSTC_HASH }}-${{ hashFiles('crates/tx-fixtures/Cargo.toml', 'crates/tx-fixtures/Cargo.lock', 'crates/tx-fixtures/src/**') }}
           path: |
             ~/.cargo/registry
             ~/.cargo/git
             crates/tx-fixtures/target
           restore-keys: |
-            tx-fixtures-${{ env.RUSTC }}-
+            tx-fixtures-${{ env.RUSTC_HASH }}-
       - run: cargo run --manifest-path crates/tx-fixtures/Cargo.toml --bin add_tx_fixture
       # Exported from the (now-complete) fixtures so the tutorial's own worked examples
       # load instantly and don't depend on the live Esplora API being reachable; a
