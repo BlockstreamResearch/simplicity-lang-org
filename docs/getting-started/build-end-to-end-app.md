@@ -1,17 +1,14 @@
 # Build a complete Simplicity application, from contract to web to wallet
 
 This tutorial builds a complete application in which a
-[Simplicity](../glossary.md#simplicity) [contract](../glossary.md#contract) enforces a financial agreement. The
-agreement is an allowance: a beneficiary can withdraw a specified amount at a time, with a
-minimum wait between withdrawals, and the benefactor who funded it can't take the coins
-back. You'll read the contract's code, test it, fund and withdraw from it through a web
-page you can edit, and sign with a browser wallet. You can adapt the same tools and code
+[Simplicity](../glossary.md#simplicity) [contract](../glossary.md#contract) enforces a
+financial agreement. The agreement is an allowance: a beneficiary can withdraw a specified
+amount at a time, with a minimum wait between withdrawals, and the benefactor who funded it
+can't take the coins back. You'll read the contract's code and test it on a local
+[regtest](../glossary.md#regtest) network. Then you'll fund it, withdraw from it and close it
+on [Liquid](../glossary.md#liquid) testnet, once from a web page you can edit and once with
+the [Humid](../glossary.md#humid) browser wallet. You can adapt the same tools and code
 patterns for a financial application of your own.
-
-**Goal**: finish with a [covenant](../glossary.md#covenant) that you've tested on a
-local [regtest](../glossary.md#regtest) network and used for two allowances on
-[Liquid](../glossary.md#liquid) testnet, one signed in the page and one with the [Humid](../glossary.md#humid) wallet,
-each funded, withdrawn from and closed.
 
 <figure markdown="span">
   ![The allowance page listing two allowance instances: one ready to claim with a PartialWithdraw, the other timelocked with one block left](../assets/allowance-page.png)
@@ -102,8 +99,8 @@ jq --version
 You should see a version from each. `rustc` should be 1.91 or newer; if it's older, run
 `rustup update stable`. If `cc` isn't found, install your system's C build tools, such as
 `build-essential` on Debian or Ubuntu, or the Xcode Command Line Tools on macOS with
-`xcode-select --install`. If `jq` isn't found, install it with `apt install jq` or
-`brew install jq`.
+`xcode-select --install`. If `jq` isn't found, install it with your system's package
+manager.
 
 Install [Simplex](../glossary.md#simplex), which runs SimplicityHL integration tests
 against a local [Elements](../glossary.md#elements) regtest
@@ -277,7 +274,8 @@ Press **Compile & derive address**.
       L.XOnlyPublicKey.fromString(NUMS_INTERNAL_KEY), network);
     ```
 
-You should see the [CMR](../glossary.md#cmr) and a `tex1p…` covenant address. Changing
+You should see the [CMR](../glossary.md#cmr) and a `tex1p…`
+[covenant](../glossary.md#covenant) address. Changing
 any of the terms gives a different allowance at a different address.
 
 ## 7. Fund the allowance
@@ -316,7 +314,7 @@ allowance instance.
 
 Steps 8 to 10 follow the loop below; in this step, you watch the chain for live
 allowance instances. A partial withdrawal pays the beneficiary and recreates the covenant
-with the remainder, so the timelock starts again from the block that confirmed it.
+with the remainder, so the timelock starts again from the block that confirmed the withdrawal.
 
 ```mermaid
 flowchart TD
@@ -332,7 +330,7 @@ Open the **I'm the beneficiary** tab and press **Refresh status**. The instance 
 the withdrawal controls are on that tab.
 
 You should see one instance listed with a balance and either `PartialWithdraw` or
-`FullWithdraw` as its action. Its **Timelock** column reads `unconfirmed (~1 min)` until the funding
+`FullWithdraw` as its action. Its "Timelock" column reads `unconfirmed (~1 min)` until the funding
 transaction confirms, and then shows a timelock countdown. Each
 [UTXO](../glossary.md#utxo) at the covenant address is a separate allowance instance
 with its own timelock.
@@ -359,9 +357,8 @@ with its own timelock.
 Wait until the button reads **Claim**. With a short `MIN_DISTANCE` such as `3`, the page
 refreshes the list about once a minute; press **Refresh status** to check sooner.
 
-Steps 9 and 10 stay on the **I'm the beneficiary** tab. Press **Use my wallet address** to
-set where the payout goes. Then press **Claim** and read the confirmation panel, which lists every output before the page
-signs anything.
+Press **Use my wallet address** to set where the payout goes. Then press **Claim** and read
+the confirmation panel, which lists every output before the page signs anything.
 
 You should see these outputs:
 
@@ -404,15 +401,16 @@ shows **Spent**, and the new one holding the remainder appears as **Unconfirmed*
 **Timelocked**, then **Claim** once its own timelock has passed.
 
 After the `FullWithdraw`, you should see `No live instances at …` in place of the list.
-Once it confirms, the locked amount,
-less the fee for each withdrawal, is then at your payout address.
+Once the `FullWithdraw` confirms, your payout address holds the locked amount, less the fee
+for each withdrawal.
 
 ??? example "Check the close-out on chain"
 
     ```bash
     ADDR=<covenant-address>
+    PAYOUT=<payout-address>
     curl -s "https://blockstream.info/liquidtestnet/api/address/$ADDR/utxo" | python3 -m json.tool
-    curl -s "https://blockstream.info/liquidtestnet/api/address/<payout-address>/utxo" | python3 -m json.tool
+    curl -s "https://blockstream.info/liquidtestnet/api/address/$PAYOUT/utxo" | python3 -m json.tool
     ```
 
     You should see an empty array for the covenant address: every instance is spent. The
@@ -480,8 +478,8 @@ because the setup window closes. If it does, open Humid again and start over. Hu
 shows a new recovery phrase, so write down the new words and discard the old ones.
 
 Press **Create wallet**, write down on paper the 12 words the **Recovery phrase** panel
-shows, press **I saved it**, and then enter the words it asks for. Then enter a password
-twice and press **Create wallet**.
+shows, and press **I saved it**. Enter the three words it asks for, and press
+**Continue**. Then enter a password twice and press **Create wallet**.
 
 You should see Humid's account panel, with a network menu reading **Liquid** at the top
 left, a balance, and **Receive** and **Send** buttons.
@@ -505,8 +503,8 @@ You should see `Humid is available on this page.`
 Fund Humid first: send testnet coins to the `tlq1…` address on Humid's **Receive** panel,
 not to the page's wallet, using the [Liquid testnet faucet](https://liquidtestnet.com/faucet).
 
-You should see the payment in Humid within about a minute, marked **Pending**. Humid spends
-only confirmed funds, so wait until it shows **Confirmed** before you fund the allowance.
+You should see the payment in Humid within about a minute, marked `Pending`. Humid spends
+only confirmed funds, so wait until it shows `Confirmed` before you fund the allowance.
 
 Press **Get my key from Humid**. The first call opens Humid's `Connect this dapp?` prompt;
 press **Connect**. [`REFERENCE.md`, "Sessions and prompts"](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/REFERENCE.md#sessions-and-prompts)
@@ -522,18 +520,12 @@ explains when the connect prompt appears again.
     // then derive the x-only key: see REFERENCE.md, "Deriving keys and addresses from the wallet"
     ```
 
-You should see 64 hex characters in the **Beneficiary's public key** field, which differ
-from Step 5's.
+You should see 64 hex characters under "Who signs", which differ from Step 5's. The page
+also puts them in the **Beneficiary's public key** field on the **I'm the benefactor** tab.
 
 From now on, every press of **Fund** or **Claim** opens Humid's own `Perform a contract
-action?` confirmation, which describes the transaction. Whether it broadcasts depends on
-the page's settings:
-
-- **Fund** broadcasts unless **Broadcast for real** is cleared.
-- **Claim** broadcasts unless **Dry run** is selected on the **I'm the beneficiary** tab.
-
-Humid's confirmation button reads **Sign** for a dry run and **Sign and send** when the page
-asked it to broadcast.
+action?` confirmation, which describes the transaction. Its button reads **Sign and send**,
+or **Sign** for a dry run.
 
 Repeat Step 6 to compile with this key. Then set the amount to lock as in Step 7, press
 **Fund**, and approve it in Humid with **Sign and send**.
@@ -612,5 +604,6 @@ To run an allowance between two people, each with a separate browser, see
 [`examples/allowance-lwk/README.md`, "Running it as two separate
 parties"](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/examples/allowance-lwk/README.md#running-it-as-two-separate-parties).
 
-To use the same contract without a browser, see [`REFERENCE.md`, "Other clients for
-the same contract"](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/REFERENCE.md#other-clients-for-the-same-contract).
+For other clients for the same contract, including a command-line one that runs it without
+a browser, see [`REFERENCE.md`, "Other clients for the same
+contract"](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/REFERENCE.md#other-clients-for-the-same-contract).
