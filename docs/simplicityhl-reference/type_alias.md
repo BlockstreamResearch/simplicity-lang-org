@@ -36,7 +36,7 @@ These aliases can be used without defining them.
 | `Ctx8`           | `(List<u8, 64>, (u64, u256))` |
 | `Distance`       | `u16`                         |
 | `Duration`       | `u16`                         |
-| `ExplicitAmount` | `u256`                        |
+| `ExplicitAmount` | `u64`                         |
 | `ExplicitAsset`  | `u256`                        |
 | `ExplicitNonce`  | `u256`                        |
 | `Fe`             | `u256`                        |
