@@ -255,7 +255,7 @@ it.
 
 ## 6. Set the terms and compile the contract
 
-Open the **I'm the benefactor** tab and fill in the three values the page compiles into the contract:
+Open the **I'm the benefactor** tab and check the three values the page compiles into the contract:
 
 - **Beneficiary's public key**, from Step 5.
 - **Withdrawable per period**, which is `ALLOWANCE_AMOUNT` in sats. Keep it well above
@@ -310,7 +310,8 @@ allowance instance.
 ??? example "Check the funding on chain"
 
     ```bash
-    curl -s "https://blockstream.info/liquidtestnet/api/tx/<fund-txid>" | python3 -m json.tool
+    TXID=<fund-txid>
+    curl -s "https://blockstream.info/liquidtestnet/api/tx/$TXID" | python3 -m json.tool
     ```
 
     You should see one output with `scriptpubkey_type` `v1_p2tr` and the value you
@@ -383,7 +384,8 @@ remainder appears within about a minute.
 ??? example "Check the payout on chain"
 
     ```bash
-    curl -s "https://blockstream.info/liquidtestnet/api/tx/<withdraw-txid>" | python3 -m json.tool
+    TXID=<withdraw-txid>
+    curl -s "https://blockstream.info/liquidtestnet/api/tx/$TXID" | python3 -m json.tool
     ```
 
     In `vout`, you should see an output whose `scriptpubkey_address` is the address in
@@ -437,30 +439,27 @@ build each transaction. Humid then signs each one.
 
 ### 11a. Build the extension
 
-Install Bun with [`npm`](https://docs.npmjs.com/cli/v12/configuring-npm/install). Bun builds
-the extension, and you need Bun 1.3.14 or newer. If `npm --version` doesn't print a
-version, install Node.js, which provides `npm`, first.
+Check that you have [Bun](https://bun.sh/docs/installation), which builds the extension, on
+your `PATH`:
 
 ```bash
-npm --version
-npm install -g bun
 bun --version
 ```
 
-If it prints an older version, a Bun installed another way comes first on your `PATH`.
-Run `type -a bun` to find it, then update or remove that copy.
+You should see 1.3.14 or newer. If `bun` isn't found or is older,
+[install or update Bun](https://bun.sh/docs/installation).
 
 Then clone and build Humid 1.1.4. The `build:wasm:lwk` and `build:wasm:smplx` scripts can
 each take some time, often without printing anything.
 
 ```bash
 git clone --recursive --branch 1.1.4 https://github.com/BlockstreamResearch/humid
+git -C humid apply ../examples/allowance-humid/humid-allowance-fixes.patch
 (
   cd humid
   bun run build:wasm:lwk
   bun run build:wasm:smplx
   bun install
-  git apply ../examples/allowance-humid/humid-allowance-fixes.patch
   bun run build
 )
 ```
@@ -468,10 +467,11 @@ git clone --recursive --branch 1.1.4 https://github.com/BlockstreamResearch/humi
 The patch lets Humid build this contract's withdrawals. If `git apply` reports
 `patch does not apply`, see [`REFERENCE.md`, "Building Humid"](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/REFERENCE.md#building-humid).
 
-You should see `bun run build` finish by writing `humid/dist`. If it stops with
-`No compiled lwk wasm at …` or `No compiled smplx wasm at …`, that module's build failed.
-Run the command the message gives, from inside `humid`, and read its error, which names
-the missing tool.
+You should see `bun run build` finish by writing `dist/manifest.json`, followed by a line
+starting `✓ built in`. If it stops with `No compiled lwk wasm at …` or
+`No compiled smplx wasm at …`, that module's build failed. Run the command the message
+gives, from inside `humid`, and read its error, which names the missing tool or required
+action. After fixing the problem, run the parenthesized commands again.
 
 ### 11b. Load the extension in your browser
 
@@ -482,14 +482,14 @@ You should see Humid listed and enabled. Then reload the allowance page, because
 browser adds the extension only to pages loaded after it.
 
 Click the **Extensions** button (the puzzle-piece icon) in the top right of the browser
-and select **Humid** to create a wallet. Don't switch to another application during setup,
-because the setup window closes.
+and select **Humid** to create a wallet. During setup, don't switch to another application
+or click outside Humid's setup window, because the setup window closes.
 
 1. Press **Create wallet**.
 2. Write down on paper the 12 words the **Recovery phrase** panel shows, and press
    **I saved it**.
 3. Enter the three words it asks for, and press **Continue**.
-4. Enter a password of at least 8 characters twice and press **Create wallet**.
+4. Enter a password of at least eight characters twice and press **Create wallet**.
 
 If the setup window closes partway through, open Humid and start over. It shows a new
 recovery phrase, so write down the new words and discard the old ones.
@@ -543,7 +543,8 @@ also puts them in the **Beneficiary's public key** field on the **I'm the benefa
 From now on, every press of **Fund**, and every **Claim** you confirm on the page, opens
 Humid's own `Perform a contract action?` confirmation, which describes the transaction. Its
 button reads **Sign and send**, or **Sign** for a dry run. If Humid has locked itself, which it
-does after 15 minutes by default, it first asks for your password in an `Unlock Humid` window.
+does by default after 15 minutes in which you haven't used its own window, it first asks for
+your password in an `Unlock Humid` window.
 
 Repeat Step 6 to compile with this key. Humid spends only confirmed funds, so wait until the
 payment from Step 11b is listed under a date rather than `PENDING` in Humid's activity list.
@@ -581,8 +582,9 @@ the withdrawal to its own change address, so this mode doesn't have a payout fie
 5. Repeat from 1 with each new instance, until you've claimed the `FullWithdraw`.
 
 You should see `PartialWithdraw broadcast by Humid.` or `FullWithdraw broadcast by Humid.`
-with a txid for each withdrawal, and `No live instances at …` within about a minute of the
-`FullWithdraw`.
+with a txid for each withdrawal. Within about a minute of the `FullWithdraw`, the spent
+instance leaves the page's list of instances. If it was the only one, you should see
+`No live instances at …`.
 
 ## Reporting problems
 
