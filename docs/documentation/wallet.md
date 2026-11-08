@@ -4,7 +4,7 @@ A Simplicity contract enforces financial logic through on-chain transactions, bu
 
 These supporting applications need to handle integration tasks such as finding active instances of a contract on the blockchain and validating that they have the intended or desired functionality, determining the current contract state and the actions a user can take, creating transactions that send or claim assets or that update a contract's state, and representing this information in a meaningful way for an end user.
 
-Because Simplicity and Elements are open source, developers have the flexibility to create tools that facilitate these actions in a variety of development environments.
+Because Simplicity and the blockchains that support it are open source, developers have the flexibility to create tools that facilitate these actions in a variety of development environments.
 
 ## Tooling (contract compilation and transaction generation)
 
@@ -34,7 +34,7 @@ A sample web app built in JavaScript using LWK's WASM target to generate Simplic
 
 ## Tooling (blockchain indexing and discovery)
 
-The main API for discovering and analyzing transactions on an Elements blockchain, including to determine smart contract state, is [Esplora](https://github.com/Blockstream/esplora). You can use Blockstream's public Esplora instance or run your own Esplora service.
+The main API for discovering and analyzing transactions on a blockchain, including to determine smart contract state, is [Esplora](https://github.com/Blockstream/esplora). You can use Blockstream's public Esplora instance or run your own Esplora service.
 
 If you'd like to run your own Liquid Network node, you can do so with a local instance of [Elements](https://github.com/ElementsProject/elements). The local storage footprint of a Liquid node, as of April 2026, is about 50 gigabytes.
 

@@ -177,7 +177,7 @@ This example contract, `third_time.simf`, uses the state management mechanism de
     * for a specific state value.
     *
     * HOW IT WORKS:
-    * In Simplicity/Liquid, state isn't stored in a dedicated database. Instead,
+    * In Simplicity, state isn't stored in a dedicated database. Instead,
     * it is verified via a "Commitment Scheme" inside the Taproot tree of the UTXO.
     *
     * This function reconstructs the Taproot structure to validate that the provided
