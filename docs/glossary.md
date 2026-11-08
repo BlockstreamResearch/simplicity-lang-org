@@ -15,6 +15,9 @@ In Bitcoin, there is only one asset directly tracked on the blockchain, although
 
 See also "[token](./glossary.md#token)".
 
+## Bitcoin Inquisition
+A [fork of Bitcoin Core](https://github.com/bitcoin-inquisition/bitcoin) for running [signets](./glossary.md#signet) that test proposed changes to Bitcoin's consensus rules before any activation on Bitcoin mainnet. The Simplicity Signet runs a version of Bitcoin Inquisition with Simplicity enabled.
+
 ## Bitcoin Script
 A programming language included in Bitcoin since its inception, allowing some policies to be applied to an [output](./glossary.md#output) of a [transaction](./glossary.md#transaction). Like Simplicity, intentionally not [Turing complete](./glossary.md#turing-complete); more limited than Simplicity, particularly with regard to [introspection](./glossary.md#introspection) and [covenants](./glossary.md#covenant). See also [Elements Script](./glossary.md#elements-script) (Also just "Script".)
 
@@ -77,6 +80,11 @@ A [Liquid](./glossary.md#liquid) wallet with Simplicity transaction support, imp
 ## Input
 In Bitcoin or Elements, a funding source that contributes [assets](./glossary.md#asset) to a particular [transaction](./glossary.md#transaction).
 
+## Integration
+The changes that make Simplicity programs usable as spending conditions on a particular blockchain. An integration extends the chain's consensus rules, so that validating [nodes](./glossary.md#node) run a Simplicity program when a [transaction](./glossary.md#transaction) spends an [output](./glossary.md#output) that commits to it, and reject the transaction if the program fails. An integration also fixes the set of [jets](./glossary.md#jet) available to programs, including the [introspection](./glossary.md#introspection) jets that expose details of the spending transaction, and the rules for computing [cost](./glossary.md#cost).
+
+Two deployed integrations exist. The [Elements](./glossary.md#elements) integration is used by [Liquid](./glossary.md#liquid), and the Bitcoin integration is used by the [Simplicity Signet](./glossary.md#signet). Their jet sets differ, so a program that uses jets specific to one integration doesn't compile for the other.
+
 ## Internal key
 In Taproot, every output can be spent in two ways: by signing a transaction with a public key, or by revealing a Script or Simplicity program embedded in the key as a Taproot commitment, along with a satisfying witness. The "internal key" is the component of a Taproot commitment which defines which party or parties is able to sign. Commonly, an unspendable key is used, such as 50929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac0 (taken from [BIP 0341](https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki), which also specifes a method to blind this key for privacy reasons). This disables the key-spending path.
 
@@ -90,10 +98,10 @@ In Simplicity, the ability for a [contract](./glossary.md#contract) to examine t
 ## Jet
 An optimized native-code implementation of a Simplicity expression, such as arithmetic, logic, bit manipulations, or cryptographic operations. Jets are faster and therefore have a lower [cost](./glossary.md#cost) than their equivalent Simplicity code. Validating nodes are assumed to be executing the optimized code rather than their Simplicity specification, justifying this cost reduction.
 
-The list of jets and their specific behaviors is fixed at the time of integration of Simplicity into a particular blockchain.  In the [Elements](./glossary.md#elements) integration, there are 469 jets.
+The list of jets and their specific behaviors is fixed at the time of [integration](./glossary.md#integration) of Simplicity into a particular blockchain.  In the [Elements](./glossary.md#elements) integration, there are 469 jets. In the Bitcoin integration, used by the [Simplicity Signet](./glossary.md#signet), there are 426 jets.
 
 ## Liquid
-A specific [Elements](./glossary.md#elements)-based network, the [Liquid Network](https://liquid.net/), that is the first blockchain to have native support for Simplicity. Most Simplicity examples as of 2026 assume that a program is running on the Liquid mainnet or Liquid testnet, although other integrations are planned.
+A specific [Elements](./glossary.md#elements)-based network, the [Liquid Network](https://liquid.net/), that is the first blockchain to have native support for Simplicity. Most Simplicity examples as of 2026 assume that a program is running on the Liquid mainnet or Liquid testnet. Simplicity is also available on Bitcoin through the [Simplicity Signet](./glossary.md#signet).
 
 ## LWK
 Liquid Wallet Kit, Blockstream's open-source Rust toolkit for building Liquid wallets and applications. It provides tools for transaction signing, blockchain sync, and other tasks, with bindings for several other languages.
@@ -138,6 +146,9 @@ An unspent output is a [UTXO](./glossary.md#utxo).
 
 (2) A value attached to a Bitcoin or [Elements](./glossary.md#elements) [transaction](./glossary.md#transaction).
 
+## Policy asset
+On an [Elements](./glossary.md#elements) blockchain, the chain's built-in [asset](./glossary.md#asset), which is used to pay transaction [fees](./glossary.md#fee). Other assets on an Elements chain are created by issuance. On Liquid, the policy asset is Liquid bitcoin (LBTC), and on Liquid testnet it is test Liquid bitcoin (tLBTC).
+
 ## Private key
 
 In public-key cryptography, a secret value corresponding to a specific [public key](./glossary.md#public-key).  The possessor of the private key can use it to create digital signatures indicating agreement with specific assertions, such as proposed Bitcoin or [Elements](./glossary.md#elements) transactions, or [oracle](./glossary.md#oracle) assertions.  Anyone can verify those digital signatures using the corresponding public key.
@@ -179,7 +190,7 @@ A cryptographic hash of relevant data to be signed as part of a Bitcoin or [Elem
 In some contexts, the term "sighash" is used to describe the set of relevant data that goes into computing this hash, rather than the hashed value itself.
 
 ## Signet
-A form of test network described in [BIP 325](https://github.com/bitcoin/bips/blob/master/bip-0325.mediawiki) which allows only specific authorized signers to create blocks, without relying on proof-of-work to gate the creation of new blocks. In Simplicity, this typically refers to the [Simplicity Signet](https://signet.simplicity-lang.org/), a public signet instance, available since September 2026, that runs Bitcoin Inquisition with Simplicity enabled. Unlike a [regtest](./glossary.md#regtest), a signet is typically long-lived and may be shared publicly.
+A form of test network described in [BIP 325](https://github.com/bitcoin/bips/blob/master/bip-0325.mediawiki) which allows only specific authorized signers to create blocks, without relying on proof-of-work to gate the creation of new blocks. In Simplicity, this typically refers to the [Simplicity Signet](https://signet.simplicity-lang.org/), a public signet instance, available since September 2026, that runs [Bitcoin Inquisition](./glossary.md#bitcoin-inquisition) with Simplicity enabled. Unlike a [regtest](./glossary.md#regtest), a signet is typically long-lived and may be shared publicly.
 
 ## simc
 Blockstream's Simplicity compiler, which translates [SimplicityHL](./glossary.md#simplicityhl) to [Simplicity](./glossary.md#simplicity), as well as serializing [witness](./glossary.md#witness)es for inclusion on a blockchain.
@@ -188,7 +199,7 @@ Blockstream's Simplicity compiler, which translates [SimplicityHL](./glossary.md
 A development tool for [SimplicityHL](./glossary.md#simplicityhl) projects that supports dependency management, automatic generation of Rust [artifacts](./glossary.md#artifacts) for [transaction](./glossary.md#transaction) and [witness](./glossary.md#witness) building, and integration testing via [elementsd](./glossary.md#elementsd).
 
 ## Simplicity
-A financial programming language for high-assurance [smart contract](./glossary.md#smart-contract) and financial instrument development. A low-level language created by Blockstream and natively available on the [Liquid](./glossary.md#liquid) Network, Simplicity makes it easier and safer to write complex conditions and behaviors for automated provision of financial services.
+A financial programming language for high-assurance [smart contract](./glossary.md#smart-contract) and financial instrument development. A low-level language created by Blockstream, natively available on the [Liquid](./glossary.md#liquid) Network and on the [Simplicity Signet](./glossary.md#signet), Simplicity makes it easier and safer to write complex conditions and behaviors for automated provision of financial services.
 
 Simplicity occupies a similar role to [Bitcoin Script](./glossary.md#bitcoin-script), operating in a comparable context to it, while providing greater functionality and making practical the development of significantly more sophisticated on-chain smart contract logic.
 Developers ordinarily don't write programs in Simplicity directly, instead writing in SimplicityHL.
