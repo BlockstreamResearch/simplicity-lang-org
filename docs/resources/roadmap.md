@@ -11,17 +11,16 @@ SimplicityHL continues to gain additional notation and convenience features. The
 * `if` and `return` statements
 * A more conventional loop syntax (for bounded loops)
 * Modules/namespaces
-* Library functions
 
 ## State management
 
 Simplicity programs can track persistent state via cryptographic commitments. This provides proper support for general [covenants](../glossary.md#covenant) that need to keep track of arbitrary history as users interact with them over time. (You can see a brief demonstration of this approach in the [December 23, 2025 Office Hours session](https://youtu.be/ry2wQelP8Kc).)
 
-Documention and sample contracts demonstrating this are forthcoming. Library code is also under development to support maintaining arbitrary quantities of state information (with selective revelation and efficient updates) via a [Merkle tree](../glossary.md#merkle-tree).
+[Covenants and state management](../documentation/state.md) describes this approach, with sample code. Library code is under development to support maintaining arbitrary quantities of state information (with selective revelation and efficient updates) via a [Merkle tree](../glossary.md#merkle-tree).
 
 ## Standard library
 
-A standard library for SimplicityHL is [under development](https://github.com/BlockstreamResearch/simplicityhl-std).
+The [SimplicityHL standard library](../documentation/stdlib.md) is available. Planned additions include `load` and `store` functions for [state management](#state-management), so that programs can use the state commitment pattern without boilerplate.
 
 ## Developer tool improvements
 
@@ -29,11 +28,11 @@ Improvements are planned to various developer tools, including the existing [lan
 
 ## Type-based SimplicityHL
 
-A future version of SimplicityHL using type theory foundations is in preparation. In the short term, `simc` will receive a new type inference engine in based on this work, which will relax existing requirements for mandatory type annotations. Over time, extensions for dependent type mechanisms will be exposed in SimplicityHL.
+A future version of SimplicityHL using type theory foundations is in preparation. In the short term, `simc` will receive a new type inference engine based on this work, which will relax existing requirements for mandatory type annotations. Over time, extensions for dependent type mechanisms will be exposed in SimplicityHL.
 
-## Mutinynet integration
+## Simplicity Signet
 
-An integration of Simplicity in [Mutinynet](https://github.com/MutinyWallet/mutiny-net), a signet (test network) that remains architecturally closer to Bitcoin Core, is in progress. This will demonstrate the potential for development with Simplicity on a Bitcoin-like chain without Elements extensions.
+The [Simplicity Signet](https://signet.simplicity-lang.org/) is a public [signet](../glossary.md#signet) (test network) that runs Bitcoin Inquisition with Simplicity enabled. It supports development with Simplicity on a Bitcoin chain without Elements extensions. Support for targeting the Signet is in progress in SimplicityHL and the other developer tools.
 
 ## AMP and LWK integrations
 
@@ -45,7 +44,7 @@ In addition to documentation on features mentioned above, significant new and up
 
 ## Simplicity Unchained
 
-For blockchains where a native Simplicity integration isn't present, like the Bitcoin Mainnet, an [oracle](../glossary.md#oracle)-based Simplicity interpreter called Simplicity Unchained will offer Simplicity scripting support. The oracle can make statements confirming when contract conditions (expressed in Simplicity programs) have been met and thereby approve transactions permitted by those conditions. This indirectly brings the power and determinism of Simplicity scripting to other chains.
+For blockchains where a native Simplicity [integration](../glossary.md#integration) isn't present, like the Bitcoin Mainnet, an [oracle](../glossary.md#oracle)-based Simplicity interpreter called Simplicity Unchained will offer Simplicity scripting support. The oracle can make statements confirming when contract conditions (expressed in Simplicity programs) have been met and thereby approve transactions permitted by those conditions. This indirectly brings the power and determinism of Simplicity scripting to other chains.
 
 ## Oracle tools
 
