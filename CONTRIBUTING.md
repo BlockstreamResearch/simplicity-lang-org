@@ -51,6 +51,7 @@ If you’re unsure it belongs here, it probably does. Submit the PR.
 * Keep examples **minimal** and **correct**.
 * Prefer full, copy‑pasteable blocks over fragments.
 * Tutorials and how-to guides state, at the top of the page, the network they target (Liquid testnet or Bitcoin Signet).
+* When a page covers more than one integration (such as Elements and Bitcoin) and a table or code sample differs between them, put that table or code sample in [linked content tabs](https://squidfunk.github.io/mkdocs-material/reference/content-tabs/#linked-content-tabs), with one tab per integration. Tab only the individual table or code sample that differs, not a whole section or page. Use the same tab labels everywhere, since linked tabs only stay in sync when their labels match exactly.
 * By default, state a version only when a specific version is known to be required or expected, for example because a feature first appeared in it or a later release changed the behavior. Put the note inline, at the step or example it affects, using the `(0.3.0+)` form above. A page-level "Tested with" list isn't required, and most pages don't need one.
 
 ### Errors
