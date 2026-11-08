@@ -6,8 +6,8 @@ financial agreement. The agreement is an allowance: a beneficiary can withdraw a
 amount at a time, with a minimum wait between withdrawals, and the benefactor who funded it
 can't take the coins back. You'll read the contract's code and test it on a local
 [regtest](../glossary.md#regtest) network. Then you'll fund it, withdraw from it and close it
-on [Liquid](../glossary.md#liquid) testnet, once from a web page you can edit and once with
-the [Humid](../glossary.md#humid) browser wallet. You can adapt the same tools and code
+on [Liquid](../glossary.md#liquid) testnet from a web page you can edit, signing first in
+the page and then with the [Humid](../glossary.md#humid) browser wallet. You can adapt the same tools and code
 patterns for a financial application of your own.
 
 <figure markdown="span">
@@ -395,7 +395,8 @@ remainder appears within about a minute.
 
 If the claim fails with `non-BIP68-final`, not enough blocks have passed; wait and claim
 again. If it fails with `insufficient fee, rejecting replacement`, an earlier attempt
-already reached the mempool and probably succeeded. For anything else, look up
+already reached the mempool and probably succeeded. Check that attempt's txid with the command
+in "Check the payout on chain" before claiming again. For anything else, look up
 the message in [`REFERENCE.md`, "Errors and what causes
 them"](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/REFERENCE.md#errors-and-what-causes-them).
 
@@ -489,7 +490,7 @@ or click outside Humid's setup window, because the setup window closes.
 2. Write down on paper the 12 words the **Recovery phrase** panel shows, and press
    **I saved it**.
 3. Enter the three words it asks for, and press **Continue**.
-4. Enter a password of at least eight characters twice and press **Create wallet**.
+4. Enter a password of at least 8 characters twice and press **Create wallet**.
 
 If the setup window closes partway through, open Humid and start over. It shows a new
 recovery phrase, so write down the new words and discard the old ones.
@@ -546,10 +547,13 @@ button reads **Sign and send**, or **Sign** for a dry run. If Humid has locked i
 does by default after 15 minutes in which you haven't used its own window, it first asks for
 your password in an `Unlock Humid` window.
 
-Repeat Step 6 to compile with this key. Humid spends only confirmed funds, so wait until the
-payment from Step 11b is listed under a date rather than `PENDING` in Humid's activity list.
-Then set **Amount to lock** as in Step 7, press
-**Fund**, and approve it in Humid with **Sign and send**.
+Then fund the allowance through Humid:
+
+1. Repeat Step 6 to compile with this key.
+2. Wait until the payment from Step 11b is listed under a date rather than `PENDING` in
+   Humid's activity list. Humid spends only confirmed funds.
+3. Set **Amount to lock** as in Step 7, and press **Fund**.
+4. Approve it in Humid with **Sign and send**.
 
 ??? example "The call behind **Fund** in Humid mode"
 
