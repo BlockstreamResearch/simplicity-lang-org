@@ -17,7 +17,13 @@ simplexup
 
 When Simplex is installed with `simplexup`, you can rerun `simplexup` at any time to upgrade to the most recent release.
 
+## Rust SDK
+
+Simplex includes a [Rust SDK](https://docs.rs/smplx-sdk) with modules that compile SimplicityHL programs, build [witnesses](../glossary.md#witness) and [transactions](../glossary.md#transaction), and execute programs locally or in on-chain transactions. Applications and integration tests can use it to construct and spend contract transactions.
+
 ## Using Simplex
+
+The `simplex` command-line tool creates projects, builds contracts, and runs tests, as described below.
 
 ### Creating a project
 
@@ -31,7 +37,7 @@ Add or replace SimplicityHL source files in `simf/` as you go so Simplex can fin
 
 Run `simplex build` at the top-level directory of the project.
 
-This process analyzes the SimplicityHL source code in `simf/` and creates corresponding Rust library files in `src/artifacts`, suitable for including from other Rust code. These library files define functions to build [witnesses](../glossary.md#witness) and blockchain [transactions](../glossary.md#transaction) to drive the individual SimplicityHL contract(s) within the Simplex project.
+This process analyzes the SimplicityHL source code in `simf/` and creates corresponding Rust library files in `src/artifacts`, suitable for including from other Rust code. These library files define functions to build witnesses and blockchain transactions that spend from the individual SimplicityHL contract(s) within the Simplex project.
 
 Whenever the SimplicityHL source code changes, re-run `simplex build` to regenerate the artifacts and keep them in sync with the contract's expectations.
 
