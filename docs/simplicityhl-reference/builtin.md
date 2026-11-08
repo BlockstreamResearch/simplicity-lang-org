@@ -1,6 +1,6 @@
 # Built-in functions
 
-[SimplicityHL](../glossary.md#simplicityhl) offers several built-in functions and macros. These are additional to the hundreds of [jets](../documentation/jets.md) provided by the Simplicity Elements integration.
+[SimplicityHL](../glossary.md#simplicityhl) offers several built-in functions and macros. These are additional to the hundreds of [jets](../documentation/jets.md) provided by each Simplicity [integration](../glossary.md#integration).
 
 | <div style="width:8em">Function</div> | Description |
 |-------------|-----------------------------------|
@@ -160,11 +160,11 @@ let hash: u256 = raw_hash::<(u16, u256)>((0x5120, tweaked_key));
 A simple example of `unwrap()` appears in [`last_will.simf`](https://github.com/BlockstreamResearch/SimplicityHL/blob/master/examples/last_will.simf).
 
 ```simplicityhl
-assert!(unwrap(jet::output_is_fee(1)));
+assert!(jet::eq_256(unwrap(jet::output_script_hash(0)), jet::current_script_hash()));
 ```
 
-`jet::output_is_fee()` returns `Option<bool>` to handle the case where the specified output doesn't exist. That is, the jet returns `None` if the specified output doesn't exist, `Some(true)` if the specified output is a fee output, and `Some(false)` if the specified output is a non-fee output.
+`jet::output_script_hash()` returns `Option<u256>` to handle the case where the specified [output](../glossary.md#output) doesn't exist. That is, the jet returns `None` if the specified output doesn't exist, and `Some(hash)` with the hash of the output's scriptPubKey if it does. `jet::current_script_hash()` returns the hash of the scriptPubKey of the [input](../glossary.md#input) currently being spent, as a plain `u256`, because that input always exists.
 
-The code above requires that the return value is `Some(true)`. `unwrap()` panics if the return value is `None`, while `assert!()` panics if the unwrapped value returned by `unwrap()` is `false`.
+The code above requires that output 0 exists and is sent to the same script as the current input, as in a [covenant](../glossary.md#covenant). `unwrap()` panics if the return value is `None`, while `assert!()` panics if the unwrapped hash doesn't equal the current input's hash.
 
 More examples of `unwrap()`, as well as `unwrap_left()` and `unwrap_right()`, can be found in the [options contract](https://github.com/BlockstreamResearch/simplicity-contracts/blob/main/crates/contracts/src/finance/options/source_simf/options.simf).
