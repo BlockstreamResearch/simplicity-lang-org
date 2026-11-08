@@ -2,8 +2,8 @@
 
 This tutorial builds a complete application in which a
 [Simplicity](../glossary.md#simplicity) [contract](../glossary.md#contract) enforces a
-financial agreement. The agreement is an allowance: a beneficiary can withdraw a specified
-amount at a time, with a minimum wait between withdrawals, and the benefactor who funded it
+financial agreement. The agreement is an allowance: a beneficiary can withdraw up to a
+specified amount at a time, with a minimum wait between withdrawals, and the benefactor who funded it
 can't take the coins back. You'll read the contract's code and test it on a local
 [regtest](../glossary.md#regtest) network. Then you'll fund it, withdraw from it and close it
 on [Liquid](../glossary.md#liquid) testnet from a web page you can edit, signing first in
@@ -86,7 +86,7 @@ For what each function enforces, see
 
 ## 2. Run the contract's tests on regtest
 
-Check that you have [Rust](https://rust-lang.org/tools/install/), installed with `rustup`
+Check that you have Rust, installed with `rustup`
 (which provides `cargo`), as well as a C compiler and `jq`:
 
 ```bash
@@ -287,8 +287,8 @@ any of the terms gives a different allowance at a different address.
 ## 7. Fund the allowance
 
 Set **Amount to lock** to a whole multiple of **Withdrawable per period**, such as `10000`
-for an allowance of `5000`, so that the last withdrawal also takes a full allowance. Then
-press **Fund**.
+for an allowance of `5000`, so that the last withdrawal also takes a full allowance. A final instance holding 500 sats
+or less can't be withdrawn. Then press **Fund**.
 
 ??? example "The code behind **Fund**"
 
@@ -395,8 +395,9 @@ remainder appears within about a minute.
 
 If the claim fails with `non-BIP68-final`, not enough blocks have passed; wait and claim
 again. If it fails with `insufficient fee, rejecting replacement`, an earlier attempt
-already reached the mempool and probably succeeded. Check that attempt's txid with the command
-in "Check the payout on chain" before claiming again. For anything else, look up
+already reached the mempool and probably succeeded. Before claiming again, open the explorer
+link under the instance list and check whether the allowance address already shows that
+withdrawal. For anything else, look up
 the message in [`REFERENCE.md`, "Errors and what causes
 them"](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/REFERENCE.md#errors-and-what-causes-them).
 
@@ -440,7 +441,7 @@ build each transaction. Humid then signs each one.
 
 ### 11a. Build the extension
 
-Check that you have [Bun](https://bun.sh/docs/installation), which builds the extension, on
+Check that you have Bun, which builds the extension, on
 your `PATH`:
 
 ```bash
@@ -460,7 +461,7 @@ git -C humid apply ../examples/allowance-humid/humid-allowance-fixes.patch
   cd humid
   bun run build:wasm:lwk
   bun run build:wasm:smplx
-  bun install
+  bun install --force
   bun run build
 )
 ```
@@ -469,10 +470,9 @@ The patch lets Humid build this contract's withdrawals. If `git apply` reports
 `patch does not apply`, see [`REFERENCE.md`, "Building Humid"](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/REFERENCE.md#building-humid).
 
 You should see `bun run build` finish by writing `dist/manifest.json`, followed by a line
-starting `✓ built in`. If it stops with `No compiled lwk wasm at …` or
-`No compiled smplx wasm at …`, that module's build failed. Run the command the message
-gives, from inside `humid`, and read its error, which names the missing tool or required
-action. After fixing the problem, run the parenthesized commands again.
+starting `✓ built in`. If it stops with a message about the compiled `lwk` or
+`smplx` wasm, run the command the message gives, from inside `humid`, and read any error,
+which names the missing tool or required action. After fixing the problem, run the parenthesized commands again.
 
 ### 11b. Load the extension in your browser
 
@@ -498,7 +498,7 @@ recovery phrase, so write down the new words and discard the old ones.
 You should see Humid's account panel, with a network menu reading **LIQUID** at the top
 left, a balance, and **Receive** and **Send** buttons.
 
-!!! warning "Switch Humid to Liquid Testnet"
+!!! warning "Switch Humid to Liquid testnet"
     Humid starts on Liquid mainnet. Open the **LIQUID** menu at the top left of the panel
     and select **Liquid Testnet**.
 
@@ -543,8 +543,8 @@ also puts them in the **Beneficiary's public key** field on the **I'm the benefa
 
 From now on, every press of **Fund**, and every **Claim** you confirm on the page, opens
 Humid's own `Perform a contract action?` confirmation, which describes the transaction. Its
-button reads **Sign and send**, or **Sign** for a dry run. If Humid has locked itself, which it
-does by default after 15 minutes in which you haven't used its own window, it first asks for
+button reads **Sign and send**, or **Sign** for a dry run. By default, Humid locks
+itself when you haven't used its window for 15 minutes. If it's locked, it first asks for
 your password in an `Unlock Humid` window.
 
 Then fund the allowance through Humid:
