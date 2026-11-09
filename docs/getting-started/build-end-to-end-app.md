@@ -36,9 +36,9 @@ At run time, the application has four components:
   for each one.
 - **The [LWK](../glossary.md#lwk) library,** compiled to WebAssembly and loaded by the
   page. It compiles the contract and derives its [address](../glossary.md#address). When
-  the page does the signing, LWK also builds each transaction and signs it, the funding
-  with the page's own wallet and each withdrawal with the beneficiary key the page holds,
-  and the page broadcasts it through Esplora.
+  the page does the signing, LWK also builds and signs each transaction: the funding with
+  the page's own wallet, and each withdrawal with the beneficiary key the page holds. The
+  page broadcasts each one through Esplora.
 - **The Humid wallet,** a browser extension. The page calls it through the
   `window.humid` object that Humid adds to the page, passing the contract source, a
   [manifest](../glossary.md#manifest) that tells Humid how to build each transaction, and
@@ -94,13 +94,12 @@ Open `contracts/allowance.simf` in your editor or viewer, and look through it to
 SimplicityHL code looks like. Every later step builds on
 this one contract, and you don't need to change it.
 [`EXPLANATION.md`, "What the contract enforces"](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/EXPLANATION.md#what-the-contract-enforces)
-walks through each function.
+walks through what each of its checks enforces.
 
 ## 2. Test that the contract enforces its terms on regtest
 
-Do this before you put any coins in the contract.
-
-Check that you have Rust, installed with `rustup`:
+Before you put any coins in the contract, check that you have Rust, installed with
+`rustup`:
 
 ```bash
 rustup --version   # any version; Rust's own installer provides rustup
@@ -117,7 +116,7 @@ Simplex 0.2.0, so install that release. Download the installer, read it if you w
 then run it:
 
 ```bash
-export SIMPLEX_DIR="$HOME/.simplex"   # both exports last only for this terminal
+export SIMPLEX_DIR="$HOME/.simplex"   # in a new terminal, run both exports again
 mkdir -p "$SIMPLEX_DIR/bin"
 curl -fsSL -o "$SIMPLEX_DIR/bin/simplexup" \
     https://raw.githubusercontent.com/BlockstreamResearch/smplx/master/simplexup/simplexup
@@ -156,8 +155,9 @@ You should see both tests `PASS`:
 Exit Status: 0
 ```
 
-If a test shows `FAIL`, check that `Cargo.toml` has `smplx-std = "=0.2.0"` and that the two
-copied files are unchanged, then see [Reporting problems](#reporting-problems).
+If a test shows `FAIL`, check that `allowance_example/Cargo.toml` has
+`smplx-std = "=0.2.0"` and that the two files copied into `allowance_example` are unchanged,
+then see [Reporting problems](#reporting-problems).
 
 The first test runs through a full lifecycle. The second attempts a
 withdrawal before the [timelock](../glossary.md#timelock), which the node rejects
@@ -291,8 +291,8 @@ any of the terms gives a different allowance at a different address.
 ## 7. Fund the allowance
 
 Set **Amount to lock** to a whole multiple of **Withdrawable per period**, such as `10000`
-for an allowance of `5000`, so that the last withdrawal also takes a full allowance. A final instance holding 500 sats
-or less can't be withdrawn. Then press **Fund**.
+for an allowance of `5000`, so that the last withdrawal also takes a full allowance. The beneficiary can't withdraw a
+final instance holding 500 sats or less. Then press **Fund**.
 
 ??? example "The code behind **Fund**"
 
@@ -472,10 +472,10 @@ The patch lets Humid build this contract's withdrawals. If `git apply` reports
 
 You should see `bun run build` finish by writing `dist/manifest.json`, followed by a line
 starting `✓ built in`. If it stops with a message about the compiled `lwk` or
-`smplx` wasm, run the command the message gives, from inside `humid`, and read any error,
-which names the missing tool or required action. After fixing the problem, run the
-commands from `cd humid` onward again, leaving out `git apply`, since the patch is already
-applied.
+`smplx` wasm, run `cd humid`, then the command the message gives, and read any error,
+which names the missing tool or required action. After fixing the problem, run `cd ..` to
+return to `allowance-web`, then run the commands from `cd humid` onward again, leaving out
+`git apply`, since the patch is already applied.
 
 ### 11b. Load the extension in your browser
 
@@ -554,7 +554,7 @@ Then fund the allowance through Humid:
 3. Set **Amount to lock** as you did to [fund the allowance](#7-fund-the-allowance), and
    press **Fund**.
 4. Approve Humid's `Perform a contract action?` window, which describes the transaction,
-   with **Sign and send**. If you haven't used Humid for 15 minutes, it first asks for
+   with **Sign and send**. By default, if you haven't used Humid for 15 minutes, it first asks for
    your password in an `Unlock Humid` window.
 
 ??? example "The call behind **Fund** in Humid mode"
