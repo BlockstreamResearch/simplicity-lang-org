@@ -1,7 +1,7 @@
 # Build a complete Simplicity application, from contract to web to wallet
 
-This tutorial connects every part of a Simplicity application: a
-[Simplicity](../glossary.md#simplicity) [contract](../glossary.md#contract), tests that
+This tutorial connects every part of a [Simplicity](../glossary.md#simplicity) application: a
+Simplicity [contract](../glossary.md#contract), tests that
 run it on a local [regtest](../glossary.md#regtest) network, and a web page that compiles
 the contract, reads [Liquid](../glossary.md#liquid) testnet, and has the user's keys sign
 each [transaction](../glossary.md#transaction). You'll build each part and use them
@@ -17,11 +17,6 @@ take the coins back.
   ![The allowance page listing two allowance instances: one ready to claim with a PartialWithdraw, the other timelocked with one block left](../assets/allowance-page.png)
   <figcaption>The page you'll build, for claiming testnet coins locked by a Simplicity contract: one allowance instance can be claimed now, the other unlocks in one block.</figcaption>
 </figure>
-
-## What you need
-
-You'll need a Chromium-compatible browser. The commands are for a Unix shell on Linux or
-macOS. Steps that need a specific tool or version check for it.
 
 ## Architecture
 
@@ -76,13 +71,15 @@ flowchart TD
 
 ## 1. Clone the example repository
 
+The commands in this tutorial are for a Unix shell on Linux or macOS.
+
 ```bash
 git clone https://github.com/BlockstreamResearch/simplicity-demo
 cd simplicity-demo/allowance-web
 ```
 
-`allowance-web` holds the contract, the page, the wallet patch and two pages this
-tutorial links to: [`EXPLANATION.md`](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/EXPLANATION.md), on how the application works, and
+`allowance-web` holds the contract, the page and two pages this tutorial links to:
+[`EXPLANATION.md`](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/EXPLANATION.md), on how the application works, and
 [`REFERENCE.md`](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/REFERENCE.md), with error messages and the Humid wallet API.
 
 Run every command in the rest of this tutorial from `allowance-web`. If you open another
@@ -186,13 +183,16 @@ Linux, install your distribution's `clang` and `llvm` packages.
     ```
 
 Then install `wasm-pack` and build LWK with its Simplicity feature, which LWK's published
-builds leave out. The `wasm-pack` build can take some time, often
-without printing anything.
+builds leave out. The block checks out the LWK commit the page is written for, since
+LWK's Simplicity API can change from one commit to the next. The `wasm-pack` build can
+take some time, often without printing anything.
 
 ```bash
 cargo install wasm-pack
 git clone https://github.com/Blockstream/lwk
-cd lwk/lwk_wasm
+cd lwk
+git checkout 6412ff6bfd823a0cd36d4d07d2f5aee01d6c9c01
+cd lwk_wasm
 wasm-pack build --release --target web --out-dir pkg-web -- --features simplicity
 cd ../..
 ```
@@ -218,7 +218,9 @@ You should see `Serving HTTP on … port 8099`. Leave it running until you finis
 tutorial, then stop it with Ctrl-C. If it prints `Address already in use`, run it again with another port
 number and use that port below.
 
-Open <http://localhost:8099/>. The page doesn't work if you open its HTML file directly. Keep the same port
+Open [http://localhost:8099/](http://localhost:8099/){target="_blank"} in a Chromium-compatible browser, such as Chrome, because
+the [Humid extension](#11-set-up-a-browser-wallet-to-sign-instead-of-the-page) that you'll use
+later runs only in one. The page doesn't work if you open its HTML file directly. Keep the same port
 throughout, because the page stores its wallet and key per origin.
 
 You should see `Simplicity API: present` under "Library". If the build lacks the
@@ -433,54 +435,26 @@ for each withdrawal.
     second command's list should include the payouts sent to that address, each `value`
     matching one of your claims.
 
-## 11. Run the same contract through a browser wallet
+## 11. Set up a browser wallet to sign instead of the page
 
-So far, the page has held the keys. In this step, the page passes the contract to the
-Humid extension, which builds and signs each transaction.
+So far, the page has stored its keys in your browser's storage for the site and signed with
+them itself. Humid is a browser-extension wallet that keeps its keys inside the extension,
+behind a password, and signs only after you approve each transaction.
+[`EXPLANATION.md`, "Who signs, and what that changes"](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/EXPLANATION.md#who-signs-and-what-that-changes)
+compares the two. In this step, you install Humid and give it testnet coins. In the next
+step, the page passes the contract to Humid, which builds and signs each transaction.
 
-!!! warning "This creates a second, separate allowance"
-    Humid signs with its own key, so this allowance gets a new covenant address. In
-    Humid mode, the page can't claim an allowance compiled with the page's own key.
-
-### 11a. Build the extension
-
-Check that you have Bun, which builds the extension, on
-your `PATH`:
+Download Humid 1.1.5, check the archive, and unpack it:
 
 ```bash
-bun --version   # 1.3.14 or newer
+curl -fsSLO https://github.com/BlockstreamResearch/humid/releases/download/1.1.5/humid-extension-1.1.5.zip
+echo "25dcf36655e0e9eae501c85c395dfca4d8b5a607f13f848541d7b1b2246fb416  humid-extension-1.1.5.zip" \
+    | shasum -a 256 -c   # humid-extension-1.1.5.zip: OK
+unzip -q humid-extension-1.1.5.zip -d humid
 ```
-
-If `bun` isn't found or is older, [install or update Bun](https://bun.sh/docs/installation).
-
-Then clone and build Humid 1.1.4. The `build:wasm:lwk` and `build:wasm:smplx` scripts can
-each take some time, often without printing anything.
-
-```bash
-git clone --recursive --branch 1.1.4 https://github.com/BlockstreamResearch/humid
-cd humid
-git apply ../examples/allowance-humid/humid-allowance-fixes.patch
-bun run build:wasm:lwk
-bun run build:wasm:smplx
-bun install --force
-bun run build
-cd ..
-```
-
-The patch lets Humid build this contract's withdrawals. If `git apply` reports
-`patch does not apply`, see [`REFERENCE.md`, "Building Humid"](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/REFERENCE.md#building-humid).
-
-You should see `bun run build` finish by writing `dist/manifest.json`, followed by a line
-starting `✓ built in`. If it stops with a message about the compiled `lwk` or
-`smplx` wasm, run `cd humid`, then the command the message gives, and read any error,
-which names the missing tool or required action. After fixing the problem, run `cd ..` to
-return to `allowance-web`, then run the commands from `cd humid` onward again, leaving out
-`git apply`, since the patch is already applied.
-
-### 11b. Load the extension in your browser
 
 Open `chrome://extensions`, turn on **Developer mode**, choose **Load unpacked**, and
-select the `humid/dist` folder inside `allowance-web`.
+select the `humid` folder inside `allowance-web`.
 
 You should see Humid listed and enabled. Then reload the allowance page, because the
 browser adds the extension only to pages loaded after it.
@@ -521,7 +495,11 @@ panel to open its activity list.
 You should see the payment within about a minute, under `PENDING`, or under a date such as
 `TODAY` once it has confirmed.
 
-### 11c. Fund and withdraw through Humid
+## 12. Run the same contract through the browser wallet
+
+!!! warning "This creates a second, separate allowance"
+    Humid signs with its own key, so this allowance gets a new covenant address. In
+    Humid mode, the page can't claim an allowance compiled with the page's own key.
 
 Select **Humid extension** under "Who signs". The page's own wallet and key sections
 disappear, along with the results of your page-signed allowance. Then press **Check for Humid**.
