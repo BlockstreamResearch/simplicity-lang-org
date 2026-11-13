@@ -7,6 +7,27 @@
     display: none !important;
 }
 
+/* The header logo is a wordmark, so hide the site name beside it. The page
+   title that replaces the site name on scroll still appears. */
+.md-header__topic:first-child {
+    visibility: hidden;
+}
+
+/* Show the wordmark at its native 164×20 size rather than Material's 1.2rem height. */
+.md-header__button.md-logo img,
+.md-header__button.md-logo svg {
+    height: 1rem;
+    width: auto;
+}
+
+/* The mobile drawer shows the logo at 2.4rem high, which would make the wordmark
+   wider than the drawer. */
+.md-nav__title .md-nav__button.md-logo img,
+.md-nav__title .md-nav__button.md-logo svg {
+    height: 1rem;
+    width: auto;
+}
+
 /* Hero section styles */
 .hero {
     background-color: var(--md-primary-fg-color);

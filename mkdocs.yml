@@ -14,7 +14,7 @@ theme:
   name: material
   custom_dir: overrides
   favicon: assets/logo-symbol.svg
-  logo: assets/logo-symbol.svg
+  logo: assets/logo-wordmark.svg
   features:
     - announce.dismiss
     - content.action.edit
