@@ -37,7 +37,7 @@ At run time, the application has four components:
 - **The Humid wallet,** a browser extension. The page calls it through the
   `window.humid` object that Humid adds to the page, passing the contract source, a
   [manifest](../glossary.md#manifest) that tells Humid how to build each transaction, and
-  the action to perform with the values it needs. Humid compiles the contract, builds the transaction, asks
+  the action to perform, with the values that action needs. Humid compiles the contract, builds the transaction, asks
   the user to approve it, signs it and broadcasts it.
 
 ```mermaid
@@ -95,8 +95,7 @@ walks through what each of its checks enforces.
 
 ## 2. Test that the contract enforces its terms on regtest
 
-Before you put any coins in the contract, check that you have Rust, installed with
-`rustup`:
+Check that you have Rust, installed with `rustup`:
 
 ```bash
 rustup --version   # any version; Rust's own installer provides rustup
@@ -218,7 +217,7 @@ You should see `Serving HTTP on … port 8099`. Leave it running until you finis
 tutorial, then stop it with Ctrl-C. If it prints `Address already in use`, run it again with another port
 number and use that port below.
 
-Open [http://localhost:8099/](http://localhost:8099/){target="_blank"} in a Chromium-compatible browser, such as Chrome, because
+Open [http://localhost:8099/ :material-open-in-new:](http://localhost:8099/){target="_blank" title="Opens in a new tab"} in a Chromium-compatible browser, such as Chrome, because
 the [Humid extension](#11-set-up-a-browser-wallet-to-sign-instead-of-the-page) that you'll use
 later runs only in one. The page doesn't work if you open its HTML file directly. Keep the same port
 throughout, because the page stores its wallet and key per origin.
@@ -308,20 +307,22 @@ final instance holding 500 sats or less. Then press **Fund**.
 **Broadcast for real** starts selected, so the page first shows what it will send: the amount,
 the covenant address, the terms, the fee and the [output](../glossary.md#output) count.
 Check them and press **Sign & broadcast**. To try it without sending anything, clear
-**Broadcast for real** before you press **Fund**; the page then reports the txid it would have sent.
+**Broadcast for real** before you press **Fund**. The page then reports the txid it would
+have sent.
 
-You should see a txid. The transaction's output at the covenant address is the first
+You should see a broadcast txid. The transaction's output at the covenant address is the first
 allowance instance.
 
 ??? example "Check the funding on chain"
 
-    ```bash
-    TXID=<fund-txid>
-    curl -s "https://blockstream.info/liquidtestnet/api/tx/$TXID" | python3 -m json.tool
-    ```
+    Select the link under the txid to open the transaction in the block explorer. Among
+    its outputs, you should see the covenant address with the amount you locked. The
+    explorer shows amounts in test Liquid bitcoin (tLBTC), and 1 tLBTC is 100,000,000 sats.
+    The output's position can vary.
 
-    You should see one output with `scriptpubkey_type` `v1_p2tr` and the value you
-    locked. Its position among the outputs can vary.
+    The explorer is Esplora's web interface, and it shows the same data that the page reads
+    as JSON from Esplora's API; see
+    [`REFERENCE.md`, "Chain access"](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/REFERENCE.md#chain-access).
 
 ## 8. Watch the allowance
 
@@ -350,29 +351,24 @@ with its own timelock.
 
 ??? example "Check the instances on chain"
 
-    ```bash
-    ADDR=<covenant-address>
-    curl -s "https://blockstream.info/liquidtestnet/api/address/$ADDR/utxo" | python3 -m json.tool
-    curl -s "https://blockstream.info/liquidtestnet/api/blocks/tip/height"
-    ```
+    Select the covenant address above the instance list to open its page in the explorer.
+    "Total unspent" should match the number of instances in the list, because each
+    unspent output at the address is an instance.
 
-    You should see a JSON array with one entry per instance, each with a `value` and a
-    `status`. The second command prints the tip [height](../glossary.md#height) as a bare
-    number. A confirmed
-    entry has `status.block_height`; an unconfirmed one has `status.confirmed: false` and
-    isn't spendable yet.
-
-    Compute `depth = tip - block_height + 1`; an instance becomes spendable once
-    `depth >= MIN_DISTANCE`. The action follows the balance: `FullWithdraw` when
-    `value <= ALLOWANCE_AMOUNT`, otherwise `PartialWithdraw`.
+    Select an entry in the "Instance" column to open its transaction. The explorer shows
+    how many blocks have confirmed it, such as `3 Confirmations`, and the instance becomes
+    spendable once that number reaches `MIN_DISTANCE`. The action follows the balance:
+    `FullWithdraw` when the instance holds `ALLOWANCE_AMOUNT` or less, otherwise
+    `PartialWithdraw`.
 
 ## 9. Withdraw
 
 Wait until the button reads **Claim**. With a short `MIN_DISTANCE` such as `3`, the page
 refreshes the list about once a minute; press **Refresh status** to check sooner.
 
-Press **Use my wallet address** to set where the payout goes. Then press **Claim** and read
-the confirmation panel, which lists every output before the page signs anything.
+Press **Use my wallet address** to fill **Pay withdrawals to** with your wallet's address.
+Then press **Claim** and read the confirmation panel, which lists every output before the
+page signs anything.
 
 You should see these outputs:
 
@@ -389,29 +385,25 @@ remainder appears within about a minute.
 
 ??? example "Check the payout on chain"
 
-    ```bash
-    TXID=<withdraw-txid>
-    curl -s "https://blockstream.info/liquidtestnet/api/tx/$TXID" | python3 -m json.tool
-    ```
-
-    In `vout`, you should see an output whose `scriptpubkey_address` is the address in
-    the payout field. For a `PartialWithdraw`, its `value` is `ALLOWANCE_AMOUNT` minus the
-    500-sat fee. For a `FullWithdraw`, it's the instance's whole balance minus the fee.
-    The last output, with `scriptpubkey_type` `fee`, is the fee.
+    Select the link under the txid to open the transaction in the explorer. Among its
+    outputs, you should see the address in **Pay withdrawals to**. For a
+    `PartialWithdraw`, its amount is `ALLOWANCE_AMOUNT` minus the 500-sat fee. For a
+    `FullWithdraw`, it's the instance's whole balance minus the fee. The last output,
+    `Transaction fees`, is the fee: 0.000005 tLBTC.
 
 If the claim fails with `non-BIP68-final`, not enough blocks have passed; wait and claim
 again. If it fails with `insufficient fee, rejecting replacement`, an earlier attempt
-already reached the mempool and probably succeeded. Before claiming again, open the explorer
-link above the instance list and check whether the allowance address already shows that
-withdrawal. For anything else, look up
+already reached the mempool and probably succeeded. Before claiming again, select the
+covenant address above the instance list and check whether its page in the explorer
+already shows that withdrawal. For anything else, look up
 the message in [`REFERENCE.md`, "Errors and what causes
 them"](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/REFERENCE.md#errors-and-what-causes-them).
 
 ## 10. Close the allowance
 
-Repeat the [withdrawal](#9-withdraw), leaving the payout field as it is, until the instance's action shows
-`FullWithdraw`, which takes everything remaining and ends the covenant. Claim it the same
-way.
+Repeat the [withdrawal](#9-withdraw), leaving **Pay withdrawals to** as it is, until the
+instance's action shows `FullWithdraw`, which takes everything remaining and ends the
+covenant. Claim it the same way.
 
 After each claim, the page refreshes the list. The button of the instance you just spent
 shows `Spent`. The new instance holding the remainder appears as `Unconfirmed`, then
@@ -424,16 +416,8 @@ for each withdrawal.
 
 ??? example "Check the close-out on chain"
 
-    ```bash
-    ADDR=<covenant-address>
-    PAYOUT=<payout-address>
-    curl -s "https://blockstream.info/liquidtestnet/api/address/$ADDR/utxo" | python3 -m json.tool
-    curl -s "https://blockstream.info/liquidtestnet/api/address/$PAYOUT/utxo" | python3 -m json.tool
-    ```
-
-    You should see an empty array for the covenant address: every instance is spent. The
-    second command's list should include the payouts sent to that address, each `value`
-    matching one of your claims.
+    Select the covenant address in `No live instances at …` to open its page in the explorer.
+    "Total unspent" should read `No outputs`: every instance is spent.
 
 ## 11. Set up a browser wallet to sign instead of the page
 
@@ -441,25 +425,28 @@ So far, the page has stored its keys in your browser's storage for the site and 
 them itself. Humid is a browser-extension wallet that keeps its keys inside the extension,
 behind a password, and signs only after you approve each transaction.
 [`EXPLANATION.md`, "Who signs, and what that changes"](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/EXPLANATION.md#who-signs-and-what-that-changes)
-compares the two. In this step, you install Humid and give it testnet coins. In the next
+compares the two. In this step, you install Humid and fund it with testnet coins. In the next
 step, the page passes the contract to Humid, which builds and signs each transaction.
 
-Download Humid 1.1.5, check the archive, and unpack it:
+Download Humid 1.1.5, check the archive's SHA-256 hash, and unpack it:
 
 ```bash
 curl -fsSLO https://github.com/BlockstreamResearch/humid/releases/download/1.1.5/humid-extension-1.1.5.zip
 echo "25dcf36655e0e9eae501c85c395dfca4d8b5a607f13f848541d7b1b2246fb416  humid-extension-1.1.5.zip" \
-    | shasum -a 256 -c   # humid-extension-1.1.5.zip: OK
-unzip -q humid-extension-1.1.5.zip -d humid
+    | shasum -a 256 -c && unzip -q humid-extension-1.1.5.zip -d humid
 ```
 
-Open `chrome://extensions`, turn on **Developer mode**, choose **Load unpacked**, and
+You should see `humid-extension-1.1.5.zip: OK`. If it prints `FAILED` instead, the archive
+isn't unpacked; delete it and run the block again. If it fails again, see
+[Reporting problems](#reporting-problems).
+
+Open `chrome://extensions`, turn on **Developer mode**, press **Load unpacked**, and
 select the `humid` folder inside `allowance-web`.
 
 You should see Humid listed and enabled. Then reload the allowance page, because the
 browser adds the extension only to pages loaded after it.
 
-Click the **Extensions** button (the puzzle-piece icon) in the top right of the browser
+Press the **Extensions** button (the puzzle-piece icon) in the top right of the browser
 and select **Humid** to create a wallet. During setup, don't switch to another application
 or click outside Humid's setup window, because the setup window closes.
 
@@ -488,9 +475,9 @@ Fund Humid now, so its coins can confirm while you set up the page: use the
 [Liquid testnet faucet](https://liquidtestnet.com/faucet) to send testnet coins to that
 `tlq1…` address, not to the page's wallet.
 
-Select the test Liquid bitcoin (tLBTC) [asset](../glossary.md#asset) under "TOKENS", which
-Humid labels `L-BTC`, in Humid's account
-panel to open its activity list.
+In Humid's account panel, select the test Liquid bitcoin (tLBTC)
+[asset](../glossary.md#asset) under "TOKENS" (Humid labels it `L-BTC`) to open its
+activity list.
 
 You should see the payment within about a minute, under `PENDING`, or under a date such as
 `TODAY` once it has confirmed.
@@ -556,8 +543,8 @@ You should see `Humid broadcast the funding transaction.` and a txid. Press **Re
 status** on the **I'm the beneficiary** tab to see the new instance.
 
 Then withdraw until the allowance closes. Humid sets the fee for each withdrawal and pays
-the withdrawal to its own change address, so this mode doesn't have a payout field. On the
-**I'm the beneficiary** tab:
+the withdrawal to its own change address, so this mode doesn't show **Pay withdrawals to**.
+On the **I'm the beneficiary** tab:
 
 1. Wait `MIN_DISTANCE` blocks, until the instance's button reads **Claim**.
 2. Leave **Dry run** cleared and press **Claim**.
@@ -569,7 +556,7 @@ the withdrawal to its own change address, so this mode doesn't have a payout fie
 
 You should see `PartialWithdraw broadcast by Humid.` or `FullWithdraw broadcast by Humid.`
 with a txid for each withdrawal. Within about a minute of the `FullWithdraw`, the spent
-instance leaves the page's list of instances. If it was the only one, you should see
+instance leaves the instance list. If it was the only one, you should see
 `No live instances at …`.
 
 ## Reporting problems
@@ -604,10 +591,11 @@ To adapt a component for your own contract:
   including one an AI assistant drafted.
 - **The page.** [`examples/allowance-lwk/README.md`](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/examples/allowance-lwk/README.md)
   describes what the page does, step by step, and the constraints to keep when you change
-  its LWK calls, such as calls that free the objects passed to them.
-- **The indexer.** [Watch the allowance](#8-watch-the-allowance) shows its core logic:
-  two Esplora calls, the depth arithmetic, and the balance
-  comparison that picks the action.
+  its LWK calls.
+- **The indexer.** `loadInstances()` in
+  [`examples/allowance-lwk/index.html`](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/examples/allowance-lwk/index.html) holds its core
+  logic: two Esplora calls, the depth arithmetic, and the balance comparison that picks the
+  action. [`REFERENCE.md`, "Chain access"](https://github.com/BlockstreamResearch/simplicity-demo/blob/master/allowance-web/REFERENCE.md#chain-access) describes the calls.
 
 To run an allowance between two people, each with a separate browser, see
 [`examples/allowance-lwk/README.md`, "Running it as two separate
