@@ -5,19 +5,25 @@ const vm = require("node:vm");
 const source = readFileSync(`${__dirname}/../docs/javascript/webmcp.js`, "utf8");
 
 function setup({ legacy = false, supported = true, failFetch = false, failWorker = false, stallWorker = false, base = "../.." } = {}) {
-  let tool;
+  const tools = new Map();
   const workers = [];
   const input = { value: "", dispatchEvent() {}, focus() { this.focused = true; } };
-  const context = { registerTool(value) { tool = value; } };
+  const context = { registerTool(tool) { tools.set(tool.name, tool); } };
   const urls = [];
   const location = { href: "http://localhost:8000/docs/reference/types/" };
   class Worker {
-    constructor(url) { urls.push(url.href); workers.push(this); }
+    constructor(url, options) {
+      urls.push(url.href);
+      workers.push(this);
+      this.options = options;
+    }
     postMessage(message) {
       setImmediate(() => {
         if (failWorker) return this.onerror();
         if (stallWorker) return;
-        if (message.type === 0) {
+        if (this.options?.type === "module") {
+          this.onmessage({ data: { ok: true, status: "success", debug: [message] } });
+        } else if (message.type === 0) {
           assert.equal(message.data.options.suggest, false);
           this.onmessage({ data: { type: 1 } });
         } else {
@@ -50,7 +56,7 @@ function setup({ legacy = false, supported = true, failFetch = false, failWorker
       return { ok: !failFetch, status: 503, json: async () => ({ config: {}, docs: [] }) };
     },
   });
-  return { get tool() { return tool; }, workers, urls, input, location };
+  return { tool: tools.get("search_docs"), runner: tools.get("run_simplicityhl"), workers, urls, input, location };
 }
 
 const result = value => JSON.parse(value.content[0].text);
@@ -107,4 +113,39 @@ test("root and subpath bases retain a single trailing slash", async () => {
     assert.ok(env.urls.includes(`${expected}search/search_index.json`));
     assert.equal(output.results[0].url, `${expected}reference/#section-11`);
   }
+});
+
+test("run_simplicityhl validates source, runs in isolation, and cleans up", async () => {
+  assert.equal(setup({ supported: false }).runner, undefined);
+  for (const legacy of [false, true]) {
+    const env = setup({ legacy });
+    for (const source of [undefined, " ", 3, "a".repeat(65537)]) {
+      assert.equal((await env.runner.execute({ source })).status, "invalid_input");
+    }
+    assert.equal(env.workers.length, 0);
+    env.location.href = "http://localhost:8000/docs/getting-started/try-it/";
+    const programs = ["fn main() {}", "fn main() { assert!(true); }"];
+    const outputs = await Promise.all(programs.map(source => env.runner.execute({ source })));
+    for (const [i, output] of outputs.entries()) {
+      assert.equal(output.status, "success");
+      assert.equal(output.debug[0], programs[i]);
+    }
+    assert.ok(env.workers.every(worker => worker.terminated));
+    assert.equal(env.urls[0], "http://localhost:8000/docs/javascript/webmcp-runner.js");
+    assert.equal(env.input.value, "");
+  }
+
+  const env = setup({ stallWorker: true });
+  const controller = new AbortController();
+  const request = { source: "fn main() {}" };
+  const pending = env.runner.execute(request, { signal: controller.signal });
+  controller.abort();
+  assert.equal((await pending).status, "cancelled");
+  assert.equal((await env.runner.execute(request, { signal: controller.signal })).status, "cancelled");
+  assert.equal(env.workers.length, 1);
+  assert.ok(env.workers[0].terminated);
+
+  const broken = setup({ failWorker: true });
+  assert.equal((await broken.runner.execute(request)).status, "runner_error");
+  assert.ok(broken.workers[0].terminated);
 });

@@ -10,7 +10,7 @@
   let registeredTool;
   const source = await (await fetch("../docs/javascript/webmcp.js")).text();
   const testDocument = {
-    modelContext: { registerTool(tool) { registeredTool = tool; } },
+    modelContext: { registerTool(tool) { if (tool.name === "search_docs") registeredTool = tool; } },
     getElementById: document.getElementById.bind(document),
     createElement: document.createElement.bind(document),
     querySelector: () => null,
