@@ -59,7 +59,7 @@ In this model, the client software proposes actions, while the Simplicity progra
 
 For development purposes, you can also run a Simplicity program locally with `hal-simplicity simplicity pset run` after building a [PSET](../glossary.md#pset) representing the overall transaction within which the program will run. This simulates the Simplicity logic that a node would follow, although nodes can also reject transactions for various other reasons, such as if the input UTXO has already been spent, if sufficient fees aren't paid with the transaction, or if spending conditions applicable to some other referenced UTXO aren't satisfied.
 
-Below, this document presents several examples of applications of SimplicityHL and describe how the contracts they implement must be "driven" by some kind of end-user software generating and submitting appropriate transactions.
+Below, this document presents several examples of applications of SimplicityHL and describes how the contracts they implement must be "driven" by some kind of end-user software generating and submitting appropriate transactions.
 
 ## Distinctive features of Simplicity and its environment
 
@@ -226,7 +226,7 @@ fn main() {
 
 This program incorporates logic supporting two different outcomes, which are two different kinds of transactions that can potentially be approved in different circumstances. One path is called "complete" and represents a transaction that claims to complete the intended asset transfer. If the contract is satisfied (by someone revealing an appropriate hash preimage as "password") that this can occur, it will approve a transaction that effectuates this transfer. The authorized recipient must also provide a digital signature approving this transaction.
 
-On the other hand, if the underlying asset being transferred is still controlled by the contract after a specified delay (here, of 1000 blocks since the receipt of the asset), the authenticated original sender can request a refund, and the contract will approve a transaction that effectuates the refund.
+On the other hand, if the underlying asset being transferred is still controlled by the contract after a specified block height (here, block 1000), the authenticated original sender can request a refund, and the contract will approve a transaction that effectuates the refund.
 
 In each of these cases, the appropriate party must actively make a claim by submitting a transaction and substantiating it with a [witness](../glossary.md#witness) that proves all required conditions are met. Until the recipient explicitly creates and submits this claiming transaction, the assets remain controlled by the contract.
 
@@ -238,7 +238,7 @@ The contract doesn't store any kind of state to record whether one or the other 
         A((Claiming transaction)) -->|Witness| B[htlc contract]
         B -->Q{Which action?}
         Q -->|Transfer| C{Hash preimage correct?}
-        Q -->|Refund| D{Time 1000 blocks after input transaction?}
+        Q -->|Refund| D{Past block height 1000?}
         C -->|Yes| E{Recipient signature valid?}
         C -->|No| F((Reject transaction))
         D -->|Yes| G{Sender signature valid?}

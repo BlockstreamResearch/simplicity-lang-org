@@ -78,7 +78,7 @@ Enforcing an absolute timelock in SimplicityHL uses the jets `check_lock_height`
 
 `jet::check_lock_height(min_height: Height)`: Assert that the transaction's locktime is a block height greater than or equal to the provided value. Such a transaction can't be included on the blockchain prior to that block height.
 
-`jet::check_lock_time(min_time: Time)`: Assert that the transaction's locktime is a Unix timestamp strictly greater than or equal to the provided value. Such a transaction can't be included on the blockchain prior to that timestamp.
+`jet::check_lock_time(min_time: Time)`: Assert that the transaction's locktime is a Unix timestamp greater than or equal to the provided value. Such a transaction can't be included on the blockchain prior to that timestamp.
 
 ## Relative timelock in SimplicityHL
 
@@ -145,7 +145,7 @@ fn enforce_relative_duration(min_duration: Duration) {
 }
 ```
 
-For real-time-based timelocks, Bitcoin and Elements use a rule called [Median Time Past](https://github.com/bitcoin/bips/blob/master/bip-0113.mediawiki) when determining the effective current time. This rule induces an extra delay (six minutes for Liquid Network, or about one hour for Bitcoin) for the validity of a transaction that using a real-time-based timelock.
+For real-time-based timelocks, Bitcoin and Elements use a rule called [Median Time Past](https://github.com/bitcoin/bips/blob/master/bip-0113.mediawiki) when determining the effective current time. This rule induces an extra delay (six minutes for Liquid Network, or about one hour for Bitcoin) for the validity of a transaction that uses a real-time-based timelock.
 
 ## Creating appropriate transactions
 
