@@ -156,7 +156,7 @@ An asset ID is written in two byte orders. Block explorers, Esplora and PSET JSO
 | Liquid (LBTC) | `6f0279e9ed041c3d710a9f57d0c02928416460c4b722ae3457a11eec381c526d` | `0x6d521c38ec1ea15734ae22b7c46064412829c0d0579f0a713d1c04ede979026f` |
 | Liquid testnet (tLBTC) | `144c654344aa716d6f3abcc1ca90e5641e4e2a7f633bc09fe3baf64585819a49` | `0x499a818545f6bae39fc03b637f2a4e1e64e590cac1bc3a6f6d71aa4443654c14` |
 
-`jet::lbtc_asset` always returns the Liquid value, even on Liquid testnet or regtest.
+`jet::lbtc_asset()` always returns the LBTC value (in internal byte order), even on Liquid testnet or regtest.
 
 ## Private key
 
