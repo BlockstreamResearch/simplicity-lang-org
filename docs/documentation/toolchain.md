@@ -66,6 +66,7 @@ Install with: `cargo install simplicityhl`
 
 ```text
 Compile the given SimplicityHL program and print the resulting Simplicity base64 string.
+If a SimplicityHL witness is provided, then use it to satisfy the program (requires feature 'serde' to be enabled).
 
 Usage: simc [OPTIONS] <PROGRAM_FILE>
 
@@ -73,18 +74,26 @@ Arguments:
   <PROGRAM_FILE>  SimplicityHL program file to build
 
 Options:
-  -w, --wit <WITNESS_FILE>     File containing the witness data
-  -a, --args <ARGUMENTS_FILE>  File containing the arguments data
-      --debug                  Include debug symbols in the output
-      --json                   Output in JSON
-      --abi                    Additional ABI .simf contract types
-  -h, --help                   Print help
-  -Z, --unstable-feature <FEATURE>  Enable unstable features.
+      --dep <[CONTEXT:]ALIAS=PATH>   Link a dependency, optionally scoped to a specific module (e.g., --dep ./libs/merkle:math=./libs/math)
+      --project-root <PROJECT_ROOT>  Project root for resolving `crate::` imports (defaults to the entry file's directory)
+  -w, --wit <WITNESS_FILE>           File containing the witness data
+  -a, --args <ARGUMENTS_FILE>        File containing the arguments data
+      --debug                        Include debug symbols in the output
+      --json                         Output in JSON
+      --abi                          Additional ABI .simf contract types
+  -Z, --unstable-feature <FEATURE>   Enable unstable features. Available features:
+                                       imports   Module system syntax: 'use' imports, 'mod' modules, 'as' aliases, 'crate::' paths
+                                       enums     Enum syntax: 'enum' declarations and 'EnumName::Variant' match expressions
+                                       raw_hash  Raw-hash syntax: the 'raw_hash::<T>(tuple)' builtin for hashing a tuple of unsigned integers
+  -t, --target <TARGET>              Target platform for compilation: elements, or core [default: elements]
+  -h, --help                         Print help
 ```
 
-The compiled program, its corresponding [Commitment Merkle Root](../glossary.md#cmr), and optionally the serialized witness file when it is provided with `-w`, are printed in base64 format on the standard output, with text labels identifying each output item. The base64 form of the program is a representation of its low-level Simplicity code, and could be considered the "binary".
+`simc` prints the compiled program in base64, its [Commitment Merkle Root](../glossary.md#cmr) in hex, the compiler version, the compilation target, and, when a witness file is provided with `-w`, the serialized witness in base64. Each item follows a text label (`Program:`, `CMR:`, `Compiler version:`, `Target:` (0.9.0+), and `Witness:`). The base64 form of the program is a representation of its low-level Simplicity code, and could be considered the "binary".
 
-If the option `--json` is provided, produce JSON output instead. The JSON object fields `program` and `witness` contain the base64-encoded compiled program and base64-encoded serialized witness, respectively. Using `--json` is recommended whenever the output of `simc` will be parsed by other programs or scripts.
+If the option `--json` is provided, produce JSON output instead, with the fields `program`, `cmr`, `compiler_version`, `target` (0.9.0+), `witness`, and `abi_meta`. `witness` and `abi_meta` are `null` unless `-w` or `--abi` is given. Using `--json` is recommended whenever the output of `simc` will be parsed by other programs or scripts.
+
+`--target` (0.9.0+) selects the set of jets the program can call: `elements`, the default, or `core`, which has Simplicity's core jets (such as arithmetic, hashing, and signature checks) but not any [introspection](../glossary.md#introspection) jets, such as `jet::current_index`. Different targets can produce different CMRs from the same source. An unknown target fails with an error that ends `Unknown target: <name>. Use one of: elements or core`.
 
 The compiled program is needed in order to derive addresses and parameters at commit-time (that is, when sending assets *to* the contract). The witness is additionally needed in order to derive addresses and parameters at redeem-time (that is, when spending assets *from* the contract). A [covenant](../glossary.md#covenant) is used in both ways at once, as it may be both the origin and the destination of assets inside the same transaction.
 
