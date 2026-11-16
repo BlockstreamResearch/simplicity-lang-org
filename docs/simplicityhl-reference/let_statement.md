@@ -63,6 +63,6 @@ let [x, _, z]: [u32; 3] = [1, 2, 3];
 In the first line, the tuple `(1, 2, 3)` is deconstructed into the values `1`, `2` and `3`.
 These values are assigned to the variable names `x`, `y` and `_`.
 The variable name `_` is a special name that ignores its value.
-In the end, two variables are created: `x: u32 = 1` and `y: u16 = 2`.
+In the end, two variables are created: `x: u8 = 1` and `y: u16 = 2`.
 
 Similarly, arrays can be deconstructed element by element and assigned to a variable each.

@@ -6,7 +6,7 @@ All expressions inside an environment share the same source type A; the environm
 
 ```text
 Ξ =
-[ foo ↦ unit:      (𝟚^32? × 2^32) → 𝟙
+[ foo ↦ unit:      (𝟚^32? × 𝟚^32) → 𝟙
 , bar ↦ take iden: (𝟚^32? × 𝟚^32) → 𝟚^32?
 , baz ↦ drop iden: (𝟚^32? × 𝟚^32) → 𝟚^32
 ]

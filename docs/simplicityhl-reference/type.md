@@ -69,15 +69,15 @@ Tuples are always finite in length.
 | `[A; 1]` | 1-array     | `[a0]`, `[a1]`, …                                 |
 | `[A; 2]` | 2-array     | `[a0, a1]`, `[a2, a3]`, `[a4, a5]`, `[a6, a7]`, … |
 | …        | …           | …                                                 |
-| `[A; N]` | n-array     | `[a0, …, aN]`, …                                  |
+| `[A; N]` | n-array     | `[a1, …, aN]`, …                                  |
 
 [Arrays work just like in Rust](https://doc.rust-lang.org/std/primitive.array.html).
 
 The empty array `[]` is basically useless, but is included for completeness.
 
-Arrays `[a0, …, aN]` work like in most other programming languages.
+Arrays `[a1, …, aN]` work like in most other programming languages.
 Each array type `[A; N]` defines an element type `A` and a length `N`.
-An array value `[a0, …, aN]` of that type consists of `N` many elements `a0`, …, `aN` that are each of type `A`.
+An array value `[a1, …, aN]` of that type consists of `N` many elements `a1`, …, `aN` that are each of type `A`.
 Arrays are always of finite length.
 
 > Arrays are different from tuples:
@@ -95,7 +95,7 @@ Arrays are always of finite length.
 | `List<A, 8>`              | <8-list             | `list![]`, …, `list![a1, …, a7]`                     |
 | `List<A, 16>`             | <16-list            | `list![]`, …, `list![a1, …, a15]`                    |
 | `List<A, 32>`             | <32-list            | `list![]`, …, `list![a1, …, a31]`                    |
-| `List<A, 64>`             | <64-list            | `list![]`, …, `list![a1, …, a62]`                    |
+| `List<A, 64>`             | <64-list            | `list![]`, …, `list![a1, …, a63]`                    |
 | `List<A, 128>`            | <128-list           | `list![]`, …, `list![a1, …, a127]`                   |
 | `List<A, 256>`            | <256-list           | `list![]`, …, `list![a1, …, a255]`                   |
 | `List<A, 512>`            | <512-list           | `list![]`, …, `list![a1, …, a511]`                   |
