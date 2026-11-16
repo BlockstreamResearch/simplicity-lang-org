@@ -80,26 +80,62 @@ Pass one or more names to run only tests whose names match. Use `--target <name>
 
 Simplex (0.1.0+) can also run *fuzz tests*, which check a contract's logic and invariants against many randomly generated inputs instead of one hand-built transaction. Fuzz tests run entirely locally and don't start or contact `elementsd`. Simplex itself runs the contract internally in a Simplicity bit machine environment.
 
-A fuzz test is marked `#[simplex::fuzz]`, receives a `TestContext<FuzzMode>`, and runs a fuzz engine for one contract, named by the program, arguments, and witness types that `simplex build` generated for it:
+A fuzz test is marked `#[simplex::fuzz]`, receives a `TestContext<FuzzMode>`, and runs a fuzz engine on a *scenario*: a template transaction together with the contracts that spend its inputs or lock its outputs. This test, from the `examples/basic` project, fuzzes a pay-to-public-key contract that spends input 0 (0.2.0+):
 
 ```rust
+use simplex::{FuzzMode, TestContext};
+
+use simplex::fuzz::Scenario;
+use simplex::transaction::{FinalTransaction, PartialInput, ProgramInput, ProgramSignature};
+
+use simplex_example::artifacts::p2pk::P2pkProgram;
+use simplex_example::artifacts::p2pk::derived_p2pk::{P2pkArguments, P2pkWitness};
+
 #[simplex::fuzz]
-fn fuzz_test_name(context: simplex::TestContext<simplex::FuzzMode>) -> anyhow::Result<()> {
-    context
-        .engine::<MyContractProgram, MyContractArguments, MyContractWitness>()
-        .run();
+fn p2pk_fuzz_test(context: TestContext<FuzzMode>) -> anyhow::Result<()> {
+    let signer = context.get_default_signer();
+
+    let public_key = signer.get_schnorr_public_key().serialize();
+    let program = P2pkProgram::new(P2pkArguments { public_key }).as_ref().clone();
+
+    // Ask the signer to replace each fuzzed `SIGNATURE` with a valid signature.
+    let mut transaction = FinalTransaction::new();
+    transaction.add_program_input(
+        PartialInput::default(),
+        ProgramInput::new(Box::new(program), P2pkWitness::default()),
+        Some(ProgramSignature::new("SIGNATURE")),
+    );
+
+    let mut scenario = Scenario::new(transaction);
+    // Keep the signer's public key fixed while fuzzing the witness.
+    scenario
+        .add::<P2pkProgram>("p2pk")
+        .spends(0)
+        .bind_arguments(move |arguments, _| arguments.public_key = public_key);
+
+    context.engine(scenario).run();
 
     Ok(())
 }
 ```
 
-For each case, the engine generates values for the contract's arguments and witness, compiles the contract with those arguments, spends it in a test transaction, and executes it. By default, a case fails if execution fails. A custom check can instead expect a particular failure, such as a failed `assert!`, to test that the contract rejects invalid transactions. A custom check can also test any other property of the transaction, arguments, witness, and execution result.
+`Scenario::add::<P>(name)` adds a contract to the scenario, and `spends(index)` and `locks(index)` name the transaction input it spends and the output it locks. For each case, the engine generates values for each contract's arguments and witness, builds the transaction, and executes it. `bind_arguments` and `bind_witness` set values from the case instead of generating them. In the example, `bind_arguments` keeps the public key equal to the test signer's.
 
-The default strategy draws integer values from a mix of uniformly random values, boundary values (such as 0, 1, powers of two and one less than them, and the type's maximum), and integer literals that appear in the contract's source code, plus or minus one. It also sometimes copies one generated value into another field of the same case, so comparisons between fields are exercised. These choices make the fuzzer more likely to find the specific values at which a contract's behavior changes. A purely random strategy is also available.
+Randomly generated values are almost never valid signatures, so a contract that checks a signature would reject nearly every case. `ProgramSignature::new("SIGNATURE")` asks the test signer to replace the witness value named `SIGNATURE` with a valid signature over each generated transaction.
 
-Randomly generated values are almost never valid signatures, so a contract that checks a signature would reject nearly every case. A fuzz test can ask the test signer to replace a named witness value, such as `SIGNATURE`, with a valid signature over each generated transaction. [`examples/basic/tests/basic_fuzz.rs`](https://github.com/BlockstreamResearch/smplx/blob/master/examples/basic/tests/basic_fuzz.rs) shows this for a pay-to-public-key contract.
+By default, the engine expects every spend to be accepted, and a case fails if execution fails. To test that a contract rejects invalid spends, call `spec` on the engine with a closure that returns `Expect::Accept`, `Expect::Reject`, or `Expect::Any` for each case. `mutations` changes the transaction's amounts, assets, timelocks, or layout in half the cases, and the spec judges the mutated transaction. For each accepted spend, the engine also checks that the outputs the contract locks can't be redirected and that the spend depends on its signatures. `without_lock_check` and `without_auth_check` turn these checks off.
 
-Run `simplex test --fuzz` to execute fuzz tests. Plain `simplex test` doesn't run them. The `[test.fuzz]` section of `Simplex.toml` sets the number of cases (`cases`), a fixed random seed (`seed`), and the network whose parameters the test transactions use (`network`). When a fuzz test finds a failing case, Simplex saves its seed and generated values in a `fuzz-failures/` directory, and later runs replay saved cases before generating new ones.
+The default strategy draws integer values from a mix of uniformly random values, boundary values (such as 0, 1, powers of two and one less than them, and the type's maximum), integer literals that appear in the contract's source code or in the scenario's transaction (such as its amounts), plus or minus one, and indices up to the transaction's input or output count, whichever is larger. It also sometimes copies one generated value into another field of the same case, so comparisons between fields are exercised. These choices make the fuzzer more likely to find the specific values at which a contract's behavior changes. Call `random_strategy` on a contract in the scenario to draw its values uniformly at random instead, or `custom_strategy` to supply your own.
+
+Run `simplex test --fuzz` to execute fuzz tests. Plain `simplex test` doesn't run them. The `[test.fuzz]` section of `Simplex.toml` sets the number of cases (`cases`), a fixed random seed (`seed`), and the network whose parameters the test transactions use (`network`). At the end of a run, Simplex prints a summary of the cases' verdicts, rejections, mutations, and checks. When a fuzz test finds a failing case, Simplex saves its seed and generated values in a `fuzz-failures/` directory, and later runs replay saved cases before generating new ones.
+
+### Formatting SimplicityHL sources
+
+Run `simplex fmt` (0.2.0+) to format the project's `.simf` files with `simfmt`, which `simplexup` installs alongside Simplex. With no file arguments, it formats the files that the `[build]` section of `Simplex.toml` selects. Pass one or more paths to format only those files.
+
+Add `--check` to report files that need formatting without changing them, as in a CI job, and `--short` to list those files instead of showing the full diff. `simplex fmt` follows the `simfmt.toml` in the project, or the [default `simfmt` configuration](https://github.com/BlockstreamResearch/simfmt/blob/master/simfmt.toml) if there isn't one. Arguments after `--` are passed to `simfmt` unchanged.
+
+If `simfmt` isn't installed next to `simplex`, the command fails with `could not run simfmt at '<path>': <error>`. Rerun `simplexup` to install it.
 
 ## Examples
 
