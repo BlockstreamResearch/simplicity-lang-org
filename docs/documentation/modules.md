@@ -162,7 +162,7 @@ fn main() {
 The same effect can be achieved manually by cloning the `BlockstreamResearch/simplicityhl-std` repository and registering it as a manual `--dep`. Point the alias at the repository's `simf` directory, since that's where the library's own `crate::` paths are rooted:
 
 ```bash
-git clone --branch v0.1.0 https://github.com/BlockstreamResearch/simplicityhl-std.git
+git clone --branch v0.2.0 https://github.com/BlockstreamResearch/simplicityhl-std.git
 simc -Z imports --dep std=simplicityhl-std/simf myproject.simf
 ```
 
