@@ -13,7 +13,7 @@ These are open source projects in the Simplicity ecosystem.
 | [smplx](https://github.com/BlockstreamResearch/smplx) | Simplex SDK / orchestration (for generating Rust projects to interact with Simplicity contracts, dependency management, and associated test suites). |
 | [hal-simplicity](https://github.com/BlockstreamResearch/hal-simplicity) | CLI to build, inspect, analyze programs and transactions. |
 | [simplicityhl-std](https://github.com/BlockstreamResearch/simplicityhl-std) | SimplicityHL standard library. |
-| [simplicity-demo](https://github.com/BlockstreamResearch/simplicity-demo) | Quickstart P2PK demo using Rust. |
+| [simplicity-demo](https://github.com/BlockstreamResearch/simplicity-demo) | Example projects for the [Quickstart](../getting-started/quickstart.md) and the [end-to-end application tutorial](../getting-started/build-end-to-end-app.md). |
 | [simplicity-codespace](https://github.com/Blockstream/simplicity-codespace) | Codespace to run examples. |
 | [LWK](https://github.com/Blockstream/LWK) | Liquid Wallet Kit (for developing applications to interact with Liquid Network and Simplicity contracts). |
 | [Humid Wallet](https://github.com/BlockstreamResearch/humid) | Demonstration in-browser Liquid wallet with Simplicity and txmanifest support. |

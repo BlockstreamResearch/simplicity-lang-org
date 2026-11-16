@@ -214,9 +214,9 @@ Two distinct tokens are required to store the current protocol state:
 Since the amount in a single [UTXO](../glossary.md#utxo) can't exceed $21,000,000 \times 10^8$, the number of bits required to encode the parameters can be reduced:
 
 - Decimals mantissa (4 bits): This field occupies only 4 bits because assets with more than 8 decimals can't be created on Liquid.
-- Base amount (25 bits): The base amount occupies 25 bits, allowing for a maximum value of 33,554,432. When combined with the decimals mantissa, it can represent any value from 0 up to the maximum possible supply.
-- Interest Rate (16 bits): This field requires a minimum of 14 bits to express percentages using a scale where 10,000 equals 100%. Using 16 bits achieves a maximum interest rate of 655.36%.
-- Loan expiration time in blocks: Setting this value to 27 bits allows the end block of the loan to be 134,217,728. This is currently ~248 years in the future with a 1-minute block rate.
+- Base amount (25 bits): The base amount occupies 25 bits, allowing for a maximum value of 33,554,431. When combined with the decimals mantissa, it can represent any value from 0 up to the maximum possible supply.
+- Interest Rate (16 bits): This field requires a minimum of 14 bits to express percentages using a scale where 10,000 equals 100%. Using 16 bits achieves a maximum interest rate of 655.35%.
+- Loan expiration time in blocks: Setting this value to 27 bits allows the end block of the loan to be up to 134,217,727. This is currently ~248 years in the future with a 1-minute block rate.
 
 ### Lock Collateral
 

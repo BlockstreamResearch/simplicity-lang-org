@@ -86,7 +86,7 @@ The changes that make Simplicity programs usable as spending conditions on a par
 Two deployed integrations exist. The [Elements](./glossary.md#elements) integration is used by [Liquid](./glossary.md#liquid), and the Bitcoin integration is used by the [Simplicity Signet](./glossary.md#signet). Their jet sets differ, so a program that uses jets specific to one integration doesn't compile for the other.
 
 ## Internal key
-In Taproot, every output can be spent in two ways: by signing a transaction with a public key, or by revealing a Script or Simplicity program embedded in the key as a Taproot commitment, along with a satisfying witness. The "internal key" is the component of a Taproot commitment which defines which party or parties is able to sign. Commonly, an unspendable key is used, such as 50929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac0 (taken from [BIP 0341](https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki), which also specifes a method to blind this key for privacy reasons). This disables the key-spending path.
+In Taproot, every output can be spent in two ways: by signing a transaction with a public key, or by revealing a Script or Simplicity program embedded in the key as a Taproot commitment, along with a satisfying witness. The "internal key" is the component of a Taproot commitment which defines which party or parties is able to sign. Commonly, an unspendable key is used, such as 50929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac0 (taken from [BIP 0341](https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki), which also specifies a method to blind this key for privacy reasons). This disables the key-spending path.
 
 With Simplicity contracts, the typical construction is to use a Taproot tree with an unspendable internal key and a single leaf denoting the program, or two leaves denoting the program and its state commitment.
 
@@ -165,7 +165,7 @@ In public-key cryptography, a secret value corresponding to a specific [public k
 ## Program
 Sometimes used interchangeably with "contract".  A specific instance of [Simplicity](./glossary.md#simplicity) code that can receive [assets](./glossary.md#asset) on a blockchain and make decisions about how to dispose of those assets in accordance with its internal logic.
 
-A distinction between a "program" and a "contract" is that a "contract" can refer to a larger system for controlling disposition of [assets](./glossary.md#asset) across multiple [transactions](./glossary.md#transaction), each of which is individually controlled by a program. The contract can thus potentially consist of more than instance of a program, or even of several related programs that respectively handle different portions of the contracts functionality.
+A distinction between a "program" and a "contract" is that a "contract" can refer to a larger system for controlling disposition of [assets](./glossary.md#asset) across multiple [transactions](./glossary.md#transaction), each of which is individually controlled by a program. The contract can thus potentially consist of more than one instance of a program, or even of several related programs that respectively handle different portions of the contract's functionality.
 
 A program’s creator could choose to publish its code (outside of a blockchain) in order to allow other people to learn of its existence and interact with it. A reference to the program’s address appears on a blockchain when a [transaction](./glossary.md#transaction) includes an [output](./glossary.md#output) controlled by the program. A copy of the program’s code (in pruned form) appears on the blockchain only when a later transaction spends such an output.
 
@@ -217,7 +217,7 @@ Developers ordinarily don't write programs in Simplicity directly, instead writi
 A high-level programming language with a Rust-like syntax that was created in conjunction with [Simplicity](./glossary.md#simplicity) to facilitate writing Simplicity programs.  SimplicityHL compiles to Simplicity, which is actually run by [node](./glossary.md#node) operators.
 
 ## simply
-An alternative [SimplicityHL](./glossary.md#simplicityhl) compiler maintained by Starkware.
+An alternative [SimplicityHL](./glossary.md#simplicityhl) compiler maintained by StarkWare.
 
 ## Smart contract
 A mechanism by which computer code directly specifies and determines the conditions for disposition of [assets](./glossary.md#asset) (particularly tokenized assets on a blockchain). Analogized to a contract in the legal sense because it may represent an understanding and agreement between parties that governs a part of their future behavior or the results of that behavior. Unlike a traditional offline contract, the smart contract isn't drafted in natural language and isn't interpreted or enforced by human beings.
@@ -231,7 +231,7 @@ A Bitcoin and Elements feature where the overall structure of the conditions for
 
 On-chain Simplicity [programs](./glossary.md#program) are represented within such a tree, which ultimately derives an address to which [assets](./glossary.md#asset) can be sent. Among other effects, this results in the presence of the [internal key](./glossary.md#internal-key).
 
-The details of Simplicity programs' Taproot representations also play a critical role in [state management](documentation/state.md). In the recommended approach, a cryptographic hash representing the current state of a smart contract instance is stored in a Taproot leaf alongside the associate Simplicity program's Taproot leaf. This provides a means of cryptographically verifying [witness](./glossary.md#witness) assertions about what the contract's state should be. Because of the use of cryptographic hashes to commit to the content of the whole tree, changing any part of the Taproot structure, including any part of the program code or its stored state, results in a completely different derived address.
+The details of Simplicity programs' Taproot representations also play a critical role in [state management](documentation/state.md). In the recommended approach, a cryptographic hash representing the current state of a smart contract instance is stored in a Taproot leaf alongside the associated Simplicity program's Taproot leaf. This provides a means of cryptographically verifying [witness](./glossary.md#witness) assertions about what the contract's state should be. Because of the use of cryptographic hashes to commit to the content of the whole tree, changing any part of the Taproot structure, including any part of the program code or its stored state, results in a completely different derived address.
 
 ## Timelock
 A spending condition for a [UTXO](./glossary.md#utxo) that only permits certain transfers after a specified time. For example, a timelock condition can restrict an asset so it can't be transferred for a specified number of seconds or a specified number of blocks.
