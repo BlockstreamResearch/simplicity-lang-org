@@ -149,6 +149,15 @@ An unspent output is a [UTXO](./glossary.md#utxo).
 ## Policy asset
 On an [Elements](./glossary.md#elements) blockchain, the chain's built-in [asset](./glossary.md#asset), which is used to pay transaction [fees](./glossary.md#fee). Other assets on an Elements chain are created by issuance. On Liquid, the policy asset is Liquid bitcoin (LBTC), and on Liquid testnet it is test Liquid bitcoin (tLBTC).
 
+An asset ID is written in two byte orders. Block explorers, Esplora and PSET JSON show it in display order. Internal byte order is the reverse: the order in which the asset ID is serialized in a transaction. Jets such as `jet::current_asset` and `jet::output_asset` return asset IDs in internal byte order, so an asset ID written into a SimplicityHL program or its parameters must use that order:
+
+| Network | Display order | Internal byte order |
+| --- | --- | --- |
+| Liquid (LBTC) | `6f0279e9ed041c3d710a9f57d0c02928416460c4b722ae3457a11eec381c526d` | `0x6d521c38ec1ea15734ae22b7c46064412829c0d0579f0a713d1c04ede979026f` |
+| Liquid testnet (tLBTC) | `144c654344aa716d6f3abcc1ca90e5641e4e2a7f633bc09fe3baf64585819a49` | `0x499a818545f6bae39fc03b637f2a4e1e64e590cac1bc3a6f6d71aa4443654c14` |
+
+`jet::lbtc_asset` always returns the Liquid value, even on Liquid testnet or regtest.
+
 ## Private key
 
 In public-key cryptography, a secret value corresponding to a specific [public key](./glossary.md#public-key).  The possessor of the private key can use it to create digital signatures indicating agreement with specific assertions, such as proposed Bitcoin or [Elements](./glossary.md#elements) transactions, or [oracle](./glossary.md#oracle) assertions.  Anyone can verify those digital signatures using the corresponding public key.

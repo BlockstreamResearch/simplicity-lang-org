@@ -88,6 +88,16 @@ If the option `--json` is provided, produce JSON output instead. The JSON object
 
 The compiled program is needed in order to derive addresses and parameters at commit-time (that is, when sending assets *to* the contract). The witness is additionally needed in order to derive addresses and parameters at redeem-time (that is, when spending assets *from* the contract). A [covenant](../glossary.md#covenant) is used in both ways at once, as it may be both the origin and the destination of assets inside the same transaction.
 
+### simc errors
+
+#### Jet `name` does not exist
+
+```text
+Jet `le_128` does not exist
+```
+
+The program calls `jet::name`, and the [jets reference](jets.md) doesn't list a jet by that name. One common cause is a [standard library](stdlib.md) function called as a jet. Functions such as `le_128`, `lt_128` and `u64_to_u128` are standard library functions, not jets. Remove the `jet::` prefix, install the library, and import the function with `use`, as described in [using the library with Simplex](stdlib.md#using-the-library-in-simplicityhl-projects-with-simplex).
+
 ## hal-simplicity
 
 Install with: `cargo install hal-simplicity`
@@ -245,7 +255,15 @@ The output of the command is a JSON object whose attribute `pset` contains the u
 
 `hal-simplicity simplicity pset run <pset> <inputindex> <program> <witness>`
 
-This command simulates running a Simplicity program in the context of a transaction built up as a PSET. You can see whether the transaction succeeds and some the details of individual jet invocations, their inputs, and their outputs. This helps with debugging to confirm whether a program will complete successfully and approve a transaction, as well as understanding why it accepted or rejected a specific proposed transaction. The command has the same arguments as `hal-simplicity simplicity pset finalize` but *runs* the program in the context of the resulting transaction, instead of outputting a PSET representing that transaction. The output is a list of events in the execution of the program.
+This command simulates running a Simplicity program in the context of a transaction built up as a PSET. You can see whether the transaction succeeds and some the details of individual jet invocations, their inputs, and their outputs. This helps with debugging to confirm whether a program will complete successfully and approve a transaction, as well as understanding why it accepted or rejected a specific proposed transaction. The command has the same arguments as `hal-simplicity simplicity pset finalize` but *runs* the program in the context of the resulting transaction, instead of outputting a PSET representing that transaction.
+
+The output is a JSON object with two fields:
+
+* `success`: `true` if the program ran to completion and would approve the transaction, `false` if it failed.
+* `jets`: the jet calls in the order they ran. Each entry gives the `jet` name, its `input_value` and `output_value`, whether that call succeeded (`success`), and, for `eq_*` jets, the two compared values in `equality_check`.
+
+!!! warning "Check `success`, not the exit status"
+    `hal-simplicity simplicity pset run` exits with status 0 even when the program fails, and also when it can't run the program at all. In the second case, such as for an invalid PSET or input index, the output is a JSON object with a single `error` field. A script must read the `success` field, for example with `jq -e '.success' > /dev/null`, which exits with a nonzero status unless `success` is `true`.
 
 #### hal-simplicity simplicity pset extract
 
@@ -335,3 +353,13 @@ The output can contain the following fields:
 * `blinding_pubkey` and `unconfidential`: for a confidential address only, its blinding public key and the same address without the blinding key.
 
 An address that can't be parsed makes the command exit with a Rust panic message instead of a JSON error object.
+
+### hal-simplicity address create
+
+This subcommand, inherited from `hal-elements`, derives addresses from a public key or a script.
+
+`hal-simplicity address create --pubkey <pubkey>` or `hal-simplicity address create --script <script>`
+
+The public key or script is given in hex. Add `--blinder <pubkey>` to make the addresses [confidential](../glossary.md#confidential) with that blinding public key. For a public key, the output contains `p2pkh`, `p2wpkh` and `p2shwpkh` addresses; for a script, it contains `p2sh`, `p2wsh` and `p2shwsh` addresses.
+
+The command creates regtest addresses by default, and Liquid addresses with `--liquid`. It doesn't have an option for Liquid testnet, and doesn't create [Taproot](../glossary.md#taproot) addresses. To get a Liquid testnet address that you control, for example as a destination for a contract's payments, create one in a wallet such as Humid, or with `elements-cli getnewaddress`.
