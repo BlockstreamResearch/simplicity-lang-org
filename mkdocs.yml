@@ -5,6 +5,18 @@ plugins:
   - search:
   - git-revision-date-localized:
   - llms-source:
+      # Shown as a quoted line at the top of llms.txt and llms-full.txt.
+      # Keep the folded (>-) style, so that it stays a single line.
+      description: >-
+        A typed, combinator-based, smart contract language for Bitcoin-like
+        blockchains. When searching llms-full.txt: it joins every documentation
+        page into one file, so a line found with grep doesn't show which page it
+        comes from. Before relying on a match, read back to the nearest "Source:"
+        line above it, or open that page. Context matters. Jets are called as
+        jet::name, while standard library functions must first be imported with
+        a use std::... line. SimplicityHL also targets more than one blockchain, such as
+        Elements and Bitcoin Signet, whose jets and types differ, so a code sample
+        or jet may work on only one of them.
   - blog:
       blog_dir: news
   - git-committers:
@@ -154,6 +166,7 @@ edit_uri: edit/main/docs/
 
 hooks:
   - hooks/simplicityhl_lexer.py
+  - hooks/llms_full_sources.py
   - hooks/runnable.py
   - includes/hooks/autolink_glossary.py
 
