@@ -60,9 +60,8 @@ Create `.rs` files in `tests/` containing your integration tests. Each such file
 
 ```rust
 #[simplex::test]
-fn test_name(context: simplex::TestContext) -> anyhow::Result<()> {
+fn test_name(context: simplex::TestContext) {
     // Test code goes here.
-    Ok(())
 }
 ```
 
@@ -80,7 +79,7 @@ Pass one or more names to run only tests whose names match. Use `--target <name>
 
 Simplex (0.1.0+) can also run *fuzz tests*, which check a contract's logic and invariants against many randomly generated inputs instead of one hand-built transaction. Fuzz tests run entirely locally and don't start or contact `elementsd`. Simplex itself runs the contract internally in a Simplicity bit machine environment.
 
-A fuzz test is marked `#[simplex::fuzz]`, receives a `TestContext<FuzzMode>`, and runs a fuzz engine on a *scenario*: a template transaction together with the contracts that spend its inputs or lock its outputs. This test, from the `examples/basic` project, fuzzes a pay-to-public-key contract that spends input 0 (0.2.0+):
+A fuzz test is marked `#[simplex::fuzz]`, receives a `TestContext<FuzzMode>`, and runs a fuzz engine on a *scenario*: a template transaction together with the contracts that spend its inputs or lock its outputs. This test fuzzes the starter project's pay-to-public-key contract, which spends input 0 (0.2.0+). Build the [starter project's artifacts](#building-artifacts), then save it as `tests/p2pk_fuzz.rs` in the `my_contract` project created above:
 
 ```rust
 use simplex::{FuzzMode, TestContext};
@@ -88,11 +87,11 @@ use simplex::{FuzzMode, TestContext};
 use simplex::fuzz::Scenario;
 use simplex::transaction::{FinalTransaction, PartialInput, ProgramInput, ProgramSignature};
 
-use simplex_example::artifacts::p2pk::P2pkProgram;
-use simplex_example::artifacts::p2pk::derived_p2pk::{P2pkArguments, P2pkWitness};
+use simplex_my_contract::artifacts::p2pk::P2pkProgram;
+use simplex_my_contract::artifacts::p2pk::derived_p2pk::{P2pkArguments, P2pkWitness};
 
 #[simplex::fuzz]
-fn p2pk_fuzz_test(context: TestContext<FuzzMode>) -> anyhow::Result<()> {
+fn p2pk_fuzz_test(context: TestContext<FuzzMode>) {
     let signer = context.get_default_signer();
 
     let public_key = signer.get_schnorr_public_key().serialize();
@@ -114,8 +113,6 @@ fn p2pk_fuzz_test(context: TestContext<FuzzMode>) -> anyhow::Result<()> {
         .bind_arguments(move |arguments, _| arguments.public_key = public_key);
 
     context.engine(scenario).run();
-
-    Ok(())
 }
 ```
 
