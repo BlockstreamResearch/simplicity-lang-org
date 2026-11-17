@@ -80,7 +80,7 @@ There are three styles of writing jet names that you may encounter in Simplicity
 
 * SimplicityHL writes jets like `jet::eq_32`.
 * Disassembly of low-level Simplicity writes them like `jet_eq_32`.
-* Rust source code writes them like `Elements::Eq32`.
+* Rust source code writes them like `Elements::Eq32` or `Bitcoin::Eq32`, depending on the integration.
 
 The reference list above is aimed at SimplicityHL developers, so it presents jet names in SimplicityHL format. Remember to include `jet::` before the name of the jet when calling it from a SimplicityHL program.
 

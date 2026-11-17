@@ -8,7 +8,7 @@
 
 Welcome, Solidity and EVM developers! You're used to a world of account-based models, Turing-complete languages, and sophisticated state management.
 
-Simplicity, a new programming language from Blockstream Research, offers a fundamentally different approach, bringing high-assurance smart contracting to Bitcoin-style [UTXO](../glossary.md#utxo)-based blockchains like Liquid.
+Simplicity, a new programming language from Blockstream Research, offers a fundamentally different approach, bringing high-assurance smart contracting to Bitcoin-style [UTXO](../glossary.md#utxo)-based blockchains.
 
 While it operates on different principles, Simplicity's design provides expressiveness and reliability together, letting you build sophisticated smart contracts and be confident in their outcomes.
 
