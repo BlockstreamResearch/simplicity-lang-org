@@ -177,7 +177,7 @@ let four_values: [u16; 4] = witness::FOUR_VALUES;
 }
 ```
 
-Use tuple destructuring to access tuple values in SimplicityHL (`let (a, b): (bool, u16) = witness::MYPAIR;`).
+Use tuple destructuring (`let (a, b): (bool, u16) = witness::MYPAIR;`) or array destructuring (`let [a, b, c, d]: [u16; 4] = witness::FOUR_VALUES;`) to access tuple and array values in SimplicityHL.
 
 ### Tagged sum types
 
