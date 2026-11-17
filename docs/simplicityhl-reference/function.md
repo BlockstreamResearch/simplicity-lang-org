@@ -49,12 +49,12 @@ fn level_0() -> u32 {
 }
 
 fn level_1() -> u32 {
-    let (_, next) = jet::increment_32(level_0());
+    let (_, next): (bool, u32) = jet::increment_32(level_0());
     next
 }
 
 fn level_2() -> u32 {
-    let (_, next) = jet::increment_32(level_1());
+    let (_, next): (bool, u32) = jet::increment_32(level_1());
     next
 }
 ```
@@ -102,4 +102,4 @@ They can be called without defining them manually.
 
 It is usually more efficient to call a jet than to manually compute a value.
 
-[The jet documentation](https://docs.rs/simfony-as-rust/latest/simfony_as_rust/jet/index.html) lists each jet and explains what it does.
+The [jets reference](../documentation/jets.md) lists each jet and explains what it does.
