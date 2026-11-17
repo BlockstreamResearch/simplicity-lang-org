@@ -8,7 +8,7 @@
 
 Welcome, Solidity and EVM developers! You're used to a world of account-based models, Turing-complete languages, and sophisticated state management.
 
-Simplicity, a new programming language from Blockstream Research, offers a fundamentally different approach, bringing high-assurance smart contracting to Bitcoin-style [UTXO](../glossary.md#utxo)-based blockchains like Liquid.
+Simplicity, a new programming language from Blockstream Research, offers a fundamentally different approach, bringing high-assurance smart contracting to Bitcoin-style [UTXO](../glossary.md#utxo)-based blockchains.
 
 While it operates on different principles, Simplicity's design provides expressiveness and reliability together, letting you build sophisticated smart contracts and be confident in their outcomes.
 
@@ -89,9 +89,9 @@ Jets are a concept for efficiency and extensibility in Simplicity.
 
 * Jets solve this by allowing the Simplicity interpreter to evaluate the jet either by evaluating its Simplicity specification or by using optimized machine code (often C implementations) that has the same effect.  
 
-* Crucially, these optimised implementations are formally proven equivalent to their Simplicity specifications in Coq. For example, the SHA-256 compression function and libsecp256k1 elliptic curve operations have been reimplemented and formally verified in Simplicity.  
+* Crucially, these optimized implementations are formally proven equivalent to their Simplicity specifications in Coq. For example, the SHA-256 compression function and libsecp256k1 elliptic curve operations have been reimplemented and formally verified in Simplicity.  
 
-* This approach opens a clear path for introducing new features and optimisations without constant soft forks. Simplicity's comprehensive "catalog of jets" includes cryptographic functions, arithmetic operations, and Bitcoin-related operations like timelocks.
+* This approach opens a clear path for introducing new features and optimizations without constant soft forks. Simplicity's comprehensive "catalog of jets" includes cryptographic functions, arithmetic operations, and Bitcoin-related operations like timelocks.
 
 ### Inputs and external data
 
@@ -99,7 +99,7 @@ Simplicity programs interact with data through explicit mechanisms. The `witness
 
 Simplicity also includes primitive expressions that allow programs to read data from the transaction context where they are executed, including details about the transaction's inputs and outputs, locktime, and the commitment Merkle root of the program itself.
 
-The `assert` and `fail` expressions allow programs to halt execution if certain conditions aren't met, similar to Bitcoin Script's `OP_VERIFY` or Ethereum's `STOP` opcode, and are used for checks like digital signature verification.
+The `assert` and `fail` expressions allow programs to halt execution if certain conditions aren't met, similar to Bitcoin Script's `OP_VERIFY` or the EVM's `REVERT` opcode, and are used for checks like digital signature verification.
 
 ### Program structure
 

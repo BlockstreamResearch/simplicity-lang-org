@@ -68,7 +68,7 @@ let unwrap_or_default: u32 = match Some((4, 2)) {
 ```
 
 This is more concise than including code to perform the deconstruction inside the match arm.
-For example, the code above is a more concise alternative to this version that subsequently deconstructes the tuple `x` of type `(u16, u16)` into two integers `y` and `z` of type `u16`.
+For example, the code above is a more concise alternative to this version that subsequently deconstructs the tuple `x` of type `(u16, u16)` into two integers `y` and `z` of type `u16`.
 
 ```simplicityhl
 let unwrap_or_default: u32 = match Some((4, 2)) {
@@ -119,7 +119,7 @@ In this example, `witness::ACTION` is an object of type `Action` (with the expli
 ## Only two branches per `match`
 
 Differently from Rust, the `match` expression only allows two match arms (branches) per `match` (except for `enum` types).
-For example, it is currently not possible to match `Left(Left(x: u8))`, `Left(Right(x: u8)`, `Right(Left(x: u8))`, and `Right(Right(x: u8))` as arms of a single `match` expression.
+For example, it is currently not possible to match `Left(Left(x: u8))`, `Left(Right(x: u8))`, `Right(Left(x: u8))`, and `Right(Right(x: u8))` as arms of a single `match` expression.
 Matching these four possibilities instead requires two nested `match` expressions.
 
 This limitation doesn't apply to the `enum` matching described above. A `match` on an `enum` type should contain exactly one branch for each declared value of that `enum` type, regardless of how many values the `enum` type can take on.

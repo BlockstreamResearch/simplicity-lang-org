@@ -14,7 +14,7 @@ Among other things, a witness will usually contain digital signatures from some 
 
 * amounts (for example, how much of an asset is requested to be spent or transferred)
 * oracle statements (confirming some fact about the outside world)
-* values representing *choices* among several actions that can be taken at a certain moment (for example, whether a payment should proceed or be cancelled and refunded).
+* values representing *choices* among several actions that can be taken at a certain moment (for example, whether a payment should proceed or be canceled and refunded).
 
 The witness is directly attached to the transaction and forms a part of it; if the transaction is confirmed, the witness data will be publicly visible on the blockchain as part of the confirmed transaction.
 
