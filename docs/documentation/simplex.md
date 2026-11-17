@@ -69,12 +69,18 @@ Pass one or more names to run only tests whose names match. Use `--target <name>
 By default, `simplex regtest` picks free ports and authenticates with the node's cookie, so the URLs and credentials change each time it starts. It prints the current values and then waits for Ctrl-C:
 
 ```text
+======================================
+Waiting for Ctrl-C...
+
 RPC: http://127.0.0.1:<rpc port>
 Esplora: http://127.0.0.1:<esplora port>
 User: "<rpc user>", Password: "<rpc password>"
+
+Signer: <signer address>
+======================================
 ```
 
-Copy these values into `Simplex.toml`, without the quotation marks around the user and password:
+Copy the URLs, user, and password into `Simplex.toml`. The user and password are printed as quoted strings that you can paste as they are:
 
 ```toml
 [test.esplora]
