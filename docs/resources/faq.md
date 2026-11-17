@@ -56,7 +56,7 @@ Benefits:
 
 - Keeps execution fast, compact, and analyzable.
 
-## How does Simplicity exist alongside Bitcoin script?
+## How does Simplicity exist alongside Bitcoin Script?
 
 With [Taproot](../glossary.md#taproot)'s versioned leaves, a single Taproot output can include both standard Script/Miniscript leaves and a Simplicity leaf. This allows mixing policies: simple paths can remain in Script while advanced paths use Simplicity, preserving flexibility and privacy under one Taptree.
 
