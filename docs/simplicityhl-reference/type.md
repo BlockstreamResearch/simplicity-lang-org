@@ -3,6 +3,8 @@
 SimplicityHL mostly uses a subset of Rust's types.
 It extends Rust in some ways to make it work better with Simplicity and with the blockchain.
 
+The example values on this page number their elements from 1 (`a1`, …, `aN`) for notational convenience; SimplicityHL itself doesn't have any syntax for accessing an element by its index, so programs get at elements by [destructuring](let_statement.md) instead.
+
 ## Boolean Type
 
 | Type   | Description     | Values          |
@@ -38,10 +40,10 @@ The maximal `u256` value is `115792089237316195423570985008687907853269984665640
 | Type         | Description | Values                                            |
 |--------------|-------------|---------------------------------------------------|
 | `()`         | 0-tuple     | `()`                                              |
-| `(A)`        | 1-tuple     | `(a0,)`, `(a1,)`, …                               |
-| `(A, B)`     | 2-tuple     | `(a0, b0)`, `(a1, b1)`, `(a2, b2)`, `(a3, b3)`, … |
+| `(A)`        | 1-tuple     | `(a1,)`, `(a2,)`, …                               |
+| `(A, B)`     | 2-tuple     | `(a1, b1)`, `(a2, b2)`, `(a3, b3)`, `(a4, b4)`, … |
 | …            | …           | …                                                 |
-| `(A, B, …)`  | n-tuple     | `(a0, b0, …)`, …                                  |
+| `(A, B, …)`  | n-tuple     | `(a1, b1, …)`, …                                  |
 
 [Tuples work just like in Rust](https://doc.rust-lang.org/std/primitive.tuple.html).
 
@@ -49,9 +51,9 @@ The empty tuple `()` contains no information.
 It is also called the "unit".
 It is mostly used as the return type of functions that don't return anything.
 
-Singletons `(a0,)` must be written with an extra comma `,` to differentiate them from function calls.
+Singletons `(a1,)` must be written with an extra comma `,` to differentiate them from function calls.
 
-Bigger tuples `(a0, b0, …)` work like in most other programming languages.
+Bigger tuples `(a1, b1, …)` work like in most other programming languages.
 Each tuple type `(A1, A2, …, AN)` defines a sequence `A1`, `A2`, …, `AN` of types.
 Values of that type must mirror the sequence of types:
 A tuple value `(a1, a2, …, aN)` consists of a sequence `a1`, `a2`, …, `aN` of values, where `a1` is of type `A1`, `a2` is of type `A2`, and so on.
@@ -66,8 +68,8 @@ Tuples are always finite in length.
 | Type     | Description | Values                                            |
 |----------|-------------|---------------------------------------------------|
 | `[A; 0]` | 0-array     | `[]`                                              |
-| `[A; 1]` | 1-array     | `[a0]`, `[a1]`, …                                 |
-| `[A; 2]` | 2-array     | `[a0, a1]`, `[a2, a3]`, `[a4, a5]`, `[a6, a7]`, … |
+| `[A; 1]` | 1-array     | `[a1]`, `[a2]`, …                                 |
+| `[A; 2]` | 2-array     | `[a1, a2]`, `[a3, a4]`, `[a5, a6]`, `[a7, a8]`, … |
 | …        | …           | …                                                 |
 | `[A; N]` | n-array     | `[a1, …, aN]`, …                                  |
 
@@ -129,7 +131,7 @@ You **don't** pay for the remaining 508 unused elements.
 
 | Type        | Values                            |
 |-------------|-----------------------------------|
-| `Option<A>` | `None`, `Some(a0)`, `Some(a1)`, … |
+| `Option<A>` | `None`, `Some(a1)`, `Some(a2)`, … |
 
 Options represent values that might not be present. [They work just like in Rust](https://doc.rust-lang.org/std/option/index.html).
 
@@ -150,7 +152,7 @@ enum Option<A> {
 
 | Type           | Values                                                 |
 |----------------|--------------------------------------------------------|
-| `Either<A, B>` | `Left(a0)`, `Left(a1)`, …, `Right(b0)`, `Right(b1)`, … |
+| `Either<A, B>` | `Left(a1)`, `Left(a2)`, …, `Right(b1)`, `Right(b2)`, … |
 
 Sum types represent values that are of some "left" type in some cases and that are of another "right" type in other cases.
 [They work just like in the either crate](https://docs.rs/either/latest/either/enum.Either.html).
