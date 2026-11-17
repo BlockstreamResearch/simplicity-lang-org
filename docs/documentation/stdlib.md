@@ -1,7 +1,7 @@
 # SimplicityHL standard library reference
-<!-- Generated from /home/schoen/src/simplicityhl-std/docs/stdlib.json by stdlib.md.py on 2026-10-04 -->
+<!-- Generated from BlockstreamResearch/simplicityhl-std v0.2.0 docs/stdlib.json by stdlib.md.py on 2026-11-16 -->
 
-The SimplicityHL standard library provides various functions useful in developing smart contracts.
+The SimplicityHL standard library provides various functions useful in developing smart contracts. This reference describes `simplicityhl-std` 0.2.0.
 
 Here is a complete list of the available library functions, their [type signatures](../simplicityhl-reference/type.md), and a description of what they do.
 
@@ -20,7 +20,7 @@ simplex install std
 This adds an entry to the project's `Simplex.toml` with a standard library dependency. The functions listed below are then available under the alias `std`, for example:
 
 ```simplicityhl
-use std::lib::u32::math::safe_add_32;
+use std::lib::u32::math::add_32;
 ```
 
 See [Modules](modules.md#using-the-standard-library-with-simplex) for more on the module and import system used here.
@@ -48,6 +48,113 @@ See [Modules](modules.md#using-the-standard-library-with-simplex) for more on th
     | `assert_none_128(Option<u128>) -> ()` | Assert that the given `Option<u128>` is `None`.<br><br><span class="panics">Panics</span><br>The assertion fails. |
     | `assert_none_256(Option<u256>) -> ()` | Assert that the given `Option<u256>` is `None`.<br><br><span class="panics">Panics</span><br>The assertion fails. |
     | `assert_eq_bool(bool, bool) -> ()` | Assert that two `bool` values are equal.<br><br><span class="panics">Panics</span><br>The assertion fails. |
+
+## Amount asserts
+
+
+
+???+ "Click to hide"
+    | <div style="width:22em">Standard library function</div> | Description |
+    | ----------------------------------- | ----------- |
+    | `assert_explicit_amount(u32, bool, u64) -> ()` | Asserts that the explicit amount at the specified input or output index equals the expected `u64` value.<br><br><span class="panics">Panics</span><br>The assertion fails. |
+    | `assert_confidential_amount(u32, bool, Confidential1) -> ()` | Asserts that the confidential amount at the specified input or output index equals the expected `Confidential1` value.<br><br><span class="panics">Panics</span><br>The assertion fails. |
+    | `assert_explicit_input_amount(u32, u64) -> ()` | Asserts that the explicit amount at the specified input index equals the expected `u64` value.<br><br><span class="panics">Panics</span><br>The assertion fails. |
+    | `assert_confidential_input_amount(u32, Confidential1) -> ()` | Asserts that the confidential amount at the specified input index equals the expected `Confidential1` value.<br><br><span class="panics">Panics</span><br>The assertion fails. |
+    | `assert_explicit_output_amount(u32, u64) -> ()` | Asserts that the explicit amount at the specified output index equals the expected `u64` value.<br><br><span class="panics">Panics</span><br>The assertion fails. |
+    | `assert_confidential_output_amount(u32, Confidential1) -> ()` | Asserts that the confidential amount at the specified output index equals the expected `Confidential1` value.<br><br><span class="panics">Panics</span><br>The assertion fails. |
+    | `assert_explicit_current_amount(u64) -> ()` | Asserts that the explicit input amount at the current_index equals the expected `u64` value.<br><br><span class="panics">Panics</span><br>The assertion fails. |
+    | `assert_confidential_current_amount(Confidential1) -> ()` | Asserts that the confidential input amount at the current_index equals the expected `Confidential1` value.<br><br><span class="panics">Panics</span><br>The assertion fails. |
+
+## AssetId and Amount asserts
+
+
+
+???+ "Click to hide"
+    | <div style="width:22em">Standard library function</div> | Description |
+    | ----------------------------------- | ----------- |
+    | `assert_explicit_asset_id_with_amount(u32, bool, u256, u64) -> ()` | Asserts that explicit asset_id and amount at the specified input or output index equal the expected `u256` and `u64` values.<br><br><span class="panics">Panics</span><br>The assertion fails. |
+    | `assert_confidential_asset_id_with_amount(u32, bool, Confidential1, Confidential1) -> ()` | Asserts that confidential asset_id and amount at the specified input or output index equal the expected `Confidential1` values.<br><br><span class="panics">Panics</span><br>The assertion fails. |
+    | `assert_explicit_input_asset_id_with_amount(u32, u256, u64) -> ()` | Asserts that explicit asset_id and amount at the specified input index equal the expected `u256` and `u64` values.<br><br><span class="panics">Panics</span><br>The assertion fails. |
+    | `assert_confidential_input_asset_id_with_amount(u32, Confidential1, Confidential1) -> ()` | Asserts that confidential asset_id and amount at the specified input index equal the expected `Confidential1` values.<br><br><span class="panics">Panics</span><br>The assertion fails. |
+    | `assert_explicit_output_asset_id_with_amount(u32, u256, u64) -> ()` | Asserts that explicit asset_id and amount at the specified output index equal the expected `u256` and `u64` values.<br><br><span class="panics">Panics</span><br>The assertion fails. |
+    | `assert_confidential_output_asset_id_with_amount(u32, Confidential1, Confidential1) -> ()` | Asserts that confidential asset_id and amount at the specified output index equal the expected `Confidential1` values.<br><br><span class="panics">Panics</span><br>The assertion fails. |
+    | `assert_explicit_current_asset_id_with_amount(u256, u64) -> ()` | Asserts that explicit input asset_id and amount at the current_index equal the expected `u256` and `u64` values.<br><br><span class="panics">Panics</span><br>The assertion fails. |
+    | `assert_confidential_current_asset_id_with_amount(Confidential1, Confidential1) -> ()` | Asserts that confidential input asset_id and amount at the current_index equal the expected `Confidential1` values.<br><br><span class="panics">Panics</span><br>The assertion fails. |
+
+## AssetId asserts
+
+
+
+???+ "Click to hide"
+    | <div style="width:22em">Standard library function</div> | Description |
+    | ----------------------------------- | ----------- |
+    | `assert_explicit_asset_id(u32, bool, u256) -> ()` | Asserts that the explicit asset_id at the specified input or output index equals the expected `u256` value.<br><br><span class="panics">Panics</span><br>The assertion fails. |
+    | `assert_confidential_asset_id(u32, bool, Confidential1) -> ()` | Asserts that the confidential asset_id at the specified input or output index equals the expected `Confidential1` value.<br><br><span class="panics">Panics</span><br>The assertion fails. |
+    | `assert_explicit_input_asset_id(u32, u256) -> ()` | Asserts that the explicit asset_id at the specified input index equals the expected `u256` value.<br><br><span class="panics">Panics</span><br>The assertion fails. |
+    | `assert_confidential_input_asset_id(u32, Confidential1) -> ()` | Asserts that the confidential asset_id at the specified input index equals the expected `Confidential1` value.<br><br><span class="panics">Panics</span><br>The assertion fails. |
+    | `assert_explicit_output_asset_id(u32, u256) -> ()` | Asserts that the explicit asset_id at the specified output index equals the expected `u256` value.<br><br><span class="panics">Panics</span><br>The assertion fails. |
+    | `assert_confidential_output_asset_id(u32, Confidential1) -> ()` | Asserts that the confidential asset_id at the specified output index equals the expected `Confidential1` value.<br><br><span class="panics">Panics</span><br>The assertion fails. |
+    | `assert_explicit_current_asset_id(u256) -> ()` | Asserts that the explicit input asset_id at the current_index equals the expected `u256` value.<br><br><span class="panics">Panics</span><br>The assertion fails. |
+    | `assert_confidential_current_asset_id(Confidential1) -> ()` | Asserts that the confidential input asset_id at the current_index equals the expected `Confidential1` value.<br><br><span class="panics">Panics</span><br>The assertion fails. |
+
+## Amount getters
+
+
+
+???+ "Click to hide"
+    | <div style="width:22em">Standard library function</div> | Description |
+    | ----------------------------------- | ----------- |
+    | `get_explicit_amount(u32, bool) -> u64` | Returns the explicit amount at the specified input or output index.<br><br><span class="panics">Panics</span><br>Panics if the specified input or output does not exist or if its amount is confidential. |
+    | `get_confidential_amount(u32, bool) -> Confidential1` | Returns the confidential amount at the specified input or output index.<br><br><span class="panics">Panics</span><br>Panics if the specified input or output does not exist or if its amount is explicit. |
+    | `get_explicit_input_amount(u32) -> u64` | Returns the explicit amount at the specified input index.<br><br><span class="panics">Panics</span><br>Panics if the specified input does not exist or if its amount is confidential. |
+    | `get_confidential_input_amount(u32) -> Confidential1` | Returns the confidential amount at the specified input index.<br><br><span class="panics">Panics</span><br>Panics if the specified input does not exist or if its amount is explicit. |
+    | `get_explicit_output_amount(u32) -> u64` | Returns the explicit amount at the specified output index.<br><br><span class="panics">Panics</span><br>Panics if the specified output does not exist or if its amount is confidential. |
+    | `get_confidential_output_amount(u32) -> Confidential1` | Returns the confidential amount at the specified output index.<br><br><span class="panics">Panics</span><br>Panics if the specified output does not exist or if its amount is explicit. |
+    | `get_explicit_current_amount(()) -> u64` | Returns the explicit input amount at the current_index.<br><br><span class="panics">Panics</span><br>Panics if amount is confidential. |
+    | `get_confidential_current_amount(()) -> Confidential1` | Returns the confidential input amount at the current_index.<br><br><span class="panics">Panics</span><br>Panics if amount is explicit. |
+
+## AssetId and Amount getters
+
+
+
+???+ "Click to hide"
+    | <div style="width:22em">Standard library function</div> | Description |
+    | ----------------------------------- | ----------- |
+    | `get_explicit_asset_id_with_amount(u32, bool) -> (u256, u64)` | Returns explicit asset_id and amount at the specified input or output index.<br><br><span class="panics">Panics</span><br>Panics if the specified input or output does not exist or if its asset_id or amount is confidential. |
+    | `get_confidential_asset_id_with_amount(u32, bool) -> (Confidential1, Confidential1)` | Returns confidential asset_id and amount at the specified input or output index.<br><br><span class="panics">Panics</span><br>Panics if the specified input or output does not exist or if its asset_id or amount is explicit. |
+    | `get_explicit_input_asset_id_with_amount(u32) -> (u256, u64)` | Returns explicit asset_id and amount at the specified input index.<br><br><span class="panics">Panics</span><br>Panics if the specified input does not exist or if its asset_id or amount is confidential. |
+    | `get_confidential_input_asset_id_with_amount(u32) -> (Confidential1, Confidential1)` | Returns confidential asset_id and amount at the specified input index.<br><br><span class="panics">Panics</span><br>Panics if the specified input does not exist or if its asset_id or amount is explicit. |
+    | `get_explicit_output_asset_id_with_amount(u32) -> (u256, u64)` | Returns explicit asset_id and amount at the specified output index.<br><br><span class="panics">Panics</span><br>Panics if the specified output does not exist or if its asset_id or amount is confidential. |
+    | `get_confidential_output_asset_id_with_amount(u32) -> (Confidential1, Confidential1)` | Returns confidential asset_id and amount at the specified output index.<br><br><span class="panics">Panics</span><br>Panics if the specified output does not exist or if its asset_id or amount is explicit. |
+    | `get_explicit_current_asset_id_with_amount(()) -> (u256, u64)` | Returns explicit input asset_id and amount at the current_index.<br><br><span class="panics">Panics</span><br>Panics if asset_id or amount is confidential. |
+    | `get_confidential_current_asset_id_with_amount(()) -> (Confidential1, Confidential1)` | Returns confidential input asset_id and amount at the current_index.<br><br><span class="panics">Panics</span><br>Panics if asset_id or amount is explicit. |
+
+## AssetId getters
+
+
+
+???+ "Click to hide"
+    | <div style="width:22em">Standard library function</div> | Description |
+    | ----------------------------------- | ----------- |
+    | `get_explicit_asset_id(u32, bool) -> u256` | Returns the explicit asset_id at the specified input or output index.<br><br><span class="panics">Panics</span><br>Panics if the specified input or output does not exist or if its asset_id is confidential. |
+    | `get_confidential_asset_id(u32, bool) -> Confidential1` | Returns the confidential asset_id at the specified input or output index.<br><br><span class="panics">Panics</span><br>Panics if the specified input or output does not exist or if its asset_id is explicit. |
+    | `get_explicit_input_asset_id(u32) -> u256` | Returns the explicit asset_id at the specified input index.<br><br><span class="panics">Panics</span><br>Panics if the specified input does not exist or if its asset_id is confidential. |
+    | `get_confidential_input_asset_id(u32) -> Confidential1` | Returns the confidential asset_id at the specified input index.<br><br><span class="panics">Panics</span><br>Panics if the specified input does not exist or if its asset_id is explicit. |
+    | `get_explicit_output_asset_id(u32) -> u256` | Returns the explicit asset_id at the specified output index.<br><br><span class="panics">Panics</span><br>Panics if the specified output does not exist or if its asset_id is confidential. |
+    | `get_confidential_output_asset_id(u32) -> Confidential1` | Returns the confidential asset_id at the specified output index.<br><br><span class="panics">Panics</span><br>Panics if the specified output does not exist or if its asset_id is explicit. |
+    | `get_explicit_current_asset_id(()) -> u256` | Returns the explicit input asset_id at the current_index.<br><br><span class="panics">Panics</span><br>Panics if asset_id is confidential. |
+    | `get_confidential_current_asset_id(()) -> Confidential1` | Returns the confidential input asset_id at the current_index.<br><br><span class="panics">Panics</span><br>Panics if asset_id is explicit. |
+
+## Script hash getters
+
+
+
+???+ "Click to hide"
+    | <div style="width:22em">Standard library function</div> | Description |
+    | ----------------------------------- | ----------- |
+    | `get_script_hash(u32, bool) -> u256` | Returns the SHA256 hash of the scriptPubKey at the specified input or output.<br><br><span class="panics">Panics</span><br>Panics if the specified input or output does not exist. |
+    | `get_input_script_hash(u32) -> u256` | Returns the SHA256 hash of the scriptPubKey of the input at the given index.<br><br><span class="panics">Panics</span><br>Panics if the specified input does not exist. |
+    | `get_output_script_hash(u32) -> u256` | Returns the SHA256 hash of the scriptPubKey of the output at the given index.<br><br><span class="panics">Panics</span><br>Panics if the specified output does not exist. |
 
 ## Binary logic
 
@@ -88,14 +195,14 @@ See [Modules](modules.md#using-the-standard-library-with-simplex) for more on th
     | `scalar_eq(Scalar, Scalar) -> bool` | Check scalar equality modulo the curve order `n`. |
     | `ge_eq(Ge, Ge) -> bool` | Check whether two affine points are equal. |
     | `point_point_eq(Point, Point) -> bool` | Check whether two compressed `Point` values are equal (same parity and same x-coordinate). |
-    | `gej_point_eq(Gej, Point) -> bool` | Check whether a Jacobian point and a compressed `Point` represent the same curve point.<br><br><span class="panics">Panics</span><br>Panics if the compressed point does not decode to a valid curve point. |
+    | `gej_point_eq(Gej, Point) -> bool` | Check whether a Jacobian point and a compressed `Point` represent the same curve point. Returns `false` if the Jacobian point is off-curve or the compressed point does not decode to a valid curve point. |
     | `assert_fe_eq(Fe, Fe) -> ()` | Assert field-element equality modulo `p`.<br><br><span class="panics">Panics</span><br>The assertion fails. |
     | `assert_scalar_eq(Scalar, Scalar) -> ()` | Assert scalar equality modulo the curve order `n`.<br><br><span class="panics">Panics</span><br>The assertion fails. |
     | `assert_ge_eq(Ge, Ge) -> ()` | Assert that two affine points are equal.<br><br><span class="panics">Panics</span><br>The assertion fails. |
     | `assert_point_eq(Point, Point) -> ()` | Assert that two compressed `Point` values are equal (same parity and same x-coordinate).<br><br><span class="panics">Panics</span><br>The assertion fails. |
-    | `assert_gej_point_eq(Gej, Point) -> ()` | Assert that a Jacobian point equals the point encoded by a compressed `Point`.<br><br><span class="panics">Panics</span><br>The assertion fails, or the compressed point does not decode to a valid curve point. |
-    | `assert_gej_eq(Gej, Gej) -> ()` | Assert that two Jacobian points represent the same curve point, without normalizing either one first.<br><br><span class="panics">Panics</span><br>The assertion fails. |
-    | `assert_gej_ge_eq(Gej, Ge) -> ()` | Assert that a Jacobian point equals an affine point, without normalizing the Jacobian point first.<br><br><span class="panics">Panics</span><br>The assertion fails. |
+    | `assert_gej_point_eq(Gej, Point) -> ()` | Assert that a Jacobian point equals the point encoded by a compressed `Point`.<br><br><span class="panics">Panics</span><br>The assertion fails, including when the Jacobian point is off-curve or the compressed point does not decode to a valid curve point. |
+    | `assert_gej_eq(Gej, Gej) -> ()` | Assert that two Jacobian points represent the same curve point, without normalizing either one first.<br><br><span class="panics">Panics</span><br>The assertion fails, including when either point is off-curve. |
+    | `assert_gej_ge_eq(Gej, Ge) -> ()` | Assert that a Jacobian point equals an affine point, without normalizing the Jacobian point first.<br><br><span class="panics">Panics</span><br>The assertion fails, including when either point is off-curve. |
 
 ## `u1` conversions
 
@@ -129,7 +236,7 @@ See [Modules](modules.md#using-the-standard-library-with-simplex) for more on th
     | `div_8(u8, u8) -> u8` | Divide the first `u8` value by the second.<br><br><span class="panics">Panics</span><br>Panics if the divisor is zero. |
     | `gt_8(u8, u8) -> bool` | Check if the first `u8` value is greater than the second. |
     | `ge_8(u8, u8) -> bool` | Check if the first `u8` value is greater than or equal to the second. |
-    | `mul_div_8(u8, u8, u8) -> u8` | Calculate `floor(a * b / denominator)` with full precision.<br><br><span class="panics">Panics</span><br>Panics if the result overflows a u8 or if the denominator is zero. |
+    | `mul_div_8(u8, u8, u8) -> u8` | Calculate `floor(a * b / denominator)` with full precision.<br><br><span class="panics">Panics</span><br>Panics if the result overflows a `u8` or if the denominator is zero. |
 
 ## `u8` conversions
 
@@ -163,7 +270,7 @@ See [Modules](modules.md#using-the-standard-library-with-simplex) for more on th
     | `div_16(u16, u16) -> u16` | Divide the first `u16` value by the second.<br><br><span class="panics">Panics</span><br>Panics if the divisor is zero. |
     | `gt_16(u16, u16) -> bool` | Check if the first `u16` value is greater than the second. |
     | `ge_16(u16, u16) -> bool` | Check if the first `u16` value is greater than or equal to the second. |
-    | `mul_div_16(u16, u16, u16) -> u16` | Calculate `floor(a * b / denominator)` with full precision.<br><br><span class="panics">Panics</span><br>Panics if the result overflows a u16 or if the denominator is zero. |
+    | `mul_div_16(u16, u16, u16) -> u16` | Calculate `floor(a * b / denominator)` with full precision.<br><br><span class="panics">Panics</span><br>Panics if the result overflows a `u16` or if the denominator is zero. |
 
 ## `u16` conversions
 
@@ -197,7 +304,7 @@ See [Modules](modules.md#using-the-standard-library-with-simplex) for more on th
     | `div_32(u32, u32) -> u32` | Divide the first `u32` value by the second.<br><br><span class="panics">Panics</span><br>Panics if the divisor is zero. |
     | `gt_32(u32, u32) -> bool` | Check if the first `u32` value is greater than the second. |
     | `ge_32(u32, u32) -> bool` | Check if the first `u32` value is greater than or equal to the second. |
-    | `mul_div_32(u32, u32, u32) -> u32` | Calculate `floor(a * b / denominator)` with full precision.<br><br><span class="panics">Panics</span><br>Panics if the result overflows a u32 or if the denominator is zero. |
+    | `mul_div_32(u32, u32, u32) -> u32` | Calculate `floor(a * b / denominator)` with full precision.<br><br><span class="panics">Panics</span><br>Panics if the result overflows a `u32` or if the denominator is zero. |
 
 ## `u32` conversions
 
@@ -232,7 +339,7 @@ See [Modules](modules.md#using-the-standard-library-with-simplex) for more on th
     | `div_64(u64, u64) -> u64` | Divide the first `u64` value by the second.<br><br><span class="panics">Panics</span><br>Panics if the divisor is zero. |
     | `gt_64(u64, u64) -> bool` | Check if the first `u64` value is greater than the second. |
     | `ge_64(u64, u64) -> bool` | Check if the first `u64` value is greater than or equal to the second. |
-    | `mul_div_64(u64, u64, u64) -> u64` | Calculate `floor(a * b / denominator)` with full precision.<br><br><span class="panics">Panics</span><br>Panics if the result overflows a u64 or if the denominator is zero. |
+    | `mul_div_64(u64, u64, u64) -> u64` | Calculate `floor(a * b / denominator)` with full precision.<br><br><span class="panics">Panics</span><br>Panics if the result overflows a `u64` or if the denominator is zero. |
 
 ## `u64` conversions
 
@@ -277,7 +384,7 @@ See [Modules](modules.md#using-the-standard-library-with-simplex) for more on th
     | `mul_128_64_wide(u128, u64) -> u256` | Multiply a `u128` value by a `u64` value. The full, non-truncated product is returned as a `u256`, so this operation can never overflow. |
     | `calculate_normalizer_base_64(u128, bool) -> u64` | Helper for `jet::div_mod_128_64`-based division algorithms. Returns the factor by which `b` should be multiplied so that its most-significant non-zero word is at least `2^63`, as required by those algorithms (which operate in base `2^64`). Set `is_b_u128` to `true` if `b`'s upper 64 bits may be non-zero, or `false` if `b` is known to fit in `u64` (in which case its upper 64 bits must already be zero).<br><br><span class="panics">Panics</span><br>The assertion fails if `is_b_u128` is `false` but `b`'s upper 64 bits are non-zero, or if `b` is zero. |
     | `estimate_quotient_digit_base_64(u64, u64, u64, u64, u64) -> u64` | Helper for Algorithm D division. Estimates and corrects the next base-`2^64` quotient digit from the three most-significant dividend words (`u2`, `u1`, `u0`) and the two most-significant divisor words (`v1`, `v0`). |
-    | `mul_div_128(u128, u128, u128) -> u128` | Calculate `floor(a * b / denominator)` with full precision.<br><br><span class="panics">Panics</span><br>Panics if the result overflows a u128 or if the denominator is zero. |
+    | `mul_div_128(u128, u128, u128) -> u128` | Calculate `floor(a * b / denominator)` with full precision.<br><br><span class="panics">Panics</span><br>Panics if the result overflows a `u128` or if the denominator is zero. |
 
 ## `u128` bit logic
 
@@ -332,7 +439,7 @@ See [Modules](modules.md#using-the-standard-library-with-simplex) for more on th
     | ----------------------------------- | ----------- |
     | `add_256_carry(u256, u256) -> (bool, u256)` | Add two `u256` values. Return the carry bit and the sum. |
     | `add_256_128_carry(u256, u128) -> (bool, u256)` | Add a `u128` value to a `u256` value. Return the carry bit and the sum. |
-    | `full_add_256(bool, u256, u256) -> (bool, u256)` | Add two u256 values, taking an incoming carry bit. Return the outgoing carry bit and the sum. |
+    | `full_add_256(bool, u256, u256) -> (bool, u256)` | Add two `u256` values, taking an incoming carry bit. Return the outgoing carry bit and the sum. |
     | `checked_add_256(u256, u256) -> Option<u256>` | Add two `u256` values. Return `Some` of the sum, or `None` if the result overflows `u256`. |
     | `add_256(u256, u256) -> u256` | Add two `u256` values.<br><br><span class="panics">Panics</span><br>Panics if the result overflows `u256`. |
     | `sub_256_borrow(u256, u256) -> (bool, u256)` | Subtract the second `u256` value from the first. Return the borrow bit and the difference. |
@@ -340,19 +447,20 @@ See [Modules](modules.md#using-the-standard-library-with-simplex) for more on th
     | `sub_256(u256, u256) -> u256` | Subtract the second `u256` value from the first.<br><br><span class="panics">Panics</span><br>Panics if the result would overflow `u256`. |
     | `mul_256_wide(u256, u256) -> (u256, u256)` | Multiply two `u256` values. The full, non-truncated product is returned as a pair of `u256` values, most-significant first, so this operation can never overflow. |
     | `mul_256_64_wide(u256, u64) -> (u64, u256)` | Multiply a `u256` value by a `u64` value. The full, non-truncated product is returned as a `u64`/`u256` pair, most-significant first, so this operation can never overflow. |
+    | `full_mul_256_64(u64, u256, u64) -> (u64, u256)` | Multiply a `u256` value by a `u64` value, taking an incoming carry word that is added to the product. Return the outgoing carry word and the low 256 bits of the result, so this operation can never overflow. |
     | `mul_256_128_wide(u256, u128) -> (u128, u256)` | Multiply a `u256` value by a `u128` value. The full, non-truncated product is returned as a `u128`/`u256` pair, most-significant first, so this operation can never overflow. |
-    | `mul_512_128_wide(u256, u256, u128) -> (u128, u256, u256)` | Multiply a `u512` value by a `u128` value. The full, non-truncated product is returned as a (`u128`, `u256`, `u256`) tuple, most-significant first, so this operation can never overflow. |
+    | `mul_512_128_wide(u256, u256, u128) -> (u128, u256, u256)` | Multiply a 512-bit value, given as a pair of `u256` values (most-significant first), by a `u128` value. The full, non-truncated product is returned as a (`u128`, `u256`, `u256`) tuple, most-significant first, so this operation can never overflow. |
     | `checked_mul_256(u256, u256) -> Option<u256>` | Multiply two `u256` values. Return `Some` of the product, or `None` if the result overflows `u256`. |
     | `mul_256(u256, u256) -> u256` | Multiply two `u256` values.<br><br><span class="panics">Panics</span><br>Panics if the result overflows `u256`. |
     | `mul_256_128(u256, u128) -> u256` | Multiply a `u256` value by a `u128` value.<br><br><span class="panics">Panics</span><br>Panics if the result overflows `u256`. |
-    | `calculate_normalizer_base_128(u256) -> u128` | Helper for algorithm D division algorithms. Returns the factor by which `b` should be multiplied so that its upper 128 bits are at least `2^127`, as required by those algorithms (which operate in base `2^128`).<br><br><span class="panics">Panics</span><br>The assertion fails if `b`'s upper 128 bits are zero |
+    | `calculate_normalizer_base_128(u256) -> u128` | Helper for Algorithm D division. Returns the factor by which `b` should be multiplied so that its upper 128 bits are at least `2^127`, as required by those algorithms (which operate in base `2^128`).<br><br><span class="panics">Panics</span><br>The assertion fails if `b`'s upper 128 bits are zero. |
     | `div_mod_256_64(u256, u64) -> (u256, u64)` | Divide a `u256` value by a `u64` value, returning the `u256` quotient and the `u64` remainder.<br><br><span class="panics">Panics</span><br>Panics if the divisor is zero. |
     | `algorithm_d_256_128(u256, u128) -> (u256, u128)` | Divide a `u256` value by a `u128` value, returning the `u256` quotient and the `u128` remainder.<br><br><span class="panics">Panics</span><br>Panics if the divisor is zero or if divisor's upper 64 bits are zero. |
     | `div_mod_256_128(u256, u128) -> (u256, u128)` | Divide a `u256` value by a `u128` value, returning the `u256` quotient and the `u128` remainder.<br><br><span class="panics">Panics</span><br>Panics if the divisor is zero. |
     | `div_mod_256(u256, u256) -> (u256, u256)` | Divide the first `u256` value by the second, returning the quotient and the remainder.<br><br><span class="panics">Panics</span><br>Panics if the divisor is zero. |
     | `div_256(u256, u256) -> u256` | Divide the first `u256` value by the second, returning the quotient.<br><br><span class="panics">Panics</span><br>Panics if the divisor is zero. |
     | `checked_div_256(u256, u256) -> Option<u256>` | Divide the first `u256` value by the second. Return `Some` of the quotient, or `None` if the divisor is zero. |
-    | `mul_div_256(u256, u256, u256) -> u256` | Calculate `floor(a * b / denominator)` with full precision.<br><br><span class="panics">Panics</span><br>Panics if the result overflows a u256 or if the denominator is zero. |
+    | `mul_div_256(u256, u256, u256) -> u256` | Calculate `floor(a * b / denominator)` with full precision.<br><br><span class="panics">Panics</span><br>Panics if the result overflows a `u256` or if the denominator is zero. |
 
 ## `u256` bit logic
 
