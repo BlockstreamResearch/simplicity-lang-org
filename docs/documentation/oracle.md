@@ -77,8 +77,8 @@ assert!(jet::lt_32(3790000, witness::oracle_height));
 let oracle_pubkey: Pubkey = 0x292cbaf344fc104ff2307cce72e84f13dbfeb6f603fe94938208c6150733b910;
 
 let ctx: Ctx8 = jet::sha_256_ctx_8_init();
-let ctx1: Ctx8 = jet::sha_256_ctx_8_add_32(ctx, witness::oracle_height);
-let ctx2: Ctx8 = jet::sha_256_ctx_8_add_32(ctx1, witness::oracle_price);
+let ctx1: Ctx8 = jet::sha_256_ctx_8_add_4(ctx, witness::oracle_height);
+let ctx2: Ctx8 = jet::sha_256_ctx_8_add_4(ctx1, witness::oracle_price);
 let overall_hash: u256 = jet::sha_256_ctx_8_finalize(ctx2);
 jet::bip_0340_verify((oracle_pubkey, overall_hash), witness::oracle_signature);
 ```
@@ -99,7 +99,8 @@ In addition to financial applications like prediction markets and options contra
 
 When a contract needs access to information kept in a database in order to make a decision, oracle mechanisms help work around [the fact that Simplicity contracts can't directly access off-chain data](execution-model.md).
 
-For example, suppose you're creating an application which is only allowed to send withdrawals to explicitly pre-approved addresses. But the list of such addresses may live in a database, not on the blockchain. An internal oracle can help by 
+For example, suppose you're creating an application which is only allowed to send withdrawals to explicitly pre-approved addresses. But the list of such addresses may live in a database, not on the blockchain. An internal oracle can help by
+
 1.  performing a database lookup,
 2.  combining the results with a current timestamp and,
 3.  digitally signing the results.

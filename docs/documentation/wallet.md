@@ -48,7 +48,7 @@ Claiming an asset from a UTXO controlled by a Simplicity contract is called a *r
 
 A [covenant](../glossary.md#covenant) transaction, in which assets controlled by a contract are sent back to a version of that same contract, generally includes *both* redeem and commit halves in the same transaction.
 
-If an application needs signatures from an existing wallet, a [PSET](../glossary.md#pset) representing a redeem transaction can be built by Simplicity-aware software, and external software can produce an appropriate signature over the proposed PSET transaction. These signatures can be inserted into the [witness](../glossary.md#witness) witness data.
+If an application needs signatures from an existing wallet, a [PSET](../glossary.md#pset) representing a redeem transaction can be built by Simplicity-aware software, and external software can produce an appropriate signature over the proposed PSET transaction. These signatures can be inserted into the [witness](../glossary.md#witness) data.
 
 ## Wallet connection mechanisms
 
@@ -56,7 +56,7 @@ An official wallet connection recommendation is currently in development to conn
 
 Work on this mechanism is built on top of the Bitcoin ecosystem's existing [WalletConnect protocol](https://walletconnect.com/), including a facility for pairing an external wallet with a web application via WebSockets. This permits an existing wallet, with minimal changes, to provide signatures for transactions with Simplicity smart contracts.
 
-In this model, the web application (which is developed with LWK targeting WASM) provides the main user interface for a given smart contract, including visualizing contract state and initiating actions with the contract, but users' digital assets can be held in an existent external application or device.
+In this model, the web application (which is developed with LWK targeting WASM) provides the main user interface for a given smart contract, including visualizing contract state and initiating actions with the contract, but users' digital assets can be held in an existing external application or device.
 
 The interface is general in order to enable interoperability with any third-party wallet that supports the appropriate wallet connect extensions. However, if the wallet doesn't provide UI support for a specific contract, the web application must be trusted to accurately represent the meaning and effects of the contract state and requested signatures.
 
