@@ -27,9 +27,19 @@ The `simplex` command-line tool creates projects, builds contracts, and runs tes
 
 ### Creating a project
 
-Run `simplex init` at the top-level directory of the project. This is ordinarily the same as the top-level directory of the associated Rust project (where the `Cargo.toml` file is found).
+Create a project in a new directory, then enter it:
 
-This step will add a complete starter project in place: `Cargo.toml` (already depending on `smplx-std`), `Simplex.toml`, `src/lib.rs` to let Rust code reference generated [artifacts](../glossary.md#artifacts), and starter contracts and tests.
+```bash
+simplex init my_contract
+cd my_contract
+```
+
+Simplex prints `Config written to:` followed by the new `Simplex.toml` path. Choose a directory name that doesn't already exist. If `my_contract` already exists, `simplex init my_contract` reports `entity already exists`; choose another name.
+
+The new directory contains `Cargo.toml` (already depending on `smplx-std`), `Simplex.toml`, `src/lib.rs` to let Rust code reference generated [artifacts](../glossary.md#artifacts), `.gitignore`, a starter contract at `simf/p2pk.simf`, and a test template at `tests/p2pk_test.rs`.
+
+!!! warning "Initializing in place overwrites starter files"
+    Running `simplex init` without a name writes these files into the current directory and overwrites existing files at those paths. Use it only in an empty directory. To add Simplex to an existing Rust project, create the starter project separately and merge the required files and dependency into your project.
 
 Add or replace SimplicityHL source files in `simf/` as you go so Simplex can find them.
 
