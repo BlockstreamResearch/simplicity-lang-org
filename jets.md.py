@@ -32,7 +32,7 @@ Jets also provide [introspection](../glossary.md#introspection) of the currently
 
 ## Jet list
 
-Here is a complete list of the available jets in the Elements Simplicity integration on Liquid Network, their [type signatures](../../simplicityhl-reference/type/), and a description of what they do.
+Here is a complete list of the available jets in the Elements Simplicity integration on Liquid Network, their [type signatures](../simplicityhl-reference/type.md), and a description of what they do.
 """.format(sys.argv[1], datetime.datetime.now().date().isoformat())
 
 print(preamble)
