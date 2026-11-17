@@ -7,7 +7,7 @@ Use this call to
 * ask all of your questions at any technical level
 * pass along feature requests and feedback
 
-This call will be held on Tuesdays at 8:00 [PDT (UTC-7)](https://www.timeanddate.com/time/zone/usa/san-francisco) and will typically last one hour. It is occasionally cancelled due to U.S. holidays or other events. These Office Hours calls are routinely recorded and published (see below).
+This call will be held on Tuesdays at 8:00 [PST (UTC-8)](https://www.timeanddate.com/time/zone/usa/san-francisco) and will typically last one hour. It is occasionally cancelled due to U.S. holidays or other events. These Office Hours calls are routinely recorded and published (see below).
 
 **Join the Office Hours using Google Meet: [https://meet.google.com/mhx-danz-bwp](https://meet.google.com/mhx-danz-bwp) (or use the link in the calendar below).**
 
