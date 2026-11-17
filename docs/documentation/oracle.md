@@ -35,13 +35,13 @@ In this case the oracle could issue the signature `56c9b207945aca49302e26e0f68c7
 
 Or a price oracle might say 
 
-> We will construct an oracle statement by hashing a `Height` (representing a [Liquid Network](../glossary.md/#liquid) [block height](../glossary.md#height) followed by a `u32` (representing a number of U.S. dollars that were paid on an exchange for 1 BTC in the most recent exchange transaction) with SHA256. We will sign this statement with the BIP0340 key corresponding to `0x292cbaf344fc104ff2307cce72e84f13dbfeb6f603fe94938208c6150733b910`.
+> We will construct an oracle statement by hashing a `Height` (representing a [block height](../glossary.md#height)) followed by a `u32` (representing a number of U.S. dollars that were paid on an exchange for 1 BTC in the most recent exchange transaction) with SHA256. We will sign this statement with the BIP0340 key corresponding to `0x292cbaf344fc104ff2307cce72e84f13dbfeb6f603fe94938208c6150733b910`.
 
 The oracle may then publish the values `(height, price, signature)`, representing an instance of such an oracle statement. For example, it might publish
 
 > (`3793375, 70664, 0x63decfbfb76f4b549d840d9c1fc95bf2bbe4d82209cf03d27fd4aef7e92d8d20f6844076588058baf70f34ee7e7a7ac2b44d0db2e1be7a792a474cc1d0544a6f`)
 
-attesting to a price of $70664 observed at the time of Liquid block 3793375.
+attesting to a price of $70664 observed at the time of block 3793375.
 
 !!! Note
 
