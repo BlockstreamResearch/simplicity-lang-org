@@ -17,7 +17,7 @@ preamble = """# SimplicityHL standard library reference
 
 The SimplicityHL standard library provides various functions useful in developing smart contracts.
 
-Here is a complete list of the available library functions, their [type signatures](../../simplicityhl-reference/type/), and a description of what they do.
+Here is a complete list of the available library functions, their [type signatures](../simplicityhl-reference/type.md), and a description of what they do.
 
 Some library functions can fail or panic. This allows a Simplicity program to refuse a proposed transaction by performing a mandatory assertion; these functions' return type is `()` below. The failure or panic effect produced by these functions, or the corresponding behavior of jets, is ultimately the *only* way to decline a transaction.
 
@@ -34,7 +34,7 @@ simplex install std
 This adds an entry to the project's `Simplex.toml` with a standard library dependency. The functions listed below are then available under the alias `std`, for example:
 
 ```simplicityhl
-use std::lib::u32::math::safe_add_32;
+use std::lib::u32::math::add_32;
 ```
 
 See [Modules](modules.md#using-the-standard-library-with-simplex) for more on the module and import system used here.
