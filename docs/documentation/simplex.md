@@ -75,6 +75,47 @@ Pass one or more names to run only tests whose names match. Use `--target <name>
 
 `simplex test` normally spins up and tears down its own `elementsd`/Electrs pair for each test. Run `simplex regtest` in a separate terminal to instead start a standalone, long-lived node pair, then point `simplex test` at it via the `[test.rpc]`/`[test.esplora]` entries in `Simplex.toml`. This is useful when you want to inspect chain state between test runs instead of starting from scratch every time.
 
+By default, `simplex regtest` picks free ports and authenticates with the node's cookie, so the URLs and credentials change each time it starts. It prints the current values and then waits for Ctrl-C:
+
+```text
+======================================
+Waiting for Ctrl-C...
+
+RPC: http://127.0.0.1:<rpc port>
+Esplora: http://127.0.0.1:<esplora port>
+User: "<rpc user>", Password: "<rpc password>"
+
+Signer: <signer address>
+======================================
+```
+
+Copy the URLs, user, and password into `Simplex.toml`. The user and password are printed as quoted strings that you can paste as they are:
+
+```toml
+[test.esplora]
+url = "http://127.0.0.1:<esplora port>"
+network = "ElementsRegtest"
+
+[test.rpc]
+url = "http://127.0.0.1:<rpc port>"
+username = "<rpc user>"
+password = "<rpc password>"
+```
+
+When `[test.rpc]` is present, `network` must be `ElementsRegtest`. Any other value fails with ``Network name should be `ElementsRegtest` when RPC is specified, got: <network>``.
+
+To keep the same values across restarts, set them under `[regtest]` instead. `rpc_port` and `esplora_port` each fix one port, and `rpc_user` and `rpc_password` replace cookie authentication when you set both:
+
+```toml
+[regtest]
+rpc_port = 18443
+esplora_port = 3000
+rpc_user = "user"
+rpc_password = "password"
+```
+
+At startup, `simplex regtest` sends [regtest](../glossary.md#regtest) coins to the wallet derived from the `mnemonic` under `[regtest]`. The tests sign with the wallet derived from the `mnemonic` under `[test]`. Both settings default to the same phrase, so if you change one, change the other to match.
+
 ### Fuzz tests
 
 Simplex (0.1.0+) can also run *fuzz tests*, which check a contract's logic and invariants against many randomly generated inputs instead of one hand-built transaction. Fuzz tests run entirely locally and don't start or contact `elementsd`. Simplex itself runs the contract internally in a Simplicity bit machine environment.
