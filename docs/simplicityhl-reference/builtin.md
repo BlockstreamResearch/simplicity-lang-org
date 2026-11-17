@@ -12,7 +12,7 @@
 | `<T>::into()` | Perform native type conversions. See [type casting](type_casting.md) for more details. |
 | `is_none<T>()` | Check whether an `Option<T>` value is `None`, returning `true` or `false`. |
 | `panic!` | Immediately abort the current program, rejecting the currently proposed transaction. |
-| `raw_hash` | (Compile with `-Z raw_hash`.) Compute a SHA256 digest over a provided tuple of integer values of possibly differing widths. |
+| `raw_hash` | (0.9.0+, compile with `-Z raw_hash`.) Compute a SHA256 digest over a provided tuple of integer values of possibly differing widths. |
 | `unwrap` | Require that a value of type `Option<T>` is `Some`, extracting the underlying element of type `T`. Panics if the given value is `None` instead. |
 | `unwrap_left` | Require that a value of type `Either<T, U>` is `Left`, extracting the underlying element of type `T`. Panics if the given value is `Right` instead. |
 | `unwrap_right` | Require that a value of type `Either<T, U>` is `Right`, extracting the underlying element of type `U`. Panics if the given value is `Left` instead. |
@@ -145,6 +145,11 @@ fn main(){
 ```
 
 ### `raw_hash`
+
+`raw_hash` (0.9.0+) is an unstable feature. Compile with `simc -Z raw_hash`.
+
+!!! warning "Type commitment"
+    The type parameter only selects which `sha_256_ctx_8_add_N` jets run, and the digest covers only the resulting bytes. `raw_hash::<(u8, u8)>((0x01, 0x02))` and `raw_hash::<(u16,)>((0x0102,))` produce the same digest, as do any two types with the same bytes. If a protocol needs the digest to be unambiguous, hash a domain-separation tag first.
 
 ```simplicityhl
 // The single line of code below replaces these four lines:
