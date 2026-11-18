@@ -25,7 +25,9 @@ However, aliases still make the code more readable.
 type User = (bool, u256, u64);
 ```
 
-There is also a list of builtin type aliases.
+## Builtin aliases
+
+SimplicityHL also has builtin type aliases.
 These aliases can be used without defining them.
 
 | Builtin Alias    | Definition                    |
