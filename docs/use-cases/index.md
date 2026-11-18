@@ -7,8 +7,9 @@ Simplicity can be used for a wide range of financial applications.
 Examples developed by Blockstream include
 
 * [Simplicity DEX](simplicity-dex.md) for financial options
-* [Simplicity Lending Protocol](lending-protocol.md) for collateralized lending ([implementation](https://github.com/BlockstreamResearch/simplicity-lending))
+* [Simplicity Lending Protocol](lending-protocol.md) for collateralized lending ([demo](https://lending.blockstream.com/), [implementation](https://github.com/BlockstreamResearch/simplicity-lending))
 * [SHRINCS Simplicity verifier](https://github.com/BlockstreamResearch/shrincs-simplicity-verifier), for [Simplicity-based postquantum signature verification](https://blog.blockstream.com/blockstream-research-demonstrates-quantum-resistant-transaction-signing-on-liquid-using-simplicity-smart-contracts/) on Liquid (see also the [PQ Liquid Wallet](https://github.com/smeneguz/pq-liquid-wallet) hackathon project)
+* [Prediction market demo](https://prediction-market-demo.blockstream.com/) ([implementation](https://github.com/BlockstreamResearch/simplicity-prediction-market))
 
 ## Simplicity projects built by others
 
