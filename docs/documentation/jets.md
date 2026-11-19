@@ -557,7 +557,7 @@ On Elements, these jets compute and read issuance data. A new issuance creates a
 
 === "Bitcoin"
 
-    None of these jets are available in the Bitcoin integration.
+    Bitcoin is a single-asset blockchain, so issuance does not apply.
 
 ### Transaction
 
