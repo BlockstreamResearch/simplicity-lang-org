@@ -1,4 +1,4 @@
-# `.wit` File Reference
+# Witness Reference
 
 This reference covers the practical mechanics of building witness data for a SimplicityHL contract: the `.wit` file format, compiling it with `simc`, other ways to build witness data, and how to format common SimplicityHL types as a witness value. For an explanation of what a witness is and why it exists, see [Witnesses in SimplicityHL development](witness.md).
 
