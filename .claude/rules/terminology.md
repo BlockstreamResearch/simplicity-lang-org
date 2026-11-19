@@ -27,6 +27,10 @@ The same logic applies to Liquid Bitcoin:
   use "LBTC" alone afterward. Write "LBTC," never "L-BTC".
 - We also have an asset called "test Liquid bitcoin (tLBTC)".
 
+# Taproot terms
+
+Write "Taproot", capitalized, for the system as a whole, and "tapbranch" and "tapleaf" as lowercase single words in prose: "a tapleaf hash", "the program's tapleaf". Avoid "TapLeaf", "tap leaf" and "Taproot leaf". For the tree, write "Taproot tree" (BIP 371's term), not "taptree". Keep the camel-case forms only where they're literal, such as the tag strings `TapLeaf` and `TapBranch/elements` or a type name in code.
+
 # Link unfamiliar terms to the glossary
 
 `docs/glossary.md` defines terms likely to be unfamiliar to at least part of this site's audience, and glossary links render as a mouseover preview rather than a plain jump-away link. Whenever documentation uses a term defined there — especially an acronym (CMR, PSET, UTXO, and similar) — link the glossary entry on first use of that term per page: `[CMR](../glossary.md#cmr)` (adjust the relative path to the page's depth).
@@ -36,3 +40,5 @@ Link the first use *in the sense the glossary defines*. Many entries are ordinar
 Figure captions (`<figcaption>`), Mermaid diagram labels and code don't count as a first use, because links don't render in them. Headings don't count either. Link the first use in body text instead.
 
 Because the glossary link already carries the full expansion and definition, there's no need to also spell an acronym out inline before using it — the glossary link does that job. Don't re-link the same term on later uses within the same page, unless the page is very long, in which case it can be relinked on first use within each section.
+
+Automatically generated pages, which carry a `<!-- Generated ... -->` comment under the title (such as `docs/documentation/jets.md` and `docs/documentation/stdlib.md`), are exempt from the first-use rule. Their entries come from upstream sources that can't track first uses, and readers look up single entries rather than reading from the top. On those pages, link glossary terms in the hand-written section introductions instead, at most once per term per section, and don't add links inside the generated entries.
