@@ -30,6 +30,35 @@ If you’re unsure it belongs here, it probably does. Submit the PR.
 * **Focus on technology, not the author.** Avoid the first person (I, we, our).
 * **Avoid duplication.** Set out facts in the most appropriate place; if relevant elsewhere, link rather than repeating.
 
+### Bitcoin vocabulary
+
+Write for readers who know Bitcoin. Use Bitcoin and Liquid terms rather than Ethereum ones, except:
+
+* when the text is about Ethereum itself, as on pages comparing Simplicity with the EVM,
+* when pointing out something Ethereum developers might expect that Simplicity doesn't have or do, such as "no out-of-gas failures", and
+* when quoting literal text, such as a UI string or a CLI flag.
+
+In the second case, use the Ethereum term only for the Ethereum side of the contrast, and use Bitcoin terms for how Simplicity works.
+
+| Avoid | Use instead | Why |
+| --- | --- | --- |
+| call or invoke a contract | spend from the contract; spend an output locked by it | No code runs until someone spends. |
+| gas, gas fees | fee, fee rate (sat/vB), cost, weight | |
+| wei, gwei | sats | |
+| revert, the transaction reverts | the program fails; the transaction is invalid and doesn't confirm | A failed spend isn't mined, and nothing is charged or rolled back. |
+| mint | issue, reissue | Liquid's own terms for creating assets. |
+| token (meaning any asset), ERC-20 token | asset, issued asset | "Token" has narrower meanings in Liquid; see below. |
+| calldata, constructor arguments | witness, parameters | |
+| validators | miners (Bitcoin), functionaries (Liquid) | |
+| chain ID | network (Liquid mainnet, Liquid testnet, Bitcoin Signet) | |
+| dApp, Web3 | app, application; or name the specific component | |
+
+In Liquid, a "token" is usually either a reissuance token or an issued asset that a contract gives a specific meaning, typically a right or a claim. For example, a lending contract can represent a capability as an issued asset, and a prediction market can represent the two sides of a position as "yes tokens" and "no tokens". Those uses are fine. Either way, the token is a native Liquid asset, never an ERC-20-style token: no contract keeps a ledger of who holds it, and it moves in ordinary transaction outputs, just like L-BTC. Don't compare it to ERC-20 tokens. For assets in general, write "asset".
+
+Outside comparison pages, don't explain Simplicity through Ethereum-only concepts such as `msg.sender`, events and logs, or upgradeable proxies.
+
+Some terms both communities use are fine, including smart contract, on-chain and off-chain, oracle, mempool, faucet and multisig. Deploy, balance, contract state and storage are also fine, but they work very differently in Simplicity. Where a reader needs the mechanics, explain them in UTXO terms. For example, deploying a contract means creating its address and funding it.
+
 ### Formatting
 
 * English (US), Markdown only.
