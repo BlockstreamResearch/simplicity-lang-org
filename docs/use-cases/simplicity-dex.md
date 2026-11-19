@@ -63,7 +63,7 @@ The maker funds a single option using the "Option Funding" transaction, which re
 
 Note: at any time, the options contract can be canceled and the collateral retrieved by using both the Option Token and the Grantor Token together to unlock the collateral.
 
-The maker deposits their newly minted Grantor Token along with premium (e.g., USDt) into the Option Offer contract. The taker pays LBTC (settlement asset) to the Option Offer contract and receives both the Grantor Token and the premium in a single atomic transaction. The maker keeps their Option Token.
+The maker deposits their newly issued Grantor Token along with premium (e.g., USDt) into the Option Offer contract. The taker pays LBTC (settlement asset) to the Option Offer contract and receives both the Grantor Token and the premium in a single atomic transaction. The maker keeps their Option Token.
 
 **Case A: LBTC ends below $115,000.** Just prior to expiration, the maker uses their Option Token to exercise the Collateral Covenant. This requires depositing LBTC into a Settlement Covenant, which in turn unlocks the Collateral Covenant, whose 115,000 USDt funds the maker gets to keep. Afterwards, the taker can use their Grantor Token to retrieve the LBTC from the Settlement Covenant.
 
