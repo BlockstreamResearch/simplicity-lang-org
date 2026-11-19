@@ -16,13 +16,20 @@ mkdocs serve
 python -m mkdocs build
 ```
 
-## WebMCP search
+## WebMCP tools
 
-Browsers that expose WebMCP receive one tool, `search_docs`, with a required
+Browsers that expose WebMCP receive `search_docs` with a required
 `query` string (1–500 characters). It uses Material's existing search index and
 worker, returns up to ten sections with plain-text excerpts and URLs, and displays
 the query in the normal search UI. Unsupported browsers keep normal search.
 No server, API key, or additional search dependency is needed.
+
+They also receive `run_simplicityhl` on every page. Pass the complete program
+as `source`. It calls the same WASM runner as [Try it](docs/getting-started/try-it.md),
+using a dummy transaction and empty arguments and witnesses. Results include a
+status, compiler diagnostics, debug lines, and the CMR when available. Each run
+owns a worker, which is terminated on completion, cancellation, or timeout.
+The tool needs the same WASM build as the runnable snippets.
 
 The integration supports `document.modelContext` and the earlier
 `navigator.modelContext` location. It loads once per document and survives
@@ -39,6 +46,21 @@ repository root (`python -m http.server 8001 --bind 127.0.0.1`) and open
 This fixture tests markup removal, entities, and whitespace. Material's generated
 search excerpts can still omit surrounding context; follow result links for full
 definitions and warnings.
+
+To check the runner in a WebMCP enabled Chrome session, open the local Try it
+page and run this in the browser console:
+
+```js
+const context = document.modelContext;
+const tool = (await context.getTools()).find(({ name }) => name === "run_simplicityhl");
+const result = await context.executeTool(tool, {
+  source: "fn main() { assert!(jet::eq_32(2, 2)); }",
+});
+console.log(typeof result === "string" ? JSON.parse(result) : result);
+```
+
+Expect `status: "success"` and a CMR. Change the last `2` to `3` to check
+`execution_error`, or use `fn main() { unknown }` to check `compile_error`.
 
 ## Runnable SimplicityHL code snippets
 

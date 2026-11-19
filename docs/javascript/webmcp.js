@@ -1,4 +1,4 @@
-// Share Material for MkDocs' search index and worker with browser agents.
+// Expose documentation search and the Try it playground to browser agents.
 (() => {
   const context = document.modelContext ?? navigator.modelContext;
   if (!context?.registerTool) return;
@@ -74,4 +74,58 @@
       }
     },
   });
+  const maxSourceLength = 64 * 1024;
+  const runnerURL = new URL("javascript/webmcp-runner.js", base);
+  const registerRunner = async () => {
+    await context.registerTool({
+      name: "run_simplicityhl",
+      description: "Compile and run a complete SimplicityHL program with the Try it playground. Use this to check whether a snippet compiles, whether its assertions hold, and what dbg!() prints. Runs locally against a dummy transaction with one input; no wallet, broadcast, custom witnesses, or real transaction data.",
+      annotations: { readOnlyHint: true, untrustedContentHint: true },
+      inputSchema: {
+        type: "object",
+        properties: {
+          source: {
+            type: "string",
+            minLength: 1,
+            maxLength: maxSourceLength,
+            description: "Plain SimplicityHL source with fn main(), without Markdown fences or external files.",
+          },
+        },
+        required: ["source"],
+        additionalProperties: false,
+      },
+      async execute({ source } = {}, { signal } = {}) {
+        const failure = (status, message) => ({ ok: false, status, message });
+        if (typeof source !== "string" || !source.trim() || source.length > maxSourceLength) {
+          return failure("invalid_input", "Pass a nonblank SimplicityHL source string of at most 65536 characters.");
+        }
+        const cancel = () => failure("cancelled", "The run was cancelled.");
+        if (signal?.aborted) return cancel();
+
+        // WASM execution is synchronous. An isolated worker keeps the page responsive
+        // and lets us terminate compilation or execution on cancellation or timeout.
+        let worker;
+        let timeout;
+        let abort;
+        try {
+          worker = new Worker(runnerURL, { type: "module" });
+          return await new Promise((resolve) => {
+            abort = () => resolve(cancel());
+            signal?.addEventListener("abort", abort, { once: true });
+            timeout = setTimeout(() => resolve(failure("timeout", "The run exceeded 15 seconds. Try a smaller program.")), 15000);
+            worker.onmessage = ({ data }) => resolve(data);
+            worker.onerror = () => resolve(failure("runner_error", "Could not start the playground runner. Reload the page and retry."));
+            worker.postMessage(source);
+          });
+        } catch {
+          return failure("runner_error", "Could not start the playground runner. Reload the page and retry.");
+        } finally {
+          worker?.terminate();
+          clearTimeout(timeout);
+          if (abort) signal?.removeEventListener("abort", abort);
+        }
+      },
+    });
+  };
+  registerRunner().catch(error => console.warn("Could not register run_simplicityhl:", error));
 })();
