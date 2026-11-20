@@ -538,7 +538,7 @@ These jets let a program require a [timelock](../glossary.md#timelock). `check_l
 
 ### Issuance
 
-On Elements, these jets compute and read issuance data. A new issuance creates an [asset](../glossary.md#asset): its asset ID, and the ID of its reissuance [token](../glossary.md#token), are derived from entropy that depends on the issuing input's outpoint and a contract hash. A reissuance creates more of an existing asset, and requires spending its reissuance token. `lbtc_asset` returns the asset ID of Liquid bitcoin (LBTC) on Liquid mainnet, on every network. Asset IDs that these jets take or return are in internal byte order, the reverse of the order that block explorers display; see [Asset IDs in internal byte order](pitfalls.md#asset-ids-in-internal-byte-order).
+On Elements, these jets compute and read issuance data. A new issuance creates an [asset](../glossary.md#asset): its asset ID, and the ID of its reissuance [token](../glossary.md#token), are derived from entropy that depends on the issuing input's outpoint and a contract hash. A reissuance creates more of an existing asset, and requires spending its reissuance token. `lbtc_asset` returns the asset ID of Liquid bitcoin (LBTC) on Liquid mainnet, on every network. Asset IDs that these jets take or return are in internal byte order, the reverse of the order that block explorers display; the [policy asset](../glossary.md#policy-asset) glossary entry lists the LBTC and tLBTC asset IDs in both orders.
 
 === "Elements"
 
@@ -553,7 +553,7 @@ On Elements, these jets compute and read issuance data. A new issuance creates a
         | `issuance_asset(u32) -> Option<Option<ExplicitAsset>>` | Return the ID of the issued asset of the input at the given index:<ul><li>Return `Some(Some(x))` if the input has issuance with asset ID `x`.</li><li>Return `Some(None)` if the input has no issuance.</li><li>Return `None` if the input doesn't exist.</li></ul> |
         | `issuance_entropy(u32) -> Option<Option<u256>>` | Return the issuance entropy of the input at the given index:<ul><li>Return `Some(Some(x))` if the input has reissuance with entropy `x` or if there is new issuance whose computed entropy is `x`.</li><li>Return `Some(None)` if the input has no issuance.</li><li>Return `None` if the input doesn't exist.</li></ul> |
         | `issuance_token(u32) -> Option<Option<ExplicitAsset>>` | Return the reissuance token of the input at the given index:<ul><li>Return `Some(Some(x))` if the input has issuance with the reissuance token ID `x`.</li><li>Return `Some(None)` if the input has no issuance.</li><li>Return `None` if the input doesn't exist.</li></ul> |
-        | `lbtc_asset() -> u256` | Return the asset ID of Liquid bitcoin (LBTC).<br><br>The result is a constant: the asset ID of Liquid bitcoin (LBTC) on Liquid mainnet, in internal byte order. On Liquid testnet, `lbtc_asset` still returns the LBTC asset ID, even though LBTC doesn't exist there and the network's [policy asset](../glossary.md#policy-asset) is test Liquid bitcoin (tLBTC). The same applies on regtest. To check for the policy asset of the network a contract is deployed on, pass its asset ID in as a [parameter](../glossary.md#parameter). See [Asset checks in SimplicityHL](pitfalls.md#asset-checks-in-simplicityhl). |
+        | `lbtc_asset() -> u256` | Return the asset ID of Liquid bitcoin (LBTC).<br><br>The result is a constant: the asset ID of Liquid bitcoin (LBTC) on Liquid mainnet, in internal byte order. On Liquid testnet, `lbtc_asset` still returns the LBTC asset ID, even though LBTC doesn't exist there and the network's [policy asset](../glossary.md#policy-asset) is test Liquid bitcoin (tLBTC). The same applies on regtest. To check for the policy asset of the network a contract is deployed on, pass its asset ID in as a [parameter](../glossary.md#parameter). |
 
 === "Bitcoin"
 
@@ -565,7 +565,7 @@ These jets read the [transaction](../glossary.md#transaction) that is spending t
 
 On Elements, [assets](../glossary.md#asset), amounts, and nonces can be [confidential](../glossary.md#confidential). In the `Asset1`, `Amount1`, and `Nonce` types, a `Left` value is a confidential commitment and a `Right` value is explicit; see the [builtin type aliases](../simplicityhl-reference/type_alias.md#builtin-aliases).
 
-Transaction IDs, and on Elements asset IDs, are in internal byte order, the reverse of the order that block explorers display; see [Asset IDs in internal byte order](pitfalls.md#asset-ids-in-internal-byte-order).
+Transaction IDs, and on Elements asset IDs, are in internal byte order, the reverse of the order that block explorers display; the [policy asset](../glossary.md#policy-asset) glossary entry lists the LBTC and tLBTC asset IDs in both orders.
 
 === "Elements"
 
