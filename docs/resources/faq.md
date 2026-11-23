@@ -4,25 +4,25 @@
 
 No, the "simplicity" refers to its foundational design and formal semantics, not its expressiveness.
 
-- Bitcoin Script is deliberately limited; Simplicity is finitarily complete, meaning it can program any finite computation.
+- [Bitcoin Script](../glossary.md#bitcoin-script) is deliberately limited; [Simplicity](../glossary.md#simplicity) is finitarily complete, meaning it can program any finite computation.
 
-- Complex off-chain (even Turing-complete) computations can be verified on-chain with Simplicity.
+- Complex off-chain (even [Turing-complete](../glossary.md#turing-complete)) computations can be verified on-chain with Simplicity.
 
-## Is Simplicity Turing-complete like EVM?
+## Is Simplicity Turing-complete like the EVM?
 
 No. Non-Turing-completeness is a deliberate design choice.
 
-Costs are known at compile time, so there are no "out of gas" failures. Programs contain no unbounded loops or recursion, so every program halts. Programs are also analyzable; this property supports formal reasoning about program behavior.
+Every program has a statically bounded [cost](../glossary.md#cost), known before anyone funds it, so there are no "out of gas" failures. [Programs](../glossary.md#program) contain no unbounded loops or recursion, so every program halts. Programs are also analyzable; this property supports formal reasoning about program behavior.
 
 ## How does Simplicity handle state? Does it have global state like Ethereum?
 
-Simplicity has no global state. It is a purely functional language: each program is just a function that maps inputs to outputs.
+Simplicity has no global state. It's a purely functional language: each program is just a function that maps inputs to outputs.
 
-Contracts run within the Bitcoin [UTXO](../glossary.md#utxo) model:
+[Contracts](../glossary.md#contract) run within the [UTXO](../glossary.md#utxo) model used by Bitcoin and Liquid:
 
 1. Contracts are small programs attached to UTXOs that guard the associated coins.
 
-2. Spending a UTXO means providing witness data so the contract evaluates to true.
+2. Spending a UTXO means providing [witness](../glossary.md#witness) data so the contract runs without failing.
 
 3. State is carried forward explicitly by committing data into the next UTXO.
 
@@ -34,17 +34,17 @@ Formal verification happens in [Coq/Rocq](https://rocq-prover.org/), not directl
 
 Process:
 
-  1. Simplicity semantics are modeled in Coq.
+1. Simplicity semantics are modeled in Coq.
 
-  2. You prove correctness properties (safety, termination, resource use).
+2. You prove correctness properties (safety, resource use).
 
-  3. Proofs give guarantees before deployment.
+3. Proofs give guarantees before deployment.
 
 ## Simplicity is low-level. Do I write contracts directly in it?
 
-Not usually. Developers ordinarily write in high-level SimplicityHL, which compiles down to Simplicity.
+Not usually. Developers ordinarily write in high-level [SimplicityHL](../glossary.md#simplicityhl), which compiles down to Simplicity.
 
-## What are Jets, and how do they make programs efficient?
+## What are jets, and how do they make programs efficient?
 
 A [Simplicity jet](../documentation/jets.md) is a pre-defined, optimized function that replaces an equivalent Simplicity expression to speed up execution without changing its meaning.
 
@@ -52,13 +52,13 @@ Benefits:
 
 - Programs remain formally verifiable.
 
-- Heavy operations run in optimized C instead of interpreted combinators.
+- Heavy operations run in optimized native code instead of interpreted [combinators](../glossary.md#combinator).
 
 - Keeps execution fast, compact, and analyzable.
 
 ## How does Simplicity exist alongside Bitcoin Script?
 
-With [Taproot](../glossary.md#taproot)'s versioned leaves, a single Taproot output can include both standard Script/Miniscript leaves and a Simplicity leaf. This allows mixing policies: simple paths can remain in Script while advanced paths use Simplicity, preserving flexibility and privacy under one Taptree.
+With [Taproot](../glossary.md#taproot)'s versioned leaves, a single Taproot [output](../glossary.md#output) can include both standard Script/Miniscript leaves and a Simplicity leaf. This allows mixing policies: simple paths can remain in Script while advanced paths use Simplicity, preserving flexibility and privacy under one Taproot tree.
 
 ## How do I track the value of a Simplicity contract with partial payouts when different strike prices are being matched?
 
@@ -72,4 +72,6 @@ At every settlement event, the contract:
 
 3. Updates the strike table by reducing the notional amounts that have been settled.
 
-The value of the contract at any point is given by the piecewise payoff function, evaluated against the latest UTXO state. By inspecting the most recent UTXO, participants can determine both their current position and their outstanding exposure. (see also: Bitcoin Optech [comment from AJ Towns](https://bitcoinops.org/en/newsletters/2024/11/29/#flexible-coin-earmarks) on flexible coin earmarks)
+The value of the contract at any point is given by the piecewise payoff function, evaluated against the latest UTXO state. By inspecting the most recent UTXO, participants can determine both their current position and their outstanding exposure.
+
+See also AJ Towns's [comment on flexible coin earmarks](https://bitcoinops.org/en/newsletters/2024/11/29/#flexible-coin-earmarks) in the Bitcoin Optech newsletter.
