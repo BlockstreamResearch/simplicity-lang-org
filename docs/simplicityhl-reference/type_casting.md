@@ -1,7 +1,7 @@
 # Casting
 
-A SimplicityHL type can be cast into another SimplicityHL type if both types share the same structure.
-The structure of a type has to do with how the type is implemented on the Simplicity "processor".
+A [SimplicityHL](../glossary.md#simplicityhl) type can be cast into another SimplicityHL type if both types share the same structure.
+The structure of a type has to do with how the type is implemented on the [Simplicity](../glossary.md#simplicity) "processor".
 
 Below is a table of types that can be cast into each other.
 
@@ -68,9 +68,9 @@ In the above example, the meaning of the expression `1` is clear because of the 
 Here, `1` means a string of 31 zeroes and 1 one.
 _In other contexts, `1` could mean something different, like a string of 255 zeroes and 1 one._
 
-The SimplicityHL compiler knows the type of the outermost expression, and it tries to infer the types of inner expressions based on that.
-When it comes to casting expressions, the compiler has no idea about the input type of the cast.
-The programmer needs to supply this information by annotating the cast with its input type.
+The SimplicityHL compiler infers the types of inner expressions from the type of the outermost expression.
+It can't infer the input type of a casting expression this way.
+The programmer supplies the input type by annotating the cast with it.
 
 ```simplicityhl
 let x: u32 = <(u16, u16)>::into((0, 1));
@@ -78,3 +78,9 @@ let x: u32 = <(u16, u16)>::into((0, 1));
 
 In the above example, the tuple `(0, 1)` of type `(u16, u16)` is cast into type `u32`.
 Consult the table above to verify this is a valid cast.
+
+If the two types don't share the same structure, compilation fails with this error:
+
+```text
+Cannot cast values of type `<source>` as values of type `<target>`
+```
