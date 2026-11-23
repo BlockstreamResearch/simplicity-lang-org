@@ -1,28 +1,28 @@
 # Use Cases Overview
 
-Simplicity can be used for a wide range of financial applications.
+[Simplicity](../glossary.md#simplicity) can be used for a wide range of financial applications.
 
 ## Blockstream's reference implementations
 
-Examples developed by Blockstream include
+Examples developed by Blockstream include:
 
 * [Simplicity DEX](simplicity-dex.md) for financial options
 * [Simplicity Lending Protocol](lending-protocol.md) for collateralized lending ([demo](https://lending.blockstream.com/), [implementation](https://github.com/BlockstreamResearch/simplicity-lending))
-* [SHRINCS Simplicity verifier](https://github.com/BlockstreamResearch/shrincs-simplicity-verifier), for [Simplicity-based postquantum signature verification](https://blog.blockstream.com/blockstream-research-demonstrates-quantum-resistant-transaction-signing-on-liquid-using-simplicity-smart-contracts/) on Liquid (see also the [PQ Liquid Wallet](https://github.com/smeneguz/pq-liquid-wallet) hackathon project)
+* [SHRINCS Simplicity verifier](https://github.com/BlockstreamResearch/shrincs-simplicity-verifier) for [Simplicity-based post-quantum signature verification](https://blog.blockstream.com/blockstream-research-demonstrates-quantum-resistant-transaction-signing-on-liquid-using-simplicity-smart-contracts/) on [Liquid](../glossary.md#liquid) (see also the [PQ Liquid Wallet](https://github.com/smeneguz/pq-liquid-wallet) hackathon project)
 * [Prediction market demo](https://prediction-market-demo.blockstream.com/) ([implementation](https://github.com/BlockstreamResearch/simplicity-prediction-market))
 
 ## Simplicity projects built by others
 
-* [Resolvr](https://resolvr.io/) has created [Astrolabe](https://docs.simplicity-lang.org/news/2026/02/20/video-resolvr-astrolabe-demo/), a Simplicity-based reinsurance investment platform, and [Deadcat](https://github.com/Resolvr-io/deadcat), a Simplicity-based prediction market.
+* [Resolvr](https://resolvr.io/) has created [Astrolabe](../news/posts/video-resolvr-astrolabe-demo.md), a Simplicity-based reinsurance investment platform, and [Deadcat](https://github.com/Resolvr-io/deadcat), a Simplicity-based prediction market.
 * [SideSwap](https://sideswap.io/) has [launched](https://sideswap.io/news/sideswap-press-release/) [Swaption](https://swaption.io/), a Simplicity-based noncustodial binary options marketplace.
 * [StarkWare](https://starkware.co/) has used Simplicity to [implement a STARK verifier](https://starkware.co/blog/building-starks-in-simplicity/).
-* [OceanSlim](https://github.com/0ceanslim) has created [anchor](https://github.com/0ceanSlim/anchor), a constant-product automated-market maker (AMM).
+* [OceanSlim](https://github.com/0ceanslim) has created [anchor](https://github.com/0ceanSlim/anchor), a constant-product automated market maker (AMM).
 
 ## Other examples and ideas
 
-Check out the [SimplicityHL examples](https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples) for other introductory smart contract examples, including [vault](../glossary.md#vault) and [covenant](../glossary.md#covenant) mechanisms.
+See the [SimplicityHL](../glossary.md#simplicityhl) [example programs](https://github.com/BlockstreamResearch/SimplicityHL/tree/master/examples) for other introductory [smart contract](../glossary.md#smart-contract) examples, including [vault](../glossary.md#vault) and [covenant](../glossary.md#covenant) mechanisms.
 
-In addition to options, lending, insurance, and prediction markets, Simplicity is expected to support
+In addition to options, lending, insurance, and prediction markets, Simplicity is expected to support:
 
 * Cross-chain atomic swaps
 * Crowdfunding contracts
