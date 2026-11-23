@@ -1,22 +1,22 @@
 # Simplicity-related projects
 
 !!! tip
-    For beginners and quick experimentation, start with the [quickstart](../getting-started/quickstart.md).
+    For beginners and quick experimentation, start with the [Quickstart](../getting-started/quickstart.md).
 
-These are open source projects in the Simplicity ecosystem.
+These are open source projects in the [Simplicity](../glossary.md#simplicity) ecosystem.
 
 | Project link | Description |
 | ------------ | ----------- |
 | [SimplicityHL](https://github.com/BlockstreamResearch/SimplicityHL) | SimplicityHL high-level programming language compiler. |
 | [simplicity](https://github.com/BlockstreamResearch/simplicity) | Low-level Simplicity language interpreter and blockchain integrations. |
 | [rust-simplicity](https://github.com/BlockstreamResearch/rust-simplicity) | Simplicity Rust application development libraries. |
-| [smplx](https://github.com/BlockstreamResearch/smplx) | Simplex SDK / orchestration (for generating Rust projects to interact with Simplicity contracts, dependency management, and associated test suites). |
-| [hal-simplicity](https://github.com/BlockstreamResearch/hal-simplicity) | CLI to build, inspect, analyze programs and transactions. |
+| [smplx](https://github.com/BlockstreamResearch/smplx) | [Simplex](../glossary.md#simplex) SDK / orchestration (for generating Rust projects to interact with Simplicity [contracts](../glossary.md#contract), dependency management, and associated test suites). |
+| [hal-simplicity](https://github.com/BlockstreamResearch/hal-simplicity) | CLI to build, inspect, analyze [programs](../glossary.md#program) and [transactions](../glossary.md#transaction). |
 | [simplicityhl-std](https://github.com/BlockstreamResearch/simplicityhl-std) | SimplicityHL standard library. |
 | [simplicity-demo](https://github.com/BlockstreamResearch/simplicity-demo) | Example projects for the [Quickstart](../getting-started/quickstart.md) and the [end-to-end application tutorial](../getting-started/build-end-to-end-app.md). |
 | [simplicity-codespace](https://github.com/Blockstream/simplicity-codespace) | Codespace to run examples. |
-| [LWK](https://github.com/Blockstream/LWK) | Liquid Wallet Kit (for developing applications to interact with Liquid Network and Simplicity contracts). |
-| [Humid Wallet](https://github.com/BlockstreamResearch/humid) | Demonstration in-browser Liquid wallet with Simplicity and txmanifest support. |
+| [LWK](https://github.com/Blockstream/LWK) | Liquid Wallet Kit (for developing applications to interact with [Liquid Network](../glossary.md#liquid) and Simplicity contracts). |
+| [Humid](https://github.com/BlockstreamResearch/humid) | Demonstration in-browser Liquid wallet with Simplicity and [`txmanifest`](../glossary.md#manifest) support. |
 | [SimplicityHL VS Code extension](https://marketplace.visualstudio.com/items?itemName=Blockstream.simplicityhl) | Visual Studio Code extension (source code in SimplicityHL repository above). |
 
 <!--
