@@ -1,8 +1,8 @@
 # Development ecosystem and wallet integration
 
-A Simplicity contract enforces financial logic through on-chain transactions, but it is only one piece of a complete financial application. By itself, a contract lacks a user interface or discovery mechanism. To make a Simplicity contract useful, other software, such as a dedicated native app, a web app, or a wallet taught to interact with the contract, needs to be provided.
+A [Simplicity](../glossary.md#simplicity) [contract](../glossary.md#contract) enforces financial logic through on-chain [transactions](../glossary.md#transaction), but it's only one piece of a complete financial application. By itself, a contract lacks a user interface or discovery mechanism. To make a Simplicity contract useful, developers need to provide other software, such as a dedicated native app, a web app, or a wallet extended to support the contract.
 
-These supporting applications need to handle integration tasks such as finding active instances of a contract on the blockchain and validating that they have the intended or desired functionality, determining the current contract state and the actions a user can take, creating transactions that send or claim assets or that update a contract's state, and representing this information in a meaningful way for an end user.
+These supporting applications need to handle integration tasks such as finding active instances of a contract on the blockchain and validating that they have the intended or desired functionality, determining the current contract state and the actions a user can take, creating transactions that send or claim [assets](../glossary.md#asset) or that update a contract's state, and representing this information in a meaningful way for an end user.
 
 Because Simplicity and the blockchains that support it are open source, developers have the flexibility to create tools that facilitate these actions in a variety of development environments.
 
@@ -16,17 +16,17 @@ Because Simplicity and the blockchains that support it are open source, develope
 
 The recommended development environment for building production applications that directly interact with Simplicity contracts is based on Rust. Three projects are most relevant to Rust developers.
 
-* The [SimplicityHL](https://github.com/BlockstreamResearch/SimplicityHL) project includes a Rust library that lets you compile SimplicityHL to low-level Simplicity from inside a Rust program. The compilation logic is the same as in the `simc` compiler, but doesn't require a command-line invocation.
+* The [SimplicityHL](../glossary.md#simplicityhl) [project](https://github.com/BlockstreamResearch/SimplicityHL) includes a Rust library that lets you compile SimplicityHL to low-level Simplicity from inside a Rust program. The compilation logic is the same as in the `simc` compiler, but doesn't require a command-line invocation.
 
-* The [`rust-simplicity`](https://github.com/BlockstreamResearch/rust-simplicity) library provides low-level functionality related to building witnesses and transactions. It can also derive on-chain addresses from a compiled Simplicity program.
+* The [`rust-simplicity`](https://github.com/BlockstreamResearch/rust-simplicity) library provides low-level functionality related to building [witnesses](../glossary.md#witness) and transactions. It can also derive on-chain [addresses](../glossary.md#address) from a compiled Simplicity [program](../glossary.md#program).
 
-* The [Simplex](simplex.md) orchestration tool can automatically generate code artifacts in Rust, compatible with `rust-simplicity`, that provide basic witness and transaction-building logic for a specified SimplicityHL program. It also provides other useful project management functionality such as dependency management and a test framework.
+* The [Simplex](simplex.md) orchestration tool can automatically generate [code artifacts](../glossary.md#artifacts) in Rust, compatible with `rust-simplicity`, that provide basic witness and transaction-building logic for a specified SimplicityHL program. It also provides dependency management and a test framework.
 
 ### LWK
 
-The [Liquid Wallet Kit (LWK)](https://github.com/Blockstream/lwk/) provides higher-level functionality in Rust, with bindings also available for several other languages. Simplicity features are still being added in LWK as of April 2026, but are available as an alpha release behind the LWK compile-time feature `simplicity` (build with `cargo build --features simplicity`, `just build-bindings-lib-simplicity`, or `just python-build-bindings-simplicity`).
+The [Liquid Wallet Kit](https://github.com/Blockstream/lwk/) ([LWK](../glossary.md#lwk)) provides higher-level functionality in Rust, with bindings also available for several other languages. Simplicity features are still being added in LWK as of April 2026, but are available as an alpha release behind the LWK compile-time feature `simplicity` (build with `cargo build --features simplicity`, `just build-bindings-lib-simplicity`, or `just python-build-bindings-simplicity`).
 
-You can use LWK to build a complete wallet or blockchain app that interacts with Liquid Network, including interfacing with Simplicity contracts. LWK can also deal with storing digital assets' private keys directly in-app, and can generate addresses from a supplied seed. LWK's Simplicity support includes higher-level abstractions for transaction building for both commit and redeem transactions.
+You can use LWK to build a complete wallet or blockchain app that interacts with the [Liquid](../glossary.md#liquid) Network, including interfacing with Simplicity contracts. LWK can also store [private keys](../glossary.md#private-key) directly in the app, and can generate addresses from a supplied seed. LWK's Simplicity support includes higher-level abstractions for transaction building for both commit and redeem transactions.
 
 LWK can generate native apps or provide JavaScript bindings, with a WASM compile target, for building web apps.
 
@@ -34,21 +34,21 @@ A sample web app built in JavaScript using LWK's WASM target to generate Simplic
 
 ## Tooling (blockchain indexing and discovery)
 
-The main API for discovering and analyzing transactions on a blockchain, including to determine smart contract state, is [Esplora](https://github.com/Blockstream/esplora). You can use Blockstream's public Esplora instance or run your own Esplora service.
+The main API for discovering and analyzing transactions on a blockchain, including to determine [smart contract](../glossary.md#smart-contract) state, is [Esplora](../glossary.md#esplora). You can use Blockstream's public Esplora instance or run your own [Esplora service](https://github.com/Blockstream/esplora).
 
-If you'd like to run your own Liquid Network node, you can do so with a local instance of [Elements](https://github.com/ElementsProject/elements). The local storage footprint of a Liquid node, as of April 2026, is about 50 gigabytes.
+If you'd like to run your own Liquid Network node, you can do so with [a local instance](https://github.com/ElementsProject/elements) of [Elements](../glossary.md#elements). The local storage footprint of a Liquid [node](../glossary.md#node), as of April 2026, is about 50 gigabytes.
 
 ## About transaction-building for interacting with Simplicity contracts
 
-Sending an [asset](../glossary.md#asset) to a Simplicity [smart contract](../glossary.md#smart-contract) requires calculating the appropriate on-chain address for the contract, possibly including a [state commitment](./state.md) representing the contract's new state. This is called a *commit* transaction.
+Sending an asset to a Simplicity smart contract requires calculating the appropriate on-chain address for the contract, possibly including a [state commitment](./state.md) representing the contract's new state. This is called a *commit* transaction.
 
-Determining the appropriate address for a commit transaction may involve moderately complex logic, including [Taproot](../glossary.md#taproot) details (creating a P2TR address where the Simplicity program and state are committed in the Taproot tree). If the contract doesn't require updated state commitments, the address of a particular instance of a particular contract won't change from transaction to transaction, and so can be hard-coded or provided by an external tool. The overall form of the commit transaction simply looks like any other P2TR transaction; Simplicity-specific transaction-building logic may not be required.
+Determining the appropriate address for a commit transaction may involve moderately complex logic, including [Taproot](../glossary.md#taproot) details (creating a P2TR address where the Simplicity program and state are committed in the Taproot tree). If the contract doesn't require updated state commitments, the address of a particular instance of a particular contract won't change from transaction to transaction, and so can be hard-coded or provided by an external tool. The overall form of the commit transaction looks like any other P2TR transaction; Simplicity-specific transaction-building logic may not be required.
 
-Claiming an asset from a UTXO controlled by a Simplicity contract is called a *redeem* transaction. It requires building a complete transaction with witness data, control block, and possibly appropriate signatures. Simplicity-specific transaction-building logic is usually required for such a transaction.
+Claiming an asset from a [UTXO](../glossary.md#utxo) controlled by a Simplicity contract is called a *redeem* transaction. It requires building a complete transaction with witness data, control block, and possibly appropriate signatures. Simplicity-specific transaction-building logic is usually required for such a transaction.
 
 A [covenant](../glossary.md#covenant) transaction, in which assets controlled by a contract are sent back to a version of that same contract, generally includes *both* redeem and commit halves in the same transaction.
 
-If an application needs signatures from an existing wallet, a [PSET](../glossary.md#pset) representing a redeem transaction can be built by Simplicity-aware software, and external software can produce an appropriate signature over the proposed PSET transaction. These signatures can be inserted into the [witness](../glossary.md#witness) data.
+If an application needs signatures from an existing wallet, a [PSET](../glossary.md#pset) representing a redeem transaction can be built by Simplicity-aware software, and external software can produce an appropriate signature over the proposed PSET transaction. These signatures can be inserted into the witness data.
 
 ## Wallet connection mechanisms
 
@@ -60,4 +60,4 @@ In this model, the web application (which is developed with LWK targeting WASM) 
 
 The interface is general in order to enable interoperability with any third-party wallet that supports the appropriate wallet connect extensions. However, if the wallet doesn't provide UI support for a specific contract, the web application must be trusted to accurately represent the meaning and effects of the contract state and requested signatures.
 
-A proof of concept of some wallet connect mechanisms is available in the [lending contract demo](https://lending.dev.blockstream.com/). Lightly-customized versions of Blockstream Jade, the Blockstream App, and other wallet applications can pair with this demo and authorize lending contract transactions on Liquid testnet, in both lender and borrower roles.
+A proof of concept of some wallet connect mechanisms is available in the [lending contract demo](https://lending.dev.blockstream.com/). Lightly customized versions of Blockstream Jade, the Blockstream App, and other wallet applications can pair with this demo and authorize lending contract transactions on Liquid testnet, in both lender and borrower roles.
