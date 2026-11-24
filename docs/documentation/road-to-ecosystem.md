@@ -1,6 +1,6 @@
 # Road to Ecosystem
 
-Wide adoption of the Simplicity language in the Liquid ecosystem means that a variety of protocols
+Wide adoption of the [Simplicity](../glossary.md#simplicity) language in the [Liquid](../glossary.md#liquid) ecosystem means that a variety of protocols
 can be built without requiring every wallet to be directly integrated with every protocol.
 
 There could be useful protocols that enable better saving strategies,
@@ -8,9 +8,9 @@ life insurance, payments, lending, options, tokenization, and many other on-chai
 At the same time, an open ecosystem also introduces malicious websites and misleading interfaces.
 
 In an open ecosystem, malicious protocols can't be prevented from appearing,
-because no single party controls the ecosystem. Someone can always create a contract and misrepresent its
+because no single party controls the ecosystem. Someone can always create a [contract](../glossary.md#contract) and misrepresent its
 nature or effects, or even present a malicious contract to a counterparty.
-The best available approach is to help the user understand what is going on before they sign and pay.
+The best available approach is to help the user understand what a transaction does before they sign and pay.
 
 This document is built around a simple motto:
 
@@ -42,12 +42,12 @@ flowchart TD
 
     %% Attach the collapsed sub-trees below the horizontal nodes
     W_Features["<b>Wallet Functions</b><br/>• Displays balances<br/>• Sends / receives funds<br/>• Syncs with blockchain<br/>• Keeps funds secure<br/>• Decides if safe to sign"]:::leftAlign
-    W_Priv["<b>Owns private state</b><br/>• UTXOs<br/>• balances<br/>• blinding keys<br/>• signing keys"]:::leftAlign
+    W_Priv["<b>Owns private state</b><br/>• UTXOs<br/>• Balances<br/>• Blinding keys<br/>• Signing keys"]:::leftAlign
 
     Wallet --> W_Features
     Wallet --> W_Priv
 
-    E_Clear["<b>Clear signing</b><br/>• Parses transaction<br/>• Interprets inputs / outputs<br/>• Validates assets / amounts<br/>• Explains fees<br/>• Explains protocol metadata<br/>• Explains Simplicity covenants<br/>• Rejects what it cannot understand"]:::leftAlign
+    E_Clear["<b>Clear signing</b><br/>• Parses transaction<br/>• Interprets inputs / outputs<br/>• Validates assets / amounts<br/>• Explains fees<br/>• Explains protocol metadata<br/>• Explains Simplicity covenants<br/>• Rejects what it can't understand"]:::leftAlign
     E_UI["<b>User interface</b><br/>• Shows what will happen<br/>• Shows what user gives<br/>• Shows what user receives<br/>• Shows why transaction is needed"]:::leftAlign
 
     Explanation --> E_Clear
@@ -62,15 +62,15 @@ flowchart TD
     style Horizontal_Sentence fill:none,stroke:none,color:none;
 ```
 
-The tree grows over time rather than being fixed once and for all.
+The tree grows over time.
 
 ## Wallets
 
 Wallets are the core part of the ecosystem.
 
-They do the heavy lifting for the user.
+They do most of the work for the user.
 They display balances, send and receive funds, sync with the blockchain, manage keys,
-select coins, construct transactions, and protect wallet-private information.
+select coins, construct [transactions](../glossary.md#transaction), and protect wallet-private information.
 They are also the last line of defense before user funds move.
 
 A protocol can ask the wallet to sign something, but the wallet should decide
@@ -111,13 +111,13 @@ The wallet shouldn't blindly sign the transaction just because the request came 
 
 The wallet should interpret the transaction.
 
-By default, if the wallet can't interpret an input or output,
-it should reject the whole transaction. This is the safest default.
+By default, if the wallet can't interpret an [input](../glossary.md#input) or [output](../glossary.md#output),
+it should reject the whole transaction.
 If a transaction can't be explained, it shouldn't be signed.
 
 When the wallet can interpret everything, it should perform checks and validations to verify that the transaction
-matches what the user intended. For example, the wallet should display asset details correctly,
-show the amounts involved, explain fees, identify the protocol, and describe what the user is receiving in exchange.
+matches what the user intended. For example, the wallet should display [asset](../glossary.md#asset) details correctly,
+show the amounts involved, explain [fees](../glossary.md#fee), identify the protocol, and describe what the user is receiving in exchange.
 
 * Clear signing
     * Explain transaction from a third party
@@ -128,7 +128,7 @@ show the amounts involved, explain fees, identify the protocol, and describe wha
     * Verify amounts
     * Explain fees
     * Explain protocol-specific metadata
-    * Explain Simplicity covenant behavior
+    * Explain Simplicity [covenant](../glossary.md#covenant) behavior
     * Check that the request matches user intent
     * Sign only if the transaction is understandable
 
@@ -150,13 +150,13 @@ Therefore, clear signing has another branch:
         * What conditions will exist after signing?
         * What risks or unknowns remain?
 
-The motivation is simple: the user should understand, without reasonable doubt, that the action being performed is the action they intended.
+The goal is that the user understands, without reasonable doubt, that the action being performed is the action they intended.
 
 ## Standards Around Wallet Interaction
 
 To make this possible, the ecosystem needs shared standards.
 
-The relevant work is happening around Elements Improvement Proposals, or ELIPs.
+The relevant work is happening around [Elements](../glossary.md#elements) Improvement Proposals, or ELIPs.
 The [ElementsProject/ELIPs](https://github.com/ElementsProject/ELIPs) repository contains proposals for Elements and Liquid-related standards.
 
 Two relevant draft proposals are already available:
@@ -177,7 +177,7 @@ Together, these standards describe different parts of the same tree:
         * Liquid Clear Signing Profile
     * Receives a signed transaction only after user approval
 
-These standards aren't separate ideas; they are different layers of one user-safety model.
+These standards are different layers of one user-safety model.
 
 The application wants the user to participate in a protocol.
 The wallet wants to protect the user.
@@ -220,7 +220,7 @@ That is the central tension of the ecosystem:
     * Many contract types
     * Many assets
     * One wallet responsibility:
-        * explain the transaction before signing
+        * Explain the transaction before signing
 
 The ecosystem becomes useful only if applications can innovate without waiting for every wallet to hard-code their protocol.
 But the ecosystem becomes safe only if wallets can reject unknown, ambiguous, or misleading signing requests.
@@ -249,7 +249,7 @@ By definition, this requires an open API that allows the connection to be establ
 
 Liquid adds an important complication: confidentiality.
 
-Liquid supports Confidential Transactions.
+Liquid supports [Confidential Transactions](../glossary.md#confidential).
 Confidentiality means that funds can be transferred without revealing the asset ID and amount to the public blockchain observer.
 Because of this, a wallet shouldn't disclose balances, [UTXOs](../glossary.md#utxo), or view material to a counterparty unless the user has explicitly agreed to that disclosure.
 
@@ -276,8 +276,8 @@ This is the preferred model when confidentiality matters.
 
 There is also a second use case.
 
-Maybe the user wants to share more information with a website.
-Maybe the application needs balances or UTXOs, and the user explicitly agrees to disclose them.
+The user may want to share more information with a website.
+For example, the application may need balances or UTXOs, and the user explicitly agrees to disclose them.
 In that case, the general shape of Bitcoin wallet RPC methods can be adapted for Liquid.
 
 The [WalletConnect Bitcoin JSON-RPC methods](https://docs.walletconnect.network/wallet-sdk/chain-support/bitcoin) provide
@@ -289,16 +289,16 @@ The Liquid profile needs to account for Liquid-specific details:
 
 * Liquid Wallet RPC Profile
     * Liquid accounts
-    * user-approved balances
-    * user-approved UTXOs
-    * descriptor-change events
+    * User-approved balances
+    * User-approved UTXOs
+    * Descriptor-change events
 
 This approach is useful when the user chooses interoperability and convenience over maximum confidentiality.
 
 Disclosure should be explicit.
 A wallet shouldn't leak wallet-private information merely to make an application easier to build.
 
-## Clear Signing as the Center
+## Clear Signing
 
 The transport layer lets the website talk to the wallet.
 
@@ -306,18 +306,18 @@ The Wallet ABI lets the website ask the wallet to construct a transaction withou
 
 The Liquid Wallet RPC Profile lets the website request wallet information when the user agrees to disclose it.
 
-But clear signing is what ties everything back to the motto.
+Clear signing connects these layers to the motto.
 
 * Transport layer
-    * delivers the request
+    * Delivers the request
 * Wallet ABI / RPC profile
-    * structures the request
+    * Structures the request
 * Clear signing
-    * explains the request
+    * Explains the request
 * Wallet UI
-    * asks the user for approval
+    * Asks the user for approval
 * User
-    * understands for what they are paying
+    * Understands for what they're paying
 
 Without clear signing, the ecosystem becomes unsafe.
 The user may technically approve a transaction, but they don't know what they approved.
@@ -345,7 +345,7 @@ wallet APIs that preserve Liquid confidentiality by default,
 RPC methods for cases where the user explicitly agrees to disclose wallet information,
 and clear signing metadata that lets the wallet explain complex Simplicity contracts to the user.
 
-Clear signing is the most ambitious part of this vision.
+Clear signing requires the most work.
 It requires more than good UI. It requires standards, registries, validation logic, contract metadata, asset metadata, and wallet implementations that reject what they can't understand.
 
 This is the secure road to an open Simplicity ecosystem:
