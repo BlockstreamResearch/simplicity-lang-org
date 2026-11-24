@@ -1,6 +1,6 @@
 # Built-in functions
 
-[SimplicityHL](../glossary.md#simplicityhl) offers several built-in functions and macros. These are additional to the hundreds of [jets](../documentation/jets.md) provided by each Simplicity [integration](../glossary.md#integration).
+[SimplicityHL](../glossary.md#simplicityhl) offers several built-in functions and macros. These are in addition to the hundreds of [jets](../documentation/jets.md) that each [integration](../glossary.md#integration) of [Simplicity](../glossary.md#simplicity) provides.
 
 | <div style="width:8em">Function</div> | Description |
 |-------------|-----------------------------------|
@@ -10,12 +10,12 @@
 | `fold()` | Repeatedly apply a function to each element of a list, starting with an initial accumulator value. |
 | `for_while()` | Perform a bounded loop by repeatedly calling a function with an incrementing counter variable. Permits an explicit early exit from the loop.<br><br>**Note: can be computationally expensive.** |
 | `<T>::into()` | Perform native type conversions. See [type casting](type_casting.md) for more details. |
-| `is_none<T>()` | Check whether an `Option<T>` value is `None`, returning `true` or `false`. |
-| `panic!` | Immediately abort the current program, rejecting the currently proposed transaction. |
-| `raw_hash` | (0.9.0+, compile with `-Z raw_hash`.) Compute a SHA256 digest over a provided tuple of integer values of possibly differing widths. |
-| `unwrap` | Require that a value of type `Option<T>` is `Some`, extracting the underlying element of type `T`. Panics if the given value is `None` instead. |
-| `unwrap_left` | Require that a value of type `Either<T, U>` is `Left`, extracting the underlying element of type `T`. Panics if the given value is `Right` instead. |
-| `unwrap_right` | Require that a value of type `Either<T, U>` is `Right`, extracting the underlying element of type `U`. Panics if the given value is `Left` instead. |
+| `is_none::<T>()` | Check whether an `Option<T>` value is `None`, returning `true` or `false`. |
+| `panic!()` | Immediately abort the current [program](../glossary.md#program), rejecting the currently proposed [transaction](../glossary.md#transaction). |
+| `raw_hash()` | (0.9.0+, compile with `-Z raw_hash`.) Compute a SHA256 digest over a provided tuple of integer values of possibly differing widths. |
+| `unwrap()` | Require that a value of type `Option<T>` is `Some`, extracting the underlying element of type `T`. Panics if the given value is `None` instead. |
+| `unwrap_left()` | Require that a value of type `Either<T, U>` is `Left`, extracting the underlying element of type `T`. Panics if the given value is `Right` instead. |
+| `unwrap_right()` | Require that a value of type `Either<T, U>` is `Right`, extracting the underlying element of type `U`. Panics if the given value is `Left` instead. |
 
 ## Examples
 
@@ -37,9 +37,9 @@ fn main() {
 ### `assert!`
 
 ```simplicityhl
-fn main(){
-   let (_, total): (bool, u32) = jet::add_32(1, 1);
-   assert!(jet::eq_32(total, 2));
+fn main() {
+    let (_, total): (bool, u32) = jet::add_32(1, 1);
+    assert!(jet::eq_32(total, 2));
 }
 ```
 
@@ -60,11 +60,11 @@ fn main() {
 
 ### `for_while`
 
-Detailed example of calculating a hash over an entire array (from `SimplicityHL/examples/hash_loop.simf`).
+Detailed example of hashing the bytes `0x00` to `0xff` in a loop, from [`hash_loop.simf`](https://github.com/BlockstreamResearch/SimplicityHL/blob/master/examples/hash_loop.simf).
 
-??? "Click to show"
+??? example "hash_loop.simf"
     ```simplicityhl
-    // Add counter to streaming hash and finalize when the loop exists
+    // Add counter to streaming hash and finalize when the loop exits
     fn hash_counter_8(ctx: Ctx8, unused: (), byte: u8) -> Either<u256, Ctx8> {
         let new_ctx: Ctx8 = jet::sha_256_ctx_8_add_1(ctx, byte);
         match jet::all_8(byte) {
@@ -73,7 +73,7 @@ Detailed example of calculating a hash over an entire array (from `SimplicityHL/
         }
     }
     
-    // Add counter to streaming hash and finalize when the loop exists
+    // Add counter to streaming hash and finalize when the loop exits
     fn hash_counter_16(ctx: Ctx8, unused: (), bytes: u16) -> Either<u256, Ctx8> {
         let new_ctx: Ctx8 = jet::sha_256_ctx_8_add_2(ctx, bytes);
         match jet::all_16(bytes) {
@@ -90,7 +90,7 @@ Detailed example of calculating a hash over an entire array (from `SimplicityHL/
         assert!(jet::eq_256(expected, unwrap_left::<Ctx8>(out)));
     
         // Hash bytes 0x0000 to 0xffff
-        // This takes ~10 seconds on my computer
+        // This runs 65,536 iterations and is much slower
         // let ctx: Ctx8 = jet::sha_256_ctx_8_init();
         // let out: Either<u256, Ctx8> = for_while::<hash_counter_16>(ctx, ());
         // let expected: u256 = 0x281f79f89f0121c31db2bea5d7151db246349b25f5901c114505c18bfaa50ba1;
@@ -110,18 +110,17 @@ See [type casting](type_casting.md) for more details.
 
 ### `is_none`
 
-Many uses of `is_none` are more simply handled with `unwrap()` or `match`, but it is available where desired.
+Many uses of `is_none` are more simply handled with `unwrap()` or `match`.
 
 ```simplicityhl
 let existing_key: Pubkey = get_existing_pubkey();
-if is_none::<Pubkey>(witness::NEW_PUBKEY) {
-    require_pubkey(existing_key)
-} else {
-    require_pubkey(unwrap(witness::NEW_PUBKEY))
-};
+match is_none::<Pubkey>(witness::NEW_PUBKEY) {
+    true => require_pubkey(existing_key),
+    false => require_pubkey(unwrap(witness::NEW_PUBKEY)),
+}
 ```
 
-This is equivalent to the `match` version
+This is equivalent to matching on the `Option` directly:
 
 ```simplicityhl
 let existing_key: Pubkey = get_existing_pubkey();
@@ -136,7 +135,7 @@ match witness::NEW_PUBKEY {
 ```simplicityhl
 // This requires that the specified witness include a Left(Signature)
 // rather than a Right(Signature).
-fn main(){
+fn main() {
     match witness::LEFT_OR_RIGHT {
         Left(s: Signature) => validate_signature(s),
         Right(_: Signature) => panic!(),
