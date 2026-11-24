@@ -56,6 +56,10 @@ def new_section(section_name, introduction = ""):
 elements = json.load(open(sys.argv[1]))
 
 def format_jet(name, i, o, desc):
+    # stdlib.json records a function that takes no arguments with
+    # input_type "()"; show it as name() rather than name(()).
+    if i == "()":
+        i = ""
     return "    | `{}({}) -> {}` | {} |".format(name, i, o, desc)
 
 section = ""
