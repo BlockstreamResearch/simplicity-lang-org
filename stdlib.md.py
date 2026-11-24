@@ -1,21 +1,62 @@
 #!/usr/bin/env python3
 
-# This consumes stdlib.json
-# and generates docs/documentation/stdlib.md.
+# This reads docs/stdlib.json and Cargo.toml at a release tag of a
+# simplicityhl-std checkout and generates docs/documentation/stdlib.md.
+#
+# Usage: python3 stdlib.md.py <simplicityhl-std checkout> <tag>
+#   e.g. python3 stdlib.md.py ~/src/simplicityhl-std v0.2.0 \
+#            > docs/documentation/stdlib.md
+#
+# Both files are read from the tag with `git show`, so the page always
+# names the version it was generated from, and uncommitted or newer
+# changes in the checkout don't leak into it.
 
 # Adapted from jets.md.py
 # (still uses internal variables referring to jets!)
 
 import datetime
 import json
+import re
+import subprocess
 import sys
 
 from descriptions import description_to_cell
 
-preamble = """# SimplicityHL standard library reference
-<!-- Generated from {} by stdlib.md.py on {} -->
 
-The SimplicityHL standard library provides various functions useful in developing [smart contracts](../glossary.md#smart-contract). This reference describes `simplicityhl-std` 0.2.0.
+def git_show(checkout, tag, path):
+    try:
+        return subprocess.run(
+            ["git", "-C", checkout, "show", "{}:{}".format(tag, path)],
+            check=True, capture_output=True, text=True,
+        ).stdout
+    except subprocess.CalledProcessError as e:
+        sys.exit("stdlib.md.py: can't read {} at {} in {}: {}".format(
+            path, tag, checkout, e.stderr.strip()))
+
+
+def package_version(cargo_toml):
+    # The version line in the [package] table. A regex rather than tomllib,
+    # which needs Python 3.11 or later.
+    package = re.search(r"^\[package\]$(.*?)(?=^\[|\Z)", cargo_toml, re.M | re.S)
+    version = package and re.search(r'^version\s*=\s*"([^"]+)"', package.group(1), re.M)
+    if not version:
+        sys.exit("stdlib.md.py: no [package] version in Cargo.toml")
+    return version.group(1)
+
+
+if len(sys.argv) != 3:
+    sys.exit("usage: stdlib.md.py <simplicityhl-std checkout> <tag>")
+checkout, tag = sys.argv[1], sys.argv[2]
+
+version = package_version(git_show(checkout, tag, "Cargo.toml"))
+if tag.startswith("v") and tag[1:] != version:
+    sys.exit("stdlib.md.py: tag {} doesn't match Cargo.toml version {}".format(tag, version))
+elements = json.loads(git_show(checkout, tag, "docs/stdlib.json"))
+
+preamble = """# SimplicityHL standard library reference
+<!-- Generated from BlockstreamResearch/simplicityhl-std {tag} docs/stdlib.json by stdlib.md.py on {date} -->
+
+The SimplicityHL standard library provides various functions useful in developing [smart contracts](../glossary.md#smart-contract). This reference describes `simplicityhl-std` {version}.
 
 Here is a complete list of the available library functions, their [type signatures](../simplicityhl-reference/type.md), and a description of what they do.
 
@@ -38,7 +79,7 @@ use std::lib::u32::math::add_32;
 ```
 
 See [Modules](modules.md#using-the-standard-library-with-simplex) for more on the module and import system used here.
-""".format(sys.argv[1], datetime.datetime.now().date().isoformat())
+""".format(tag=tag, version=version, date=datetime.datetime.now().date().isoformat())
 
 print(preamble)
 
@@ -52,8 +93,6 @@ def new_section(section_name, introduction = ""):
     | <div style="width:22em">Standard library function</div> | Description |
     | ----------------------------------- | ----------- |"""
     return template.format(section_name, introduction)
-
-elements = json.load(open(sys.argv[1]))
 
 def format_jet(name, i, o, desc):
     # stdlib.json records a function that takes no arguments with
