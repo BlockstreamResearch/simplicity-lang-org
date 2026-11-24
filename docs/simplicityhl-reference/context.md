@@ -1,24 +1,24 @@
 # Context
 
-A context Γ maps variable names to Simplicity types:
+A context Γ maps variable names to [Simplicity](../glossary.md#simplicity) types:
 
 Γ = [ `foo` ↦ 𝟙, `bar` ↦ 𝟚^32?, `baz` ↦ 𝟚^32 × 𝟙 ]
 
-We write Γ(`v`) = A to denote that variable `v` has type A in context Γ.
+Γ(`v`) = A denotes that variable `v` has type A in context Γ.
 
-We handle free variables inside SimplicityHL expressions via contexts.
+Contexts handle free variables inside [SimplicityHL](../glossary.md#simplicityhl) expressions.
 
 If all free variables are defined in a context, then the context assigns a type to the expression.
 
-We write Γ ⊩ `a`: A to denote that expression `a` has type A in context Γ.
+Γ ⊩ `a`: A denotes that expression `a` has type A in context Γ.
 
-Note that contexts handle only the **target type** of an expression!
+Contexts handle only the **target type** of an expression.
 
-Source types are handled by environments and the translation of SimplicityHL to Simplicity.
+Source types are handled by [environments](environment.md) and the [translation](translation.md) of SimplicityHL to Simplicity.
 
-We write Γ ⊎ Δ to denote the **disjoint union** of Γ and Δ.
+Γ ⊎ Δ denotes the **disjoint union** of Γ and Δ.
 
-We write Γ // Δ to denote the **update** of Γ with Δ. The update contains mappings from both contexts. If a variable is present in both, then the mapping from Δ is taken.
+Γ // Δ denotes the **update** of Γ with Δ. The update contains mappings from both contexts. If a variable is present in both, then the mapping from Δ is taken.
 
 ## Unit literal
 
@@ -74,7 +74,7 @@ For any B
 
 ## Jet
 
-If `j` is the name of a jet of type B → C
+If `j` is the name of a [jet](../glossary.md#jet) of type B → C
 
 If Γ ⊩ `b`: B
 
@@ -122,7 +122,7 @@ If Γ // [`y` ↦ C] ⊩ `c`: D
 
 Then Γ ⊩ `match a { Left(x) => b, Right(y) => c, }`: D
 
-_(We do not enforce that `x` is used inside `b` or `y` inside `c`. Writing stupid programs is allowed, although there will be a compiler warning at some point.)_
+This rule doesn't require `x` to be used inside `b`, or `y` inside `c`.
 
 ## Left unwrap
 
