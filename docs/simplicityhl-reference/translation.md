@@ -1,10 +1,12 @@
 # Translation
 
-We write ⟦`e`⟧Ξ to denote the translation of SimplicityHL expression `e` using environment Ξ from A.
+⟦`e`⟧Ξ denotes the translation of [SimplicityHL](../glossary.md#simplicityhl) expression `e` using [environment](environment.md) Ξ from type A.
 
-The translation produces a Simplicity expression with source type A.
+The translation produces a [Simplicity](../glossary.md#simplicity) expression with source type A.
 
 The target type depends on the SimplicityHL expression `e`.
+
+Ctx, PEnv and Product are defined on the [Environment](environment.md) page. The typing judgment ⊩ is defined on the [Context](context.md) page.
 
 ## Unit literal
 
@@ -54,13 +56,13 @@ Then ⟦`v`⟧Ξ = Ξ(`v`): A → B
 
 ## Witness value
 
-Ctx(Ξ) ⊩ `witness(name)`: B
+If Ctx(Ξ) ⊩ `witness(name)`: B
 
 Then ⟦`witness(name)`⟧Ξ = witness: A → B
 
 ## Jet
 
-If `j` is the name of a jet of type B → C
+If `j` is the name of a [jet](../glossary.md#jet) of type B → C
 
 If Ctx(Ξ) ⊩ `b`: B
 
