@@ -1,8 +1,8 @@
 # Simplex
 
-Simplex is a development framework and orchestration tool for [SimplicityHL](../glossary.md#simplicityhl) smart contracts. It assumes a Rust development environment, and helps you create applications and tools in Rust to interact with the underlying contract.
+Simplex is a development framework and orchestration tool for [SimplicityHL](../glossary.md#simplicityhl) [smart contracts](../glossary.md#smart-contract). It assumes a Rust development environment, and helps you create applications and tools in Rust to interact with the underlying [contract](../glossary.md#contract).
 
-Simplex defines and runs realistic smart contract integration tests in Rust. It runs the tests against a local instance of [`elementsd`](../glossary.md#elementsd), which provides a customizable [Liquid Network](../glossary.md#liquid)-like environment for test transactions, so the tests don't broadcast any transactions on Liquid testnet.
+Simplex defines and runs realistic smart contract integration tests in Rust. It runs the tests against a local instance of [`elementsd`](../glossary.md#elementsd), which provides a customizable [Liquid Network](../glossary.md#liquid)-like environment for test [transactions](../glossary.md#transaction), so the tests don't broadcast any transactions on Liquid testnet.
 
 A Simplex project's `Simplex.toml` file (automatically created by `simplex init`, as described below) configures the details of this test environment.
 
@@ -15,11 +15,11 @@ curl -L https://smplx.simplicity-lang.org | bash
 simplexup
 ```
 
-When Simplex is installed with `simplexup`, you can rerun `simplexup` at any time to upgrade to the most recent release.
+If you installed Simplex with `simplexup`, you can rerun `simplexup` at any time to upgrade to the most recent release.
 
 ## Rust SDK
 
-Simplex includes a [Rust SDK](https://docs.rs/smplx-sdk) with modules that compile SimplicityHL programs, build [witnesses](../glossary.md#witness) and [transactions](../glossary.md#transaction), and execute programs locally or in on-chain transactions. Applications and integration tests can use it to construct and spend contract transactions.
+Simplex includes a [Rust SDK](https://docs.rs/smplx-sdk) with modules that compile SimplicityHL [programs](../glossary.md#program), build [witnesses](../glossary.md#witness) and transactions, and execute programs locally or in on-chain transactions. Applications and integration tests can use it to construct and spend contract transactions.
 
 ## Using Simplex
 
@@ -34,7 +34,7 @@ simplex init my_contract
 cd my_contract
 ```
 
-Simplex prints `Config written to:` followed by the new `Simplex.toml` path. Choose a directory name that doesn't already exist. If `my_contract` already exists, `simplex init my_contract` reports `entity already exists`; choose another name.
+Simplex prints `Config written to:` followed by the new `Simplex.toml` path. If the directory already exists, `simplex init` fails with `entity already exists`; choose another name.
 
 The new directory contains `Cargo.toml` (already depending on `smplx-std`), `Simplex.toml`, `src/lib.rs` to let Rust code reference generated [artifacts](../glossary.md#artifacts), `.gitignore`, a starter contract at `simf/p2pk.simf`, and a test template at `tests/p2pk_test.rs`.
 
@@ -49,7 +49,7 @@ Run `simplex build` at the top-level directory of the project.
 
 This process analyzes the SimplicityHL source code in `simf/` and creates corresponding Rust library files in `src/artifacts`, suitable for including from other Rust code. These library files define functions to build witnesses and blockchain transactions that spend from the individual SimplicityHL contract(s) within the Simplex project.
 
-Whenever the SimplicityHL source code changes, re-run `simplex build` to regenerate the artifacts and keep them in sync with the contract's expectations.
+Whenever the SimplicityHL source code changes, rerun `simplex build` to regenerate the artifacts and keep them consistent with the contract.
 
 ???+ "SimplicityHL package dependencies"
     If your contract's `.simf` files import a separate SimplicityHL package (via `use` of an external crate, not just a local module), list it under `[dependencies]` in `Simplex.toml` and run `simplex install` to fetch it before building.
@@ -71,9 +71,9 @@ Run `simplex test` to execute your complete integration test suite against a loc
 
 Pass one or more names to run only tests whose names match. Use `--target <name>` to run the tests in one file, where `<name>` is the file name in `tests/` without `.rs`.
 
-### Persistent regtest instance
+### Using a persistent regtest instance
 
-`simplex test` normally spins up and tears down its own `elementsd`/Electrs pair for each test. Run `simplex regtest` in a separate terminal to instead start a standalone, long-lived node pair, then point `simplex test` at it via the `[test.rpc]`/`[test.esplora]` entries in `Simplex.toml`. This is useful when you want to inspect chain state between test runs instead of starting from scratch every time.
+`simplex test` normally starts and stops its own `elementsd`/Electrs pair for each test. Run `simplex regtest` in a separate terminal to instead start a standalone, long-lived [node](../glossary.md#node) pair, then configure `simplex test` to use it with the `[test.rpc]` and `[test.esplora]` entries in `Simplex.toml`. This is useful when you want to inspect chain state between test runs instead of starting from scratch every time.
 
 By default, `simplex regtest` picks free ports and authenticates with the node's cookie, so the URLs and credentials change each time it starts. It prints the current values and then waits for Ctrl-C:
 
@@ -116,11 +116,11 @@ rpc_password = "password"
 
 At startup, `simplex regtest` sends [regtest](../glossary.md#regtest) coins to the wallet derived from the `mnemonic` under `[regtest]`. The tests sign with the wallet derived from the `mnemonic` under `[test]`. Both settings default to the same phrase, so if you change one, change the other to match.
 
-### Fuzz tests
+### Writing and running fuzz tests
 
-Simplex (0.1.0+) can also run *fuzz tests*, which check a contract's logic and invariants against many randomly generated inputs instead of one hand-built transaction. Fuzz tests run entirely locally and don't start or contact `elementsd`. Simplex itself runs the contract internally in a Simplicity bit machine environment.
+Simplex (0.1.0+) can also run *fuzz tests*, which check a contract's logic and invariants against many randomly generated inputs instead of one hand-built transaction. Fuzz tests run entirely locally and don't start or contact `elementsd`. Simplex itself runs the contract internally in a [Simplicity](../glossary.md#simplicity) bit machine environment.
 
-A fuzz test is marked `#[simplex::fuzz]`, receives a `TestContext<FuzzMode>`, and runs a fuzz engine on a *scenario*: a template transaction together with the contracts that spend its inputs or lock its outputs. This test fuzzes the starter project's pay-to-public-key contract, which spends input 0 (0.2.0+). Build the [starter project's artifacts](#building-artifacts), then save it as `tests/p2pk_fuzz.rs` in the `my_contract` project created above:
+A fuzz test is marked `#[simplex::fuzz]`, receives a `TestContext<FuzzMode>`, and runs a fuzz engine on a *scenario*: a template transaction together with the contracts that spend its [inputs](../glossary.md#input) or lock its [outputs](../glossary.md#output). This test fuzzes the starter project's pay-to-public-key contract, which spends input 0 (0.2.0+). Build the [starter project's artifacts](#building-artifacts), then save this test as `tests/p2pk_fuzz.rs` in the `my_contract` project created above:
 
 ```rust
 use simplex::{FuzzMode, TestContext};
@@ -161,9 +161,9 @@ fn p2pk_fuzz_test(context: TestContext<FuzzMode>) {
 
 Randomly generated values are almost never valid signatures, so a contract that checks a signature would reject nearly every case. `ProgramSignature::new("SIGNATURE")` asks the test signer to replace the witness value named `SIGNATURE` with a valid signature over each generated transaction.
 
-By default, the engine expects every spend to be accepted, and a case fails if execution fails. To test that a contract rejects invalid spends, call `spec` on the engine with a closure that returns `Expect::Accept`, `Expect::Reject`, or `Expect::Any` for each case. `mutations` changes the transaction's amounts, assets, timelocks, or layout in half the cases, and the spec judges the mutated transaction. For each accepted spend, the engine also checks that the outputs the contract locks can't be redirected and that the spend depends on its signatures. `without_lock_check` and `without_auth_check` turn these checks off.
+By default, the engine expects every spend to be accepted, and a case fails if execution fails. To test that a contract rejects invalid spends, call `spec` on the engine with a closure that returns `Expect::Accept`, `Expect::Reject`, or `Expect::Any` for each case. `mutations` changes the transaction's amounts, [assets](../glossary.md#asset), [timelocks](../glossary.md#timelock), or layout in half the cases, and the spec applies to the mutated transaction. For each accepted spend, the engine also checks that the outputs the contract locks can't be redirected and that the spend depends on its signatures. `without_lock_check` and `without_auth_check` turn these checks off.
 
-The default strategy draws integer values from a mix of uniformly random values, boundary values (such as 0, 1, powers of two and one less than them, and the type's maximum), integer literals that appear in the contract's source code or in the scenario's transaction (such as its amounts), plus or minus one, and indices up to the transaction's input or output count, whichever is larger. It also sometimes copies one generated value into another field of the same case, so comparisons between fields are exercised. These choices make the fuzzer more likely to find the specific values at which a contract's behavior changes. Call `random_strategy` on a contract in the scenario to draw its values uniformly at random instead, or `custom_strategy` to supply your own.
+The default strategy draws integer values from a mix of uniformly random values, boundary values (such as 0, 1, powers of two and one less than them, and the type's maximum), integer literals that appear in the contract's source code or in the scenario's transaction (such as its amounts), plus or minus 1, and indices up to the transaction's input or output count, whichever is larger. It also sometimes copies one generated value into another field of the same case, so the engine exercises comparisons between fields. These choices make the fuzzer more likely to find the specific values at which a contract's behavior changes. Call `random_strategy` on a contract in the scenario to draw its values uniformly at random instead, or `custom_strategy` to supply your own.
 
 Run `simplex test --fuzz` to execute fuzz tests. Plain `simplex test` doesn't run them. The `[test.fuzz]` section of `Simplex.toml` sets the number of cases (`cases`), a fixed random seed (`seed`), and the network whose parameters the test transactions use (`network`). At the end of a run, Simplex prints a summary of the cases' verdicts, rejections, mutations, and checks. When a fuzz test finds a failing case, Simplex saves its seed and generated values in a `fuzz-failures/` directory, and later runs replay saved cases before generating new ones.
 
@@ -171,7 +171,7 @@ Run `simplex test --fuzz` to execute fuzz tests. Plain `simplex test` doesn't ru
 
 Run `simplex fmt` (0.2.0+) to format the project's `.simf` files with `simfmt`, which `simplexup` installs alongside Simplex. With no file arguments, it formats the files that the `[build]` section of `Simplex.toml` selects. Pass one or more paths to format only those files.
 
-Add `--check` to report files that need formatting without changing them, as in a CI job, and `--short` to list those files instead of showing the full diff. `simplex fmt` follows the `simfmt.toml` in the project, or the [default `simfmt` configuration](https://github.com/BlockstreamResearch/simfmt/blob/master/simfmt.toml) if there isn't one. Arguments after `--` are passed to `simfmt` unchanged.
+Add `--check` to report files that need formatting without changing them, as in a CI job, and `--short` to list those files instead of showing the full diff. `simplex fmt` follows the `simfmt.toml` in the project, or the [default `simfmt` configuration](https://github.com/BlockstreamResearch/simfmt/blob/master/simfmt.toml) if there isn't one. `simplex fmt` passes arguments after `--` to `simfmt` unchanged.
 
 If `simfmt` isn't installed next to `simplex`, the command fails with `could not run simfmt at '<path>': <error>`. Rerun `simplexup` to install it.
 
