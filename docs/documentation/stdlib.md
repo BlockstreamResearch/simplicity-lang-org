@@ -110,8 +110,8 @@ See [Modules](modules.md#using-the-standard-library-with-simplex) for more on th
     | `get_confidential_input_amount(u32) -> Confidential1` | Returns the confidential amount at the specified input index.<br><br><span class="panics">Panics</span><br>Panics if the specified input does not exist or if its amount is explicit. |
     | `get_explicit_output_amount(u32) -> u64` | Returns the explicit amount at the specified output index.<br><br><span class="panics">Panics</span><br>Panics if the specified output does not exist or if its amount is confidential. |
     | `get_confidential_output_amount(u32) -> Confidential1` | Returns the confidential amount at the specified output index.<br><br><span class="panics">Panics</span><br>Panics if the specified output does not exist or if its amount is explicit. |
-    | `get_explicit_current_amount(()) -> u64` | Returns the explicit input amount at the current_index.<br><br><span class="panics">Panics</span><br>Panics if amount is confidential. |
-    | `get_confidential_current_amount(()) -> Confidential1` | Returns the confidential input amount at the current_index.<br><br><span class="panics">Panics</span><br>Panics if amount is explicit. |
+    | `get_explicit_current_amount() -> u64` | Returns the explicit input amount at the current_index.<br><br><span class="panics">Panics</span><br>Panics if amount is confidential. |
+    | `get_confidential_current_amount() -> Confidential1` | Returns the confidential input amount at the current_index.<br><br><span class="panics">Panics</span><br>Panics if amount is explicit. |
 
 ## AssetId and Amount getters
 
@@ -126,8 +126,8 @@ See [Modules](modules.md#using-the-standard-library-with-simplex) for more on th
     | `get_confidential_input_asset_id_with_amount(u32) -> (Confidential1, Confidential1)` | Returns confidential asset_id and amount at the specified input index.<br><br><span class="panics">Panics</span><br>Panics if the specified input does not exist or if its asset_id or amount is explicit. |
     | `get_explicit_output_asset_id_with_amount(u32) -> (u256, u64)` | Returns explicit asset_id and amount at the specified output index.<br><br><span class="panics">Panics</span><br>Panics if the specified output does not exist or if its asset_id or amount is confidential. |
     | `get_confidential_output_asset_id_with_amount(u32) -> (Confidential1, Confidential1)` | Returns confidential asset_id and amount at the specified output index.<br><br><span class="panics">Panics</span><br>Panics if the specified output does not exist or if its asset_id or amount is explicit. |
-    | `get_explicit_current_asset_id_with_amount(()) -> (u256, u64)` | Returns explicit input asset_id and amount at the current_index.<br><br><span class="panics">Panics</span><br>Panics if asset_id or amount is confidential. |
-    | `get_confidential_current_asset_id_with_amount(()) -> (Confidential1, Confidential1)` | Returns confidential input asset_id and amount at the current_index.<br><br><span class="panics">Panics</span><br>Panics if asset_id or amount is explicit. |
+    | `get_explicit_current_asset_id_with_amount() -> (u256, u64)` | Returns explicit input asset_id and amount at the current_index.<br><br><span class="panics">Panics</span><br>Panics if asset_id or amount is confidential. |
+    | `get_confidential_current_asset_id_with_amount() -> (Confidential1, Confidential1)` | Returns confidential input asset_id and amount at the current_index.<br><br><span class="panics">Panics</span><br>Panics if asset_id or amount is explicit. |
 
 ## AssetId getters
 
@@ -142,8 +142,8 @@ See [Modules](modules.md#using-the-standard-library-with-simplex) for more on th
     | `get_confidential_input_asset_id(u32) -> Confidential1` | Returns the confidential asset_id at the specified input index.<br><br><span class="panics">Panics</span><br>Panics if the specified input does not exist or if its asset_id is explicit. |
     | `get_explicit_output_asset_id(u32) -> u256` | Returns the explicit asset_id at the specified output index.<br><br><span class="panics">Panics</span><br>Panics if the specified output does not exist or if its asset_id is confidential. |
     | `get_confidential_output_asset_id(u32) -> Confidential1` | Returns the confidential asset_id at the specified output index.<br><br><span class="panics">Panics</span><br>Panics if the specified output does not exist or if its asset_id is explicit. |
-    | `get_explicit_current_asset_id(()) -> u256` | Returns the explicit input asset_id at the current_index.<br><br><span class="panics">Panics</span><br>Panics if asset_id is confidential. |
-    | `get_confidential_current_asset_id(()) -> Confidential1` | Returns the confidential input asset_id at the current_index.<br><br><span class="panics">Panics</span><br>Panics if asset_id is explicit. |
+    | `get_explicit_current_asset_id() -> u256` | Returns the explicit input asset_id at the current_index.<br><br><span class="panics">Panics</span><br>Panics if asset_id is confidential. |
+    | `get_confidential_current_asset_id() -> Confidential1` | Returns the confidential input asset_id at the current_index.<br><br><span class="panics">Panics</span><br>Panics if asset_id is explicit. |
 
 ## Script hash getters
 
