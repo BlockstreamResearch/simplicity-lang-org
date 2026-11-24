@@ -1,12 +1,12 @@
 # On-chain Simplicity execution model
 
-Simplicity is a special-purpose language. It works in the context of the Bitcoin transaction model on Bitcoin-like blockchains. This is sometimes also called the "[UTXO](../glossary.md#utxo) model". If you're already familiar with Bitcoin Script and the role it plays in the logic of Bitcoin transactions, you can think of Simplicity as a more expressive and more analyzable alternative to Bitcoin Script, useful for writing more complex conditions (such as recursive [covenants](../glossary.md#covenant) that can propagate conditions across multiple subsequent transactions).
+Simplicity is a special-purpose language. It works in the context of the Bitcoin [transaction](../glossary.md#transaction) model on Bitcoin-like blockchains. This is sometimes also called the "[UTXO](../glossary.md#utxo) model". If you're already familiar with [Bitcoin Script](../glossary.md#bitcoin-script) and the role it plays in the logic of Bitcoin transactions, you can think of Simplicity as a more expressive and more analyzable alternative to Bitcoin Script, useful for writing more complex conditions (such as [recursive covenants](../glossary.md#recursive-covenant) that can propagate conditions across multiple subsequent transactions).
 
-This document will describe the context in which Simplicity programs run, and what they can and can't do as a result.
+This page describes the context in which Simplicity programs run and what they can and can't do as a result.
 
 ## The Simplicity and SimplicityHL environment
 
-Developers generally write SimplicityHL, a higher-level language with a Rust-like syntax, which compiles to Simplicity. The SimplicityHL compiler translates SimplicityHL into Simplicity to run on Simplicity's abstract Bit Machine.
+Developers generally write [SimplicityHL](../glossary.md#simplicityhl), a higher-level language with a Rust-like syntax, which compiles to Simplicity. The SimplicityHL compiler translates SimplicityHL into Simplicity to run on Simplicity's abstract Bit Machine.
 
 Simplicity programs are attached to UTXOs via [Taproot](../glossary.md#taproot) and define their spending conditions. However, the Simplicity program is only disclosed when redeeming (claiming) [assets](../glossary.md#asset). As part of the blockchain consensus process, all blockchain [nodes](../glossary.md#node) can confirm that it matches the commitment attached to the UTXO, and can run the program to confirm that it approves the proposed transaction.
 
@@ -20,50 +20,50 @@ Designing a smart contract with Simplicity thus includes representing its logic 
 
 Like Bitcoin Script scripts, Simplicity programs are *attached to [UTXO](../glossary.md#utxo)s* and define spending conditions for the UTXOs to which they are attached. A Simplicity program can, however, have more complex logic and functionality compared to a Bitcoin Script script.
 
-The Simplicity program doesn't initiate or originate the transaction and doesn't decide anything about what the transaction should be (for instance, it doesn't calculate or choose destination addresses, although it can *constrain* them by rejecting transactions that specify inappropriate destinations).
+The Simplicity program doesn't initiate or originate the transaction and doesn't decide anything about what the transaction should be (for instance, it doesn't calculate or choose destination [addresses](../glossary.md#address), although it can *constrain* them by rejecting transactions that specify inappropriate destinations).
 
 In Bitcoin and related systems, anyone can propose any transaction at any time; the spending conditions associated with assets, such as those contained in the logic of a Simplicity program, form part of the rules that determine whether or not proposed transactions are valid and hence whether those transactions could eventually be recorded in a block and become part of the blockchain.
 
-Whenever a [node](../glossary.md#node) examines a transaction involving UTXO controlled by a Simplicity program, the node will run that program to confirm that the program agrees to allow the transaction.
+Whenever a [node](../glossary.md#node) examines a transaction involving a UTXO controlled by a Simplicity program, the node will run that program to confirm that the program agrees to allow the transaction.
 
 The information available to the program to use in making that decision consists of
 
-* whatever details are hard-coded within the program (for example, trusted public key values),
+* whatever details are hard-coded within the program (for example, trusted [public key](../glossary.md#public-key) values),
 * details of all the [input](../glossary.md#input)s and [output](../glossary.md#output)s of the proposed transaction, and
 * [witness](../glossary.md#witness) data supplied by the creator of the transaction as input to the program.
 
-Note that the program can directly check its own cryptographic identity by examining the input UTXO to which it was attached.
+The program can directly check its own cryptographic identity by examining the input UTXO to which it was attached.
 
-The [witness](../glossary.md#witness) supplied as part of the transaction by its creator represents inputs meant to provide additional context for the transaction. The form of the expected witness is determined in advance by the contract; a witness might include information such as
+The witness supplied as part of the transaction by its creator represents inputs meant to provide additional context for the transaction. The form of the expected witness is determined in advance by the [contract](../glossary.md#contract); a witness might include information such as
 
 * choices among different options or contract features (for example, which of several possible actions the transaction is requesting to take)
 * values of specific parameters (for example, an amount)
 * asserted state from parties' prior interactions with the contract (see [State Management in SimplicityHL](state.md) for more details)
-* digital signatures from parties approving the contract or confirming other relevant statements (for example, a party's signatures approving the exercise of some ability under the contract, or an oracle's signature asserting the truth of some off-chain fact such as a market price or whether a specific event has occurred)
+* digital signatures from parties approving the contract or confirming other relevant statements (for example, a party's signatures approving the exercise of some ability under the contract, or an [oracle](../glossary.md#oracle)'s signature asserting the truth of some off-chain fact such as a market price or whether a specific event has occurred)
 
 The [Witnesses in SimplicityHL development](witness.md) document explains the concept in more detail; the [`.wit` file reference](witness-format.md) talks about the practical mechanics of creating one.
 
 Because Simplicity is formally specified and fully deterministic, every node that examines that transaction will come to exactly the same conclusion about what the result of running the Simplicity program was, without ambiguity.
 
-## How Simplicity programs are triggered or invoked
+## How Simplicity programs are triggered
 
-Simplicity programs are inherently reactive. Because they can't initiate transactions or other actions independently, they rely entirely on external client software to "drive" the contract state forward.
+Simplicity programs are inherently reactive. Because they can't initiate transactions or other actions independently, they rely entirely on external client software to advance the contract state.
 
 To interact with a Simplicity contract, end-user software (such as wallets or specialized apps) must be built specifically around that individual contract. The client software acts as the active engine for the contract's passive logic by:
 
-* Generating transactions: Constructing and submitting on-chain transactions required to trigger specific contract functions.
+* Transaction generation: Constructing and submitting on-chain transactions required to trigger specific contract functions.
 * State tracking: Monitoring on-chain data to determine which actions are valid, and, if necessary, reminding the contract of the relevant state.
-* User interface: Providing an interface to explain the current state to the user and allows the user to make choices (like a "refund" versus "spend" action) by translating those choices into transactions.
+* User interface: Providing an interface to explain the current state to the user and allowing the user to make choices (like a "refund" versus "spend" action) by translating those choices into transactions.
 
 In this model, the client software proposes actions, while the Simplicity program judges and confirms whether those actions are actually permissible under the contract rules. Therefore, the client software must know enough about these rules and the contract state to propose transactions that will be accepted.
 
-For development purposes, you can also run a Simplicity program locally with `hal-simplicity simplicity pset run` after building a [PSET](../glossary.md#pset) representing the overall transaction within which the program will run. This simulates the Simplicity logic that a node would follow, although nodes can also reject transactions for various other reasons, such as if the input UTXO has already been spent, if sufficient fees aren't paid with the transaction, or if spending conditions applicable to some other referenced UTXO aren't satisfied.
+For development purposes, you can also run a Simplicity program locally with `hal-simplicity simplicity pset run` after building a [PSET](../glossary.md#pset) representing the overall transaction within which the program will run. This simulates the Simplicity logic that a node would follow, although nodes can also reject transactions for various other reasons, such as if the input UTXO has already been spent, if sufficient [fees](../glossary.md#fee) aren't paid with the transaction, or if spending conditions applicable to some other referenced UTXO aren't satisfied.
 
 Below, this document presents several examples of applications of SimplicityHL and describes how the contracts they implement must be "driven" by some kind of end-user software generating and submitting appropriate transactions.
 
 ## Distinctive features of Simplicity and its environment
 
-Simplicity is a deterministic functional programming environment. Simplicity programs [don't have access to any form of I/O or network access](https://delvingbitcoin.org/t/delving-simplicity-part-two-side-effects/2091). They can't display a user interface, read or write files, or call network APIs. In fact, they don't even have direct access to the data of the blockchains with which they are integrated. However, Simplicity does provide programs with the ability to *introspect* the currently-proposed transaction in order to find out details related to input and output asset types, amounts, and addresses. For example, a program can use [introspection](../glossary.md#introspection) to require that an asset is sent back to a copy of that same program; it does so by approving only transactions where an output with exactly the same program code receives the asset that was spent in the program's input.
+Simplicity is a deterministic functional programming environment. Simplicity programs [don't have access to any form of I/O or network access](https://delvingbitcoin.org/t/delving-simplicity-part-two-side-effects/2091). They can't display a user interface, read or write files, or call network APIs. They also don't have direct access to the data of the blockchains with which they're integrated. However, Simplicity does provide programs with the ability to *introspect* the currently proposed transaction in order to find out details related to input and output asset types, amounts, and addresses. For example, a program can use [introspection](../glossary.md#introspection) to require that an asset is sent back to a copy of that same program; it does so by approving only transactions where an output with exactly the same program code receives the asset that was spent in the program's input.
 
 Whenever a user proposes a transaction that would spend (consume as input) an existing UTXO to which a Simplicity program is attached, the proposed transaction makes a claim that the Simplicity program authorizes that UTXO to be spent in the indicated context. Nodes then check this claim by running the program. Most, though not all, programs will check cryptographic information derived from the attached witness data, such as whether one or more digital signatures included there are valid.
 
@@ -71,25 +71,25 @@ A Simplicity program can include several alternative paths reflecting different 
 
 ## Why not perform more complex computations in Simplicity?
 
-Every Simplicity program is run (albeit in pruned form) by *every node* that validates a block containing a transaction spending assets controlled by the program. The computation to validate transactions is expensive; indeed, creators of transactions may be required to pay for it indirectly via fees.
+Every Simplicity program is run (albeit in [pruned](../glossary.md#pruning) form) by *every node* that validates a block containing a transaction spending assets controlled by the program. The computation to validate transactions is expensive; indeed, creators of transactions may be required to pay for it indirectly via fees.
 
-Simplicity programs perform deterministic computations based on publicly-disclosed information. It is useful to have nodes perform computation to validate compliance with financial logic and contractual rules (that determine who is entitled to specific assets). However, computation that isn't necessary for these purposes doesn't need to be done on-chain and replicated by all validators.
+Simplicity programs perform deterministic computations based on publicly disclosed information. It's useful to have nodes perform computation to validate compliance with financial logic and contractual rules (that determine who is entitled to specific assets). However, computation that isn't necessary for these purposes doesn't need to be done on-chain and replicated by all nodes.
 
 For example, a loan might charge interest at a specified rate. In principle, a Simplicity program could compute how the loan balance will change over time based on different repayment schedules, but it doesn't *need* to make such hypothetical future projections in order to calculate the actual loan balance. It also wouldn't be able to output the results of these computations for anyone to see them. The same information can just as easily be computed by client-side software, and this is much more efficient. That computation can be done just once, on the device of the interested user.
 
 In general, anything that doesn't have to happen on-chain should be handled outside of a Simplicity program. That includes any logic or computations that are relevant to user interface for the contract but not critical to its underlying financial logic and disposition of assets.
 
-Many computationally-intensive tasks that must be performed on-chain, like cryptographic operations, can be outsourced to [jets](../glossary.md#jet), allowing the actual calculations to take place in native code.
+Many computationally intensive tasks that must be performed on-chain, like cryptographic operations, can be outsourced to [jets](../glossary.md#jet). The calculations then take place in native code.
 
 ## Examples
 
 The functionality of three kinds of contracts is examined below in order to illustrate how Simplicity programs can make decisions in order to determine whether to approve proposed transactions.
 
-These examples don't use introspection features, so they don't demonstrate Simplicity's ability to constrain outputs' destinations. Introspection would also provide an alternative way to implement the refund path in the `htlc` contract (constraining the refund payment to be sent to the address of the original sender of an asset, by asserting that an input address and output address match); this version instead hardcodes a key that can be used to authorize refunds, sent to any chosen address.
+These examples don't use introspection features, so they don't demonstrate Simplicity's ability to constrain outputs' destinations. Introspection would also provide an alternative way to implement the refund path in the `htlc` contract (constraining the refund payment to be sent to the address of the original sender of an asset, by asserting that an input address and output address match); this version instead hard-codes a key that can be used to authorize refunds, sent to any chosen address.
 
 ### p2ms
 
-This program, `p2ms.simf`, is taken from the SimplicityHL examples collection. An [older version of the `bash` quickstart](https://github.com/BlockstreamResearch/simplicity-lang-org/blob/82e7f3e84218d6c3dd6dbbf5f772fcd5c192baab/docs/getting-started/bash-quickstart.md) guide provides a recipe for making a Liquid Testnet transaction using this program.
+This program, `p2ms.simf`, is taken from the SimplicityHL examples collection. An [older version of the `bash` quickstart](https://github.com/BlockstreamResearch/simplicity-lang-org/blob/82e7f3e84218d6c3dd6dbbf5f772fcd5c192baab/docs/getting-started/bash-quickstart.md) guide provides a recipe for making a [Liquid](../glossary.md#liquid) testnet transaction using this program.
 
 ```simplicityhl
 /*
@@ -143,7 +143,7 @@ fn main() {
 }
 ```
 
-This program includes three hard-coded public keys. Its logic says that any proposed transaction will be approved if, and only if, exactly two digital signatures on the proposed transaction are provided and those signatures were correctly made by the private keys corresponding to any two of those three keys.
+This program includes three hard-coded public keys. Its logic says that any proposed transaction will be approved if, and only if, exactly two digital signatures on the proposed transaction are provided and those signatures were correctly made by the [private keys](../glossary.md#private-key) corresponding to any two of those three keys.
 
 Since the signatures are made over the transaction data including the specific input(s) and output(s), it can be presumed that the holders of those keys agree with transferring specific assets controlled by the contract to those specific destinations.
 
@@ -154,16 +154,22 @@ Once an asset has been sent to this contract (that is, a UTXO identifies it as a
     flowchart TD
         A((Claiming transaction)) -->|Witness| B[p2ms contract]
         B --> C[Valid signature count is 0]
-        C --> D{Sig 1 provided and valid?}
-        D -->|Yes| E[Valid signature count increases by 1]
+        C --> D{Sig 1 provided?}
+        D -->|Yes| D2{Sig 1 valid?}
+        D2 -->|Yes| E[Valid signature count increases by 1]
+        D2 -->|No| O
         D -->|No| F[Valid signature count unchanged]
-        E --> G{Sig 2 provided and valid?}
+        E --> G{Sig 2 provided?}
         F --> G
-        G -->|Yes| H[Valid signature count increases by 1]
+        G -->|Yes| G2{Sig 2 valid?}
+        G2 -->|Yes| H[Valid signature count increases by 1]
+        G2 -->|No| O
         G -->|No| I[Valid signature count unchanged]
-        H --> J{Sig 3 provided and valid?}
+        H --> J{Sig 3 provided?}
         I --> J
-        J -->|Yes| K[Valid signature count increases by 1]
+        J -->|Yes| J2{Sig 3 valid?}
+        J2 -->|Yes| K[Valid signature count increases by 1]
+        J2 -->|No| O
         J -->|No| L[Valid signature count unchanged]
         K --> M{Valid signature count equal to 2?}
         L --> M
@@ -224,25 +230,25 @@ fn main() {
 }
 ```
 
-This program incorporates logic supporting two different outcomes, which are two different kinds of transactions that can potentially be approved in different circumstances. One path is called "complete" and represents a transaction that claims to complete the intended asset transfer. If the contract is satisfied (by someone revealing an appropriate hash preimage as "password") that this can occur, it will approve a transaction that effectuates this transfer. The authorized recipient must also provide a digital signature approving this transaction.
+This program incorporates logic supporting two different outcomes, which are two different kinds of transactions that can potentially be approved in different circumstances. One path is called "complete" and represents a transaction that claims to complete the intended asset transfer. If the contract is satisfied (by someone revealing an appropriate hash preimage as "password") that this can occur, it will approve a transaction that carries out this transfer. The authorized recipient must also provide a digital signature approving this transaction.
 
-On the other hand, if the underlying asset being transferred is still controlled by the contract after a specified block height (here, block 1000), the authenticated original sender can request a refund, and the contract will approve a transaction that effectuates the refund.
+On the other hand, if the underlying asset being transferred is still controlled by the contract after a specified [block height](../glossary.md#height) (here, block 1000), the authenticated original sender can request a refund, and the contract will approve a transaction that carries out the refund.
 
-In each of these cases, the appropriate party must actively make a claim by submitting a transaction and substantiating it with a [witness](../glossary.md#witness) that proves all required conditions are met. Until the recipient explicitly creates and submits this claiming transaction, the assets remain controlled by the contract.
+In each of these cases, the appropriate party must actively make a claim by submitting a transaction and substantiating it with a [witness](../glossary.md#witness) that proves all required conditions are met. Until the appropriate party explicitly creates and submits this claiming transaction, the assets remain controlled by the contract.
 
-The contract doesn't store any kind of state to record whether one or the other paths has already previously been taken. The reason that one path excludes the other is simply that the underlying asset will already have been spent. In this case, the blockchain's transaction validity logic forbids double-spending the same [UTXO](../glossary.md#utxo). Another way of thinking of this is that, after the asset has been claimed from the contract by someone, the contract no longer controls the disposition of that asset, and therefore it is no longer interesting or relevant whether the contract would "agree" to some other transfer. In a certain sense, Simplicity contracts don't "know" what assets they control, but that information is readily available on the blockchain for inspection by software like wallet apps.
+The contract doesn't store any kind of state to record whether one or the other path has already been taken. The reason that one path excludes the other is simply that the underlying asset will already have been spent. In this case, the blockchain's transaction validity logic forbids double-spending the same [UTXO](../glossary.md#utxo). Another way of thinking of this is that, after the asset has been claimed from the contract by someone, the contract no longer controls the disposition of that asset, and therefore it's no longer interesting or relevant whether the contract would "agree" to some other transfer. In a certain sense, Simplicity contracts don't "know" what assets they control, but that information is readily available on the blockchain for inspection by software like wallet apps.
 
 ??? "Expand for diagram"
     ```mermaid
     flowchart TD
         A((Claiming transaction)) -->|Witness| B[htlc contract]
         B -->Q{Which action?}
-        Q -->|Transfer| C{Hash preimage correct?}
-        Q -->|Refund| D{Past block height 1000?}
+        Q -->|Complete| C{Hash preimage correct?}
+        Q -->|Cancel| D{Tx lock time at least block 1000?}
         C -->|Yes| E{Recipient signature valid?}
         C -->|No| F((Reject transaction))
         D -->|Yes| G{Sender signature valid?}
-        D -->|No| F((Reject transaction))
+        D -->|No| I((Reject transaction))
         E -->|Yes| H((Approve transaction))
         E -->|No| J((Reject transaction))
         G -->|Yes| K((Approve transaction))
@@ -253,7 +259,7 @@ The contract doesn't store any kind of state to record whether one or the other 
 
 This example discusses a prediction market contract but doesn't provide an example of SimplicityHL code for this contract.
 
-A prediction market contract provides an example of how Simplicity contract updates are "driven" by some kind of end-user software such as a wallet or a contract-specific app, which must generate and submit appropriate transactions and witness data under appropriate circumstances. 
+A prediction market contract provides an example of how Simplicity contract updates are "driven" by some kind of end-user software such as a wallet or a contract-specific app, which must generate and submit appropriate transactions and witness data under appropriate circumstances.
 
 A typical prediction market issues pairs of tokens called YES and NO with respect to a specific question. The market has functionality that tends to ensure that the YES and NO prices remain consistent with one another.
 
@@ -268,15 +274,15 @@ Users can also directly trade YES and NO tokens with one another, allowing their
 
 At least the final three actions will likely need to be provided by different code paths of the same program, because they all need to be able to release (authorize spending of) some $1 of locked value, and assets controlled by the prediction market ought to be fungible.
 
-If the underlying question resolves as YES, the YES token will typically be worth one currency unit (such as $1), while the NO token won't be redeemable for any value. Conversely, if the underlying question resolves as NO, the NO token will be redeemable for $1 and the YES token won't be redeemable. When the question resolves (by the issuance of a signed [oracle](../glossary.md#oracle) statement indicating which side has won), each "winner" holding a token for the successful position on the question must individually proactively claim a reward by explicitly submitting a transaction that claims $1 from the contract in exchange for consuming a token. Therefore, all of the winners need to have, and use, software capable of formulating this claim transaction in order to receive any benefit from their successful bets in the market. In the absence of a specific claim transaction, the contract doesn't have any inherent notion of who the winners are or the fact that they have won or are entitled to anything. Some implementations may not even "remember" which side has won, and have to be reminded by resubmitting the oracle statement together with each successive claim.
+If the underlying question resolves as YES, the YES token will typically be worth one currency unit (such as $1), while the NO token won't be redeemable for any value. Conversely, if the underlying question resolves as NO, the NO token will be redeemable for $1 and the YES token won't be redeemable. When the question resolves (by the issuance of a signed oracle statement indicating which side has won), each "winner" holding a token for the successful position on the question must individually claim a reward by explicitly submitting a transaction that claims $1 from the contract in exchange for consuming a token. Therefore, all of the winners need to have, and use, software capable of formulating this claim transaction in order to receive any benefit from their successful bets in the market. In the absence of a specific claim transaction, the contract doesn't have any inherent notion of who the winners are or the fact that they have won or are entitled to anything. Some implementations may not even "remember" which side has won, and have to be reminded by resubmitting the oracle statement together with each successive claim.
 
 ??? "Expand for diagrams"
     ```mermaid
     sequenceDiagram
-        participant wallet@{"alias": "User wallet"}
-        participant node@{"alias": "Node"}
-        participant impl@{"alias": "Node's Simplicity implementation"}
-        participant mempool@{"alias": "Mempool"}
+        participant wallet as User wallet
+        participant node as Node
+        participant impl as Node's Simplicity implementation
+        participant mempool as Mempool
         wallet->>node: New tx spending assets from UTXO Y to address Z, witness W
         node->>impl: Run program P with UTXO Y to address Z, witness W
         impl->>node: Success
