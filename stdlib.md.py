@@ -15,17 +15,17 @@ from descriptions import description_to_cell
 preamble = """# SimplicityHL standard library reference
 <!-- Generated from {} by stdlib.md.py on {} -->
 
-The SimplicityHL standard library provides various functions useful in developing smart contracts.
+The SimplicityHL standard library provides various functions useful in developing [smart contracts](../glossary.md#smart-contract). This reference describes `simplicityhl-std` 0.2.0.
 
 Here is a complete list of the available library functions, their [type signatures](../simplicityhl-reference/type.md), and a description of what they do.
 
-Some library functions can fail or panic. This allows a Simplicity program to refuse a proposed transaction by performing a mandatory assertion; these functions' return type is `()` below. The failure or panic effect produced by these functions, or the corresponding behavior of jets, is ultimately the *only* way to decline a transaction.
+Some library functions can panic. Their descriptions include a **Panics** note that gives the condition. A panic makes the program fail, so the [transaction](../glossary.md#transaction) is invalid and doesn't confirm. The `assert_*` functions return `()` and exist only for this effect.
 
 For more built-in SimplicityHL functions, see the [jets reference](jets.md).
 
 ## Using the library in SimplicityHL projects with Simplex
 
-In an existing [Simplex](simplex.md) project, install the standard library with
+In an existing [Simplex](simplex.md) project, install the standard library by running:
 
 ```bash
 simplex install std
