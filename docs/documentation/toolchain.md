@@ -1,18 +1,18 @@
 # SimplicityHL toolchain
 
-The SimplicityHL toolchain consists of the command-line tools `simc` (the SimplicityHL compiler) and `hal-simplicity` (a multipurpose command-line utility for inspecting and creating objects relevant to Simplicity programs and on-chain transactions).
+The SimplicityHL toolchain consists of the command-line tools `simc` (the SimplicityHL compiler) and `hal-simplicity` (a multipurpose command-line utility for inspecting and creating objects relevant to Simplicity programs and on-chain [transactions](../glossary.md#transaction)).
 
-!!! Note
+!!! note
 
     The toolchain is useful for learning about Simplicity and SimplicityHL and for testing and debugging purposes. However, **most application developers will use a workflow that doesn't emphasize the use
     of these tools**.
 
-    A typical smart contract development workflow is focused on a
+    A typical [smart contract](../glossary.md#smart-contract) development workflow is focused on a
     high-level language (usually Rust) in which application software is
-    developed alongside the SimplicityHL contract in a single project. See
+    developed alongside the SimplicityHL [contract](../glossary.md#contract) in a single project. See
     [simplicity-contracts](https://github.com/BlockstreamResearch/simplicity-contracts)
-    for examples of such projects. In this workflow, SimplicityHL programs
-    are compiled, addresses are derived, and witnesses and transactions
+    for examples of such projects. In this workflow, SimplicityHL [programs](../glossary.md#program)
+    are compiled, [addresses](../glossary.md#address) are derived, and [witnesses](../glossary.md#witness) and transactions
     are built from within Rust applications using other libraries and
     tooling, not `simc` and `hal-simplicity`. (The other libraries and
     tooling share some of their code with these command-line tools.)
@@ -21,8 +21,8 @@ The SimplicityHL toolchain consists of the command-line tools `simc` (the Simpli
     Kit](https://docs.liquid.net/docs/lwk-overview-and-examples)
     ([LWK](../glossary.md#lwk))
     also provides tools for building witnesses and transactions from
-    high-level languages other than Rust, facilitating an analogous
-    workflow for those languages.
+    high-level languages other than Rust, which supports an analogous
+    workflow in those languages.
 
 !!! note "Try these tools in the Simplicity Codespace"
 
@@ -38,11 +38,9 @@ The SimplicityHL toolchain consists of the command-line tools `simc` (the Simpli
 
 ## Typical workflow
 
-**As noted above, most SimplicityHL developers will use a different workflow using other tools.**
-
 The most basic workflow for on-chain transactions with the command-line toolchain is:
 
-*Commit-time* (that is, when sending assets *to* the contract):
+*Commit-time* (that is, when sending [assets](../glossary.md#asset) *to* the contract):
 
 1. compile the program with `simc` and note the compiled program data
 2. derive the on-chain destination address of the compiled program with `hal-simplicity simplicity info` (optionally including `-s` to commit to 256 bits of specified state data)
@@ -93,7 +91,7 @@ Options:
 
 If the option `--json` is provided, produce JSON output instead, with the fields `program`, `cmr`, `compiler_version`, `target` (0.9.0+), `witness`, and `abi_meta`. `witness` and `abi_meta` are `null` unless `-w` or `--abi` is given. Using `--json` is recommended whenever the output of `simc` will be parsed by other programs or scripts.
 
-`--target` (0.9.0+) selects the set of jets the program can call: `elements`, the default, or `core`, which has Simplicity's core jets (such as arithmetic, hashing, and signature checks) but not any [introspection](../glossary.md#introspection) jets, such as `jet::current_index`. Different targets can produce different CMRs from the same source. An unknown target fails with an error that ends `Unknown target: <name>. Use one of: elements or core`.
+`--target` (0.9.0+) selects the set of [jets](../glossary.md#jet) the program can call: `elements`, the default, or `core`, which has Simplicity's core jets (such as arithmetic, hashing, and signature checks) but not any [introspection](../glossary.md#introspection) jets, such as `jet::current_index`. Different targets can produce different CMRs from the same source. An unknown target fails with an error that ends `Unknown target: <name>. Use one of: elements or core`.
 
 The compiled program is needed in order to derive addresses and parameters at commit-time (that is, when sending assets *to* the contract). The witness is additionally needed in order to derive addresses and parameters at redeem-time (that is, when spending assets *from* the contract). A [covenant](../glossary.md#covenant) is used in both ways at once, as it may be both the origin and the destination of assets inside the same transaction.
 
@@ -117,7 +115,7 @@ The `hal-simplicity` subcommands that differ from `hal-elements` are `hal-simpli
 
 These are used, respectively, for constructing *on-chain addresses*, *transactions*, and *signatures* for use with Simplicity programs.
 
-Some additional information and sample invocations appears in the [`hal-simplicity` README file](https://github.com/BlockstreamResearch/hal-simplicity/blob/master/README.md).
+Some additional information and sample invocations appear in the [`hal-simplicity` README file](https://github.com/BlockstreamResearch/hal-simplicity/blob/master/README.md).
 
 ### hal-simplicity simplicity info
 
@@ -142,7 +140,7 @@ ARGS:
     [witness]    a hex encoding of all the witness data for the program
 ```
 
-The optional state commitment via `-s` is noteworthy here, as it is needed to derive an address reflecting a commitment to contract [state](state.md) information. Without `-s`, no state commitment is included.
+The `-s` option is needed to derive an address that commits to contract [state](state.md) information. Without `-s`, no state commitment is included.
 
 The output is a JSON object which contains some of the following fields (most of them only in case a witness was provided):
 
@@ -150,25 +148,25 @@ The output is a JSON object which contains some of the following fields (most of
 
 * `commit_base64`: the base64 low-level Simplicity program (as provided as input).
 
-* `commit_decode`: a representation of the low-level Simplicity code as a sequence of [combinator](../glossary.md#combinator) and [jet](../glossary.md#jet) invocations. This is one practical way to visualize what low-level Simplicity code looks like.
+* `commit_decode`: a representation of the low-level Simplicity code as a sequence of [combinator](../glossary.md#combinator) and jet invocations. This is one practical way to visualize what low-level Simplicity code looks like.
 
 * `type_arrow`: currently always `1 → 1`.
 
 * `cmr`: the [CMR](../glossary.md#cmr) of the program.
 
-* `liquid_address_unconf`: the [Liquid](../glossary.md#liquid) on-chain address of the program, in unconfidential format
+* `liquid_address_unconf`: the [Liquid](../glossary.md#liquid) on-chain address of the program, in [unconfidential](../glossary.md#unconfidential) format.
 
-* `liquid_testnet_address_unconf`: the [Liquid](../glossary.md#liquid) testnet on-chain address of the program, in unconfidential format
+* `liquid_testnet_address_unconf`: the Liquid testnet on-chain address of the program, in unconfidential format.
 
-* `is_redeem`: whether a witness was provided (for redeem-time) or not (for commit-time)
+* `is_redeem`: whether a witness was provided (for redeem-time) or not (for commit-time).
 
-* `redeem_base64`: a redemption-time version of the program with pruning performed (removing unused program branches) and witness data attached
+* `redeem_base64`: a redemption-time version of the program with [pruning](../glossary.md#pruning) performed (removing unused program branches) and witness data attached.
 
-* `witness_hex`: the serialized witness data in hex (rather than base64) format
+* `witness_hex`: the serialized witness data in hex (rather than base64) format.
 
-* `amr`: annotated Merkle root (internal cryptographic parameter)
+* `amr`: annotated Merkle root (internal cryptographic parameter).
 
-* `ihr`: identity hash of the root (internal cryptographic parameter)
+* `ihr`: identity hash of the root (internal cryptographic parameter).
 
 ### hal-simplicity simplicity pset
 
@@ -194,7 +192,7 @@ SUBCOMMANDS:
 
 #### hal-simplicity simplicity pset create
 
-This command creates a new empty PSET. It needs to know where the asset to be spent is coming from, and where it should be sent to.
+This command creates a new empty PSET. It takes the outpoints to spend and the destinations to send the assets to.
 
 The first argument is a JSON string consisting of a list of *outpoints*, each a JSON object containing a `txid` and a `vout`, like this:
 
@@ -215,9 +213,9 @@ The first argument is a JSON string consisting of a list of *outpoints*, each a 
 ]
 ```
 
-where each `<txid>` is a txid in hex form and each `<index>` is an integer index.
+where each `<id>` is a txid in hex form and each `<index>` is an integer index.
 
-The second argument is a JSON string consisting of a list of JSON objects mapping *destination addresses to assets and amounts*, where each destination address is an on-chain address and each amount is a floating-point value. The assets are specified as 64-character hexadecimal values (Liquid asset IDs). One of the JSON objects can also optionally contain a mapping from the string `fee` to an amount, indicating payment of a fee.
+The second argument is a JSON string consisting of a list of JSON objects mapping *destination addresses to assets and amounts*, where each destination address is an on-chain address and each amount is a floating-point value. The assets are specified as 64-character hexadecimal values (Liquid asset IDs). One of the JSON objects can also optionally contain a mapping from the string `fee` to an amount, indicating payment of a [fee](../glossary.md#fee).
 
 ```json
 [
@@ -240,13 +238,13 @@ The output of the command is a JSON object whose attribute `pset` contains the n
 
 #### hal-simplicity simplicity pset update-input
 
-This command modifies an existing PSET by attaching required redeem-time details to an input that is a [UTXO](../glossary.md#utxo) controlled by a Simplicity program.
+This command modifies an existing PSET by attaching required redeem-time details to an [input](../glossary.md#input) that is a UTXO controlled by a Simplicity program.
 
 `hal-simplicity simplicity pset update-input <pset> <inputindex> -i <hex>:<asset>:<value> -c <cmr> -p <internalkey> [-s <state>]`
 
-where `<pset>` is the existing base64-encoded PSET to modify, `<inputindex>` is the index of the input to modify, `<hex>` is the scriptPubKey of the input, `asset` is the Liquid asset ID of the input, `value` is the numerical amount of the input, `<cmr>` is the [CMR](../glossary.md#cmr) of the program to spend from, and `-p` is the program's internal key (commonly the fixed value `50929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac0` by default).
+where `<pset>` is the existing base64-encoded PSET to modify, `<inputindex>` is the index of the input to modify, `<hex>` is the scriptPubKey of the input, `<asset>` is the Liquid asset ID of the input, `<value>` is the numerical amount of the input, `<cmr>` is the [CMR](../glossary.md#cmr) of the program to spend from, and `<internalkey>` is the program's [internal key](../glossary.md#internal-key) (commonly the fixed value `50929b74c1a04954b78b4b6035e97a5e078a5a0f28ec96d547bfee9ace803ac0` by default).
 
-For a program that carries [state](state.md), `--state` (short form `-s`) gives the same 32-byte hex state commitment that was passed to `hal-simplicity simplicity info -s` when deriving the address of the UTXO being spent. Without it, the input's Taproot details are computed with no state commitment, and the spend fails for any UTXO that committed to one. (The `-s` option of `hal-simplicity simplicity sighash` is unrelated: it supplies a signature.)
+For a program that carries [state](state.md), `--state` (short form `-s`) gives the same 32-byte hex state commitment that was passed to `hal-simplicity simplicity info -s` when deriving the address of the UTXO being spent. Without it, the input's [Taproot](../glossary.md#taproot) details are computed with no state commitment, and the spend fails for any UTXO that committed to one. (The `-s` option of `hal-simplicity simplicity sighash` is unrelated: it supplies a signature.)
 
 The output of the command is a JSON object whose attribute `pset` contains the updated PSET in base64 format.
 
@@ -264,7 +262,7 @@ The output of the command is a JSON object whose attribute `pset` contains the u
 
 `hal-simplicity simplicity pset run <pset> <inputindex> <program> <witness>`
 
-This command simulates running a Simplicity program in the context of a transaction built up as a PSET. You can see whether the transaction succeeds and some the details of individual jet invocations, their inputs, and their outputs. This helps with debugging to confirm whether a program will complete successfully and approve a transaction, as well as understanding why it accepted or rejected a specific proposed transaction. The command has the same arguments as `hal-simplicity simplicity pset finalize` but *runs* the program in the context of the resulting transaction, instead of outputting a PSET representing that transaction.
+This command simulates running a Simplicity program in the context of a transaction built up as a PSET. You can see whether the transaction succeeds and some of the details of individual jet invocations, their inputs, and their outputs. This helps with debugging to confirm whether a program will complete successfully and approve a transaction, as well as understanding why it accepted or rejected a specific proposed transaction. The command has the same arguments as `hal-simplicity simplicity pset finalize` but *runs* the program in the context of the resulting transaction, instead of outputting a PSET representing that transaction.
 
 The output is a JSON object with two fields:
 
@@ -272,6 +270,7 @@ The output is a JSON object with two fields:
 * `jets`: the jet calls in the order they ran. Each entry gives the `jet` name, its `input_value` and `output_value`, whether that call succeeded (`success`), and, for `eq_*` jets, the two compared values in `equality_check`.
 
 !!! warning "Check `success`, not the exit status"
+
     `hal-simplicity simplicity pset run` exits with status 0 even when the program fails, and also when it can't run the program at all. In the second case, such as for an invalid PSET or input index, the output is a JSON object with a single `error` field. A script must read the `success` field, for example with `jq -e '.success' > /dev/null`, which exits with a nonzero status unless `success` is `true`.
 
 #### hal-simplicity simplicity pset extract
@@ -284,7 +283,7 @@ This command serializes a PSET in a hexadecimal form suitable for submission to 
 
 ### hal-simplicity simplicity sighash
 
-Generate (or validate) signatures over Simplicity transactions using a private key.
+Generate (or validate) signatures over Simplicity transactions using a [private key](../glossary.md#private-key).
 
 ```text
     hal-simplicity simplicity sighash [FLAGS] [OPTIONS] <tx> <input-index> <cmr> [--] [control-block]
@@ -317,21 +316,21 @@ In signing applications, the basic syntax is
 
 `hal-simplicity simplicity sighash <pset> <index> <cmr> -x <privkey>`
 
-where `<pset>` is the base64-encoded PSET containing the transaction to be signed, `<index>` is the numeric input index, `<cmr>` is the [CMR](../glossary.md#cmr) of the Simplicity program that controls the UTXO, and `privkey` is the hex-encoded private key with which the signature should be made.
+where `<pset>` is the base64-encoded PSET containing the transaction to be signed, `<index>` is the numeric input index, `<cmr>` is the [CMR](../glossary.md#cmr) of the Simplicity program that controls the UTXO, and `<privkey>` is the hex-encoded private key with which the signature should be made.
 
-The output is a JSON object containing signature details, in which the `signature` attribute contains a signature suitable for inclusion in a Simplicity program's witness data. Note that the version of the signature used in a `.wit` must begin with `0x` before the hexadecimal signature.
+The output is a JSON object containing signature details, in which the `signature` attribute contains a signature suitable for inclusion in a Simplicity program's witness data. In a `.wit` file, the signature must begin with `0x` before the hexadecimal signature.
 
-`hal-simplicity simplicity sighash` can also *verify* signatures that have already been created, if the expected public key is specified with `-p` and the existing signature with `-s`.
+`hal-simplicity simplicity sighash` can also *verify* signatures that have already been created, if the expected [public key](../glossary.md#public-key) is specified with `-p` and the existing signature with `-s`.
 
 ### hal-simplicity address inspect
 
-This subcommand, inherited from `hal-elements`, decodes a Liquid address and reports the scriptPubKey it encodes. It accepts [confidential](../glossary.md#confidential) and unconfidential addresses. One use is computing the scriptPubKey hash that a Simplicity program compares against an output (see [computing the hash off-chain](destinations.md#computing-the-hash-off-chain)).
+This subcommand, inherited from `hal-elements`, decodes a Liquid address and reports the scriptPubKey it encodes. It accepts [confidential](../glossary.md#confidential) and unconfidential addresses. One use is computing the scriptPubKey hash that a Simplicity program compares against an [output](../glossary.md#output) (see [computing the hash off-chain](destinations.md#computing-the-hash-off-chain)).
 
 `hal-simplicity address inspect <address>`
 
 The network is determined by the address prefix, so the command takes no network option. Add `-y` for YAML output instead of JSON.
 
-Output for a Liquid testnet [Taproot](../glossary.md#taproot) address:
+Output for a Liquid testnet Taproot address:
 
 ```json
 {
@@ -349,7 +348,7 @@ The output can contain the following fields:
 
 * `network`: the network the address belongs to, such as `liquid` or `liquidtestnet`.
 
-* `type`: `p2pkh`, `p2sh`, `p2wpkh`, or `p2wsh`. Only SegWit version 0 programs are classified, so every Taproot address, including every Simplicity contract address, reports `unknown-witness-program-version`. The address is valid; `witness_program_version` is `1` for Taproot.
+* `type`: `p2pkh`, `p2sh`, `p2wpkh`, `p2wsh`, or `unknown-witness-program-version`. Only SegWit version 0 programs are classified, so every Taproot address, including every Simplicity contract address, reports `unknown-witness-program-version`. The address is valid; `witness_program_version` is `1` for Taproot.
 
 * `script_pub_key.hex`: the scriptPubKey in hex.
 
@@ -371,4 +370,4 @@ This subcommand, inherited from `hal-elements`, derives addresses from a public 
 
 The public key or script is given in hex. Add `--blinder <pubkey>` to make the addresses [confidential](../glossary.md#confidential) with that blinding public key. For a public key, the output contains `p2pkh`, `p2wpkh` and `p2shwpkh` addresses; for a script, it contains `p2sh`, `p2wsh` and `p2shwsh` addresses.
 
-The command creates regtest addresses by default, and Liquid addresses with `--liquid`. It doesn't have an option for Liquid testnet, and doesn't create [Taproot](../glossary.md#taproot) addresses. To get a Liquid testnet address that you control, for example as a destination for a contract's payments, create one in a wallet such as Humid, or with `elements-cli getnewaddress`.
+The command creates [regtest](../glossary.md#regtest) addresses by default, and Liquid addresses with `--liquid`. It doesn't have an option for Liquid testnet, and doesn't create Taproot addresses. To get a Liquid testnet address that you control, for example as a destination for a contract's payments, create one in a wallet such as [Humid](../glossary.md#humid), or with `elements-cli getnewaddress`.
