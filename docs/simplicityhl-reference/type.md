@@ -1,9 +1,9 @@
 # Types and Values
 
-SimplicityHL mostly uses a subset of Rust's types.
-It extends Rust in some ways to make it work better with Simplicity and with the blockchain.
+[SimplicityHL](../glossary.md#simplicityhl) mostly uses a subset of Rust's types.
+It extends Rust in some ways to make it work better with [Simplicity](../glossary.md#simplicity) and with the blockchain.
 
-The example values on this page number their elements from 1 (`a1`, …, `aN`) for notational convenience; SimplicityHL itself doesn't have any syntax for accessing an element by its index, so programs get at elements by [destructuring](let_statement.md) instead.
+The example values on this page number their elements from 1 (`a1`, …, `aN`) for notational convenience; SimplicityHL itself doesn't have any syntax for accessing an element by its index, so [programs](../glossary.md#program) access elements by [destructuring](let_statement.md) instead.
 
 ## Boolean Type
 
@@ -75,11 +75,11 @@ Tuples are always finite in length.
 
 [Arrays work just like in Rust](https://doc.rust-lang.org/std/primitive.array.html).
 
-The empty array `[]` is basically useless, but is included for completeness.
+The empty array `[]` is rarely useful, but is included for completeness.
 
 Arrays `[a1, …, aN]` work like in most other programming languages.
 Each array type `[A; N]` defines an element type `A` and a length `N`.
-An array value `[a1, …, aN]` of that type consists of `N` many elements `a1`, …, `aN` that are each of type `A`.
+An array value `[a1, …, aN]` of that type consists of `N` elements `a1`, …, `aN` that are each of type `A`.
 Arrays are always of finite length.
 
 > Arrays are different from tuples:
@@ -155,8 +155,8 @@ enum Option<A> {
 | `Either<A, B>` | `Left(a1)`, `Left(a2)`, …, `Right(b1)`, `Right(b2)`, … |
 
 Sum types represent values that are of some "left" type in some cases and that are of another "right" type in other cases.
-[They work just like in the either crate](https://docs.rs/either/latest/either/enum.Either.html).
-[The Result type from Rust is very similar, too](https://doc.rust-lang.org/std/result/index.html).
+[They work just like in the `either` crate](https://docs.rs/either/latest/either/enum.Either.html).
+[The `Result` type from Rust is very similar, too](https://doc.rust-lang.org/std/result/index.html).
 
 A sum type is generic over two types, `A` and `B`.
 The value `Left(a)` contains an inner value `a` of type `A`.
@@ -173,7 +173,7 @@ enum Either<A, B> {
 
 ## Enum Types
 
-Enum types are available since SimplicityHL 0.7.0 (compiling with `-Z enums`).
+Enum types (0.7.0+) are available when compiling with `-Z enums`.
 
 Enum types are declared with a stanza like
 
@@ -188,7 +188,7 @@ enum A {
 
 This declaration allows the type `A` to take on any of four listed values, called `A::B`, `A::C`, `A::D`, and `A::E`. The declaration stanza belongs at the top level of the program, outside of any executable code block.
 
-Enum type values can also wrap objects of other types, when this is appropriately declared in the initial enum declaration. The `Enum` instances then contain inner variables of the specified types.
+Enum type values can also wrap objects of other types, when this is appropriately declared in the initial enum declaration. Each such variant then contains an inner value of the specified type.
 
 ```simplicityhl
 enum A {
@@ -201,8 +201,8 @@ enum A {
 
 In this declaration, `A::C` wraps another object of type `T`, while `A::E` wraps another object of type `U`.
 
-Enum types are intended for use in matching witness values with the `match` statement, so that one of a list of pre-specified actions or choices can be selected easily. By wrapping other values where needed, the additional values appropriate to a specific action or choice can also be provided in the witness.
+Enum types are intended for use in matching [witness](../glossary.md#witness) values with a [match expression](match_expression.md), so that one of a list of pre-specified actions or choices can be selected easily. By wrapping other values where needed, the additional values appropriate to a specific action or choice can also be provided in the witness.
 
-| Type           | Values (pursuant to declaration of a specific Enum)    |
-|----------------|--------------------------------------------------------|
-| `EnumX` | `EnumX::A(T)`, `EnumX::B(U)`, `EnumX::C(V)` …, |
+| Type | Values (for the declaration of `A` above)                              |
+|------|------------------------------------------------------------------------|
+| `A`  | `A::B`, `A::C(t1)`, `A::C(t2)`, …, `A::D`, `A::E(u1)`, `A::E(u2)`, … |
