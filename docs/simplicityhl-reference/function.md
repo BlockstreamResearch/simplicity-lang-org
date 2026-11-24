@@ -17,11 +17,11 @@ The above example defines a function called `add` that takes two parameters: var
 
 The body of the function is a block expression `{ ... }` that is executed from top to bottom.
 The function returns on the final line _(note the missing semicolon `;`)_.
-In the above example, `x` and `y` are added via the `add_32` jet.
+In the above example, the `add_32` [jet](../glossary.md#jet) adds `x` and `y`.
 The function then checks if the carry is true, signaling an overflow, in which case it panics.
-On the last line, the value of `sum` is returned.
+On the last line, the function returns the value of `sum`.
 
-The above function is called by writing its name `add` followed by a list of arguments `(40, 2)`.
+To call the above function, write its name `add` followed by a list of arguments `(40, 2)`.
 Each parameter needs an argument, so the list of arguments is as long as the list of parameters.
 Here, `x` is assigned the value `40` and `y` is assigned the value `2`.
 
@@ -31,7 +31,7 @@ let z: u32 = add(40, 2);
 
 ## No early returns
 
-SimplicityHL has no support for an early return via a "return" keyword.
+[SimplicityHL](../glossary.md#simplicityhl) has no support for an early return via a "return" keyword.
 The only branching that is available is via [match expressions](./match_expression.md).
 
 ## No recursion
@@ -41,7 +41,7 @@ A function can be called inside a function body if it has been defined before.
 This means that a function can't call itself.
 Loops, where `f` calls `g` and `g` calls `f`, are also impossible.
 
-What _is_ possible are stratified function definitions, where level-0 functions depend on nothing, level-1 functions depend on level-0 functions, and so on.
+What _is_ possible are stratified function definitions, where level-0 functions don't depend on any other functions, level-1 functions depend on level-0 functions, and so on.
 
 ```simplicityhl
 fn level_0() -> u32 {
@@ -75,7 +75,7 @@ fn g() -> u32 {
 
 ## Main function
 
-The `main` function is the entry point of each SimplicityHL program.
+The `main` function is the entry point of each SimplicityHL [program](./program.md).
 Running a program means running its `main` function.
 Other functions are called from the `main` function.
 
@@ -97,9 +97,9 @@ Jets are predefined and optimized functions for common use cases.
 jet::add_32(40, 2)
 ```
 
-Jets live inside the namespace `jet`, which is why they are prefixed with `jet::`.
-They can be called without defining them manually.
+Jets live inside the namespace `jet`, which is why they're prefixed with `jet::`.
+A program can call them without defining them.
 
-It is usually more efficient to call a jet than to manually compute a value.
+It's usually more efficient to call a jet than to manually compute a value.
 
 The [jets reference](../documentation/jets.md) lists each jet and explains what it does.
