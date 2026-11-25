@@ -9,8 +9,8 @@ For example, a contract that releases a locked [asset](../glossary.md#asset) whe
 Consider a prediction market in which each winning share is backed by one unit of collateral in its own UTXO. A `REDEEM_YES` path releases that collateral to whoever burns a `YES` token, given an [oracle](../glossary.md#oracle) statement that the market resolved as YES. The erroneous path checks only this:
 
 ```text
-REDEEM_YES: my input holds one unit of collateral, output 0 sends a YES token
-  to a deliberately unspendable destination, and oracle_statement is a validly
+REDEEM_YES: my input holds one unit of collateral, output 0 holds the YES asset
+  and goes to a deliberately unspendable destination, and oracle_statement is a validly
   signed statement that this market resolved as YES.
 ```
 
