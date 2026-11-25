@@ -63,3 +63,4 @@ You can see all public Simplicity-related events in the calendar:
 * [October 27, 2026](https://youtu.be/Jn56BhGevjY)
 * [November 3, 2026](https://youtu.be/_mBMpvZF3PQ) (allowance contract web app demo)
 * [November 17, 2026](https://youtu.be/p0P2yo2cGks)
+* [November 25, 2026](https://youtu.be/qOq5dHeFnPw) (type theory and Simplicity's design)
