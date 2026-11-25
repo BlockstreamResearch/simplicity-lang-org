@@ -4,7 +4,7 @@ Indexers, wallets, block explorers, and applications read a [contract](../glossa
 
 ## Fields the contract doesn't constrain
 
-Apart from the consensus rules, a contract's assertions are the only constraints on a transaction that spends it. Whoever builds the transaction chooses everything else, including the parts an indexer, wallet, block explorer, or application reads. Constraining `jet::output_script_hash(0)` doesn't say anything about what appears at other indices, and the spender chooses the order of [outputs](../glossary.md#output).
+Apart from the consensus rules and the spending conditions of the transaction's other inputs, a contract's assertions are the only constraints on a transaction that spends it. Whoever builds the transaction chooses everything else, including the parts an indexer, wallet, block explorer, or application reads. A check on `jet::output_script_hash(0)` doesn't say anything about what appears at other indices, and the spender chooses the order of [outputs](../glossary.md#output).
 
 An indexer that classifies a spend by the transaction's shape, such as how many outputs it has, which of them are null-data outputs, or what sits at index 2, lets the spender choose the classification. Where the contract pins those positions, the classification is reliable. Where it doesn't, a spender can shape a transaction so that indexers and block explorers report an outcome that didn't happen. This misleads users without taking anyone's funds, so a review that only asks whether funds can be stolen tends to miss it.
 
@@ -12,7 +12,7 @@ Classify spends by something the contract constrains: the branch taken, the stat
 
 ## Unsolicited outputs at a contract's address
 
-Anyone can create outputs at a contract's [address](../glossary.md#address) at any time, in any amount. On Liquid, they can hold any [asset](../glossary.md#asset), and with an asset the sender issued for the purpose, each one costs only an ordinary transaction [fee](../glossary.md#fee). Software that finds a contract's [UTXOs](../glossary.md#utxo) by address alone sees whatever a stranger chooses to put there.
+Anyone can create outputs at a contract's [address](../glossary.md#address) at any time, in any amount. On [Liquid](../glossary.md#liquid), they can hold any [asset](../glossary.md#asset), and with an asset the sender issued for the purpose, each one costs only an ordinary transaction [fee](../glossary.md#fee). Software that finds a contract's [UTXOs](../glossary.md#utxo) by address alone sees whatever a stranger chooses to put there.
 
 An indexer, wallet, or application that tracks a contract needs to allow for this:
 
