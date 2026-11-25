@@ -72,6 +72,7 @@ Some terms both communities use are fine, including smart contract, on-chain and
 * Link the descriptive noun or verb ("see the [redeem-time witness](...)"), never bare "click here" or "here" as link text.
 * Numbers: spell out ten and under (one, five, ten); use digits for 11 and above. Use digits throughout for technical instructions (step counts, parameter values, byte sizes) regardless of magnitude.
 * Version numbers: no `v` prefix. Write `0.3.0`, not `v0.3.0`. Inline availability notes as `(0.3.0+)`.
+* BIPs and ELIPs: write the name with a space and no leading zeros, such as "BIP 341" and "ELIP 100", in prose, headings, diagram labels and link text. Don't write "BIP-341", "BIP0341", "BIP341" or "BIP 0341". Link to the document's real URL, whatever form it uses, such as `[BIP 341](https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki)`. Keep other forms where they're literal, such as `jet::bip_0340_verify` or the error text `non-BIP68-final`.
 * Don't label tutorial/HOWTO steps with "Step" (just name them, or at most use digits, if possible automatically generating step and section structure with Markdown).
 * Punctuation goes outside closing quotation marks: `the function returns "unit"`, not `the function returns "unit."` In code-adjacent prose this keeps punctuation from being misread as part of a quoted identifier, command, or literal.
 

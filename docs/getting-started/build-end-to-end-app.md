@@ -157,7 +157,7 @@ then see [Reporting problems](#reporting-problems).
 
 The first test runs through a full lifecycle. The second attempts a
 withdrawal before the [timelock](../glossary.md#timelock), which the node rejects
-under [BIP68](../documentation/timelocks.md#timelock-enforcement-mechanisms).
+under [BIP 68](../documentation/timelocks.md#timelock-enforcement-mechanisms).
 
 [Next steps](#next-steps), at the end of this tutorial, suggests more tests you can write yourself.
 
@@ -243,7 +243,7 @@ address the page shows.
 ## 5. Get the beneficiary key that authorizes withdrawals
 
 Open the **I'm the beneficiary** tab and press **Generate / show my key**. This shows the
-BIP340 x-only [public key](../glossary.md#public-key) that the page generated for you
+BIP 340 x-only [public key](../glossary.md#public-key) that the page generated for you
 when it loaded. The page
 [compiles it into the contract](#6-set-the-terms-and-compile-the-contract), and the contract accepts
 a withdrawal only with a signature from the matching
