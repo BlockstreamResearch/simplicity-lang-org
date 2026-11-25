@@ -4,7 +4,7 @@ Indexers, wallets, block explorers, and applications read a [contract](../glossa
 
 ## Fields the contract doesn't constrain
 
-Apart from the consensus rules, a contract's assertions are the only constraints on a transaction that spends it. Whoever builds the transaction chooses everything else, including the parts an indexer, wallet, block explorer, or application reads. A check on `jet::output_script_hash(0)` doesn't say anything about what appears at other indices, and the spender chooses the order of [outputs](../glossary.md#output).
+Apart from the consensus rules and the spending conditions of the transaction's other inputs, a contract's assertions are the only constraints on a transaction that spends it. Whoever builds the transaction chooses everything else, including the parts an indexer, wallet, block explorer, or application reads. A check on `jet::output_script_hash(0)` doesn't say anything about what appears at other indices, and the spender chooses the order of [outputs](../glossary.md#output).
 
 An indexer that classifies a spend by the transaction's shape, such as how many outputs it has, which of them are null-data outputs, or what sits at index 2, lets the spender choose the classification. Where the contract pins those positions, the classification is reliable. Where it doesn't, a spender can shape a transaction so that indexers and block explorers report an outcome that didn't happen. This misleads users without taking anyone's funds, so a review that only asks whether funds can be stolen tends to miss it.
 
