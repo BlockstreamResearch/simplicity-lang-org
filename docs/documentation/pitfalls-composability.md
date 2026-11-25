@@ -88,15 +88,17 @@ A separate deposit path is a distinct branch, selected by the witness, which per
 
 ### When a shared output lets funds be taken
 
-A shared output doesn't always let a spender take funds that aren't theirs. Which case applies decides whether a finding in review means funds can be stolen, or only that the design is untidy. Each executing input requires the shared output to hold at least its own amount, less whatever its path lets the spender withdraw. The shared output must therefore be at least the largest single input less that input's withdrawal, and extraction is bounded by the sum of the *other* inputs plus one withdrawal.
+A shared output doesn't always let a spender take funds that aren't theirs. Which case applies decides whether a finding in review means funds can be stolen, or only that the design is untidy.
 
-That bound means a *deposit*-shaped path, on its own, doesn't let anyone take funds that aren't theirs. If the covenant requires `output == own_input + contributed`, an attacker who creates the second UTXO can never extract more than they put in, because the output they must leave behind is already at least as large as the largest balance present. Such a path can look alarming in review and be harmless.
+Each executing input requires the shared output to hold at least its own amount, less whatever its path lets the spender withdraw. The shared output must therefore hold at least the largest of these differences, and the spender takes the rest of what the inputs held. On a deposit-shaped path, which doesn't allow any withdrawal, that's the combined balance of every input except the largest.
 
-The same shape lets a spender take other parties' funds when either of two conditions holds:
+A spender can take funds that aren't theirs only when both of these hold:
 
-* The attacker doesn't own any of the inputs. If several of the covenant's own UTXOs already exist, because the covenant has no state and so one address accumulates them, or because anyone may pay the address, then everything except the largest balance can be extracted in one transaction, and the attacker doesn't contribute any input.
-* The path doesn't require any authorization. A permissionless state-advancing branch, included so that anyone may add funds to the covenant, lets anyone perform that extraction.
+* **Two or more UTXOs at the covenant's address hold funds the contract means to be claimable by someone other than the spender.** This happens when the covenant has no state, so every payment to it lands at the same address. With only one such UTXO, the spender can't gain anything: if the spender's own input is the largest, it stays in the covenant, and otherwise the other party's input stays.
+* **The spender can satisfy the path for those UTXOs.** The path requires no authorization, such as a permissionless branch that lets anyone add funds, or the spender holds the authorization it requires.
 
-A fee-accumulating covenant with a stateless address and an unauthenticated deposit branch meets both conditions at once, and is the worst case: an attacker without any key, token, or stake takes everything except the largest balance in a single transaction.
+The spender doesn't need to contribute an input of their own. A fee-accumulating covenant with a stateless address and an unauthenticated deposit branch is the worst case: once two payments have accumulated, anyone, without a key, token, or stake, can take everything except the largest balance in a single transaction.
 
-Giving a covenant [state](state.md), so that instances in different states have distinct scriptPubKey hashes, prevents this kind of extraction between those instances. That's a further reason to prefer state over a single shared address even when the contract has no other need for it. Anyone can still pay the current state's address and create a sibling in the same state, so siblings still need one of the remedies above.
+A sweep by a party who holds the path's authorization, such as an operator key on a deposit branch, can be intended: that party may be meant to consolidate siblings, or may not. Where a contract allows it, the designer has to decide which, state it in the contract's documentation, and enforce it if sweeping isn't intended. The same decision covers siblings created by [payments the contract doesn't expect](pitfalls-other.md#payments-a-contract-doesnt-expect), which a stranger can send to the address at any time.
+
+Giving a covenant [state](state.md) keeps instances in different states from sharing a continuing output, as long as each instance requires its continuing output to go to its own next state's address and those addresses differ. That's a further reason to prefer state over a single shared address even when the contract has no other need for it. Anyone can still pay the current state's address and create a sibling in the same state, so siblings still need one of the remedies above.
