@@ -87,14 +87,14 @@ Functions are inlined when they're compiled, so the helper costs the same as wri
 
 The [standard library](stdlib.md) also has getters that return an asset ID and an amount together, such as `get_explicit_input_asset_id_with_amount`.
 
-A `_` in the asset position of an `(Asset1, Amount1)` destructuring marks the point where an amount loses its denomination, so it's a useful pattern to search for when reviewing a contract. It's safe only where the asset can't be substituted, such as the current input's own asset.
+A `_` in the asset position of an `(Asset1, Amount1)` destructuring marks the point where an amount loses its denomination, so it's a useful pattern to search for when reviewing a contract. Treat each one as a bug unless the program checks that asset some other way, such as by comparing it with a fixed asset ID. Even the current input's asset can be substituted, because anyone can pay the contract's address in an asset of their choosing.
 
 An amount check repeated across several inputs can also let a spender take more than intended; see [Composability](pitfalls-composability.md).
 
 ??? note "Confidential transactions"
     A [Simplicity](../glossary.md#simplicity) program can't read the amount or asset of a confidential input or output directly. A contract that calculates with amounts or assets, such as a price, an interest payment, or a running balance, typically requires the inputs and outputs it inspects to be explicit. For what happens to a confidential payment to such a contract, see [Payments a contract doesn't expect](pitfalls-other.md#payments-a-contract-doesnt-expect).
 
-    A contract that passes its whole balance to a beneficiary without calculating anything doesn't need to read amounts or assets, so it works with confidential inputs and outputs.
+    A contract that passes its whole balance to a beneficiary without calculating anything doesn't need to read amounts or assets, so it can work with confidential inputs and outputs. It can't check that the beneficiary's output receives the whole balance, though, so something else has to stop a spender from diverting value to other outputs, such as a requirement that the beneficiary sign the spend.
 
 ## Asset IDs in internal byte order
 
@@ -129,7 +129,7 @@ For example, consider a two-party contract in which one party issues both partie
 The supply assumption has to be enforced outside the contract that relies on it:
 
 * by an issuance covenant that constrains the issued amount, sends all of it to a single output, and either creates no reissuance token or locks the reissuance token so that it can't be used, or
-* by off-chain software that reads the issuance transaction before anyone commits assets to the contract, and that requires exactly one output carrying the asset, not at least one.
+* by off-chain software that reads the issuance transaction before anyone commits assets to the contract, and that checks the same things: the issued amount, that exactly one output carries all of it, and that any reissuance token the issuance created can't be used.
 
 The contract's documentation should state which parameters the contract assumes identify one-of-a-kind assets.
 
