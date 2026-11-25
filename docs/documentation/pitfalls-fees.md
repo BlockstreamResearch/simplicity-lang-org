@@ -2,7 +2,7 @@
 
 Every change to a [contract](../glossary.md#contract)'s state is a [transaction](../glossary.md#transaction), and every transaction pays a [fee](../glossary.md#fee). A contract either lets the fee come out of its own [assets](../glossary.md#asset) or requires the party advancing it to pay, and it needs logic that enforces whichever choice it makes.
 
-On [Liquid](../glossary.md#liquid), fees are paid in the network's [policy asset](../glossary.md#policy-asset): Liquid bitcoin (LBTC) on Liquid mainnet and test Liquid bitcoin (tLBTC) on Liquid testnet. Each fee is an explicit fee [output](../glossary.md#output) in the policy asset. On Bitcoin, the fee is whatever the [inputs](../glossary.md#input) hold beyond what the outputs claim, and there isn't any fee output. A contract that's meant to pay its own fees has to hold some of the policy asset, even if it otherwise deals only in other assets.
+On [Liquid](../glossary.md#liquid), fees are paid in the network's [policy asset](../glossary.md#policy-asset): Liquid bitcoin (LBTC) on Liquid mainnet and test Liquid bitcoin (tLBTC) on Liquid testnet. Each fee is an explicit fee [output](../glossary.md#output) in the policy asset. Elements can be configured to accept fees in other assets, but Liquid doesn't enable that option, so a contract meant to run on other Elements networks should check the fee output's asset, as the example in [Bounding the fee output](#bounding-the-fee-output) does. On Bitcoin, the fee is whatever the [inputs](../glossary.md#input) hold beyond what the outputs claim, and there isn't any fee output. A contract that's meant to pay its own fees has to hold some of the policy asset, even if it otherwise deals only in other assets.
 
 A contract that pays its own fees should:
 
