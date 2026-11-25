@@ -16,37 +16,37 @@ REDEEM_YES: my input holds one unit of collateral, output 0 sends a YES token
 
 This transaction satisfies the check for both input 0 and input 1:
 
-| Input | Contents | Witness |
+| Input | Contents | [Witness](../glossary.md#witness) |
 | --- | --- | --- |
 | 0 | 1 unit of collateral, locked by the market | `REDEEM_YES`, oracle statement |
 | 1 | 1 unit of collateral, locked by the market | `REDEEM_YES`, oracle statement |
 | 2 | 1 `YES` token | |
-| 3 | Liquid bitcoin (LBTC) for the fee | |
+| 3 | Liquid bitcoin (LBTC) for the [fee](../glossary.md#fee) | |
 
 | Output | Contents |
 | --- | --- |
 | 0 | 1 `YES` token, to an unspendable destination |
 | 1 | 2 units of collateral, to the claimant |
-| 2 | [Fee](../glossary.md#fee) |
+| 2 | Fee |
 
-Each copy of the program counted the same burn as authorizing its own release, and neither copy checks for the other. Because the check doesn't require a positive amount, it also accepts a burn of 0 `YES` tokens; see [Zero-amount burns](pitfalls-assets.md#zero-amount-burns).
+Each copy of the program counts the same burn as authorizing its own release, and neither copy checks for the other. Because the check doesn't require a positive amount, it also accepts a burn of 0 `YES` tokens; see [Zero-amount burns](pitfalls-assets.md#zero-amount-burns).
 
 ## Shared outputs and amount constraints
 
-Double-counting also arises when the repeated check concerns an amount rather than an event. A [recursive covenant](../glossary.md#recursive-covenant) commonly requires that most of its balance returns to a copy of itself, by comparing its own input amount against the amount of one specific output:
+Double-counting also arises when the repeated check concerns an amount rather than an event. A [recursive covenant](../glossary.md#recursive-covenant) commonly requires that most of its balance return to a copy of itself, by comparing its own input amount against the amount of one specific output:
 
 ```simplicityhl
 // `not` is the standard library's logical NOT. `remaining` is this input's
 // amount and `retained` is output 0's amount, read as in Assets and amounts.
 // `difference` is the amount that must be retained.
-let (borrow, difference): (bool, u64) = jet::subtract_64(remaining, ALLOWANCE);
+let (borrow, difference): (bool, u64) = jet::subtract_64(remaining, param::ALLOWANCE);
 assert!(not(borrow));
 assert!(jet::le_64(difference, retained));
 ```
 
-Every input running this program compares its own `remaining` against the same output. For two such UTXOs holding `R1` and `R2` spent in one transaction, the only requirement on the shared output is that it retain `max(R1, R2) - ALLOWANCE`, although `R1 + R2` was contributed. The spender takes everything except the largest single input, plus one allowance.
+Every input running this program compares its own `remaining` against the same output. For two such UTXOs holding `R1` and `R2` spent in one transaction, the only requirement on the shared output is that it retain `max(R1, R2) - ALLOWANCE`, although `R1 + R2` was contributed. The spender takes the smaller input in full, plus one allowance from the larger.
 
-The second UTXO doesn't have to be created deliberately. Anyone can pay to a [covenant](../glossary.md#covenant)'s [address](../glossary.md#address), so topping up a contract by sending it a second payment, rather than by spending its existing UTXO through the covenant, is enough to set this up.
+The second UTXO doesn't have to be created deliberately. Anyone can pay to a [covenant](../glossary.md#covenant)'s [address](../glossary.md#address), so adding funds to a contract by sending it a second payment, rather than by spending its existing UTXO through the covenant, is enough to set this up.
 
 Several remedies are available. They differ in whether the contract can still be spent alongside an outside fee input, and whether its instances can be combined.
 
@@ -60,7 +60,7 @@ assert!(jet::eq_32(jet::num_inputs(), 1));
 
 This is the simplest option to write. It also forbids an outside fee input, so the contract pays every fee out of its own balance; see [Contracts that require a single input](pitfalls-fees.md#contracts-that-require-a-single-input).
 
-A single-input spend can't produce outputs holding more of the covenant's asset than its one input held, so under this restriction the balance of an existing instance can only decrease, and no transaction adds funds to one. Paying the covenant's address again creates a second instance with its own [timelock](../glossary.md#timelock) rather than topping up the first, and the two can never be combined afterward.
+A single-input spend can't produce outputs holding more of the covenant's asset than its one input held, so under this restriction the balance of an existing instance can only decrease, and no transaction adds funds to one. Paying the covenant's address again creates a second instance with its own [timelock](../glossary.md#timelock) rather than adding to the first, and the two can never be combined afterward.
 
 Whether that matters depends on what the contract promises. A contract whose limit is meant per UTXO can state the behavior and stop there. A contract whose limit is meant to apply across the whole balance needs aggregation or a separate deposit path.
 
@@ -80,7 +80,7 @@ Where the contract must be combinable with other contracts, it can instead rejec
 
 ### Aggregation
 
-Aggregating preserves multi-input spends: iterate over the transaction's inputs with `for_while`, sum the amounts of every input whose scriptPubKey hash matches `jet::current_script_hash()`, and compare the shared output against that total. This costs extra program size and [witness](../glossary.md#witness) data, and a [confidential](../glossary.md#confidential) payment to the address can make the loop's `unwrap_right` fail; see [Payments a contract doesn't expect](pitfalls-other.md#payments-a-contract-doesnt-expect). It also rate-limits deposits, because a newly deposited UTXO is subject to whatever timelock the spending path enforces before it can be combined with the others.
+Aggregating preserves multi-input spends: iterate over the transaction's inputs with `for_while`, sum the amounts of every input whose scriptPubKey hash matches `jet::current_script_hash()`, and compare the shared output against that total. This costs extra program size and witness data, and a [confidential](../glossary.md#confidential) payment to the address can make the loop's `unwrap_right` fail; see [Payments a contract doesn't expect](pitfalls-other.md#payments-a-contract-doesnt-expect). It also rate-limits deposits, because a newly deposited UTXO is subject to whatever timelock the spending path enforces before it can be combined with the others.
 
 ### A separate deposit path
 
@@ -95,7 +95,7 @@ That bound means a *deposit*-shaped path, on its own, doesn't let anyone take fu
 The same shape lets a spender take other parties' funds when either of two conditions holds:
 
 * The attacker doesn't own any of the inputs. If several of the covenant's own UTXOs already exist, because the covenant has no state and so one address accumulates them, or because anyone may pay the address, then everything except the largest balance can be extracted in one transaction, and the attacker doesn't contribute any input.
-* The path doesn't require any authorization. A permissionless state-advancing branch, included so that anyone may top the covenant up, lets anyone perform that extraction.
+* The path doesn't require any authorization. A permissionless state-advancing branch, included so that anyone may add funds to the covenant, lets anyone perform that extraction.
 
 A fee-accumulating covenant with a stateless address and an unauthenticated deposit branch meets both conditions at once, and is the worst case: an attacker without any key, token, or stake takes everything except the largest balance in a single transaction.
 
