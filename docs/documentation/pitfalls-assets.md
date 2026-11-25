@@ -23,7 +23,7 @@ If a covenant cares about an output at all, it usually needs to constrain:
 
 ## Asset checks in SimplicityHL
 
-`jet::current_amount` and `jet::output_amount` each return a pair of an `Asset1` and an `Amount1` (`jet::output_amount` wraps it in an `Option`). Discarding the asset half of the pair with `_` leaves a comparison between two bare integers, and the program never checks which asset either is denominated in:
+`jet::current_amount` and `jet::output_amount` each return a pair of an `Asset1` and an `Amount1` (`jet::output_amount` wraps it in an `Option`). Discarding the asset half of the pair with `_` leaves a comparison between two bare integers, and the [program](../glossary.md#program) never checks which asset either is denominated in:
 
 ```simplicityhl
 // Incorrect: the asset of each side is discarded.
@@ -58,9 +58,7 @@ assert!(jet::eq_256(asset_in_explicit, param::ASSET_ID));
 ```
 
 !!! warning "`jet::lbtc_asset` is the mainnet ID on every network"
-    `jet::lbtc_asset` returns a constant, the Liquid mainnet LBTC asset ID, whichever chain the [program](../glossary.md#program) runs on. On Liquid testnet the [policy asset](../glossary.md#policy-asset) is test Liquid bitcoin (tLBTC), and on a local [regtest](../glossary.md#regtest) network, including the one [Simplex](../glossary.md#simplex) tests run on, it's that network's own policy asset. A contract that compares against `jet::lbtc_asset()` rejects every spend on those networks, so use it only in a contract meant for Liquid mainnet alone.
-
-    The policy asset entry in the glossary lists the LBTC and tLBTC asset IDs.
+    `jet::lbtc_asset` returns a constant, the Liquid mainnet LBTC asset ID, whichever chain the program runs on. On Liquid testnet the [policy asset](../glossary.md#policy-asset) is test Liquid bitcoin (tLBTC), and on a local [regtest](../glossary.md#regtest) network, including the one [Simplex](../glossary.md#simplex) tests run on, it's that network's own policy asset. A contract that requires an asset to equal `jet::lbtc_asset()` rejects every spend on those networks, so use it only in a contract meant for Liquid mainnet alone.
 
 The comparison and the amounts can be factored into a single function, so that the amounts are only reachable through the check:
 
@@ -89,14 +87,14 @@ Functions are inlined when they're compiled, so the helper costs the same as wri
 
 The [standard library](stdlib.md) also has getters that return an asset ID and an amount together, such as `get_explicit_input_asset_id_with_amount`.
 
-A `_` in the asset position of an `(Asset1, Amount1)` destructuring marks the point where an amount loses its denomination, so it's a useful pattern to search for when reviewing a contract. It's safe only where the asset can't be substituted, such as the current input's own asset.
+A `_` in the asset position of an `(Asset1, Amount1)` destructuring marks the point where an amount loses its denomination, so it's a useful pattern to search for when reviewing a contract. Treat each one as a bug unless the program checks that asset some other way, such as by comparing it with a fixed asset ID. Even the current input's asset can be substituted, because anyone can pay the contract's address in an asset of their choosing.
 
 An amount check repeated across several inputs can also let a spender take more than intended; see [Composability](pitfalls-composability.md).
 
 ??? note "Confidential transactions"
     A [Simplicity](../glossary.md#simplicity) program can't read the amount or asset of a confidential input or output directly. A contract that calculates with amounts or assets, such as a price, an interest payment, or a running balance, typically requires the inputs and outputs it inspects to be explicit. For what happens to a confidential payment to such a contract, see [Payments a contract doesn't expect](pitfalls-other.md#payments-a-contract-doesnt-expect).
 
-    A contract that passes its whole balance to a beneficiary without calculating anything doesn't need to read amounts or assets, so it works with confidential inputs and outputs.
+    A contract that passes its whole balance to a beneficiary without calculating anything doesn't need to read amounts or assets, so it can work with confidential inputs and outputs. It can't check that the beneficiary's output receives the whole balance, though, so something else has to stop a spender from diverting value to other outputs, such as a requirement that the beneficiary sign the spend.
 
 ## Asset IDs in internal byte order
 
@@ -118,7 +116,7 @@ To convert an asset ID from display order to internal byte order:
 python3 -c 'import sys; print(bytes.fromhex(sys.argv[1])[::-1].hex())' 144c654344aa716d6f3abcc1ca90e5641e4e2a7f633bc09fe3baf64585819a49
 ```
 
-The [policy asset](../glossary.md#policy-asset) glossary entry lists the LBTC and tLBTC asset IDs in both orders. A comparison between two asset jets, such as `jet::current_asset` and `jet::output_asset`, isn't affected, because both values are in internal byte order.
+The policy asset glossary entry lists the LBTC and tLBTC asset IDs in both orders. A comparison between two asset jets, such as `jet::current_asset` and `jet::output_asset`, isn't affected, because both values are in internal byte order.
 
 Hashes of an output's `scriptPubKey` have the opposite byte-order issue: the jets return them unreversed, while the Electrum protocol reverses them. See [byte order](destinations.md#byte-order) on the destinations page.
 
@@ -130,8 +128,8 @@ For example, consider a two-party contract in which one party issues both partie
 
 The supply assumption has to be enforced outside the contract that relies on it:
 
-* by an issuance covenant that constrains the issued amount, sends all of it to a single output, and either creates no reissuance token or locks the reissuance token so that it can't be used,
-* by off-chain software that reads the issuance transaction before anyone commits funds, and that requires exactly one output carrying the asset, not at least one.
+* by an issuance covenant that constrains the issued amount, sends all of it to a single output, and either creates no reissuance token or locks the reissuance token so that it can't be used, or
+* by off-chain software that reads the issuance transaction before anyone commits assets to the contract, and that checks the same things: the issued amount, that exactly one output carries all of it, and that any reissuance token the issuance created can't be used.
 
 The contract's documentation should state which parameters the contract assumes identify one-of-a-kind assets.
 
