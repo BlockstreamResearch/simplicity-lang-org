@@ -29,13 +29,13 @@ For example, an oracle for a yes-or-no event might say:
 >
 > `1` representing YES
 >
-> with SHA256 and we will then sign the result with BIP0340 with the key corresponding to public key `0x292cbaf344fc104ff2307cce72e84f13dbfeb6f603fe94938208c6150733b910`.
+> with SHA256 and we will then sign the result with BIP 340 with the key corresponding to public key `0x292cbaf344fc104ff2307cce72e84f13dbfeb6f603fe94938208c6150733b910`.
 
-In this case the oracle could issue the signature `56c9b207945aca49302e26e0f68c7f28ce2801be1c8ed2eb0421d257ab6bf818be854a0a5d08a7346a6ec753c71aaf3c2ec346202ea061f32300f2da81493b40` (a BIP0340 signature of `SHA256(0x00)`) in case the underlying event turns out as NO.
+In this case the oracle could issue the signature `56c9b207945aca49302e26e0f68c7f28ce2801be1c8ed2eb0421d257ab6bf818be854a0a5d08a7346a6ec753c71aaf3c2ec346202ea061f32300f2da81493b40` (a BIP 340 signature of `SHA256(0x00)`) in case the underlying event turns out as NO.
 
 Or a price oracle might say:
 
-> We will construct an oracle statement by hashing a `Height` (representing a [block height](../glossary.md#height)) followed by a `u32` (representing a number of U.S. dollars that were paid on an exchange for 1 BTC in the most recent exchange transaction), each encoded as 4 big-endian bytes, with SHA256. We will sign this statement with the BIP0340 key corresponding to `0x292cbaf344fc104ff2307cce72e84f13dbfeb6f603fe94938208c6150733b910`.
+> We will construct an oracle statement by hashing a `Height` (representing a [block height](../glossary.md#height)) followed by a `u32` (representing a number of U.S. dollars that were paid on an exchange for 1 BTC in the most recent exchange transaction), each encoded as 4 big-endian bytes, with SHA256. We will sign this statement with the BIP 340 key corresponding to `0x292cbaf344fc104ff2307cce72e84f13dbfeb6f603fe94938208c6150733b910`.
 
 The oracle may then publish the values `(height, price, signature)`, representing an instance of such an oracle statement. For example, it might publish:
 
@@ -125,15 +125,15 @@ For bidirectional communications between back-office business systems and a Simp
 
 At a technical level, issuing oracle statements for Simplicity contracts requires the following components:
 
-* A BIP0340 keypair
+* A BIP 340 keypair
 * An unambiguous format for oracle statements
 * A process for determining the facts the oracle attests to
 * A process for generating oracle statements from those facts
 * SHA256 hashing
-* BIP0340 signing
+* BIP 340 signing
 * A channel for publishing oracle statements and their signatures
 
-Oracles should generally use SHA256 and BIP0340, because they're most compatible with the rest of the ecosystem, and because Simplicity has built-in [jets](../glossary.md#jet) to help verify signatures made with them.
+Oracles should generally use SHA256 and BIP 340, because they're most compatible with the rest of the ecosystem, and because Simplicity has built-in [jets](../glossary.md#jet) to help verify signatures made with them.
 
 !!! warning
 
