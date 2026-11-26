@@ -65,6 +65,24 @@ This runs against a placeholder transaction with a single input, so it prints
 transaction, these jets return the transaction's actual values; the Quickstart linked
 below does this against a live Liquid testnet transaction.
 
+## Run a program from a browser agent
+
+Open any page on this site in a browser with [WebMCP enabled](https://developer.chrome.com/docs/ai/webmcp/). Ask the agent to
+discover `run_simplicityhl` and call it with the full program as `source`.
+For example:
+
+```json
+{"source":"fn main() { assert!(jet::eq_32(2, 2)); }"}
+```
+
+This returns `status: "success"`. Change the second `2` to `3` to get
+`status: "execution_error"`. A program that doesn't compile returns
+`status: "compile_error"` and compiler diagnostics. Use `dbg!()` to
+inspect values in the `debug` array.
+
+The tool uses the same placeholder transaction as the examples on this
+page. It leaves the editors unchanged and doesn't submit transactions.
+
 ## Where to go next
 
 - **Quickstart:** the [Quickstart tutorial](quickstart.md) compiles a similar contract, funds it, and spends it in a transaction on [Liquid](../glossary.md#liquid) testnet.
