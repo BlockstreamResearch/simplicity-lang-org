@@ -113,6 +113,7 @@ extra_javascript:
   - javascript/mathjax.js
   - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
   - javascript/simplicity-embed.js
+  - javascript/agent-setup.js
     #  - https://polyfill.io/v3/polyfill.min.js?features=es6
     #  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
   - path: javascripts/runnable.js
@@ -174,6 +175,7 @@ nav:
   - Get Started:
       - Try it in your browser: getting-started/try-it.md
       - Quickstart: getting-started/quickstart.md
+      - Set up with a coding agent: getting-started/agent-setup.md
       - Build a complete application from web to wallet: getting-started/build-end-to-end-app.md
   - Learn:
       - Core Concepts:

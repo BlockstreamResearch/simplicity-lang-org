@@ -179,3 +179,286 @@
   margin-top: 0.15em;
   margin-bottom: 0.15em;
 }
+
+/* Homepage "Copy setup prompt" button and its "What it runs" panel
+   (markup in overrides/main.html, behavior in javascript/agent-setup.js). */
+.hero .agent-ico {
+    width: 1.1em;
+    height: 1.1em;
+    fill: currentColor;
+    flex: none;
+}
+
+.hero .hero-links {
+    margin-top: 1rem !important;
+}
+
+.md-typeset .hero .agent-label {
+    font-size: 0.8rem;
+    color: #b4b6c2;
+    margin: 1.25rem auto 0.6rem;
+    max-width: none;
+}
+
+.agent-line {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.agent-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    height: 2.25rem;
+    padding: 0 1.1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+    font: 500 0.8rem/1 var(--md-text-font-family), sans-serif;
+    cursor: copy;
+    transition: background-color 0.15s, border-color 0.15s;
+}
+
+.agent-pill:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+.agent-pill .agent-ico--spark {
+    color: var(--md-accent-fg-color);
+}
+
+.agent-pill .agent-ico--copy {
+    opacity: 0.6;
+}
+
+.agent-pill .agent-ico--check,
+.agent-pill.is-copied .agent-ico--copy {
+    display: none;
+}
+
+.agent-pill.is-copied .agent-ico--check {
+    display: inline-block;
+    color: #4ade80;
+}
+
+.agent-what {
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    font: 400 0.75rem var(--md-text-font-family), sans-serif;
+    color: #b4b6c2;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    text-decoration-color: rgba(255, 255, 255, 0.3);
+}
+
+.agent-what:hover,
+.agent-what[aria-expanded="true"] {
+    color: #fff;
+}
+
+.hero button:focus-visible {
+    outline: 2px solid var(--md-accent-fg-color);
+    outline-offset: 2px;
+}
+
+.agent-receipt {
+    max-width: 34rem;
+    margin: 1rem auto 0;
+    text-align: left;
+    background: #1c1d24;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    padding: 1rem 1.1rem;
+}
+
+.agent-receipt[hidden],
+.agent-receipt [hidden] {
+    display: none;
+}
+
+.agent-receipt__head {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.md-typeset .hero .agent-receipt__msg {
+    flex: 1;
+    margin: 0;
+    font-size: 0.78rem;
+    color: #e6e6ea;
+    max-width: none;
+}
+
+.agent-receipt__msg b {
+    color: #fff;
+}
+
+.agent-receipt__msg .agent-ico--ok {
+    color: #4ade80;
+    vertical-align: -0.15em;
+    margin-right: 0.3rem;
+}
+
+.agent-receipt__close {
+    background: none;
+    border: 0;
+    color: #9a9caa;
+    cursor: pointer;
+    padding: 0.1rem;
+    border-radius: 4px;
+    line-height: 0;
+}
+
+.agent-receipt__close:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.agent-receipt__prompt {
+    margin: 0.8rem 0 0.2rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: 6px;
+    background: #14151a;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.md-typeset .agent-receipt__clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    background: none;
+    padding: 0;
+    color: #e6e6ea;
+    font-size: 0.7rem;
+    line-height: 1.55;
+    white-space: normal;
+}
+
+.agent-receipt__prompt.is-open .agent-receipt__clamp {
+    display: block;
+}
+
+.agent-receipt__more {
+    background: none;
+    border: 0;
+    padding: 0;
+    margin-top: 0.35rem;
+    color: #ffb257;
+    font: 500 0.68rem var(--md-text-font-family), sans-serif;
+    cursor: pointer;
+}
+
+.agent-receipt__fallback {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0.8rem 0 0.2rem;
+    background: #14151a;
+    color: #e6e6ea;
+    border: 1px solid var(--md-accent-fg-color);
+    border-radius: 6px;
+    padding: 0.6rem 0.75rem;
+    font: 0.7rem/1.55 var(--md-code-font-family), monospace;
+    resize: vertical;
+    overflow: hidden;
+}
+
+.md-typeset .agent-receipt__steps {
+    list-style: none;
+    counter-reset: agent-step;
+    margin: 1rem 0 0.9rem;
+    padding: 0;
+}
+
+.md-typeset .agent-receipt__steps li {
+    counter-increment: agent-step;
+    position: relative;
+    padding-left: 2rem;
+    margin: 0 0 0.7rem;
+    font-size: 0.78rem;
+    color: #e6e6ea;
+}
+
+.agent-receipt__steps li::before {
+    content: counter(agent-step);
+    position: absolute;
+    left: 0;
+    top: 0.05rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    color: #b4b6c2;
+    font-size: 0.62rem;
+    display: grid;
+    place-items: center;
+}
+
+.agent-receipt__aside {
+    color: #9a9caa;
+}
+
+.agent-receipt__cmd {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    min-width: 0;
+    margin-top: 0.15rem;
+}
+
+.md-typeset .agent-receipt__cmd code {
+    flex: 1;
+    min-width: 0;
+    background: none;
+    padding: 0;
+    color: #b4b6c2;
+    font-size: 0.68rem;
+    overflow-wrap: anywhere;
+}
+
+.md-typeset .agent-receipt a {
+    color: #b4b6c2;
+    text-decoration: underline;
+    text-decoration-color: rgba(255, 255, 255, 0.3);
+}
+
+.md-typeset .agent-receipt a:hover {
+    color: #fff;
+}
+
+.agent-receipt__cmd a {
+    flex: none;
+    font-size: 0.66rem;
+    white-space: nowrap;
+}
+
+.md-typeset .hero .agent-receipt__foot {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0;
+    max-width: none;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 0.75rem;
+    color: #9a9caa;
+}
+
+@media (max-width: 44.9375em) {
+    .agent-line {
+        gap: 0.9rem;
+    }
+
+    .agent-receipt__cmd {
+        flex-direction: column;
+        gap: 0.15rem;
+    }
+}
