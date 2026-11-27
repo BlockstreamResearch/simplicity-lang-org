@@ -2,11 +2,11 @@
 
 The underlying code for this project is found in the [Simplicity DEX repository](https://github.com/Blockstream/simplicity-dex) (other relevant repository links appear below).
 
-Despite the name, there is no exchange of Token A for Token B in the traditional sense at the core of the Simplicity DEX. It is a **structured product marketplace** that enables users to create and trade options contracts on-chain on the Liquid Network. Similar techniques can extend it to advertise and perform direct, immediate exchange of pairs of assets in a decentralized way without an intermediary; that functionality is planned for future development.
+Despite the name, there's no exchange of [asset](../glossary.md#asset) A for asset B in the traditional sense at the core of the Simplicity DEX. It's a **structured product marketplace** that enables users to create and trade options contracts on-chain on the [Liquid Network](../glossary.md#liquid). Similar techniques can extend it to advertise and perform direct, immediate exchange of pairs of assets in a decentralized way without an intermediary; that functionality is planned for future development.
 
-The current protocol facilitates *only* the exchange of "Grantor Tokens" plus a premium in USD for Liquid Bitcoin (LBTC) tokens. Support for other variations will be added in the future.
+The current protocol facilitates *only* the exchange of [Grantor Tokens](../glossary.md#token) plus a premium in USD for Liquid bitcoin (LBTC). Support for other variations will be added in the future.
 
-The existing code uses Nostr to publicize the existence of contracts and allow a party to locate a counterparty. This document focuses mainly on the financial logic of the contract rather than the technical mechanisms for representing the contract on Nostr and Liquid.
+The existing code uses Nostr to publicize the existence of [contracts](../glossary.md#contract) and allow a party to locate a counterparty. This document focuses mainly on the financial logic of the contract rather than the technical mechanisms for representing the contract on Nostr and Liquid.
 
 ## Core definitions
 
@@ -14,9 +14,10 @@ The existing code uses Nostr to publicize the existence of contracts and allow a
 
 **Put Option**: A financial contract that gives the holder the right, but not the obligation, to *sell* an underlying asset at a specified strike price before or at a specified expiration date.
 
-> **Note**: The underlying [smart contract](../glossary.md#smart-contract) supports both Call and Put options, but the current CLI implementation only supports Call options.
+!!! note
+    The underlying [smart contract](../glossary.md#smart-contract) supports both Call and Put options, but the current CLI implementation only supports Call options.
 
-**Grantor Token**: A tradable token received by the maker upon funding an options contract. The Grantor Token represents the right to claim assets at settlement - either the LBTC deposited during exercise (if the option is exercised) or the USDt collateral (if the option expires unexercised). In the current version of the protocol, the maker sells this token along with a premium in USD to a taker in exchange for LBTC.
+**Grantor Token**: A tradable token received by the maker upon depositing collateral into an options contract. The Grantor Token represents the right to claim assets at settlement: either the LBTC deposited during exercise (if the option is exercised) or the USDt collateral (if the option expires unexercised). In the current version of the protocol, the maker sells this token along with a premium in USD to a taker in exchange for LBTC.
 
 ## Implementation
 
@@ -26,10 +27,10 @@ The implemented protocol is a variation of a Call Option. The premium to the tak
 
 **Maker ("Option buyer")**: The party that creates the options contract. Upon creation, the maker:
 
-* Deposits USDt collateral into the Collateral Covenant
+* Deposits USDt collateral into the [Collateral Covenant](../glossary.md#covenant)
 * Receives both an **Option Token** and a **Grantor Token**
 * Keeps the Option Token (gives the right to exercise)
-* Pays a premium in USD to incentivize the taker to buy the Grantor Token for LBTC.
+* Pays a premium in USD to incentivize the taker to buy the Grantor Token for LBTC
 
 **Taker ("Option seller")**: The party that purchases the Grantor Token and receives the premium in USD. The taker:
 
@@ -38,49 +39,47 @@ The implemented protocol is a variation of a Call Option. The premium to the tak
 
 ### Resources
 
-The core contract of the Simplicity DEX is the Options contract: <https://github.com/BlockstreamResearch/simplicity-contracts/blob/main/crates/contracts/src/finance/options/source_simf/options.simf>
+The core contract of the Simplicity DEX is the [Options contract](https://github.com/BlockstreamResearch/simplicity-contracts/blob/main/crates/contracts/src/finance/options/source_simf/options.simf).
 
-The concept for this contract was proposed in the following whitepaper: <https://blockstream.com/assets/downloads/pdf/options-whitepaper.pdf>
+The concept for this contract was proposed in the [options whitepaper](https://blockstream.com/assets/downloads/pdf/options-whitepaper.pdf).
 
-Link to the [Simplicity DEX repository](https://github.com/Blockstream/simplicity-dex).
-
-## Financial Incentive
+## Financial incentive
 
 **Maker Profit Condition**: The maker profits when the value of the LBTC received (from selling the Grantor Token) exceeds the value of the USDt collateral deposited and the premium paid. This occurs when the LBTC price rises significantly above the strike price.
 
 **Taker Profit Condition**: The taker profits when the premium they receive covers any potential losses, while still retaining a guaranteed claim on either LBTC (if the option is exercised) or the USDt collateral (if the option expires unexercised).
 
- ![This graph is a combination of the Long Call by the Maker ("Graph 1") and the Short Call by the Taker ("Graph 3"). Consult Appendix B for more details](../assets/11ad966b-8507-40c2-b29d-0d1e26a6a26a.png){ width="1457" height="888" }
+![This graph is a combination of the Long Call by the Maker ("Graph 1") and the Short Call by the Taker ("Graph 3"). Consult Appendix B for more details](../assets/11ad966b-8507-40c2-b29d-0d1e26a6a26a.png){ width="1457" height="888" }
 
 !!! info "Option Offer Contract"
-    The [Option Offer contract](https://github.com/BlockstreamResearch/simplicity-contracts/blob/main/crates/contracts/src/finance/option_offer/source_simf/option_offer.simf) enables depositing two assets (collateral + premium) into a single covenant. A counterparty can then swap their settlement asset for both deposited assets in a single atomic transaction, with amounts enforced by configurable ratios (`collateral_per_contract` and `premium_per_collateral`).
+    The [Option Offer contract](https://github.com/BlockstreamResearch/simplicity-contracts/blob/main/crates/contracts/src/finance/option_offer/source_simf/option_offer.simf) enables depositing two assets (collateral + premium) into a single covenant. A counterparty can then swap their settlement asset for both deposited assets in a single atomic [transaction](../glossary.md#transaction), with amounts enforced by configurable ratios (`collateral_per_contract` and `premium_per_collateral`).
 
-## Detailed Step-by-Step Protocol Flow (Current implementation)
+## Detailed protocol flow (current implementation)
 
-The maker selects locked-asset as USDt, and claim-asset as LBTC. The contract size is the collateral, e.g., 115,000 USDt. The strike price is $115,000 (LBTC/USDt). The term length is 30 days. The maker creates the "Options Creation" transaction which produces an Option Token Generator and a Grantor Token Generator held in a Generator Covenant.
+The maker selects locked-asset as USDt, and claim-asset as LBTC. The contract size is the collateral, e.g., 115,000 USDt. The strike price is 115,000 USDt per LBTC. The term length is 30 days. The maker creates the "Options Creation" transaction which produces an Option Token Generator and a Grantor Token Generator held in a Generator Covenant.
 
 The maker funds a single option using the "Option Funding" transaction, which requires depositing 115,000 USDt into the Collateral Covenant. The maker receives an Option Token and a Grantor Token from the Generator Covenant.
 
-Note: at any time, the options contract can be canceled and the collateral retrieved by using both the Option Token and the Grantor Token together to unlock the collateral.
+!!! note
+    At any time, a holder of both the Option Token and the Grantor Token can use them together to cancel the options contract and retrieve the collateral.
 
 The maker deposits their newly issued Grantor Token along with premium (e.g., USDt) into the Option Offer contract. The taker pays LBTC (settlement asset) to the Option Offer contract and receives both the Grantor Token and the premium in a single atomic transaction. The maker keeps their Option Token.
 
-**Case A: LBTC ends below $115,000.** Just prior to expiration, the maker uses their Option Token to exercise the Collateral Covenant. This requires depositing LBTC into a Settlement Covenant, which in turn unlocks the Collateral Covenant, whose 115,000 USDt funds the maker gets to keep. Afterwards, the taker can use their Grantor Token to retrieve the LBTC from the Settlement Covenant.
+**Case A: LBTC ends below 115,000 USDt.** Just prior to expiration, the maker uses their Option Token to exercise the Collateral Covenant. This requires depositing LBTC into a Settlement Covenant, which in turn unlocks the Collateral Covenant, whose 115,000 USDt funds the maker gets to keep. Afterwards, the taker can use their Grantor Token to retrieve the LBTC from the Settlement Covenant.
 
-**Case B: LBTC ends above $115,000 or the maker lacks adequate LBTC funds.** The maker does nothing and their Option Token is useless. After the expiration date, the taker uses their Grantor Token to retrieve the 115,000 USDt from the Collateral Covenant.
+**Case B: LBTC ends above 115,000 USDt or the maker lacks adequate LBTC funds.** The maker does nothing and their Option Token is useless. After the expiration date, the taker uses their Grantor Token to retrieve the 115,000 USDt from the Collateral Covenant.
 
-### Key Design Properties
+### Key design properties
 
-This contract design avoids the need for a price oracle, relying instead on the Option Token holder's (i.e., the maker's) natural incentives to choose the appropriate outcome. The taker is required to get the lesser-valued asset of the two, after the expiration date. The choices the maker can make can only improve the taker's outcome. The maker could incorrectly exercise or not exercise their option, which will cause the taker to end up with the more-valuable asset, or the maker could incorrectly exercise their option early, allowing the taker to get access to their funds prior to the expiration date, or both.
+This contract design avoids the need for a price [oracle](../glossary.md#oracle). It relies instead on the natural incentives of the Option Token holder (the maker) to choose the appropriate outcome. The taker is required to get the lesser-valued asset of the two, after the expiration date. The choices the maker can make can only improve the taker's outcome. The maker could incorrectly exercise or not exercise their option, which will cause the taker to end up with the more-valuable asset, or the maker could incorrectly exercise their option early, allowing the taker to get access to their funds prior to the expiration date, or both.
 
-*It is the responsibility of the maker to optimize their handling of the options* in order to extract the most value for themselves. Any other outcome can only benefit the taker.
+*It's the responsibility of the maker to optimize their handling of the options* in order to extract the most value for themselves. Any other outcome can only benefit the taker.
 
 Avoiding the price oracle also automatically handles the case where the maker defaults: the taker gets the USDt collateral, regardless of the LBTC price.
 
 The options design includes extra features beyond the basic specification. In particular, the Grantor and Option Tokens are real tradable assets, and both can be resold. This is particularly useful when the maker is in default (i.e., lacks sufficient funds to exercise the option) but the option is otherwise in-the-money: the maker can sell their Option Token to someone else who does have sufficient funds to exercise it.
 
-The design also allows for more than one pair of Grantor/Option Tokens to be generated. For example, the maker can generate 10 token pairs along with 10 Collateral Covenant UTXOs, each holding one tenth of the total collateral. This enables partially filling the order. These sets of Option Tokens and Grantor Tokens are fungible and tradeable. Unfilled orders (i.e., when not all the Grantor Tokens are sold) can be used, along with the same number of Option Tokens, to cancel unused Collateral Covenants and recover the funds immediately.
-
+The design also allows for more than one pair of Grantor/Option Tokens to be generated. For example, the maker can generate ten token pairs along with ten Collateral Covenant [UTXOs](../glossary.md#utxo), each holding one tenth of the total collateral. This enables partially filling the order. These sets of Option Tokens and Grantor Tokens are fungible and tradable. Unfilled orders (i.e., when not all the Grantor Tokens are sold) can be used, along with the same number of Option Tokens, to cancel unused Collateral Covenants and recover the funds immediately.
 
 ```mermaid
 sequenceDiagram
@@ -118,33 +117,31 @@ sequenceDiagram
     end
 ```
 
-
 ## Appendix A: Excalidraw file
 
-[profit-loss-diagram(2).excalidraw 28916](../assets/9e9ecabd-7792-4970-a69c-28847b5e9c99.excalidraw)
+[Excalidraw source for the profit/loss diagram](../assets/9e9ecabd-7792-4970-a69c-28847b5e9c99.excalidraw)
 
-
-## Appendix B: Mapping to Traditional Options Positions
+## Appendix B: Mapping to traditional options positions
 
 The Options contract is flexible enough to create all four standard options positions depending on two parameters: the collateral type and which token the maker sells.
 
 However, the current contract configuration forces the premium to be of the collateral type, not in USD.
 
- ![Standard options profit/loss profiles. The X-axis represents the underlying asset price, and the Y-axis represents profit/loss. The strike price is marked as X, and the breakeven point accounts for the option premium.](../assets/387b82dc-e7ad-4f00-99bb-50a066714ef2.jpg){ width="510" height="323" }
+![Standard options profit/loss profiles. The X-axis represents the underlying asset price, and the Y-axis represents profit/loss. The strike price is marked as X, and the breakeven point accounts for the option premium.](../assets/387b82dc-e7ad-4f00-99bb-50a066714ef2.jpg){ width="510" height="323" }
 
-### The Two Determining Factors
+### The two determining factors
 
-**Collateral type determines Call vs Put:**
+**Collateral type determines Call vs. Put:**
 
 * **USDt collateral** → Call-like structure (the option is fundamentally about acquiring LBTC)
 * **LBTC collateral** → Put-like structure (the option is fundamentally about acquiring USDt)
 
-**Which token is sold determines who holds the Long vs Short position:**
+**Which token is sold determines who holds the Long vs. Short position:**
 
 * **Sell Grantor Token** (keep Option Token) → Maker holds the "long" position (has the right to exercise)
 * **Sell Option Token** (keep Grantor Token) → Taker holds the "long" position (has the right to exercise)
 
-### The Four Configurations
+### The four configurations
 
 | Configuration | Collateral | Token Sold | Maker's Position | Taker's Position |
 |----|----|----|----|----|
@@ -159,9 +156,9 @@ However, the current contract configuration forces the premium to be of the coll
 
 **Configuration 3 (LBTC collateral, sell Grantor)** creates a Put-like structure. The maker deposits LBTC as collateral. The Option Token holder can deposit USDt to claim the LBTC. The maker (holding Option Token) profits when LBTC falls (Long Put profile).
 
-**Configuration 4 (LBTC collateral, sell Option)** is the inverse of Configuration 3. The taker holds the Option Token and has the Long Put position, profiting when LBTC falls. The maker has the Short Put profile.
+**Configuration 4 (LBTC collateral, sell Option)** is the inverse of Configuration 3. The taker holds the Option Token and has the Long Put position and profits when LBTC falls. The maker has the Short Put profile.
 
-### Practical Implications
+### Practical implications
 
 This flexibility means market participants can use the same underlying contract to express different market views:
 
