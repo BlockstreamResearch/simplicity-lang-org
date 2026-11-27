@@ -1,14 +1,14 @@
 # Introduction to modules and imports
 
-As a SimplicityHL program grows, it's often useful to split it across multiple files, or to reuse functions that were already written for a different project. SimplicityHL has a lightweight system for this, based on two keywords: `pub` (to make something available to other files) and `use` (to bring something from another file into the one you're writing).
+As a [SimplicityHL](../glossary.md#simplicityhl) program grows, it's often useful to split it across multiple files, or to reuse functions that were already written for a different project. SimplicityHL has a module system for this, based on two keywords: `pub` (to make something available to other files) and `use` (to bring something from another file into the one you're writing).
 
 This system is loosely based on the module system in the Rust programming language, but is much simpler. This page introduces it from scratch and doesn't assume you've used Rust modules before. For the complete, formal syntax rules, see the [modules reference page](../simplicityhl-reference/modules.md).
 
 !!! warning "This is an experimental feature"
 
-    Modules and imports are available since SimplicityHL 0.6.0, and are gated behind an unstable-features flag. To use any of the syntax described on this page, you need a compiler of at least that version, and you currently need to compile with `simc -Z imports program.simf` (equivalently, `--unstable-feature imports`). Omitting that option makes `use`, `mod`, `as`, and `crate::` all fail to compile.
+    Modules and imports are available since SimplicityHL 0.6.0, and are gated behind an unstable-features flag. To use any of the syntax described on this page, you need a compiler of at least that version, and you currently need to compile with `simc -Z imports program.simf` (equivalently, `--unstable-feature imports`). Omitting that flag makes `use`, `mod`, `as`, and `crate::` all fail to compile.
 
-## Making a symbol importable with `pub`
+## Making an item importable with `pub`
 
 You don't have to do anything special to make a `.simf` file into a module; by default, every file is a module, but functions defined in one file aren't visible from another.
 
@@ -25,7 +25,7 @@ pub fn triangle_area(base: u32, height: u32) -> u32 {
 
 Without `pub`, `triangle_area` could only be called from within `polygons.simf` itself.
 
-## Importing a symbol with `use`
+## Importing an item with `use`
 
 To use `triangle_area` from a different file, add a `use` line naming its full path, starting with `crate` and delimited with double colons:
 
@@ -40,23 +40,23 @@ fn main() {
 
 Given a project laid out like this:
 
-```
+```text
 project/
 ├── main.simf
 └── shapes/
     └── polygons.simf
 ```
 
-`crate` means "start from the root of my own project": by default, the folder containing the file you pass to `simc` (there's also a `--project-root` flag for less common layouts, covered in the reference page). Each `::`-separated segment after `crate` is then either:
+`crate` refers to the root of the current project: by default, the directory containing the file you pass to [`simc`](../glossary.md#simc) (there's also a `--project-root` flag (0.7.2+) for less common layouts, covered in the reference page). Each `::`-separated segment after `crate` is then either:
 
 * the name of a subdirectory to descend into, or
 * the name of a `.simf` file (written without the `.simf` suffix): once a segment matches a file instead of a directory, that's the file being imported from,
 
-with the very last segment naming the actual item being imported from that file. In the example above, `shapes` is a directory and `polygons` is the file `shapes/polygons.simf`.
+with the final segment naming the item being imported from that file. In the example above, `shapes` is a directory and `polygons` is the file `shapes/polygons.simf`.
 
 ## Grouping code with `mod`, without separate files
 
-Sometimes you want to group related functions together without creating a whole new file for them. A `mod` block does that inside a single file. `mod` blocks can be nested.
+Sometimes you want to group related functions together without creating a separate file for them. A `mod` block does that inside a single file. `mod` blocks can be nested.
 
 ```simplicityhl
 mod math {
@@ -86,11 +86,11 @@ fn main() {
 }
 ```
 
-This is a single file, `examples/modules.simf` in the SimplicityHL repository. Notice that `business_logic` still needs its own `use` line to access `math::ops`, even though both are defined in the same file. `pub` and `use` work the same way whether the code you're importing appears in the same file or a different one.
+This is a single file, `examples/modules.simf` in the SimplicityHL repository. `business_logic` still needs its own `use` line to access `math::ops`, even though both are defined in the same file. `pub` and `use` work the same way whether the code you're importing appears in the same file or a different one.
 
 ## Renaming an import with `as`
 
-If an imported name would clash with something else, or you'd just prefer a different local name, add `as`:
+If an imported name would clash with something else, or you'd prefer a different local name, add `as`:
 
 ```simplicityhl
 use crate::shapes::polygons::triangle_area as tri_area;
@@ -98,19 +98,19 @@ use crate::shapes::polygons::triangle_area as tri_area;
 
 The imported function will now be called `tri_area`.
 
-## Importing several things at once
+## Importing multiple items
 
-List multiple items from the same file in braces. Optionally, use an `as` wherever you like:
+List multiple items from the same file in braces. Any of them can be renamed with `as`:
 
 ```simplicityhl
 use crate::shapes::polygons::{triangle_area, square_area as sq_area};
 ```
 
-There's no `*` wildcard to import "everything" from a file. Every name has to be listed explicitly.
+There's no `*` wildcard to import every item from a file.
 
 ## Re-exporting with `pub use`
 
-Adding `pub` in front of a `use` line imports the item and makes it available for *other* files to import from *this* file, under its own name. This is handy for building a single file that gathers up functions from several lower-level files into one convenient place:
+Adding `pub` in front of a `use` line imports the item and makes it available for *other* files to import from *this* file, under its own name. This lets one file collect items from several lower-level files under a single import path:
 
 ```simplicityhl
 // lib/api.simf
@@ -118,17 +118,17 @@ pub use crate::shapes::polygons::triangle_area;
 pub use crate::shapes::polygons::square_area;
 ```
 
-Another file can then write `use crate::lib::api::triangle_area;` without needing to know that its implementation is actually stored in `shapes/polygons.simf`.
+Another file can then import it with `use crate::lib::api::triangle_area;`, without depending on its implementation being stored in `shapes/polygons.simf`.
 
 ## Using code from another project
 
-To reuse a library that lives in a separate directory entirely (not a subdirectory of your current project), tell `simc` about it with the `--dep` flag, giving it a local name (an *alias*) to import under:
+To reuse a library in a separate directory (not a subdirectory of your current project), pass `simc` the `--dep` flag with a local name (an *alias*) and the library's directory:
 
 ```bash
-simc -Z imports --dep shapes_lib=../shape_lib main.simf
+simc -Z imports --dep shapes_lib=../shapes_lib main.simf
 ```
 
-This maps the name `shapes_lib` to the directory `../shape_lib` for the duration of this compile. Inside your code, you import from it exactly like a local module, just starting from the alias instead of `crate`:
+This maps the name `shapes_lib` to the directory `../shapes_lib` for the duration of this compile. Inside your code, you import from it exactly like a local module, starting from the alias instead of `crate`:
 
 ```simplicityhl
 use shapes_lib::polygons::triangle_area;
@@ -159,24 +159,24 @@ fn main() {
 
 ## Using the standard library without Simplex
 
-The same effect can be achieved manually by cloning the `BlockstreamResearch/simplicityhl-std` repository and registering it as a manual `--dep`. Point the alias at the repository's `simf` directory, since that's where the library's own `crate::` paths are rooted:
+To get the same result manually, clone the `BlockstreamResearch/simplicityhl-std` repository and register it with `--dep`. Point the alias at the repository's `simf` directory, since that's where the library's own `crate::` paths are rooted:
 
 ```bash
 git clone --branch v0.2.0 https://github.com/BlockstreamResearch/simplicityhl-std.git
 simc -Z imports --dep std=simplicityhl-std/simf myproject.simf
 ```
 
-When the alias is created this way, the `use` lines in the SimplicityHL project source are identical to the Simplex case above.
+With a manual `--dep` alias, the `use` lines in the SimplicityHL project source are identical to the Simplex case above.
 
-## A quick summary of what's different from other languages
+## Differences from other module systems
 
-If you've used a language with a similar-looking import system before (including Rust), a few things about SimplicityHL's version are worth calling out because they're more restrictive:
+SimplicityHL's module system is more restrictive than similar-looking import systems in other languages, including Rust:
 
-* Functions are private unless marked `pub`: there's no way to import something that wasn't exported.
-* Every local (non-dependency) path starts with `crate::`; there's no special way to refer to a parent module.
-* There's no `*` wildcard import. Each imported name must be written out in full.
+* Functions are private unless marked `pub`, so a function that isn't exported can't be imported.
+* Every local (non-dependency) path starts with `crate::`, and there's no special way to refer to a parent module.
+* There's no `*` wildcard import.
 
 ## Where to go next
 
 * The [modules reference page](../simplicityhl-reference/modules.md) covers exact syntax details related to modules and imports.
-* Read more about [Simplex](simplex.md) and its package and dependency management features.
+* The [Simplex](simplex.md) page covers its package and dependency management features.
