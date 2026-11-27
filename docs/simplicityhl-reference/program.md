@@ -1,9 +1,9 @@
 # Programs
 
-A SimplicityHL program consists of a `main` [function](./function.md).
+Every [SimplicityHL](../glossary.md#simplicityhl) program has a `main` [function](./function.md#main-function).
 
 A program may also have [type aliases](./type_alias.md) or custom [function definitions](./function.md).
-The `main` function comes last in the program, because everything it calls must be defined before it.
+The `main` function comes last in the program, because everything it calls must be [defined before it](./function.md#order-matters).
 
 ```simplicityhl
 type Furlong = u32;
