@@ -13,22 +13,21 @@ The variable is of type `u32` and it is assigned the value `1`.
 let x: u32 = f(1337);
 ```
 
-Variables can be assigned to the output value of any expression, such as function calls.
+A variable can be assigned the value of any expression, such as a function call.
 
 ## Explicit typing
 
-In SimplicityHL, the type of a defined variable **always** has to be written.
-This is different from Rust, which has better type inference.
+In [SimplicityHL](../glossary.md#simplicityhl), the type of a defined variable **always** has to be written.
+This is different from Rust, which can infer the type of a variable.
 
 ## Immutability
 
 SimplicityHL variables are **always** immutable.
-There are no mutable variables.
 
 ## Redefinition and scoping
 
-The same variable can be defined twice in the same scope.
-The later definition overrides the earlier definition.
+A variable name can be defined again in the same scope.
+The later definition shadows the earlier definition.
 
 ```simplicityhl
 let x: u32 = 1;
@@ -61,8 +60,8 @@ let [x, _, z]: [u32; 3] = [1, 2, 3];
 ```
 
 In the first line, the tuple `(1, 2, 3)` is deconstructed into the values `1`, `2` and `3`.
-These values are assigned to the variable names `x`, `y` and `_`.
-The variable name `_` is a special name that ignores its value.
+The values `1` and `2` are assigned to the variables `x` and `y`.
+The pattern `_` discards the value `3`.
 In the end, two variables are created: `x: u8 = 1` and `y: u16 = 2`.
 
-Similarly, arrays can be deconstructed element by element and assigned to a variable each.
+Similarly, an array can be deconstructed element by element. Each element is assigned to a variable or discarded with `_`.
