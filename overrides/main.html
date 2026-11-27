@@ -55,6 +55,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <button type="button" class="agent-what" aria-expanded="false" aria-controls="agent-steps">What it runs &rarr;</button>
         </div>
         <div class="agent-steps" id="agent-steps" hidden>
+            <button type="button" class="agent-steps__close" aria-controls="agent-steps" aria-label="Hide setup steps">
+                <span class="twemoji">{% include ".icons/material/close.svg" %}</span>
+            </button>
             <p>The prompt sends your agent to <a href="{{ 'getting-started/agent-setup/' | url }}">Set up Simplicity with a coding agent</a> and asks it to tell you what it will install before it starts:</p>
             <ol>
                 <li>Checks the platform, Rust 1.91+, git, curl and Node.js. It uses WSL on Windows and installs Rust with rustup if it's missing.<br><code>rustc --version</code></li>
