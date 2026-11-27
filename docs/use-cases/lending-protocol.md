@@ -6,11 +6,11 @@ This article describes a Simplicity Lending Protocol implemented as Simplicity [
 
 The Protocol can be used by any kind of entity, ranging from a financial institution to a private individual.
 
-The Protocol handles accounting for a loan involving two different tokens, representing different [assets](../glossary.md#asset). For illustrative purposes, USDT is used as a loaned asset and LBTC as a collateral asset, but the protocol handles any pair of assets that are tokenized on Liquid.
+The Protocol handles accounting for a loan involving two different [assets](../glossary.md#asset). For illustrative purposes, USDt is used as a loaned asset and Liquid bitcoin (LBTC) as a collateral asset, but the protocol handles any pair of Liquid assets.
 
 The implementation plan consists of steps for the full Protocol implementation. It starts with verified lending primitives and increases the complexity and functionality of the Protocol over time.
 
-The existing implementation can be found [on GitHub](https://github.com/BlockstreamResearch/simplicity-lending).
+The existing implementation is in the [simplicity-lending repository](https://github.com/BlockstreamResearch/simplicity-lending) on GitHub.
 
 ## Simplicity Lending Protocol Roadmap
 
@@ -21,14 +21,12 @@ These are the parameters of the lending contract:
 * **Borrower** - user with collateral asset A.
 * **Lender** - user with loan asset B.
 * **Collateral Amount** - pledged by Borrower collateral in asset A.
-* **Loan Amount** - amount of asset B tokens borrowed by Borrower from Lender.
+* **Loan Amount** - amount of asset B borrowed by Borrower from Lender.
 * **Lending Term** - moment in the future (UNIX time, block number, etc.) before which Borrower should repay the Loan Amount in asset B to the Lender.
-* **Loan Amount** - the amount of the loan asset Borrower would like to borrow.
-* **Collateral Amount** - locked by the Borrower, the collateral amount for the Loan Amount.
 * **Liquidation** - if the Loan isn't repaid after the Lending Term, the Lender can claim the collateral.
 * **Loan Fee** - fixed fee paid in loan asset B from Borrower to Lender for the Loan after the loan is originated. Can represent interest payment for a fixed-term loan.
 * **Origination Fee** - fixed fee paid in collateral asset A from Borrower to Lender for the Loan for loan origination.
-* **Protocol Fee (Reserve Factor)** - fee paid in loan asset B to the Protocol Address for the Loan after the loan repayment. The fee is calculated as a percentage of the Loan Fee.
+* **Protocol Fee (Reserve Factor)** - fee paid in loan asset B to the Protocol [Address](../glossary.md#address) for the Loan after the loan repayment. The fee is calculated as a percentage of the Loan Fee.
 
 ```mermaid
 flowchart TD
@@ -60,9 +58,9 @@ flowchart TD
 
 ##### Borrower to Lender
 
-Borrower locks Collateral Amount and the Origination Fee in the offer transaction. The Borrower also states the following parameters in the transaction: the Loan Fee, Lending Term, Origination Fee, and the Loan Amount the Borrower would like to borrow.
+Borrower locks Collateral Amount and the Origination Fee in the offer [transaction](../glossary.md#transaction). The Borrower also states the following parameters in the transaction: the Loan Fee, Lending Term, Origination Fee, and the Loan Amount the Borrower would like to borrow.
 
-After an offer is published with a transaction, any address can accept the offer as a Lender.
+After an offer is published with a transaction, anyone can accept the offer as a Lender.
 
 ##### Lender to Borrower
 
@@ -84,7 +82,7 @@ This contract variant is based upon the contract described in the prior section,
 
 Additional definitions:
 
-* **Price Oracle** - source of constant verified price information of asset A in terms of asset B, signed by a trusted provider.
+* **Price [Oracle](../glossary.md#oracle)** - source of constant verified price information of asset A in terms of asset B, signed by a trusted provider.
 * **Third Party Liquidator** - any third party address that can fully repay the loan outstanding at the moment of liquidation and get the Collateral Amount.
 * **Liquidation Protocol Fee** - fee paid to Protocol Address as a percentage (10%, for example) from the Collateral Amount at the liquidation event.
 
@@ -154,17 +152,17 @@ The Borrower receives the requested Loan Amount in the offer.
 
 #### Loan Repayment
 
-The Borrower should fully repay the Loan Amount with the accrued Interest Rate at any moment before the Lending Term. Loan Fee is divided into the Protocol Fee paid to the Protocol Address and the rest paid to the Lender. After the repayment Borrower can claim back the full amount of the collateral asset.
+The Borrower should fully repay the Loan Amount with the accrued interest at any moment before the Lending Term. Loan Fee is divided into the Protocol Fee paid to the Protocol Address and the rest paid to the Lender. After the repayment, the Borrower can claim back the full amount of the collateral asset.
 
-During the Lending Term Borrower can choose a partial loan repayment to avoid a Liquidation event.
+During the Lending Term, the Borrower can choose a partial loan repayment to avoid a Liquidation event.
 
 #### Liquidation
 
-If the Borrower didn't repay the full Loan Amount plus the accrued Interest Rate before the Lending Term, the Lender can claim the full collateral amount.
+If the Borrower didn't repay the full Loan Amount plus the accrued interest before the Lending Term, the Lender can claim the full collateral amount.
 
 Liquidation at any moment (before or after Lending Term) by the Third Party Liquidator is possible provided that the following equation is true:
 
-$$ \text{Loan Amount Outstanding} + \text{Accrued Interest Rate} > \text{LLTV} \times \text{Collateral Amount} \times \text{Price Oracle} $$
+$$ \text{Loan Amount Outstanding} + \text{Accrued Interest} > \text{LLTV} \times \text{Collateral Amount} \times \text{Price Oracle} $$
 
 Third Party Liquidator receives the Collateral Amount minus the Liquidation Protocol Fee, which goes to the Protocol Address.
 
@@ -180,7 +178,7 @@ Liquidation Penalty is also subject to Liquidation Protocol Fee, which goes to t
 
 ## First Lending Protocol Implementation
 
-The first version of the Protocol is being finalized with a P2P Simplified Lending Contract solution, which will be deployed on the Liquid Network and allow lending USDT against LBTC for a fixed term.
+The first version of the Protocol is being finalized with a P2P Simplified Lending Contract solution, which will be deployed on the Liquid Network and allow lending USDt against LBTC for a fixed term.
 
 The first lending protocol implementation is carried out by multiple [covenants](../glossary.md#covenant) that are constructed continuously by both Borrower and Lender in the following order:
 
@@ -188,9 +186,11 @@ The first lending protocol implementation is carried out by multiple [covenants]
 
 Both Lender's and Borrower's financial interests in the contract are represented by special "one-time" assets ([tokens](../glossary.md#token)) that enable the existence of secondary markets where these tokens can be sold/traded/exchanged.
 
-To ensure the integrity of lending offer parameters across multiple covenants, specialized Parameter Tokens are utilized. These assets act as data carriers by encoding the protocol parameters directly within their amount fields.
+To ensure the integrity of lending offer parameters across multiple covenants, the protocol uses specialized Parameter Tokens. These assets act as data carriers by encoding the protocol parameters directly within their amount fields.
 
-**Important:** To ensure compatibility with Liquid/Elements consensus rules, the encoded value must not exceed the maximum allowed supply limit ([`MAX_MONEY`](https://github.com/ElementsProject/rust-elements/blob/f6ffc7800df14b81c0f5ae1c94368a78b99612b9/src/blind.rs#L471)). This effectively restricts the available data space within the token's amount field to 51 bits.
+!!! note
+
+    To ensure compatibility with Liquid/[Elements](../glossary.md#elements) consensus rules, the encoded value must not exceed the maximum allowed supply limit ([`MAX_MONEY`](https://github.com/ElementsProject/rust-elements/blob/f6ffc7800df14b81c0f5ae1c94368a78b99612b9/src/blind.rs#L471)). This effectively restricts the available data space within the token's amount field to 51 bits.
 
 Two distinct tokens are required to store the current protocol state:
 
@@ -199,7 +199,7 @@ Two distinct tokens are required to store the current protocol state:
     | Bits | Field name | Description |
     | :---- | :---- | :---- |
     | \[0..15\] | Interest Rate | 16-bit value for the loan interest (percentage) |
-    | \[16..42\] | Loan Expiration Time | 27-bit value for the loan expiration time in blocks (block height) |
+    | \[16..42\] | Loan Expiration Time | 27-bit value for the loan expiration time in blocks (block [height](../glossary.md#height)) |
     | \[43..46\] | Collateral Decimals Mantissa | 4-bit exponent for collateral amount calculation |
     | \[47..50\] | Principal Decimals Mantissa | 4-bit exponent for principal amount calculation |
 
@@ -213,14 +213,14 @@ Two distinct tokens are required to store the current protocol state:
 
 Since the amount in a single [UTXO](../glossary.md#utxo) can't exceed $21,000,000 \times 10^8$, the number of bits required to encode the parameters can be reduced:
 
-- Decimals mantissa (4 bits): This field occupies only 4 bits because assets with more than 8 decimals can't be created on Liquid.
-- Base amount (25 bits): The base amount occupies 25 bits, allowing for a maximum value of 33,554,431. When combined with the decimals mantissa, it can represent any value from 0 up to the maximum possible supply.
-- Interest Rate (16 bits): This field requires a minimum of 14 bits to express percentages using a scale where 10,000 equals 100%. Using 16 bits achieves a maximum interest rate of 655.35%.
-- Loan expiration time in blocks: Setting this value to 27 bits allows the end block of the loan to be up to 134,217,727. This is currently ~248 years in the future with a 1-minute block rate.
+* Decimals mantissa (4 bits): This field occupies only 4 bits because assets with more than 8 decimals can't be created on Liquid.
+* Base amount (25 bits): The base amount occupies 25 bits, allowing for a maximum value of 33,554,431. When combined with the decimals mantissa, it can represent any value from 0 up to the maximum possible supply.
+* Interest Rate (16 bits): This field requires a minimum of 14 bits to express percentages using a scale where 10,000 equals 100%. Using 16 bits achieves a maximum interest rate of 655.35%.
+* Loan expiration time (27 bits): Setting this value to 27 bits allows the end block of the loan to be up to 134,217,727. This is currently ~248 years in the future with a 1-minute block rate.
 
 ### Lock Collateral
 
-After calculating the Utility asset IDs, the "lock collateral" covenant can be constructed.
+After calculating the Utility asset IDs, the Borrower constructs the "lock collateral" covenant.
 
 ### Set up Lending
 
@@ -232,7 +232,7 @@ After the lending contract is set up, there are two ways it can be settled. Eith
 
 ## Indexing and Discovery Mechanism
 
-The indexing mechanism is a critical component of the protocol's UX. To make the lending workflow functional, Lenders must be able to view all active loan offers from Borrowers. Simultaneously, Borrowers require real-time updates on the status of their offers to monitor repayment deadlines and obligations. The following indexing strategy is used to aggregate and display this data.
+The protocol needs an indexer. Lenders must be able to view all active loan offers from Borrowers. Simultaneously, Borrowers require real-time updates on the status of their offers to monitor repayment deadlines and obligations. The indexer aggregates and displays this data as follows.
 
 ### Pre-lock Transaction Discovery and Verification
 
@@ -240,9 +240,9 @@ To monitor all active orders, an indexer scans the blockchain to identify transa
 
 An indexer recognizes Pre-lock initialization transactions by matching them against a specific transaction template:
 
-- The transaction must contain a minimum of 5 inputs and 6 outputs.
-- The transaction must include an `OP_RETURN` output containing a valid [BIP340](https://en.bitcoin.it/wiki/BIP_0340) public key.
-- The first and second inputs must contain Parameter UTXOs, where the encoded amounts match the bit-packed lending protocol structure.
+* The transaction must contain a minimum of 5 [inputs](../glossary.md#input) and 6 [outputs](../glossary.md#output).
+* The transaction must include an `OP_RETURN` output containing a valid [BIP 340](https://en.bitcoin.it/wiki/BIP_0340) [public key](../glossary.md#public-key).
+* The first and second inputs must contain Parameter UTXOs, where the encoded amounts match the bit-packed lending protocol structure.
 
 If a transaction meets the criteria above, the indexer performs a verification:
 
@@ -252,4 +252,4 @@ If a transaction meets the criteria above, the indexer performs a verification:
 
 ### State Management
 
-An indexer maintains a database of all existing offers. It continuously monitors the blockchain for spending transactions that target protocol-controlled outputs, allowing it to update the status of each loan (e.g., Active, Repaid, Cancelled, or Liquidated) in near real-time.
+An indexer maintains a database of all existing offers. It continuously monitors the blockchain for spending transactions that target protocol-controlled outputs. It uses these transactions to update the status of each loan (e.g., Active, Repaid, Cancelled, or Liquidated) in near real-time.
