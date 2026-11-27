@@ -1,9 +1,10 @@
 name: agent-setup
 
-# The homepage's "Copy setup prompt" panel, docs/getting-started/agent-setup.md
-# (the page the prompt sends an agent to) and the end-to-end tutorial must agree
-# on the Simplex version, the prompt and the commands. This runs only when one
-# of those files, or the test itself, changes; editing only one of them fails.
+# The homepage's "Copy setup prompt" panel, the prompt it copies, the setup
+# page, the agent instructions the prompt points to and the end-to-end tutorial
+# must agree on the Simplex version, the prompt and the commands. This runs
+# only when one of those files, or the test itself, changes; editing only one
+# of them fails.
 on:
   push:
     branches:
@@ -11,14 +12,18 @@ on:
       - main
     paths:
       - overrides/main.html
+      - overrides/partials/agent-prompt.txt
       - docs/getting-started/agent-setup.md
+      - docs/getting-started/agent-setup/prompt.md
       - docs/getting-started/build-end-to-end-app.md
       - tests/agent-setup.test.cjs
       - .github/workflows/agent-setup.yml
   pull_request:
     paths:
       - overrides/main.html
+      - overrides/partials/agent-prompt.txt
       - docs/getting-started/agent-setup.md
+      - docs/getting-started/agent-setup/prompt.md
       - docs/getting-started/build-end-to-end-app.md
       - tests/agent-setup.test.cjs
       - .github/workflows/agent-setup.yml

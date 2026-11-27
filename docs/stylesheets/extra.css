@@ -290,3 +290,10 @@
     padding: 0;
     overflow-wrap: anywhere;
 }
+
+/* Code blocks marked { .wrap } wrap long lines instead of scrolling sideways:
+   the setup prompt and the agent instructions on getting-started/agent-setup. */
+.md-typeset .wrap pre > code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

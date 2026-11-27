@@ -41,13 +41,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         {# Copy-a-prompt setup for coding agents. Copying uses Material's own
            clipboard handling (any element with data-clipboard-text) and its
            "Copied to clipboard" notice. "What it runs" toggles the steps panel
-           (javascript/agent-setup.js).
-           They mirror docs/getting-started/agent-setup.md, which the prompt
-           points the agent to; tests/agent-setup.test.cjs keeps them in sync. #}
-        {% set agent_prompt = "Set up Simplicity development on this machine by following https://docs.simplicity-lang.org/getting-started/agent-setup.md. Tell me what you'll install before you start." %}
+           (javascript/agent-setup.js). The prompt lives in
+           partials/agent-prompt.txt, which the setup page also embeds. The
+           steps mirror docs/getting-started/agent-setup/prompt.md, the page the
+           prompt points the agent to; tests/agent-setup.test.cjs keeps them in
+           sync. #}
+        {% set agent_prompt %}{% include "partials/agent-prompt.txt" %}{% endset %}
         <p class="agent-label">Or let your coding agent set it up (Claude Code, Codex, Cursor…)</p>
         <div class="agent-line">
-            <button type="button" class="md-button agent-copy" data-clipboard-text="{{ agent_prompt }}">
+            <button type="button" class="md-button agent-copy" data-clipboard-text="{{ agent_prompt | trim | e }}">
                 <span class="twemoji">{% include ".icons/material/creation.svg" %}</span>
                 Copy setup prompt
                 <span class="twemoji">{% include ".icons/material/content-copy.svg" %}</span>
@@ -58,7 +60,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <button type="button" class="agent-steps__close" aria-controls="agent-steps" aria-label="Hide setup steps">
                 <span class="twemoji">{% include ".icons/material/close.svg" %}</span>
             </button>
-            <p>The prompt sends your agent to <a href="{{ 'getting-started/agent-setup/' | url }}">Set up Simplicity with a coding agent</a> and asks it to tell you what it will install before it starts:</p>
+            <p>Your agent follows the <a href="{{ 'getting-started/agent-setup/' | url }}">setup instructions</a> and tells you what it will install before it starts:</p>
             <ol>
                 <li>Checks the platform, Rust 1.91+, git, curl and Node.js. It uses WSL on Windows and installs Rust with rustup if it's missing.<br><code>rustc --version</code></li>
                 <li>Installs simplexup, the Simplex installer (<a href="https://github.com/BlockstreamResearch/smplx/blob/master/simplexup/install">source</a>).<br><code>curl -L https://smplx.simplicity-lang.org | bash</code></li>

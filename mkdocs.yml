@@ -89,6 +89,8 @@ markdown_extensions:
       pygments_lang_class: true
   - pymdownx.inlinehilite:
   - pymdownx.snippets:
+      # Fail the build when an embedded file (--8<-- "path") is missing.
+      check_paths: true
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
@@ -170,6 +172,11 @@ hooks:
   - hooks/llms_full_sources.py
   - hooks/runnable.py
   - includes/hooks/autolink_glossary.py
+
+# Pages meant for coding agents, not readers: built and published, but kept
+# out of the menu. The setup page embeds this one.
+not_in_nav: |
+  getting-started/agent-setup/prompt.md
 
 nav:
   - Get Started:
