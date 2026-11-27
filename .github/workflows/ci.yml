@@ -68,6 +68,16 @@ jobs:
             git status --porcelain -- $paths
           fi
 
+  # The homepage's "Copy setup prompt" panel, docs/getting-started/agent-setup.md
+  # (the page the prompt sends an agent to) and the end-to-end tutorial must
+  # agree on the Simplex version, the prompt and the commands. Editing only one
+  # of them fails here.
+  agent-setup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - run: node --test tests/agent-setup.test.cjs
+
   # Builds the site alongside `snippets` rather than after it. Nothing is published
   # until `deploy`, which waits for both.
   build:
@@ -174,7 +184,7 @@ jobs:
 
   deploy:
     # A page whose snippet no longer compiles must not reach the site.
-    needs: [snippets, build]
+    needs: [snippets, build, agent-setup]
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
     permissions:
