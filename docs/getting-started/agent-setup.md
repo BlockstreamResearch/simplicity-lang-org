@@ -8,10 +8,24 @@ Set up Simplicity development on this machine by following https://docs.simplici
 
 Without an agent, run the same commands in a terminal.
 
-!!! note "Supported platforms"
-    Simplex publishes prebuilt binaries for macOS on Apple silicon and for Linux on x86_64. On other systems, `simplexup` can't install Simplex. On Windows, run these commands in WSL.
+## 1. Check the platform and prerequisites
 
-## 1. Check the prerequisites
+Simplex publishes prebuilt binaries for macOS on Apple silicon and for Linux on x86_64. Check which one this machine is:
+
+```bash
+uname -sm   # Darwin arm64 or Linux x86_64
+```
+
+On any other result, `simplexup` can't install Simplex. Stop and tell the user.
+
+On Windows (PowerShell or Command Prompt, where `uname` isn't found), Simplex runs inside WSL 2 with an x86_64 Linux distribution. Check for one from PowerShell:
+
+```powershell
+wsl --list --verbose   # a distribution with VERSION 2
+```
+
+If there's none, ask the user to run `wsl --install -d Ubuntu` from an administrator PowerShell, restart Windows, and finish the Ubuntu first-run setup; then continue. With WSL ready, run every command on this page except the skill install (section 4) inside WSL by prefixing it, for example `wsl -- bash -lc "rustc --version"`. Run the skill install in the agent's own Windows shell, so the skill lands in the agent's Windows skills folder. On Windows on ARM, WSL runs ARM Linux, which Simplex doesn't support.
+
 
 ```bash
 rustup --version

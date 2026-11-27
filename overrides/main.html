@@ -65,7 +65,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
             <textarea class="agent-receipt__fallback" readonly rows="3" data-agent-fallback hidden>{{ agent_prompt }}</textarea>
             <ol class="agent-receipt__steps">
-                <li><span>Checks for Rust 1.91+, git, curl and Node.js <span class="agent-receipt__aside">(installs Rust with rustup if missing)</span></span><span class="agent-receipt__cmd"><code>rustc --version</code></span></li>
+                <li><span>Checks the platform, Rust 1.91+, git, curl and Node.js <span class="agent-receipt__aside">(uses WSL on Windows; installs Rust with rustup if missing)</span></span><span class="agent-receipt__cmd"><code>rustc --version</code></span></li>
                 <li><span>Installs <b>simplexup</b>, the Simplex installer</span><span class="agent-receipt__cmd"><code>curl -L https://smplx.simplicity-lang.org | bash</code><a href="https://github.com/BlockstreamResearch/smplx/blob/master/simplexup/install" target="_blank" rel="noopener">Installer source on GitHub &#8599;</a></span></li>
                 <li><span>Installs Simplex 0.2.0</span><span class="agent-receipt__cmd"><code>simplexup --install 0.2.0</code></span></li>
                 <li><span>Adds the SimplicityHL skill to your agent</span><span class="agent-receipt__cmd"><code>npx skills add brenorb/freedom-skills -s simplicityhl-simplex</code></span></li>
