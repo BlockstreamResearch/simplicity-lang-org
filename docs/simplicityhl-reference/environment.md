@@ -1,6 +1,6 @@
 # Environment
 
-An environment Ξ maps variable names to Simplicity expressions.
+An environment Ξ maps variable names to [Simplicity](../glossary.md#simplicity) expressions.
 
 All expressions inside an environment share the same source type A; the environment is said to be "from type A".
 
@@ -12,13 +12,13 @@ All expressions inside an environment share the same source type A; the environm
 ]
 ```
 
-Environments translate variables inside SimplicityHL expressions to Simplicity.
+Environments translate variables inside [SimplicityHL](../glossary.md#simplicityhl) expressions to Simplicity.
 
 The environment gives the Simplicity expression that returns the value of each variable.
 
-A SimplicityHL program is translated "top to bottom". Each time a variable is defined, the environment is updated to reflect this change.
+Translation of a SimplicityHL program proceeds "top to bottom". Each variable definition updates the environment.
 
-During the translation, the source type of Simplicity expressions (translated SimplicityHL expressions) can be ignored entirely. Translation focuses on producing a Simplicity value of the expected target type. Environments ensure that input values are available for each variable that is in scope.
+Translation can ignore the source type of Simplicity expressions (translated SimplicityHL expressions) entirely. Translation focuses on producing a Simplicity value of the expected target type. Environments ensure that input values are available for each variable that is in scope.
 
 Target types are handled by contexts.
 
@@ -27,7 +27,6 @@ Context Ctx(Ξ) is obtained from environment Ξ by mapping each variable `x` fro
 Ctx(Ξ)(`x`) = B if Ξ(`x`) = a: A → B
 
 ## Patterns
-
 
 Patterns occur in let statements `let p := s`.
 
@@ -47,7 +46,7 @@ PEnv'(t: A → B, `_`) := []
 
 If `p1` and `p2` contain disjoint sets of variables
 
-Then PEnv'(t: A → B × C, `(p1, p2)`) := PEnv'(take t: A → B, p1) ⊎ PEnv'(drop t: A → C, p2)
+Then PEnv'(t: A → B × C, `(p1, p2)`) := PEnv'(take t: A → B, `p1`) ⊎ PEnv'(drop t: A → C, `p2`)
 
 PEnv(A, `p`) := PEnv'(iden: A → A, `p`)
 
@@ -61,7 +60,7 @@ Product(ΞA, ΞB) denotes the **product** of environment ΞA from A and environm
 
 The product is an environment from type A × B.
 
-When two Simplicity expressions with environments are joined using the "pair" combinator, the product of both environments gives updated bindings for all variables.
+When two Simplicity expressions with environments are joined using the "pair" [combinator](../glossary.md#combinator), the product of both environments gives updated bindings for all variables.
 
 If the same variable is bound in both environments, then the binding from the first environment is taken.
 
@@ -79,4 +78,4 @@ Environment products are compatible with context updates:
 
 Ctx(Product(ΞA, ΞB)) = Ctx(ΞB) // Ctx(ΞA)
 
-The order of B and A is reversed: The context of ΞB is updated with the dominant context of ΞA.
+The order of B and A is reversed: Ctx(ΞA) updates Ctx(ΞB), so the bindings from ΞA take precedence.
