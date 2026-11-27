@@ -1,13 +1,13 @@
 # Office Hours
 
-The weekly Office Hours call is a chance to talk about what you're working on with Simplicity or to ask questions. This call is hosted by Blockstream staff involved in developing and documenting Simplicity and SimplicityHL.
+The weekly Office Hours call is a chance to talk about what you're working on with Simplicity or to ask questions. Blockstream staff involved in developing and documenting [Simplicity](glossary.md#simplicity) and [SimplicityHL](glossary.md#simplicityhl) host the call.
 
-Use this call to
+Use this call to:
 
 * ask all of your questions at any technical level
 * pass along feature requests and feedback
 
-This call will be held on Tuesdays at 8:00 [PST (UTC-8)](https://www.timeanddate.com/time/zone/usa/san-francisco) and will typically last one hour. It is occasionally canceled due to U.S. holidays or other events. These Office Hours calls are routinely recorded and published (see below).
+The call is held on Tuesdays at 8:00 [PST (UTC-8)](https://www.timeanddate.com/time/zone/usa/san-francisco) and typically lasts one hour. It's occasionally canceled due to U.S. holidays or other events. The calls are routinely recorded and published; see the [session recordings](#prior-office-hours-session-recordings).
 
 **Join the Office Hours using Google Meet: [https://meet.google.com/mhx-danz-bwp](https://meet.google.com/mhx-danz-bwp) (or use the link in the calendar below).**
 
@@ -36,16 +36,16 @@ You can see all public Simplicity-related events in the calendar:
 * [March 24, 2026](https://youtu.be/1j7uj4kLsvw) (SimplicityHL modules/includes demo; [prediction market contract](https://github.com/Resolvr-io/deadcat) demo)
 * [March 31, 2026](https://youtu.be/BixsjpS4x6s) ([AMM contract](https://github.com/0ceanSlim/anchor) demo)
 * [April 7, 2026](https://youtu.be/-pW-hI9Hy8k) ([Simplex](https://github.com/BlockstreamResearch/smplx) demo)
-* [April 14, 2026](https://youtu.be/Vq7GGTfIr1s) ([Lending contract](https://github.com/BlockstreamResearch/simplicity-lending) demo)
-* [April 28, 2026](https://youtu.be/pX-trCHS9dk) ([Simplicity codespace](https://github.com/Blockstream/simplicity-codespace) demo)
+* [April 14, 2026](https://youtu.be/Vq7GGTfIr1s) ([lending contract](https://github.com/BlockstreamResearch/simplicity-lending) demo)
+* [April 28, 2026](https://youtu.be/pX-trCHS9dk) ([Simplicity Codespace](https://github.com/Blockstream/simplicity-codespace) demo)
 * [May 5, 2026](https://youtu.be/kL8mtxCZOvw)
 * [May 12, 2026](https://youtu.be/9NlkMdIHeTQ)
 * [May 26, 2026](https://youtu.be/cvC5l482so4) (Mosaik hackathon project demo)
 * [June 2, 2026](https://youtu.be/Fk---lRV4us)
 * [June 9, 2026](https://youtu.be/tdNlrBcwCaQ)
 * [June 16, 2026](https://youtu.be/i7ls_AQboG0)
-* [June 23, 2026](https://youtu.be/TswqFCD5z00) (txmanifest demo, part 1)
-* [June 30, 2026](https://youtu.be/TqZJlpFGbZ0) (txmanifest demo, part 2)
+* [June 23, 2026](https://youtu.be/TswqFCD5z00) ([`txmanifest`](documentation/txmanifest.md) demo, part 1)
+* [June 30, 2026](https://youtu.be/TqZJlpFGbZ0) (`txmanifest` demo, part 2)
 * [July 7, 2026](https://youtu.be/A3c3-nGSGzM)
 * [July 14, 2026](https://youtu.be/N3jxQdHpBkg) (Resolvr [Apogee wallet](https://apogee.resolvr.io/) demo)
 * [July 21, 2026](https://youtu.be/BKz6gQjMfrw)
