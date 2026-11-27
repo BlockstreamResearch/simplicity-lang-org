@@ -10,16 +10,14 @@ struct User {
 }
 ```
 
-SimplicityHL programmers have to handle long tuples of unlabeled data, which can get messy.
+Instead, SimplicityHL programs group data in tuples, whose fields aren't labeled. Long tuples are hard to read.
 
 ```simplicityhl
 (bool, u256, u64)
 ```
 
-To help with the situation, programmers can define custom type aliases.
-Aliases define a new name for an existing type.
-In contrast, `struct`s define an entirely new type, so aliases are different from `struct`s.
-However, aliases still make the code more readable.
+A type alias gives a new name to an existing type, which makes code that uses long tuples easier to read.
+Unlike a `struct`, an alias doesn't define a new type.
 
 ```simplicityhl
 type User = (bool, u256, u64);
@@ -27,8 +25,7 @@ type User = (bool, u256, u64);
 
 ## Builtin aliases
 
-SimplicityHL also has builtin type aliases.
-These aliases can be used without defining them.
+SimplicityHL also has builtin type aliases, which programs can use without defining them.
 
 | Builtin Alias    | Definition                    |
 |------------------|-------------------------------|
