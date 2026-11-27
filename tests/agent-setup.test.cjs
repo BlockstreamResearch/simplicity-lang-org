@@ -21,7 +21,7 @@ const unescapeHtml = (s) =>
 
 // Every Simplex version a file pins, from `simplexup --install X`,
 // `# Simplex X` (the expected `simplex --version` output) and the panel's
-// "Installs Simplex X" label.
+// "Installs Simplex X" step.
 function simplexVersions(text) {
   const patterns = [
     /simplexup --install v?(\d+\.\d+\.\d+)/g,
@@ -70,7 +70,9 @@ test("the agent setup page shows the same prompt the homepage copies", () => {
 });
 
 test("every command in the homepage panel appears on the agent setup page", () => {
-  const commands = [...hero.matchAll(/<span class="agent-receipt__cmd"><code>([^<]+)<\/code>/g)]
+  const steps = hero.match(/<details class="agent-steps">([\s\S]*?)<\/details>/);
+  assert.ok(steps, `${HERO} must list the steps in <details class="agent-steps">`);
+  const commands = [...steps[1].matchAll(/<code>([^<]+)<\/code>/g)]
     .flatMap((m) => unescapeHtml(m[1]).split("&&"))
     .map((c) => c.trim());
   assert.ok(commands.length >= 5, "expected the panel to list its commands");

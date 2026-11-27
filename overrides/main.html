@@ -38,45 +38,29 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <a href="{{ 'getting-started/try-it/' | url }}">Try it in Your Browser</a>
         </p>
 
-        {# Copy-a-prompt setup for coding agents. The steps below mirror
-           docs/getting-started/agent-setup.md, which the prompt points the agent
-           to; tests/agent-setup.test.cjs checks that they stay in sync. #}
+        {# Copy-a-prompt setup for coding agents. Copying uses Material's own
+           clipboard handling (any element with data-clipboard-text) and its
+           "Copied to clipboard" notice; the steps are a native <details>.
+           They mirror docs/getting-started/agent-setup.md, which the prompt
+           points the agent to; tests/agent-setup.test.cjs keeps them in sync. #}
         {% set agent_prompt = "Set up Simplicity development on this machine by following https://docs.simplicity-lang.org/getting-started/agent-setup.md. Tell me what you'll install before you start." %}
         <p class="agent-label">Or let your coding agent set it up (Claude Code, Codex, Cursor…)</p>
-        <div class="agent-line">
-            <button type="button" class="agent-pill" data-agent-copy="{{ agent_prompt }}" title="Copies a one-line prompt for your coding agent">
-                <svg class="agent-ico agent-ico--spark" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 1l-1.26 2.75L15 5l2.74 1.26L19 9l1.25-2.74L23 5l-2.75-1.25M9 4L6.5 9.5 1 12l5.5 2.5L9 20l2.5-5.5L17 12l-5.5-2.5M19 15l-1.26 2.75L15 19l2.74 1.25L19 23l1.25-2.75L23 19l-2.75-1.25"/></svg>
-                <span data-agent-label>Copy setup prompt</span>
-                <svg class="agent-ico agent-ico--copy" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 21H8V7h11m0-2H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2m-3-4H4a2 2 0 0 0-2 2v14h2V3h12V1z"/></svg>
-                <svg class="agent-ico agent-ico--check" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 7 9 19l-5.5-5.5 1.41-1.41L9 16.17 19.59 5.59z"/></svg>
-            </button>
-            <button type="button" class="agent-what" data-agent-what aria-expanded="false" aria-controls="agent-receipt">What it runs &rarr;</button>
-        </div>
-        <div class="agent-receipt" id="agent-receipt" hidden>
-            <div class="agent-receipt__head">
-                <p class="agent-receipt__msg" role="status" aria-live="polite" data-agent-msg></p>
-                <button type="button" class="agent-receipt__close" data-agent-close aria-label="Hide setup steps">
-                    <svg class="agent-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-                </button>
-            </div>
-            <div class="agent-receipt__prompt" data-agent-prompt>
-                <code class="agent-receipt__clamp">{{ agent_prompt }}</code>
-                <button type="button" class="agent-receipt__more" data-agent-more aria-expanded="false">Show full prompt</button>
-            </div>
-            <textarea class="agent-receipt__fallback" readonly rows="3" data-agent-fallback hidden>{{ agent_prompt }}</textarea>
-            <ol class="agent-receipt__steps">
-                <li><span>Checks the platform, Rust 1.91+, git, curl and Node.js <span class="agent-receipt__aside">(uses WSL on Windows; installs Rust with rustup if missing)</span></span><span class="agent-receipt__cmd"><code>rustc --version</code></span></li>
-                <li><span>Installs <b>simplexup</b>, the Simplex installer</span><span class="agent-receipt__cmd"><code>curl -L https://smplx.simplicity-lang.org | bash</code><a href="https://github.com/BlockstreamResearch/smplx/blob/master/simplexup/install" target="_blank" rel="noopener">Installer source on GitHub &#8599;</a></span></li>
-                <li><span>Installs Simplex 0.2.0</span><span class="agent-receipt__cmd"><code>simplexup --install 0.2.0</code></span></li>
-                <li><span>Adds the SimplicityHL skill to your agent</span><span class="agent-receipt__cmd"><code>npx skills add brenorb/freedom-skills -s simplicityhl-simplex</code></span></li>
-                <li><span>Creates, builds and tests a first project</span><span class="agent-receipt__cmd"><code>simplex init hello_simplicity &amp;&amp; cd hello_simplicity &amp;&amp; simplex build &amp;&amp; simplex test</code></span></li>
+        <button type="button" class="md-button agent-copy" data-clipboard-text="{{ agent_prompt }}">
+            <span class="twemoji">{% include ".icons/material/creation.svg" %}</span>
+            Copy setup prompt
+            <span class="twemoji">{% include ".icons/material/content-copy.svg" %}</span>
+        </button>
+        <details class="agent-steps">
+            <summary>What it runs</summary>
+            <p>The prompt sends your agent to <a href="{{ 'getting-started/agent-setup/' | url }}">Set up Simplicity with a coding agent</a> and asks it to tell you what it will install before it starts:</p>
+            <ol>
+                <li>Checks the platform, Rust 1.91+, git, curl and Node.js. It uses WSL on Windows and installs Rust with rustup if it's missing.<br><code>rustc --version</code></li>
+                <li>Installs simplexup, the Simplex installer (<a href="https://github.com/BlockstreamResearch/smplx/blob/master/simplexup/install">source</a>).<br><code>curl -L https://smplx.simplicity-lang.org | bash</code></li>
+                <li>Installs Simplex 0.2.0.<br><code>simplexup --install 0.2.0</code></li>
+                <li>Adds the SimplicityHL skill to your agent.<br><code>npx skills add brenorb/freedom-skills -s simplicityhl-simplex</code></li>
+                <li>Creates, builds and tests a first project.<br><code>simplex init hello_simplicity &amp;&amp; cd hello_simplicity &amp;&amp; simplex build &amp;&amp; simplex test</code></li>
             </ol>
-            <p class="agent-receipt__foot">
-                <a href="{{ 'getting-started/agent-setup/' | url }}">Full instructions</a>
-                <span aria-hidden="true">·</span>
-                <a href="{{ 'getting-started/quickstart/' | url }}">Prefer to start by hand? Quickstart</a>
-            </p>
-        </div>
+        </details>
     </div>
 </section>
 {% endif %}
