@@ -3,16 +3,16 @@ title: Try it in your browser
 description: Run SimplicityHL in your browser, with nothing to install.
 ---
 
-This page compiles and runs SimplicityHL directly in your browser, using
-the same compiler and Simplicity bit machine used on-chain. Nothing
+This page compiles and runs [SimplicityHL](../glossary.md#simplicityhl) directly in your browser, using
+the same compiler and [Simplicity](../glossary.md#simplicity) bit machine used on-chain. Nothing
 you type here is sent to a server or to the blockchain. The compiler
 is downloaded on the first Run; after that, each Run is immediate.
 
 ## Assertions
 
-A SimplicityHL program doesn't return a value. It either holds or it doesn't. A
-transaction spending a SimplicityHL-locked output is valid exactly when the program
-holds.
+A SimplicityHL [program](../glossary.md#program) doesn't return a value. It either succeeds or fails. A
+[transaction](../glossary.md#transaction) spending a SimplicityHL-locked [output](../glossary.md#output) can be valid only if the program
+succeeds.
 
 ```simplicityhl,run title="Assertions"
 fn main() {
@@ -21,10 +21,12 @@ fn main() {
 }
 ```
 
-Changing the last argument from `4` to `5` (or, indeed, changing any
-of the integer values), and running again produces a program that still
-compiles. But the program's logic no longer confirms the transaction;
-on-chain, this is a rejected spend, not a runtime error.
+Press **Run**. The pane shows "Program succeeded — all assertions held".
+
+Change the last argument from `4` to `5` and press **Run** again. The program still
+compiles, but the assertion fails, and the pane shows "Program failed". On-chain, a
+transaction spending an output locked by this program would be invalid and wouldn't
+confirm.
 
 ## Arithmetic overflow
 
@@ -41,16 +43,17 @@ fn main() {
 ```
 
 Running this prints `overflowed: true` and `sum: 705032704`, the wrapped result of
-4000000000 + 1000000000. Changing the first argument to `2000000000` removes the
-overflow: `overflowed` becomes `false`, and the final assertion, which requires it to be
-`true`, fails. The addition still succeeds, but now the assertion fails.
+4000000000 + 1000000000. Change the first argument to `2000000000` and press **Run**
+again. This removes the overflow: `overflowed` becomes `false`, and the final assertion,
+which requires it to be `true`, fails.
 
 ## Transaction introspection
 
-A SimplicityHL program runs in the context of a specific transaction input, and can
+A SimplicityHL program runs in the context of a specific transaction [input](../glossary.md#input), and can
 inspect that transaction directly: which input it is, how many inputs the transaction
-has, and other properties. These tools can be used to build vaults and covenants, by
-constraining the outputs of transaction itself to send assets back to the same program.
+has, and other properties. Introspection [jets](../glossary.md#jet) let a program constrain the transaction's
+outputs, for example by requiring that [assets](../glossary.md#asset) go back to the same program.
+[Vaults](../glossary.md#vault) and other [covenants](../glossary.md#covenant) work this way.
 
 ```simplicityhl,run title="Transaction introspection"
 fn main() {
@@ -61,11 +64,11 @@ fn main() {
 ```
 
 This runs against a placeholder transaction with a single input, so it prints
-`jet::current_index(): 0` and `jet::num_inputs(): 1`. Checked against a real
+`jet::current_index(): 0` and `jet::num_inputs(): 1`. Run against a real
 transaction, these jets return the transaction's actual values; the Quickstart linked
-below does this against a live Liquid testnet transaction.
+below does this against a live [Liquid](../glossary.md#liquid) testnet transaction.
 
 ## Where to go next
 
-- **Quickstart:** the [Quickstart tutorial](quickstart.md) compiles a similar contract, funds it, and spends it in a transaction on [Liquid](../glossary.md#liquid) testnet.
+- **Quickstart:** the [Quickstart tutorial](quickstart.md) compiles a "last will" [contract](../glossary.md#contract), sends test Liquid bitcoin (tLBTC) to it, and spends it in a transaction on Liquid testnet.
 - **Use cases:** [applications built with Simplicity](../use-cases/index.md).
