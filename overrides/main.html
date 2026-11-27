@@ -60,7 +60,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             <button type="button" class="agent-steps__close" aria-controls="agent-steps" aria-label="Hide setup steps">
                 <span class="twemoji">{% include ".icons/material/close.svg" %}</span>
             </button>
-            <p>Your agent follows the <a href="{{ 'getting-started/agent-setup/' | url }}">setup instructions</a> and tells you what it will install before it starts:</p>
+            <p>Your agent follows the <a href="{{ 'getting-started/agent-setup/' | url }}">setup instructions</a>:</p>
             <ol>
                 <li>Checks the platform, Rust 1.91+, git, curl and Node.js. It uses WSL on Windows and installs Rust with rustup if it's missing.<br><code>rustc --version</code></li>
                 <li>Installs simplexup, the Simplex installer (<a href="https://github.com/BlockstreamResearch/smplx/blob/master/simplexup/install">source</a>).<br><code>curl -L https://smplx.simplicity-lang.org | bash</code></li>

@@ -10,7 +10,7 @@ Simplex runs on macOS on Apple silicon, Linux on x86_64, and Windows through WSL
 
 ## What the agent does
 
-It first tells you what it'll install and waits for your go-ahead. Then it:
+The agent:
 
 1. Checks for Rust 1.91+, git, curl and Node.js, and installs Rust with rustup if it's missing.
 2. Installs `simplexup`, the Simplex installer.

@@ -4,7 +4,7 @@ These instructions are for a coding agent. A person setting up by hand can follo
 
 Install Simplex, add the SimplicityHL skill to yourself, then create, build and test a first project against a local regtest node that Simplex starts and stops. Nothing is sent to Liquid testnet or mainnet.
 
-Before you run anything, tell the user what you'll install and wait for them to agree:
+Inform the user we're installing:
 
 * Rust, through rustup, if it's missing or older than 1.91
 * `simplexup`, the Simplex installer, in `${XDG_CONFIG_HOME:-$HOME}/.simplex/bin`, added to their shell profile
@@ -12,7 +12,7 @@ Before you run anything, tell the user what you'll install and wait for them to 
 * the `simplicityhl-simplex` skill, for you
 * a `hello_simplicity` project in the current directory
 
-Run the sections in order. If a command fails in a way this page doesn't cover, stop and show the user the error.
+Run the sections in order without stopping between them. If a command fails in a way this page doesn't cover, stop and show the user the error.
 
 ## 1. Check the platform and prerequisites
 
