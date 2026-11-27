@@ -4,11 +4,11 @@ hide:
   - toc
 ---
 
-Simplicity is a low-level smart contract language for Bitcoin-like blockchains, built on a small set of functional [combinators](glossary.md#combinator) rather than a growing opcode set. Programs are statically analyzable: every contract has a resource cost that's known before you fund it, and the language's formal semantics support machine-checked proofs of contract behavior.
+Simplicity is a low-level [smart contract](glossary.md#smart-contract) language for Bitcoin-like blockchains, built on a small set of functional [combinators](glossary.md#combinator) rather than a growing opcode set. [Programs](glossary.md#program) are statically analyzable: every [contract](glossary.md#contract) has a resource [cost](glossary.md#cost) that's known before you fund it, and the language's formal semantics support machine-checked proofs of contract behavior.
 
 You write contracts in [SimplicityHL](glossary.md#simplicityhl), a higher-level language with Rust-like syntax that compiles down to Simplicity.
 
-The tutorials on this site currently target Liquid testnet for learning purposes; production deployments run on Liquid mainnet.
+The tutorials on this site currently target [Liquid](glossary.md#liquid) testnet; production deployments run on Liquid mainnet.
 
 <!-- ## Why Simplicity
 
@@ -50,7 +50,7 @@ The tutorials on this site currently target Liquid testnet for learning purposes
 
 You can use SimplicityHL, a high-level language with a clean, Rust-like syntax. This abstracts away low-level complexity, making it straightforward to write clear and reliable financial contracts with minimal code.
 
-The contract below is an allowance: a beneficiary draws down a fixed amount at a fixed minimum interval, and every spend returns the remainder to the same address. Each withdrawal is an ordinary transaction whose first output re-creates the covenant as a fresh [UTXO](glossary.md#utxo) with a smaller balance.
+The contract below is an allowance: a beneficiary can withdraw up to a set amount, no more often than once every set number of blocks. Each partial withdrawal is an ordinary [transaction](glossary.md#transaction) whose first [output](glossary.md#output) re-creates the [covenant](glossary.md#covenant) at the same [address](glossary.md#address), as a fresh [UTXO](glossary.md#utxo) with a smaller balance. Once the balance is `ALLOWANCE_AMOUNT` or less, the beneficiary can take all of it.
 
 ```simplicityhl title="Allowance Covenant"
 // An allowance covenant.
@@ -178,25 +178,25 @@ fn main(){
 }
 ```
 
-1.  Every spend of this contract uses exactly one input (see `enforce_single_input`), so an existing instance's balance can only decrease, and a second payment to this address creates a separate allowance rather than adding to the first. Merging the two would need a separate deposit path, which this contract omits for simplicity.
+1.  Every spend of this contract uses exactly one [input](glossary.md#input) (see `enforce_single_input`), so an existing instance's balance can only decrease, and a second payment to this address creates a separate allowance rather than adding to the first. Merging the two would need a separate deposit path, which this contract omits for simplicity.
 
-2.  Comparing amounts without also checking assets is unsafe: anyone can issue a new Liquid asset carrying any amount at no cost, so an amount check on its own can be satisfied with a worthless asset. Returning the amounts from the same function that checks the assets means the amounts can't be read without the check happening.
+2.  Comparing amounts without also checking assets is unsafe: anyone can issue a new Liquid [asset](glossary.md#asset) carrying any amount at no cost, so an amount check on its own can be satisfied with a worthless asset. Because `same_asset` returns the amounts only after checking the assets, `partial_withdrawal` can't compare them without that check.
 
 3.  [Elements](glossary.md#elements) assets and amounts can be [confidential](glossary.md#confidential) (encrypted) or explicit; `unwrap_right` assumes explicit and panics on a confidential value, since this contract only knows how to check plaintext amounts. A confidential output sent to this contract can therefore never be spent, and its funds would be stuck permanently.
 
-4.  A [covenant](glossary.md#covenant) restricts future spends by requiring the same script to reappear in an output; `current_script_hash` is how the contract refers to its own code to check for that.
+4.  A [recursive covenant](glossary.md#recursive-covenant) requires the same script to reappear in an output; `current_script_hash` is how the contract refers to its own code to check for that.
 
-5.  Elements (Liquid's underlying protocol) pays fees through an explicit fee output rather than Bitcoin's implicit input/output-value difference.
+5.  Elements (Liquid's underlying protocol) pays [fees](glossary.md#fee) through an explicit fee output rather than Bitcoin's implicit input/output-value difference.
 
 6.  `param::` values aren't defined in this file: they're compile-time [parameters](glossary.md#parameter) bound when the contract is instantiated, and they become part of the resulting address.
 
-7.  Simplicity has no exceptions, so arithmetic jets like `subtract_64` return an explicit borrow flag instead of panicking or silently wrapping on underflow.
+7.  Simplicity has no exceptions, so arithmetic [jets](glossary.md#jet) like `subtract_64` return an explicit borrow flag instead of panicking or silently wrapping on underflow.
 
 8.  If several inputs of this contract were spent together, each would check its own balance against the same output 0; only the largest check would actually bind, so the rest could be taken. Enforcing this here (rather than inside `partial_withdrawal`) makes the restriction hold on every spending path, including a full withdrawal. One consequence: since no other input is available, fees can only come out of the allowance's own balance.
 
 9.  This replaces the deprecated `jet::check_lock_distance`.
 
-10. Bitcoin's `nSequence` field is overloaded to encode either a block-count or a time-duration relative [timelock](glossary.md#timelock); `parse_sequence` decodes which one a transaction is using.
+10. Bitcoin's `nSequence` field is overloaded to encode either a block-count or a time-duration relative [timelock](glossary.md#timelock); `parse_sequence` decodes which one the input uses.
 
 The beneficiary's wallet software proposes a full transaction; the Simplicity program enforces that it satisfies every condition.
 
