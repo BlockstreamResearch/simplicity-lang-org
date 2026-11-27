@@ -70,8 +70,8 @@ test("the agent setup page shows the same prompt the homepage copies", () => {
 });
 
 test("every command in the homepage panel appears on the agent setup page", () => {
-  const steps = hero.match(/<details class="agent-steps">([\s\S]*?)<\/details>/);
-  assert.ok(steps, `${HERO} must list the steps in <details class="agent-steps">`);
+  const steps = hero.match(/<div class="agent-steps"[^>]*>([\s\S]*?)<\/ol>/);
+  assert.ok(steps, `${HERO} must list the steps in <div class="agent-steps">`);
   const commands = [...steps[1].matchAll(/<code>([^<]+)<\/code>/g)]
     .flatMap((m) => unescapeHtml(m[1]).split("&&"))
     .map((c) => c.trim());

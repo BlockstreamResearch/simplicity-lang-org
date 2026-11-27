@@ -40,18 +40,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
         {# Copy-a-prompt setup for coding agents. Copying uses Material's own
            clipboard handling (any element with data-clipboard-text) and its
-           "Copied to clipboard" notice; the steps are a native <details>.
+           "Copied to clipboard" notice. "What it runs" toggles the steps panel
+           (javascript/agent-setup.js).
            They mirror docs/getting-started/agent-setup.md, which the prompt
            points the agent to; tests/agent-setup.test.cjs keeps them in sync. #}
         {% set agent_prompt = "Set up Simplicity development on this machine by following https://docs.simplicity-lang.org/getting-started/agent-setup.md. Tell me what you'll install before you start." %}
         <p class="agent-label">Or let your coding agent set it up (Claude Code, Codex, Cursor…)</p>
-        <button type="button" class="md-button agent-copy" data-clipboard-text="{{ agent_prompt }}">
-            <span class="twemoji">{% include ".icons/material/creation.svg" %}</span>
-            Copy setup prompt
-            <span class="twemoji">{% include ".icons/material/content-copy.svg" %}</span>
-        </button>
-        <details class="agent-steps">
-            <summary>What it runs</summary>
+        <div class="agent-line">
+            <button type="button" class="md-button agent-copy" data-clipboard-text="{{ agent_prompt }}">
+                <span class="twemoji">{% include ".icons/material/creation.svg" %}</span>
+                Copy setup prompt
+                <span class="twemoji">{% include ".icons/material/content-copy.svg" %}</span>
+            </button>
+            <button type="button" class="agent-what" aria-expanded="false" aria-controls="agent-steps">What it runs &rarr;</button>
+        </div>
+        <div class="agent-steps" id="agent-steps" hidden>
             <p>The prompt sends your agent to <a href="{{ 'getting-started/agent-setup/' | url }}">Set up Simplicity with a coding agent</a> and asks it to tell you what it will install before it starts:</p>
             <ol>
                 <li>Checks the platform, Rust 1.91+, git, curl and Node.js. It uses WSL on Windows and installs Rust with rustup if it's missing.<br><code>rustc --version</code></li>
@@ -60,7 +63,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <li>Adds the SimplicityHL skill to your agent.<br><code>npx skills add brenorb/freedom-skills -s simplicityhl-simplex</code></li>
                 <li>Creates, builds and tests a first project.<br><code>simplex init hello_simplicity &amp;&amp; cd hello_simplicity &amp;&amp; simplex build &amp;&amp; simplex test</code></li>
             </ol>
-        </details>
+        </div>
     </div>
 </section>
 {% endif %}

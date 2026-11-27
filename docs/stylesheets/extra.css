@@ -212,44 +212,62 @@
     color: var(--md-accent-fg-color);
 }
 
-/* Material colors collapsibles through its admonition variables; set them for
-   a dark panel inside the hero. Border, title bar, icon and inline code have
-   no variable of their own, so they're set directly. */
-.md-typeset .hero details.agent-steps {
-    --md-admonition-bg-color: #1c1d24;
-    --md-admonition-fg-color: #e6e6ea;
+.agent-line {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.agent-what {
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.75rem;
+    color: inherit;
+    opacity: 0.75;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    text-decoration-color: rgba(255, 255, 255, 0.3);
+}
+
+.agent-what:hover,
+.agent-what[aria-expanded="true"] {
+    opacity: 1;
+}
+
+/* The steps panel, shown by "What it runs". Code and link colors use
+   Material's variables, scoped to the panel. */
+.md-typeset .hero .agent-steps {
     --md-code-bg-color: transparent;
     --md-code-fg-color: #b4b6c2;
     --md-typeset-a-color: #e6e6ea;
     max-width: 34rem;
     margin: 1rem auto 0;
+    padding: 0.2rem 1.1rem 0.4rem;
     text-align: left;
-    border-color: rgba(255, 255, 255, 0.12);
-    box-shadow: none;
-}
-
-.md-typeset .hero details.agent-steps > summary {
-    background-color: transparent;
-    color: #b4b6c2;
-    font-weight: 500;
-}
-
-.md-typeset .hero details.agent-steps > summary::before {
-    background-color: var(--md-accent-fg-color);
-}
-
-.md-typeset .hero details.agent-steps a {
-    text-decoration: underline;
-    text-decoration-color: rgba(255, 255, 255, 0.3);
-}
-
-.md-typeset .hero details.agent-steps code {
-    padding: 0;
-    overflow-wrap: anywhere;
+    font-size: 0.75rem;
+    color: #e6e6ea;
+    background-color: #1c1d24;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
 }
 
 .md-typeset .hero .agent-steps p {
     font-size: inherit;
     max-width: none;
-    margin: 1em 0 0;
+    margin: 0.8em 0 0;
+}
+
+.md-typeset .hero .agent-steps a {
+    text-decoration: underline;
+    text-decoration-color: rgba(255, 255, 255, 0.3);
+}
+
+.md-typeset .hero .agent-steps code {
+    padding: 0;
+    overflow-wrap: anywhere;
 }
