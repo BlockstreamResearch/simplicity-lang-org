@@ -13,7 +13,7 @@ let result: u32 = match f(42) {
 In the above example, the output of the function call `f(42)` is matched.
 `f` returns an output of type `Either<u32, u16>`.
 If `f(42)` returns a value that matches the pattern `Left(x: u32)`, then the first match arm is executed.
-This arm simply returns the value `x`.
+This arm returns the value `x`.
 Alternatively, if `f(42)` returns a value that matches the pattern `Right(x: u16)`, then the second match arm is executed.
 This arm extends the 16-bit number `x` to a 32-bit number by padding its left with zeroes.
 Because of type constraints, the output of `f` must match one of these two patterns.
@@ -21,7 +21,7 @@ The whole match expression returns a value of type `u32`, from one of the two ar
 
 ## Explicit typing
 
-In SimplicityHL, the type of variables inside match arms must **always** be written.
+In [SimplicityHL](../glossary.md#simplicityhl), the types of variables inside match arms must **always** be written.
 This is different from Rust, which has better type inference.
 
 ## Pattern matching
@@ -58,7 +58,7 @@ let map_either: u32 = match Left(1337) {
 };
 ```
 
-Since SimplicityHL 0.5.0, the match expression also supports further pattern matching, similar to Rust.
+The match expression also supports further pattern matching, similar to Rust (0.5.0+).
 
 ```simplicityhl
 let unwrap_or_default: u32 = match Some((4, 2)) {
@@ -95,8 +95,8 @@ let unwrap_or_default: u32 = match Some(Left(42)) {
 
 ## Enum matching
 
-Since SimplicityHL 0.7.0 (compiling with `-Z enums`), you can match on all values of an `enum` type.
-This is useful for *actions* at the top level of a contract's `main()` function. Matching an `enum` lets a [witness](../glossary.md#witness) choose from among several predefined actions.
+You can match on all values of an `enum` type (0.7.0+). This requires compiling with `-Z enums`.
+This is useful for *actions* at the top level of a [contract](../glossary.md#contract)'s `main()` function. Matching an `enum` lets a [witness](../glossary.md#witness) choose from among several predefined actions.
 
 ```simplicityhl
 enum Action {
@@ -114,12 +114,12 @@ match witness::ACTION {
 }
 ```
 
-In this example, `witness::ACTION` is an object of type `Action` (with the explicit value either `Inherit(sig)`, `ColdSpend(sig)`, or `HotSpend(sig)`). The SimplicityHL program uses this value to learn which action the proposed transaction is attempting to take, and call the appropriate function to validate the conditions for that action.
+In this example, `witness::ACTION` is an object of type `Action` (with the explicit value either `Action::Inherit(sig)`, `Action::ColdSpend(sig)`, or `Action::HotSpend(sig)`). The SimplicityHL [program](../glossary.md#program) uses this value to learn which action the proposed [transaction](../glossary.md#transaction) is attempting to take, and call the appropriate function to validate the conditions for that action.
 
-## Only two branches per `match`
+## Number of match arms
 
-Differently from Rust, the `match` expression only allows two match arms (branches) per `match` (except for `enum` types).
-For example, it is currently not possible to match `Left(Left(x: u8))`, `Left(Right(x: u8))`, `Right(Left(x: u8))`, and `Right(Right(x: u8))` as arms of a single `match` expression.
+Unlike Rust, the `match` expression only allows two match arms (branches) per `match` (except for `enum` types).
+For example, it isn't currently possible to match `Left(Left(x: u8))`, `Left(Right(x: u8))`, `Right(Left(x: u8))`, and `Right(Right(x: u8))` as arms of a single `match` expression.
 Matching these four possibilities instead requires two nested `match` expressions.
 
 This limitation doesn't apply to the `enum` matching described above. A `match` on an `enum` type should contain exactly one branch for each declared value of that `enum` type, regardless of how many values the `enum` type can take on.
