@@ -212,11 +212,40 @@
     color: var(--md-accent-fg-color);
 }
 
+/* Material colors collapsibles through its admonition variables; set them for
+   a dark panel inside the hero. Border, title bar, icon and inline code have
+   no variable of their own, so they're set directly. */
 .md-typeset .hero details.agent-steps {
+    --md-admonition-bg-color: #1c1d24;
+    --md-admonition-fg-color: #e6e6ea;
+    --md-code-bg-color: transparent;
+    --md-code-fg-color: #b4b6c2;
+    --md-typeset-a-color: #e6e6ea;
     max-width: 34rem;
     margin: 1rem auto 0;
     text-align: left;
-    color: var(--md-default-fg-color);
+    border-color: rgba(255, 255, 255, 0.12);
+    box-shadow: none;
+}
+
+.md-typeset .hero details.agent-steps > summary {
+    background-color: transparent;
+    color: #b4b6c2;
+    font-weight: 500;
+}
+
+.md-typeset .hero details.agent-steps > summary::before {
+    background-color: var(--md-accent-fg-color);
+}
+
+.md-typeset .hero details.agent-steps a {
+    text-decoration: underline;
+    text-decoration-color: rgba(255, 255, 255, 0.3);
+}
+
+.md-typeset .hero details.agent-steps code {
+    padding: 0;
+    overflow-wrap: anywhere;
 }
 
 .md-typeset .hero .agent-steps p {
