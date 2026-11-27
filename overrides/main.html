@@ -37,6 +37,38 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <p class="hero-links">
             <a href="{{ 'getting-started/try-it/' | url }}">Try it in Your Browser</a>
         </p>
+
+        {# Copy-a-prompt setup for coding agents. Copying uses Material's own
+           clipboard handling (any element with data-clipboard-text) and its
+           "Copied to clipboard" notice. "What it runs" toggles the steps panel
+           (javascript/agent-setup.js). The prompt lives in
+           partials/agent-prompt.txt, which the setup page also embeds. The
+           steps mirror docs/getting-started/agent-setup/prompt.md, the page the
+           prompt points the agent to; tests/agent-setup.test.cjs keeps them in
+           sync. #}
+        {% set agent_prompt %}{% include "partials/agent-prompt.txt" %}{% endset %}
+        <p class="agent-label">Or let your coding agent set it up (Claude Code, Codex, Cursor…)</p>
+        <div class="agent-line">
+            <button type="button" class="md-button agent-copy" data-clipboard-text="{{ agent_prompt | trim | e }}">
+                <span class="twemoji">{% include ".icons/material/creation.svg" %}</span>
+                Copy setup prompt
+                <span class="twemoji">{% include ".icons/material/content-copy.svg" %}</span>
+            </button>
+            <button type="button" class="agent-what" aria-expanded="false" aria-controls="agent-steps">What it runs &rarr;</button>
+        </div>
+        <div class="agent-steps" id="agent-steps" hidden>
+            <button type="button" class="agent-steps__close" aria-controls="agent-steps" aria-label="Hide setup steps">
+                <span class="twemoji">{% include ".icons/material/close.svg" %}</span>
+            </button>
+            <p>Your agent follows the <a href="{{ 'getting-started/agent-setup/' | url }}">setup instructions</a>:</p>
+            <ol>
+                <li>Checks the platform, Rust 1.91+, git, curl and Node.js. It uses WSL on Windows and installs Rust with rustup if it's missing.<br><code>cargo --version</code></li>
+                <li>Installs simplexup, the Simplex installer (<a href="https://github.com/BlockstreamResearch/smplx/blob/master/simplexup/install">source</a>).<br><code>curl -L https://smplx.simplicity-lang.org | bash</code></li>
+                <li>Installs Simplex 0.2.0.<br><code>simplexup --install 0.2.0</code></li>
+                <li>Adds the SimplicityHL skill to your agent.<br><code>npx skills add brenorb/freedom-skills -s simplicityhl-simplex</code></li>
+                <li>Creates a first project, writes a test for its contract with the skill, and runs it.<br><code>simplex init hello_simplicity &amp;&amp; cd hello_simplicity &amp;&amp; simplex build &amp;&amp; simplex test</code></li>
+            </ol>
+        </div>
     </div>
 </section>
 {% endif %}

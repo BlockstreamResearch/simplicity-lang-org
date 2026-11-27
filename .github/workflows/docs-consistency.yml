@@ -1,0 +1,47 @@
+name: docs-consistency
+
+# Some facts appear on more than one page: the Simplex and smplx-std versions,
+# the homepage setup prompt and its steps, the minimum Rust version, the
+# simplexup installer command and the simplicityhl-std release. These tests
+# compare every copy with the page that owns the fact, so editing only one
+# copy fails. They run only when one of those files, or a test, changes.
+on:
+  push:
+    branches:
+      - master
+      - main
+    paths:
+      - overrides/main.html
+      - overrides/partials/agent-prompt.txt
+      - docs/getting-started/agent-setup.md
+      - docs/getting-started/agent-setup/prompt.md
+      - docs/getting-started/build-end-to-end-app.md
+      - docs/documentation/simplex.md
+      - docs/documentation/modules.md
+      - docs/documentation/stdlib.md
+      - tests/agent-setup.test.cjs
+      - tests/docs-consistency.test.cjs
+      - .github/workflows/docs-consistency.yml
+  pull_request:
+    paths:
+      - overrides/main.html
+      - overrides/partials/agent-prompt.txt
+      - docs/getting-started/agent-setup.md
+      - docs/getting-started/agent-setup/prompt.md
+      - docs/getting-started/build-end-to-end-app.md
+      - docs/documentation/simplex.md
+      - docs/documentation/modules.md
+      - docs/documentation/stdlib.md
+      - tests/agent-setup.test.cjs
+      - tests/docs-consistency.test.cjs
+      - .github/workflows/docs-consistency.yml
+
+permissions:
+  contents: read
+
+jobs:
+  consistency:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - run: node --test tests/agent-setup.test.cjs tests/docs-consistency.test.cjs

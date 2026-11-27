@@ -89,6 +89,8 @@ markdown_extensions:
       pygments_lang_class: true
   - pymdownx.inlinehilite:
   - pymdownx.snippets:
+      # Fail the build when an embedded file (--8<-- "path") is missing.
+      check_paths: true
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
@@ -113,6 +115,7 @@ extra_javascript:
   - javascript/mathjax.js
   - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
   - javascript/simplicity-embed.js
+  - javascript/agent-setup.js
     #  - https://polyfill.io/v3/polyfill.min.js?features=es6
     #  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
   - path: javascripts/runnable.js
@@ -170,10 +173,16 @@ hooks:
   - hooks/runnable.py
   - includes/hooks/autolink_glossary.py
 
+# Pages meant for coding agents, not readers: built and published, but kept
+# out of the menu. The setup page embeds this one.
+not_in_nav: |
+  getting-started/agent-setup/prompt.md
+
 nav:
   - Get Started:
       - Try it in your browser: getting-started/try-it.md
       - Quickstart: getting-started/quickstart.md
+      - Set up with a coding agent: getting-started/agent-setup.md
       - Build a complete application from web to wallet: getting-started/build-end-to-end-app.md
   - Learn:
       - Core Concepts:

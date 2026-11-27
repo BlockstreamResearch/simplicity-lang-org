@@ -179,3 +179,121 @@
   margin-top: 0.15em;
   margin-bottom: 0.15em;
 }
+
+/* Homepage "Copy setup prompt" button and its "What it runs" steps (markup in
+   overrides/main.html). Copying and the collapsible are Material's own; these
+   rules only fit them into the dark hero. */
+.md-typeset .hero .agent-label {
+    font-size: 0.8rem;
+    opacity: 0.75;
+    margin: 1.25rem auto 0.6rem;
+    max-width: none;
+}
+
+.md-typeset .hero .md-button.agent-copy {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    margin: 0;
+    padding: 0.45em 1.1em;
+    border-radius: 999px;
+    border-color: rgba(255, 255, 255, 0.25);
+    color: var(--md-primary-bg-color);
+    font-weight: 500;
+    cursor: copy;
+}
+
+.md-typeset .hero .md-button.agent-copy:hover {
+    border-color: var(--md-accent-fg-color);
+    background-color: transparent;
+}
+
+.md-typeset .hero .agent-copy .twemoji:first-child {
+    color: var(--md-accent-fg-color);
+}
+
+.agent-line {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.agent-what {
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.75rem;
+    color: inherit;
+    opacity: 0.75;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    text-decoration-color: rgba(255, 255, 255, 0.3);
+}
+
+.agent-what:hover,
+.agent-what[aria-expanded="true"] {
+    opacity: 1;
+}
+
+/* The steps panel, shown by "What it runs". Code and link colors use
+   Material's variables, scoped to the panel. */
+.md-typeset .hero .agent-steps {
+    --md-code-bg-color: transparent;
+    --md-code-fg-color: #b4b6c2;
+    --md-typeset-a-color: #e6e6ea;
+    max-width: 34rem;
+    margin: 1rem auto 0;
+    padding: 0.2rem 1.1rem 0.4rem;
+    text-align: left;
+    font-size: 0.75rem;
+    color: #e6e6ea;
+    background-color: #1c1d24;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    position: relative;
+}
+
+.agent-steps__close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: none;
+    border: 0;
+    padding: 0.2rem;
+    border-radius: 4px;
+    line-height: 0;
+    color: #9a9caa;
+    cursor: pointer;
+}
+
+.agent-steps__close:hover {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.md-typeset .hero .agent-steps p {
+    font-size: inherit;
+    max-width: none;
+    margin: 0.8em 1.5rem 0 0;
+}
+
+.md-typeset .hero .agent-steps a {
+    text-decoration: underline;
+    text-decoration-color: rgba(255, 255, 255, 0.3);
+}
+
+.md-typeset .hero .agent-steps code {
+    padding: 0;
+    overflow-wrap: anywhere;
+}
+
+/* Code blocks marked { .wrap } wrap long lines instead of scrolling sideways:
+   the setup prompt and the agent instructions on getting-started/agent-setup. */
+.md-typeset .wrap pre > code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
