@@ -2,7 +2,7 @@
 
 An informal introduction to this feature is available in the [introduction to modules and imports](../documentation/modules.md).
 
-The modules and imports feature is available experimentally since SimplicityHL 0.6.0 (compiling with `-Z imports`). Modules let you organize a program as multiple files and/or nested `mod` blocks, and let you import function and type definitions from elsewhere, whether from another file in your own project or from a separate project entirely. The syntax is a subset of that used by Rust.
+Modules and imports (0.6.0+) let you organize a [SimplicityHL](../glossary.md#simplicityhl) program as multiple files and/or nested `mod` blocks, and let you import function and type definitions from elsewhere, whether from another file in your own project or from a separate project entirely. The syntax is a subset of that used by Rust.
 
 The SimplicityHL modules mechanism also supports the [SimplicityHL standard library](../documentation/stdlib.md).
 
@@ -30,9 +30,9 @@ use crate::math::foo::bar;
 
 Here, `math` is a subdirectory, `foo` is the file `math/foo.simf`, and `bar` is a `pub` item defined in that file: either directly, or, if the path had further segments, nested inside `pub mod` blocks within it.
 
-By default, `crate::` is rooted at the directory containing the entry file you pass to `simc`. `simc --project-root <dir>` (added in 0.7.2) can anchor it at a different directory instead, which allows the entry file to live in a subdirectory of the project.
+By default, `crate::` is rooted at the directory containing the entry file you pass to [`simc`](../glossary.md#simc). `simc --project-root <dir>` (0.7.2+) can anchor it at a different directory instead, which allows the entry file to live in a subdirectory of the project.
 
-There is no `super::` or other syntax for referring to a parent module relatively. Every local path is written in full, starting from `crate::`.
+There's no `super::` or other syntax for referring to a parent module relatively. Every local path is written in full, starting from `crate::`.
 
 ### Declaring modules inline with `mod`
 
@@ -73,7 +73,7 @@ use crate::math::foo::bar as baz;
 use crate::math::foo::{bar, baz as qux};
 ```
 
-imports both `bar` and `baz` (renamed to `qux`) from the same file or `mod` block via a single declaration; aliasing with `as` works per item inside the list. There is no wildcard/glob form (the Rust-like form `use crate::math::foo::*;` isn't supported). Every imported name must be listed explicitly, either on its own or inside a `{ }` list.
+This imports both `bar` and `baz` (renamed to `qux`) from the same file or `mod` block via a single declaration; aliasing with `as` works per item inside the list. There's no wildcard/glob form (the Rust-like form `use crate::math::foo::*;` isn't supported). Every imported name must be listed explicitly, either on its own or inside a `{ }` list.
 
 ### Re-exporting with `pub use`
 
