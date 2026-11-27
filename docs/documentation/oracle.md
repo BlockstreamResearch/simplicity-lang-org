@@ -1,53 +1,53 @@
 # Oracles in Simplicity
 
-[Smart contracts](../glossary.md#smart-contract) in Simplicity, like other on-chain smart contracts, can only directly access or observe [transaction](../glossary.md#transaction) data.
+[Smart contracts](../glossary.md#smart-contract) in [Simplicity](../glossary.md#simplicity), like other on-chain smart contracts, can only directly access or observe [transaction](../glossary.md#transaction) data.
 
 However, contracts often refer to off-chain facts, such as a market price or whether an event has happened.
 
-* What is the price of Bitcoin in dollars (on a specified exchange)?
-* What is the price of wheat in Euros (on a specified market with specified delivery terms)?
+* What is the price of bitcoin in dollars (on a specified exchange)?
+* What is the price of wheat in euros (on a specified market with specified delivery terms)?
 * Who won the 2026 Super Bowl?
 * Did the insured party suffer a covered loss during the term of an insurance contract? If so, how large was that loss?
 
-These facts can be communicated to a contract with the help of an *oracle*, which is simply a trusted party that can make a digitally signed statement that the contract will accept.
+An [*oracle*](../glossary.md#oracle) can communicate these facts to a contract. An oracle is a trusted party that makes digitally signed statements in a form the contract accepts.
 
 Any entity that all of the parties interested in a contract can trust, and that's willing to make digital signatures in a prearranged form, can be an oracle.
 
-The oracle needs to publish a public key and a well-defined format or structure that its statements will follow. These technical details are then encoded into any contract that will rely on that oracle.
+The oracle needs to publish a [public key](../glossary.md#public-key) and a well-defined format or structure that its statements will follow. The contract's author then encodes these details into any contract that relies on that oracle.
 
-When the oracle makes a statement, it communicates the signed statement publicly, or to a party that relies on it. That party then provides the relevant signed oracle statement and signature *in the [witness](../glossary.md#witness)* to a transaction involving a Simplicity contract.
+When the oracle makes a statement, it communicates the signed statement publicly, or to a party that relies on it. That party then provides the oracle statement and its signature *in the [witness](../glossary.md#witness)* to a transaction involving a Simplicity contract.
 
-The Simplicity contract receives the signed statement and signature via the witness and can verify their correctness and make a decision based on the content of the oracle statement.
+The Simplicity contract receives the signed statement and signature via the witness and can verify that the oracle signed it, then make a decision based on the content of the oracle statement.
 
 ## Examples of oracle statements
 
 For example, an oracle for a yes-or-no event might say:
 
 > We will hash one of the following `u8` values
-
+>
 > `0` representing NO
 >
 > `1` representing YES
-> 
-> with SHA256 and we will then sign the result with BIP0340 with the key corresponding to public key `0x292cbaf344fc104ff2307cce72e84f13dbfeb6f603fe94938208c6150733b910`.
+>
+> with SHA256 and we will then sign the result with BIP 340 with the key corresponding to public key `0x292cbaf344fc104ff2307cce72e84f13dbfeb6f603fe94938208c6150733b910`.
 
-In this case the oracle could issue the signature `56c9b207945aca49302e26e0f68c7f28ce2801be1c8ed2eb0421d257ab6bf818be854a0a5d08a7346a6ec753c71aaf3c2ec346202ea061f32300f2da81493b40` (a BIP0340 signature of `SHA256(0x00)`) in case the underlying event turns out as NO.
+In this case the oracle could issue the signature `56c9b207945aca49302e26e0f68c7f28ce2801be1c8ed2eb0421d257ab6bf818be854a0a5d08a7346a6ec753c71aaf3c2ec346202ea061f32300f2da81493b40` (a BIP 340 signature of `SHA256(0x00)`) in case the underlying event turns out as NO.
 
-Or a price oracle might say 
+Or a price oracle might say:
 
-> We will construct an oracle statement by hashing a `Height` (representing a [block height](../glossary.md#height)) followed by a `u32` (representing a number of U.S. dollars that were paid on an exchange for 1 BTC in the most recent exchange transaction) with SHA256. We will sign this statement with the BIP0340 key corresponding to `0x292cbaf344fc104ff2307cce72e84f13dbfeb6f603fe94938208c6150733b910`.
+> We will construct an oracle statement by hashing a `Height` (representing a [block height](../glossary.md#height)) followed by a `u32` (representing a number of U.S. dollars that were paid on an exchange for 1 BTC in the most recent exchange transaction), each encoded as 4 big-endian bytes, with SHA256. We will sign this statement with the BIP 340 key corresponding to `0x292cbaf344fc104ff2307cce72e84f13dbfeb6f603fe94938208c6150733b910`.
 
-The oracle may then publish the values `(height, price, signature)`, representing an instance of such an oracle statement. For example, it might publish
+The oracle may then publish the values `(height, price, signature)`, representing an instance of such an oracle statement. For example, it might publish:
 
 > (`3793375, 70664, 0x63decfbfb76f4b549d840d9c1fc95bf2bbe4d82209cf03d27fd4aef7e92d8d20f6844076588058baf70f34ee7e7a7ac2b44d0db2e1be7a792a474cc1d0544a6f`)
 
 attesting to a price of $70664 observed at the time of block 3793375.
 
-!!! Note
+!!! note
 
     It's important for the oracle to clearly define the format of its statement, including the specific data types of the included values, in order to prevent any ambiguity about the oracle statement's meaning. For example, it must not be possible to reinterpret part of the block height as part of the price, or vice versa. This example avoids ambiguity by specifying that the height is a `Height` (32 bits) and that the price is a `u32` (32 bits). This makes it clear what each individual bit in the signed statement means.
 
-Then a Simplicity witness using this statement might include
+Then a Simplicity witness using this statement might include:
 
 ```json
 {
@@ -66,26 +66,28 @@ Then a Simplicity witness using this statement might include
 }
 ```
 
-A SimplicityHL program that's run with this witness can verify it with
+A [SimplicityHL](../glossary.md#simplicityhl) program that's run with this witness can verify it with:
 
 ```simplicityhl
-// Minimum required block height (= 2026-03-09).
-// Block height is a 32-bit value.
-assert!(jet::lt_32(3790000, witness::oracle_height));
+fn main() {
+    // Minimum required block height (= 2026-03-09).
+    // Block height is a 32-bit value.
+    assert!(jet::le_32(3790000, witness::oracle_height));
 
-// Hardcoded key of trusted signer
-let oracle_pubkey: Pubkey = 0x292cbaf344fc104ff2307cce72e84f13dbfeb6f603fe94938208c6150733b910;
+    // Hardcoded key of trusted signer
+    let oracle_pubkey: Pubkey = 0x292cbaf344fc104ff2307cce72e84f13dbfeb6f603fe94938208c6150733b910;
 
-let ctx: Ctx8 = jet::sha_256_ctx_8_init();
-let ctx1: Ctx8 = jet::sha_256_ctx_8_add_4(ctx, witness::oracle_height);
-let ctx2: Ctx8 = jet::sha_256_ctx_8_add_4(ctx1, witness::oracle_price);
-let overall_hash: u256 = jet::sha_256_ctx_8_finalize(ctx2);
-jet::bip_0340_verify((oracle_pubkey, overall_hash), witness::oracle_signature);
+    let ctx: Ctx8 = jet::sha_256_ctx_8_init();
+    let ctx1: Ctx8 = jet::sha_256_ctx_8_add_4(ctx, witness::oracle_height);
+    let ctx2: Ctx8 = jet::sha_256_ctx_8_add_4(ctx1, witness::oracle_price);
+    let overall_hash: u256 = jet::sha_256_ctx_8_finalize(ctx2);
+    jet::bip_0340_verify((oracle_pubkey, overall_hash), witness::oracle_signature);
+}
 ```
 
-Note that the program recomputes the SHA256 hash of the asserted data values, then checks that the provided oracle signature is a valid signature for that hash. If a party tried to submit a false or modified oracle statement, the oracle's signature wouldn't verify correctly.
+The program recomputes the SHA256 hash of the asserted data values, then checks that the provided oracle signature is a valid signature for that hash. If a party tried to submit a false or modified oracle statement, the oracle's signature wouldn't verify correctly.
 
-The program can then use the validated `witness::oracle_price` value for other logic (for example, calculating a liquidation threshold or a pro-rated refund amount in the [Simplicity Lending Protocol](../use-cases/lending-protocol.md), or determining whether it exceeded a threshold for the conditions of a prediction contract).
+The program can then use the validated `witness::oracle_price` value for other logic (for example, checking the liquidation condition in the [Simplicity Lending Protocol](../use-cases/lending-protocol.md), or deciding whether a price crossed a threshold in a prediction contract).
 
 A contract can also allow for multiple oracles by accepting any of several different public keys as trusted, providing a different verification path for each key.
 
@@ -95,23 +97,23 @@ Resolvr's [Deadcat project](https://github.com/Resolvr-io/deadcat/) includes an 
 
 ## Oracles for business logic integration
 
-In addition to financial applications like prediction markets and options contracts, oracles have applications for letting smart contracts "query" a company's databases or APIs. In this capacity, an internal oracle can bridge the gap between business systems and the blockchain by making signed statements about the results of API calls.
+In addition to financial applications like prediction markets and options contracts, oracles have applications for letting smart contracts "query" a company's databases or APIs. In this role, an internal oracle makes signed statements about the results of API calls, which a contract can verify.
 
-When a contract needs access to information kept in a database in order to make a decision, oracle mechanisms help work around [the fact that Simplicity contracts can't directly access off-chain data](execution-model.md).
+When a contract needs access to information kept in a database in order to make a decision, oracle mechanisms help work around [the fact that Simplicity contracts can't directly access off-chain data](execution-model.md#where-and-how-simplicity-programs-run).
 
-For example, suppose you're creating an application which is only allowed to send withdrawals to explicitly pre-approved addresses. But the list of such addresses may live in a database, not on the blockchain. An internal oracle can help by
+For example, suppose you're creating an application which is only allowed to send withdrawals to explicitly pre-approved [addresses](../glossary.md#address). But the list of such addresses may live in a database, not on the blockchain. An internal oracle can help by
 
 1.  performing a database lookup,
-2.  combining the results with a current timestamp and,
+2.  combining the results with a current timestamp, and
 3.  digitally signing the results.
 
 If a specific address is approved for withdrawals, that oracle statement confirms this fact in a format that can then be provided to the smart contract. If it's not, the oracle statement won't be issued and the transaction won't be completed.
 
 Any kind of business may find this useful for adding back-end business logic to a smart contract application (in exchange for imposing dependencies on transactions). It may be especially relevant to regulated entities building regulated financial products and services, where the creators may want to apply additional off-chain criteria for approval of some on-chain actions.
 
-??? Example
+??? example
 
-    A user wants to withdraw assets from a smart contract to a user-specified address. The user has previously registered this address with a bank that created the contract and is using it to provide an on-chain service.
+    A user wants to withdraw [assets](../glossary.md#asset) from a smart contract to a user-specified address. The user has previously registered this address with a bank that created the contract and is using it to provide an on-chain service.
 
     The user's software contacts the bank and requests an oracle statement to confirm that this transaction is allowed. The bank's systems perform a database lookup, find that the address is approved, and sign a timestamped oracle statement saying so. Now the user's software can provide this oracle statement to the smart contract, along with other user authorization information, to let the contract know that it's allowed to process the withdrawal.
 
@@ -121,17 +123,17 @@ For bidirectional communications between back-office business systems and a Simp
 
 ## The oracle backend
 
-At a technical level, issuing oracle statements for Simplicity contracts requires the following pieces:
+At a technical level, issuing oracle statements for Simplicity contracts requires the following components:
 
-* Generating a BIP0340 keypair
-* An unambiguous format for structuring oracle statements
-* Determining the underlying facts to which the oracle will attest
-* Generating oracle statements based on the ascertained facts
+* A BIP 340 keypair
+* An unambiguous format for oracle statements
+* A process for determining the facts the oracle attests to
+* A process for generating oracle statements from those facts
 * SHA256 hashing
-* BIP0340 signing
-* Publishing the oracle statements and associated signatures
+* BIP 340 signing
+* A channel for publishing oracle statements and their signatures
 
-SHA256 and BIP0340 should generally be used because they're most compatible with the rest of the ecosystem, and because Simplicity has built-in [jets](../glossary.md#jet) to help verify signatures made with them.
+Oracles should generally use SHA256 and BIP 340, because they're most compatible with the rest of the ecosystem, and because Simplicity has built-in [jets](../glossary.md#jet) to help verify signatures made with them.
 
 !!! warning
 
@@ -139,6 +141,6 @@ SHA256 and BIP0340 should generally be used because they're most compatible with
 
 ## Timeouts
 
-If an oracle completely ceases to operate, it might be impossible to resolve contracts that rely on that oracle's statements. So, many forms of contract that rely on oracles can benefit from a timeout mechanism as a fail-safe. The smart contract can provide a timeout path so that, after a significant period of time has passed after the contract should have been resolved, unclaimed funds can be claimed as a refund by their original senders, or to some predesignated beneficiary.
+If an oracle completely ceases to operate, it might be impossible to resolve contracts that rely on that oracle's statements. Many contracts that rely on oracles can benefit from a timeout mechanism as a fail-safe. The smart contract can provide a [timeout path](timelocks.md#absolute-timelock-in-simplicityhl) so that, after a significant period of time has passed after the contract should have been resolved, the original senders can reclaim any unclaimed funds as a refund, or the contract can release them to a predesignated beneficiary.
 
 With this precaution in place, if a relevant oracle statement is never produced, funds aren't locked inside the contract permanently.
