@@ -16,9 +16,9 @@ The agent:
 2. Installs `simplexup`, the Simplex installer.
 3. Installs Simplex 0.2.0, the release the [end-to-end tutorial](build-end-to-end-app.md) uses.
 4. Adds the `simplicityhl-simplex` skill.
-5. Creates a `hello_simplicity` project, builds it and runs its test.
+5. Creates a `hello_simplicity` project with a pay-to-public-key contract, uses the skill to write a test that funds the contract and spends from it on regtest, and runs the test.
 
-Setup has worked when the agent reports that the `hello_simplicity` test passed. If the agent doesn't use the skill afterward, start a new session: some agents load skills only when a session starts.
+Setup has worked when the agent reports that the `hello_simplicity` test passed. [Simplex](../documentation/simplex.md) explains the project layout and how its tests work. If the agent doesn't use the skill afterward, start a new session: some agents load skills only when a session starts.
 
 ??? abstract "The full instructions your agent follows"
 

@@ -62,11 +62,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </button>
             <p>Your agent follows the <a href="{{ 'getting-started/agent-setup/' | url }}">setup instructions</a>:</p>
             <ol>
-                <li>Checks the platform, Rust 1.91+, git, curl and Node.js. It uses WSL on Windows and installs Rust with rustup if it's missing.<br><code>rustc --version</code></li>
+                <li>Checks the platform, Rust 1.91+, git, curl and Node.js. It uses WSL on Windows and installs Rust with rustup if it's missing.<br><code>cargo --version</code></li>
                 <li>Installs simplexup, the Simplex installer (<a href="https://github.com/BlockstreamResearch/smplx/blob/master/simplexup/install">source</a>).<br><code>curl -L https://smplx.simplicity-lang.org | bash</code></li>
                 <li>Installs Simplex 0.2.0.<br><code>simplexup --install 0.2.0</code></li>
                 <li>Adds the SimplicityHL skill to your agent.<br><code>npx skills add brenorb/freedom-skills -s simplicityhl-simplex</code></li>
-                <li>Creates, builds and tests a first project.<br><code>simplex init hello_simplicity &amp;&amp; cd hello_simplicity &amp;&amp; simplex build &amp;&amp; simplex test</code></li>
+                <li>Creates a first project, writes a test for its contract with the skill, and runs it.<br><code>simplex init hello_simplicity &amp;&amp; cd hello_simplicity &amp;&amp; simplex build &amp;&amp; simplex test</code></li>
             </ol>
         </div>
     </div>
