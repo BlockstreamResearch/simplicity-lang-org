@@ -1,0 +1,34 @@
+name: agent-setup
+
+# The homepage's "Copy setup prompt" panel, docs/getting-started/agent-setup.md
+# (the page the prompt sends an agent to) and the end-to-end tutorial must agree
+# on the Simplex version, the prompt and the commands. This runs only when one
+# of those files, or the test itself, changes; editing only one of them fails.
+on:
+  push:
+    branches:
+      - master
+      - main
+    paths:
+      - overrides/main.html
+      - docs/getting-started/agent-setup.md
+      - docs/getting-started/build-end-to-end-app.md
+      - tests/agent-setup.test.cjs
+      - .github/workflows/agent-setup.yml
+  pull_request:
+    paths:
+      - overrides/main.html
+      - docs/getting-started/agent-setup.md
+      - docs/getting-started/build-end-to-end-app.md
+      - tests/agent-setup.test.cjs
+      - .github/workflows/agent-setup.yml
+
+permissions:
+  contents: read
+
+jobs:
+  consistency:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - run: node --test tests/agent-setup.test.cjs
